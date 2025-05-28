@@ -94,6 +94,8 @@
 
       const profile = await liff.getProfile();
       console.log("✅ userId:", profile.userId);
+
+      fetchCart(); // 取得cart資料
     }
   </script>
   <body>
@@ -104,16 +106,33 @@
   </body>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
-    const liffId = "2007457926-DVgm8yJO";
-    const name = "<?= name ?>";
-    var data = <?= JSON.stringify(data) ?>;
-    const gasUrl = "<?= gasUrl ?>";
-    const cart = JSON.parse(data);
+    // const liffId = "2007457926-DVgm8yJO";
+    // const name = "<?= name ?>";
+    // var data = <?= JSON.stringify(data) ?>;
+    // const gasUrl = "<?= gasUrl ?>";
+    // const cart = JSON.parse(data);
     let userId = '';
+    let data = '';
+    let cart = '';
+
+    // 替換為你自己的 GAS Web App URL
+    const gasUrl = "https://script.google.com/macros/s/AKfycbxhEI--dMDnJxq2UFJyvDzkcw0hGJxNY-bK3ROuxlBmhkBmceR7gMu6kEARVf-893en/exec";
 
     document.getElementById("title").innerText = name+'-購物車';
 
     const quantities = cart.map(() => 0); // 預設全部為 0
+
+    async function fetchCart() {
+      try {
+        const res = await fetch(gasUrl);
+        data = await res.json();
+        cart = JSON.parse(data);
+        console.log("✅ 拿到 cart 資料：", data);
+        // renderCart(data); // 呼叫你自己的渲染函式
+      } catch (err) {
+        console.error("❌ 無法取得 cart 資料", err);
+      }
+    }
 
     function renderCart() {
       const list = document.getElementById("cartList");
@@ -163,9 +182,6 @@
 
       const order = {};
       order[userId] = arr;
-      
-      // 替換為你自己的 GAS Web App URL
-      // const gasUrl = "https://script.google.com/macros/s/AKfycbwmle9w8V8zVy50rzsGzMArKInoNg7Rn9-fH1vdynGyFuv4A1dxYPIOO3BHchHwy7I/exec";
 
       fetch(gasUrl, {
         method: "POST",
