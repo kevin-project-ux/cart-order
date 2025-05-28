@@ -106,18 +106,17 @@
   </body>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
-    // const liffId = "2007457926-DVgm8yJO";
-    // const name = "<?= name ?>";
-    // var data = <?= JSON.stringify(data) ?>;
-    // const gasUrl = "<?= gasUrl ?>";
-    // const cart = JSON.parse(data);
     let userId = '';
     let data = '';
     let cart = [];
     let quantities = [];
 
+    // 抓取網址參數
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name"); // 抓取name的值
+
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = "https://script.google.com/macros/s/AKfycbztKXNUxK4Mrot6rsoWTcHB7OzdpSo_nOEIUIjxRebBnWmCGTacg7oyKn_CRYouxj0g/exec";
+    const gasUrl = `https://script.google.com/macros/s/AKfycbztKXNUxK4Mrot6rsoWTcHB7OzdpSo_nOEIUIjxRebBnWmCGTacg7oyKn_CRYouxj0g/exec?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name+'-購物車';
 
