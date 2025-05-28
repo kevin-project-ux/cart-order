@@ -124,8 +124,8 @@
     async function fetchCart() {
       try {
         const res = await fetch(gasUrl);
-        data = await res.json();
-        cart = JSON.parse(data);
+        cart = await res.json();
+        // cart = JSON.parse(data);
         quantities = cart.map(() => 0); // 預設全部為 0
         console.log("✅ 拿到 cart 資料：", data);
         // renderCart(data); // 呼叫你自己的渲染函式
