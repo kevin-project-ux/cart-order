@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>購物車</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 1em;
+        background-color: #f9f9f9;
+        font-size: 20px;
+      }
+
+      h2 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 1em;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        background: #ffffff;
+        padding: 1em;
+        margin-bottom: 1em;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 24px;
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+      }
+
+      .controls button {
+        font-size: 28px;
+        padding: 0.3em 0.6em;
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        border: none;
+        background-color: #e0e0e0;
+      }
+
+      .controls input {
+        width: 64px;
+        text-align: center;
+        font-size: 24px;
+        padding: 0.2em;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      button.submit {
+        display: block;
+        width: 100%;
+        padding: 1em;
+        font-size: 24px;
+        font-weight: bold;
+        background-color: #06c755;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        margin-top: 2em;
+      }
+
+      button i {
+        font-size: 24px;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  </head>
+  <script>
+    window.onload = async () => {
+      await liff.init({ liffId: "2007457926-DVgm8yJO" });
+
+      if (!liff.isLoggedIn()) {
+        liff.login();
+        return;
+      }
+
+      const profile = await liff.getProfile();
+      console.log("✅ userId:", profile.userId);
+      document.getElementById("title").innerText = profile.userId;
+    }
+  </script>
+  <body>
+    <h2 id="title">Loading...</h2>
+    <ul id="cartList"></ul>
+
+    <button id="sendOrder" class="submit" onclick="submitCart()" disabled>✅ 確認送出</button>
+  </body>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    const liffId = "2007457926-DVgm8yJO";
+    const name = "<?= name ?>";
+    var data = <?= JSON.stringify(data) ?>;
+    const gasUrl = "<?= gasUrl ?>";
+    const cart = JSON.parse(data);
+    let userId = '';
+
+    document.getElementById("title").innerText = name+'-購物車';
+
+    const quantities = cart.map(() => 0); // 預設全部為 0
+
+    function renderCart() {
+      const list = document.getElementById("cartList");
+      list.innerHTML = '';
+      cart.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <div class="item">
+            <span>${item.flavor}</span>
+            <div class="controls">
+              <button onclick="changeQty(${index}, -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <input type="number" min="0" value="${quantities[index]}" onchange="updateQty(${index}, this.value)">
+              <button onclick="changeQty(${index}, 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function changeQty(index, delta) {
+      quantities[index] = Math.max(0, quantities[index] + delta);
+      renderCart();
+    }
+
+    function updateQty(index, value) {
+      const num = parseInt(value, 10);
+      quantities[index] = isNaN(num) || num < 0 ? 0 : num;
+      renderCart();
+    }
+
+    function submitCart() {
+
+      if (!userId) {
+        alert("⚠️ 尚未取得 userId");
+        return;
+      }
+
+      const arr = cart.map((item, index) => ({
+        flavor: item.flavor,
+        qty: quantities[index]
+      }));
+
+      const order = {};
+      order[userId] = arr;
+      
+      // 替換為你自己的 GAS Web App URL
+      // const gasUrl = "https://script.google.com/macros/s/AKfycbwmle9w8V8zVy50rzsGzMArKInoNg7Rn9-fH1vdynGyFuv4A1dxYPIOO3BHchHwy7I/exec";
+
+      fetch(gasUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(order)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log("✅ 成功送出：", result);
+        alert("✅ 訂單已送出！");
+      })
+      .catch(error => {
+        console.error("❌ 發生錯誤：", error);
+        alert("❌ 訂單送出失敗！");
+      });
+    }
+
+    renderCart();
+  </script>
+</html>
