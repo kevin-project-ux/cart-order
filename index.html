@@ -113,20 +113,20 @@
     // const cart = JSON.parse(data);
     let userId = '';
     let data = '';
-    let cart = '';
+    let cart = [];
+    let quantities = [];
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = "https://script.google.com/macros/s/AKfycbxhEI--dMDnJxq2UFJyvDzkcw0hGJxNY-bK3ROuxlBmhkBmceR7gMu6kEARVf-893en/exec";
+    const gasUrl = "https://script.google.com/macros/s/AKfycbztKXNUxK4Mrot6rsoWTcHB7OzdpSo_nOEIUIjxRebBnWmCGTacg7oyKn_CRYouxj0g/exec";
 
     document.getElementById("title").innerText = name+'-購物車';
-
-    const quantities = cart.map(() => 0); // 預設全部為 0
 
     async function fetchCart() {
       try {
         const res = await fetch(gasUrl);
         data = await res.json();
         cart = JSON.parse(data);
+        quantities = cart.map(() => 0); // 預設全部為 0
         console.log("✅ 拿到 cart 資料：", data);
         // renderCart(data); // 呼叫你自己的渲染函式
       } catch (err) {
