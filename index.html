@@ -127,7 +127,7 @@
         cart = await res.json();
         // cart = JSON.parse(data);
         quantities = cart.map(() => 0); // 預設全部為 0
-        console.log("✅ 拿到 cart 資料：", data);
+        console.log("✅ 拿到 cart 資料：", cart);
         // renderCart(data); // 呼叫你自己的渲染函式
       } catch (err) {
         console.error("❌ 無法取得 cart 資料", err);
