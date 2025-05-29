@@ -95,6 +95,7 @@
 
       const profile = await liff.getProfile();
       console.log("✅ userId:", profile.userId);
+      userId = profile.userId;
       document.getElementById("sendOrder").disabled = false;
 
       fetchCart(); // 取得cart資料
