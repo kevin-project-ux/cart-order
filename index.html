@@ -124,7 +124,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbzYUge-XWBe-G-bOvqObkOoMcZRW9X3xA_jRFmQcQLdJdrfpHqpJ3LN7v4Rsk22AVXr/exec?name=${encodeURIComponent(name)}`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycby_pbwuY18MxkIsZbfsBhOPgAt7kkyDRgi5dOjPqW54OVEzIGgmzOkOp_PBcwhozbe1/exec?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
 
@@ -134,7 +134,7 @@
         cart = await res.json();
         // cart = JSON.parse(data);
         quantities = cart.map(() => 0); // 預設全部為 0
-        console.log("✅ 拿到 cart 資料：", cart);
+        // console.log("✅ 拿到 cart 資料：", cart);
         renderCart(); // 呼叫你自己的渲染函式
       } catch (err) {
         console.error("❌ 無法取得 cart 資料", err);
