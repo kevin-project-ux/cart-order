@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>購物車</title>
     <style>
       body {
@@ -114,6 +115,8 @@
     // 抓取網址參數
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name"); // 抓取name的值
+
+    if( name=='' ){ return false; }
 
     // 替換為你自己的 GAS Web App URL
     const gasUrl = `https://script.google.com/macros/s/AKfycbztKXNUxK4Mrot6rsoWTcHB7OzdpSo_nOEIUIjxRebBnWmCGTacg7oyKn_CRYouxj0g/exec?name=${encodeURIComponent(name)}`;
