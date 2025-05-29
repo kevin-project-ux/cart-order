@@ -96,6 +96,7 @@
       const profile = await liff.getProfile();
       console.log("✅ userId:", profile.userId);
       userId = profile.userId;
+      userName = profile.displayName;
       document.getElementById("sendOrder").disabled = false;
 
       fetchCart(); // 取得cart資料
@@ -110,6 +111,7 @@
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
     let userId = '';
+    let userName = '';
     let data = '';
     let cart = [];
     let quantities = [];
@@ -186,6 +188,7 @@
 
       const order = {};
       order[userId] = arr;
+      order['name'] = userName;
 
       fetch(gasUrl, {
         method: "POST",
