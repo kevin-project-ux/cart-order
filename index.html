@@ -189,7 +189,8 @@
       const order = {};
       order['orders'] = arr;
       order['name']   = userName;
-      order['id']     = userId
+      order['id']     = userId;
+      order['item']   = name;
 
       fetch(gasUrl, {
         method: "POST",
