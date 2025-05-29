@@ -187,8 +187,9 @@
       }));
 
       const order = {};
-      order[userId] = arr;
-      order['name'] = userName;
+      order['orders'] = arr;
+      order['name']   = userName;
+      order['id']     = userId
 
       fetch(gasUrl, {
         method: "POST",
