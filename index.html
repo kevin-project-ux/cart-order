@@ -124,14 +124,14 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycby_pbwuY18MxkIsZbfsBhOPgAt7kkyDRgi5dOjPqW54OVEzIGgmzOkOp_PBcwhozbe1/exec?name=${encodeURIComponent(name)}`;
-    const postUrl = `https://script.google.com/macros/s/AKfycby_pbwuY18MxkIsZbfsBhOPgAt7kkyDRgi5dOjPqW54OVEzIGgmzOkOp_PBcwhozbe1/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbz9UTf1ZXwI2vzDn4XBowDK2KCr_kO6wHrI-v4NijZe1wbb27J03xpAIH6NRVE1OOrI/exec`;
+    const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
 
     async function fetchCart() {
       try {
-        const res = await fetch(gasUrl);
+        const res = await fetch(getUrl);
         cart = await res.json();
         // cart = JSON.parse(data);
         quantities = cart.map(() => 0); // 預設全部為 0
@@ -194,7 +194,7 @@
       order['id']     = userId;
       order['item']   = name;
 
-      fetch(postUrl, {
+      fetch(gasUrl, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain"
