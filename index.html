@@ -125,6 +125,7 @@
 
     // 替換為你自己的 GAS Web App URL
     const gasUrl = `https://script.google.com/macros/s/AKfycby_pbwuY18MxkIsZbfsBhOPgAt7kkyDRgi5dOjPqW54OVEzIGgmzOkOp_PBcwhozbe1/exec?name=${encodeURIComponent(name)}`;
+    const postUrl = `https://script.google.com/macros/s/AKfycby_pbwuY18MxkIsZbfsBhOPgAt7kkyDRgi5dOjPqW54OVEzIGgmzOkOp_PBcwhozbe1/exec`;
 
     document.getElementById("title").innerText = name;
 
@@ -193,7 +194,7 @@
       order['id']     = userId;
       order['item']   = name;
 
-      fetch(gasUrl, {
+      fetch(postUrl, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain"
