@@ -132,7 +132,7 @@
   <body>
     <h2 id="title">Loading...</h2>
     <ul id="cartList">載入中...</ul>
-    <button class="submit" id="sendOrder" onclick="submitCart()" disabled>✅ 確認送出</button>
+    <button class="submit" id="sendOrder" onclick="submitCart()" disabled style="display:none">✅ 確認送出</button>
     <div id="loadingMask"><div class="spinner"></div></div>
   </body>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -143,6 +143,9 @@
     let data = '';
     let cart = [];
     let quantities = [];
+
+    const mask = document.getElementById('loadingMask');
+    const result = document.getElementById('result');
 
     // 抓取網址參數
     const params = new URLSearchParams(window.location.search);
@@ -158,6 +161,7 @@
 
     async function fetchCart() {
       try {
+        mask.style.display = 'flex';
         const res = await fetch(getUrl);
         cart = await res.json();
         // cart = JSON.parse(data);
@@ -166,6 +170,9 @@
         renderCart(); // 呼叫你自己的渲染函式
       } catch (err) {
         console.error("❌ 無法取得 cart 資料", err);
+      } finally {
+        mask.style.display = 'none';
+        document.getElementById('sendOrder').style.display = 'block';
       }
     }
 
@@ -209,9 +216,7 @@
         alert("⚠️ 尚未取得 userId");
         return;
       }
-
-      const mask = document.getElementById('loadingMask');
-      const result = document.getElementById('result');
+      
       mask.style.display = 'flex';
 
       const arr = cart.map((item, index) => ({
