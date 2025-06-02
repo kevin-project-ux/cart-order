@@ -125,7 +125,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbxQnDfouybeZVxsGu7lf9pitqKmCbqNX1-XTdMopbZ2qi2NPCTQHSp3Og5hQjeBoPP_/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbykF8QV-jHeWDvDLcqszgkcl6AEfgLjg1ZaploxllZknDL2CIPEaz4o3k1jreDkiuAH/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
@@ -195,22 +195,35 @@
       order['id']     = userId;
       order['item']   = name;
 
-      await fetch(gasUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain"
-        },
-        body: 'hello world'
-      })
-      .then(response => response.json())
-      .then(result => {
-        console.log("✅ 成功送出：", result);
-        alert("✅ 訂單已送出！");
-      })
-      .catch(error => {
-        console.error("❌ 發生錯誤：", error);
-        alert("❌ 訂單送出失敗！");
-      });
+      try {
+        const res = await fetch(gasUrl, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: "Hello from fetch"
+        });
+
+        const text = await res.text();
+        output.textContent = "成功:\n" + text;
+      } catch (err) {
+        output.textContent = "錯誤:\n" + err;
+      }
+
+      // await fetch(gasUrl, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "text/plain"
+      //   },
+      //   body: 'hello world'
+      // })
+      // .then(response => response.json())
+      // .then(result => {
+      //   console.log("✅ 成功送出：", result);
+      //   alert("✅ 訂單已送出！");
+      // })
+      // .catch(error => {
+      //   console.error("❌ 發生錯誤：", error);
+      //   alert("❌ 訂單送出失敗！");
+      // });
     }
 
     // renderCart();
