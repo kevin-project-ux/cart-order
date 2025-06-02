@@ -196,7 +196,7 @@
       order['item']   = name;
 
       try {
-        const res = await fetch(gasUrl, {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbykF8QV-jHeWDvDLcqszgkcl6AEfgLjg1ZaploxllZknDL2CIPEaz4o3k1jreDkiuAH/exec', {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
           body: "Hello from fetch"
