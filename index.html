@@ -111,12 +111,16 @@
 <!--     </form> -->
   </body>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/spin.js@4.0.0/spin.min.js"></script>
   <script>
     let userId = '';
     let userName = '';
     let data = '';
     let cart = [];
     let quantities = [];
+
+    const spinnerTarget = document.body;
+    const spinner = new Spinner({ color: '#fff' });
 
     // 抓取網址參數
     const params = new URLSearchParams(window.location.search);
@@ -184,6 +188,8 @@
         return;
       }
 
+      spinner.spin(spinnerTarget);
+
       const arr = cart.map((item, index) => ({
         flavor: item.flavor,
         qty: quantities[index]
@@ -210,6 +216,9 @@
       .catch(error => {
         console.error("❌ 發生錯誤：", error);
         alert("❌ 訂單送出失敗！");
+      })
+      .finally(() => {
+        spinner.stop(); // 無論成功或失敗都會執行
       });
     }
 
