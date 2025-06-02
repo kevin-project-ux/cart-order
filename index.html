@@ -82,6 +82,32 @@
       button i {
         font-size: 24px;
       }
+
+      #loadingMask {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.4);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        color: white;
+        font-size: 2rem;
+      }
+  
+      .spinner {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #ffffff;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+      }
+  
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   </head>
@@ -106,21 +132,16 @@
   <body>
     <h2 id="title">Loading...</h2>
     <ul id="cartList">載入中...</ul>
-<!--     <form id="cartList" method="POST" action="https://script.google.com/macros/s/AKfycby42RnXyuMVIuLMnpv7XelSatzngXoz-urfI0N3cv2To7XqkHPTPFZwJl-g-x7c-z0/exec" target="_blank"> -->
-      <button class="submit" id="sendOrder" onclick="submitCart()" disabled>✅ 確認送出</button>
-<!--     </form> -->
+    <button class="submit" id="sendOrder" onclick="submitCart()" disabled>✅ 確認送出</button>
+    <div id="loadingMask"><div class="spinner"></div></div>
   </body>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/spin.js@4.0.0/spin.min.js"></script>
   <script>
     let userId = '';
     let userName = '';
     let data = '';
     let cart = [];
     let quantities = [];
-
-    const spinnerTarget = document.body;
-    const spinner = new Spinner({ color: '#fff' });
 
     // 抓取網址參數
     const params = new URLSearchParams(window.location.search);
@@ -188,7 +209,9 @@
         return;
       }
 
-      spinner.spin(spinnerTarget);
+      const mask = document.getElementById('loadingMask');
+      const result = document.getElementById('result');
+      mask.style.display = 'flex';
 
       const arr = cart.map((item, index) => ({
         flavor: item.flavor,
@@ -218,7 +241,7 @@
         alert("❌ 訂單送出失敗！");
       })
       .finally(() => {
-        spinner.stop(); // 無論成功或失敗都會執行
+        mask.style.display = 'none';
       });
     }
 
