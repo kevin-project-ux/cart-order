@@ -177,7 +177,7 @@
       renderCart();
     }
 
-    function submitCart() {
+    async function submitCart() {
 
       if (!userId) {
         alert("⚠️ 尚未取得 userId");
@@ -195,7 +195,7 @@
       order['id']     = userId;
       order['item']   = name;
 
-      fetch(gasUrl, {
+      await fetch(gasUrl, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain"
