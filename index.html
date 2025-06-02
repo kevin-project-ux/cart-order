@@ -125,7 +125,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbykF8QV-jHeWDvDLcqszgkcl6AEfgLjg1ZaploxllZknDL2CIPEaz4o3k1jreDkiuAH/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbwPsEAIgDmfyPBqRRA7mBfOc0ro4-sEA74QozO8w9CSF23QSx8HLRNcAZr2gYnXMy0g/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
@@ -196,7 +196,7 @@
       order['item']   = name;
 
       try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbykF8QV-jHeWDvDLcqszgkcl6AEfgLjg1ZaploxllZknDL2CIPEaz4o3k1jreDkiuAH/exec', {
+        const res = await fetch(gasUrl, {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
           body: "Hello from fetch"
