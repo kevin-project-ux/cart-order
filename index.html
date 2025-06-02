@@ -203,9 +203,9 @@
         });
 
         const text = await res.text();
-        output.textContent = "成功:\n" + text;
+        console.log(text);
       } catch (err) {
-        output.textContent = "錯誤:\n" + err;
+        console.log(text);
       }
 
       // await fetch(gasUrl, {
