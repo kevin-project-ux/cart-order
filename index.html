@@ -244,8 +244,8 @@
         Swal.fire({
           icon: 'success',
           title: '訂單已送出',
-          text: '下單品項為： '+result.orders,
-          footer: '<small>成功資料可在 Console 查看</small>'
+          text: '下單品項為： '+result[0].orders,
+          footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
         });
       })
       .catch(error => {
