@@ -195,35 +195,22 @@
       order['id']     = userId;
       order['item']   = name;
 
-      try {
-        const res = await fetch(gasUrl, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: "Hello from fetch"
-        });
-
-        const text = await res.text();
-        console.log(text);
-      } catch (err) {
-        console.log(err);
-      }
-
-      // await fetch(gasUrl, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "text/plain"
-      //   },
-      //   body: 'hello world'
-      // })
-      // .then(response => response.json())
-      // .then(result => {
-      //   console.log("✅ 成功送出：", result);
-      //   alert("✅ 訂單已送出！");
-      // })
-      // .catch(error => {
-      //   console.error("❌ 發生錯誤：", error);
-      //   alert("❌ 訂單送出失敗！");
-      // });
+      await fetch(gasUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(order)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log("✅ 成功送出：", result);
+        alert("✅ 訂單已送出！");
+      })
+      .catch(error => {
+        console.error("❌ 發生錯誤：", error);
+        alert("❌ 訂單送出失敗！");
+      });
     }
 
     // renderCart();
