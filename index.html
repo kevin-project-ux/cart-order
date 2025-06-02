@@ -86,27 +86,27 @@
       #loadingMask {
         position: fixed;
         top: 0; left: 0;
-        width: 100vw; height: 100vh;
-        background: rgba(0, 0, 0, 0.4);
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
         display: none;
         justify-content: center;
         align-items: center;
         z-index: 9999;
-        color: white;
-        font-size: 2rem;
       }
   
       .spinner {
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #ffffff;
-        border-radius: 50%;
         width: 60px;
         height: 60px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #ffffff;
+        border-radius: 50%;
         animation: spin 1s linear infinite;
       }
   
       @keyframes spin {
-        to { transform: rotate(360deg); }
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -136,6 +136,7 @@
     <div id="loadingMask"><div class="spinner"></div></div>
   </body>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     let userId = '';
     let userName = '';
@@ -150,7 +151,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbyH8yq_Vebin-bf49mlKaI6hfoOUxXuPFI3h5vpCykGSBE63G8BezeTOSarA6S0J-QH/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbxG34I_jxLbflDN1hZgt5qnpnYYg37wJh0hYgROR7-mPgQ0QdHzaP0G0UAw7ryf9Xl0/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
@@ -233,8 +234,14 @@
       })
       .then(response => response.json())
       .then(result => {
-        console.log("✅ 成功送出：", result);
-        alert("✅ 訂單已送出！");
+        // console.log("✅ 成功送出：", result);
+        // alert("✅ 訂單已送出！");
+        Swal.fire({
+          icon: 'success',
+          title: '訂單已送出',
+          text: '下單品項為： '+result.orders,
+          footer: '<small>成功資料可在 Console 查看</small>'
+        });
       })
       .catch(error => {
         console.error("❌ 發生錯誤：", error);
