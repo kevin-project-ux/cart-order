@@ -53,8 +53,15 @@
 
       .controls {
         display: flex;
+        flex-direction: column; /* 主方向變為垂直 */
         align-items: center;
         gap: 0.6em;
+      }
+
+      .controls-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
       }
 
       .controls button {
@@ -198,7 +205,8 @@
       cart.forEach((item, index) => {
         const li = document.createElement("li");
         const currentQty = quantities[index];
-        const reachedMax = currentQty >= item.num;
+        const hasLimit = item.num !== 0;
+        const reachedMax = hasLimit && currentQty >= item.num;
         li.innerHTML = `
           <div class="item">
             <div class="flavors">
@@ -206,14 +214,16 @@
               <span class="stock">${item.remain !== 0 ? `剩下 ${item.remain} 個` : '&nbsp;'}</span>
             </div>
             <div class="controls">
-              <button onclick="changeQty(${index}, -1)">
-                <i class="fas fa-minus"></i>
-              </button>
-              <input type="number" id="order_num" min="0" max="${item.num}" value="${currentQty}" onchange="updateQty(${index}, this.value)">
-              <button onclick="changeQty(${index}, 1)">
-              <button onclick="changeQty(${index}, 1)" ${reachedMax ? 'disabled' : ''}>
-                <i class="fas fa-plus"></i>
-              </button>
+              <div class="controls-row">
+                <button onclick="changeQty(${index}, -1)">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input type="number" id="order_num" min="0" ${hasLimit ? `max="${item.num}"` : ''} value="${currentQty}" onchange="updateQty(${index}, this.value)">
+                <button onclick="changeQty(${index}, 1)">
+                <button onclick="changeQty(${index}, 1)" ${reachedMax ? 'disabled' : ''}>
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
               ${reachedMax ? `<div class="limit-msg">已達數量上限</div>` : ''}
             </div>
           </div>
