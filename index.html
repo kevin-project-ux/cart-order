@@ -93,6 +93,12 @@
         font-size: 24px;
       }
 
+      .limit-msg {
+        color: red;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+
       #loadingMask {
         position: fixed;
         top: 0; left: 0;
@@ -191,20 +197,24 @@
       list.innerHTML = '';
       cart.forEach((item, index) => {
         const li = document.createElement("li");
+        const currentQty = quantities[index];
+        const reachedMax = currentQty >= item.num;
         li.innerHTML = `
           <div class="item">
             <div class="flavors">
               <span>${item.flavor}</span>
-              <span class="stock">${item.remain !== 0 ? `剩餘：${item.remain}` : ''}</span>
+              <span class="stock">${item.remain !== 0 ? `剩下 ${item.remain} 個` : '&nbsp;'}</span>
             </div>
             <div class="controls">
               <button onclick="changeQty(${index}, -1)">
                 <i class="fas fa-minus"></i>
               </button>
-              <input type="number" id="order_num" min="0" max="${item.num}" value="${quantities[index]}" onchange="updateQty(${index}, this.value)">
+              <input type="number" id="order_num" min="0" max="${item.num}" value="${currentQty}" onchange="updateQty(${index}, this.value)">
               <button onclick="changeQty(${index}, 1)">
+              <button onclick="changeQty(${index}, 1)" ${reachedMax ? 'disabled' : ''}>
                 <i class="fas fa-plus"></i>
               </button>
+              ${reachedMax ? `<div class="limit-msg">已達數量上限</div>` : ''}
             </div>
           </div>
         `;
