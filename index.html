@@ -41,6 +41,11 @@
         font-size: 24px;
       }
 
+      .flavors {
+        display: flex;
+        flex-direction: column;
+      }
+
       .stock {
         font-size: 0.9em;
         color: #888;
@@ -183,21 +188,25 @@
 
     function renderCart() {
       const list = document.getElementById("cartList");
+      var order_num = document.getElementById("order_num").value;
       list.innerHTML = '';
       cart.forEach((item, index) => {
         const li = document.createElement("li");
         li.innerHTML = `
           <div class="item">
-            <span>${item.flavor}</span>
-            <span class="stock">${item.remain !== 0 ? `剩餘：${item.remain}` : ''}</span>
+            <div class="flavors">
+              <span>${item.flavor}</span>
+              <span class="stock">${item.remain !== 0 ? `剩餘：${item.remain}` : ''}</span>
+            </div>
             <div class="controls">
               <button onclick="changeQty(${index}, -1)">
                 <i class="fas fa-minus"></i>
               </button>
-              <input type="number" min="0" max="${item.num}" value="${quantities[index]}" onchange="updateQty(${index}, this.value)">
+              <input type="number" id="order_num" min="0" max="${item.num}" value="${quantities[index]}" onchange="updateQty(${index}, this.value)">
               <button onclick="changeQty(${index}, 1)">
                 <i class="fas fa-plus"></i>
               </button>
+              <span class="stock" style="color: red;">${item.remain === order_num ? `已達數量上限` : ''}</span>
             </div>
           </div>
         `;
