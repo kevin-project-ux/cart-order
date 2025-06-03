@@ -44,14 +44,14 @@
       .flavors {
         display: flex;
         flex-direction: column;
+        width: 100%;
+        text-align: center;
       }
 
       .stock {
         font-size: 0.9em;
         color: #888;
         display: inline-block;
-        width: 100%;
-        text-align: center;
       }
 
       .controls {
@@ -212,7 +212,7 @@
           <div class="item">
             <div class="flavors">
               <span>${item.flavor}</span>
-              <span class="stock">${item.remain !== 0 ? `剩下 ${item.remain} 個` : '&nbsp;'}</span>
+              <span class="stock">${item.remain !== 0 ? `剩下 ${item.remain} 個` : ''}</span>
             </div>
             <div class="controls">
               <div class="controls-row">
