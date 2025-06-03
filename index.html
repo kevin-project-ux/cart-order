@@ -154,7 +154,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbxG34I_jxLbflDN1hZgt5qnpnYYg37wJh0hYgROR7-mPgQ0QdHzaP0G0UAw7ryf9Xl0/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbyvmpDY7SJs_jNE4aj8gQniVDO8FeiX7NyCljRoPyIxvzo0CBRSl_cIpgkf_q1PeEf7/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
@@ -188,7 +188,7 @@
               <button onclick="changeQty(${index}, -1)">
                 <i class="fas fa-minus"></i>
               </button>
-              <input type="number" min="0" value="${quantities[index]}" onchange="updateQty(${index}, this.value)">
+              <input type="number" min="0" max="${item.num}" value="${quantities[index]}" onchange="updateQty(${index}, this.value)">
               <button onclick="changeQty(${index}, 1)">
                 <i class="fas fa-plus"></i>
               </button>
