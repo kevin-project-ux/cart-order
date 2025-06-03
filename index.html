@@ -49,6 +49,9 @@
       .stock {
         font-size: 0.9em;
         color: #888;
+        display: inline-block;
+        width: 40px;
+        text-align: center;
       }
 
       .controls {
@@ -219,7 +222,6 @@
                   <i class="fas fa-minus"></i>
                 </button>
                 <input type="number" id="order_num" min="0" ${hasLimit ? `max="${item.num}"` : ''} value="${currentQty}" onchange="updateQty(${index}, this.value)">
-                <button onclick="changeQty(${index}, 1)">
                 <button onclick="changeQty(${index}, 1)" ${reachedMax ? 'disabled' : ''}>
                   <i class="fas fa-plus"></i>
                 </button>
