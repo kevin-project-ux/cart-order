@@ -188,7 +188,6 @@
 
     function renderCart() {
       const list = document.getElementById("cartList");
-      var order_num = document.getElementById("order_num").value;
       list.innerHTML = '';
       cart.forEach((item, index) => {
         const li = document.createElement("li");
@@ -206,7 +205,7 @@
               <button onclick="changeQty(${index}, 1)">
                 <i class="fas fa-plus"></i>
               </button>
-              <span class="stock" style="color: red;">${item.remain === order_num ? `已達數量上限` : ''}</span>
+              // <span class="stock" style="color: red;">${item.remain === order_num ? `已達數量上限` : ''}</span>
             </div>
           </div>
         `;
