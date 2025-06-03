@@ -154,7 +154,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbx_hJN8qJpcplRj0KccnoruXrXF4KlkA5yyQFUlibxqSEvyVdXfx6BzVyG6-LDzJSVZ/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbxJ7eiXjAjxV6eLaft_FvZkZkwLF0ntebcBUqK7vxhJ4A201VGpVZzogkiTKLiaIp3H/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
