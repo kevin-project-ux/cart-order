@@ -192,7 +192,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbx15OLKC6gohax_ksCZVpb36Hzs0nOyFwms45ljLqMeIc8gIni_WO6O0IeiRO1fMDFitw/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbxcy4g1qaoqo_rl_4D5Hv4qU7Iod2lMTscMaKqxxZk1Wy4S3uz2ONWTepRagHSRwL_1gQ/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
@@ -268,6 +268,43 @@
       document.getElementById('totalAmount').textContent = total;
     }
 
+    function showOrderSummary() {
+      // 組成品項清單
+      let html = `<table style="width:100%; text-align:left;">`;
+      html += `<tr><th>品項</th><th>數量</th><th>小計</th></tr>`;
+    
+      let total = 0;
+    
+      cart.forEach((item, index) => {
+        const qty = quantities[index];
+        if (qty > 0) {
+          const subtotal = item.price * qty;
+          total += subtotal;
+          html += `
+            <tr>
+              <td>${item.name}</td>
+              <td>${qty}</td>
+              <td>$${subtotal}</td>
+            </tr>
+          `;
+        }
+      });
+    
+      html += `</table><hr><strong>總金額：$${total}</strong>`;
+    
+      // 顯示 SweetAlert
+      Swal.fire({
+        title: '訂單明細',
+        html: html,
+        icon: 'success',
+        confirmButtonText: '確定',
+        width: '90%',
+        customClass: {
+          popup: 'swal-wide'
+        }
+      });
+    }
+
     async function submitCart() {
 
       if (!userId) {
@@ -314,21 +351,14 @@
       .then(result => {
         // console.log("✅ 成功送出：", result);
         // alert("✅ 訂單已送出！");
-        Swal.fire({
-          icon: 'success',
-          title: '訂單已送出',
-          text: '下單品項為： '+result[0].orders,
-          footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
-        });
-        document.querySelectorAll('#cartList input[type="number"]').forEach(input => {
-          input.value = 0;
-        });
-
-        // 清空 quantities 陣列（若有）
-        quantities = quantities.map(() => 0);
-
-        // 重新渲染購物車
-        renderCart();
+        if( result.orders==true ){
+          showOrderSummary();
+          document.querySelectorAll('#cartList input[type="number"]').forEach(input => {
+            input.value = 0;
+          });
+          quantities = quantities.map(() => 0); // 清空 quantities 陣列（若有）
+          renderCart(); // 重新渲染購物車
+        }
       })
       .catch(error => {
         console.error("❌ 發生錯誤：", error);
