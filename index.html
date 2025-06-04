@@ -249,6 +249,21 @@
         alert("⚠️ 尚未取得 userId");
         return;
       }
+
+      const inputs = document.querySelectorAll('#cartList input[type="number"]');
+  
+      // 判斷是否所有數量為 0 或空
+      const allZero = Array.from(inputs).every(input => Number(input.value) === 0 || input.value === "");
+    
+      if (allZero) {
+        Swal.fire({
+          icon: 'warning',
+          title: '無法送出',
+          text: '請至少選擇一項數量再送出！',
+          confirmButtonText: '知道了'
+        });
+        return; // 停止送出
+      }
       
       mask.style.display = 'flex';
 
@@ -283,6 +298,12 @@
         document.querySelectorAll('#cartList input[type="number"]').forEach(input => {
           input.value = 0;
         });
+
+        // 清空 quantities 陣列（若有）
+        quantities = quantities.map(() => 0);
+
+        // 重新渲染購物車
+        renderCart();
       })
       .catch(error => {
         console.error("❌ 發生錯誤：", error);
