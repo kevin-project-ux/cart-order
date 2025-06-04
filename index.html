@@ -268,6 +268,33 @@
       document.getElementById('totalAmount').textContent = total;
     }
 
+    function showOrderSummary(){
+      // 組成品項清單
+      let html = `<table style="width:100%; text-align:left;">`;
+      html += `<tr><th>品項</th><th>數量</th><th>小計</th></tr>`;
+    
+      let total = 0;
+    
+      cart.forEach((item, index) => {
+        const qty = quantities[index];
+        if (qty > 0) {
+          const subtotal = item.price * qty;
+          total += subtotal;
+          html += `
+            <tr>
+              <td>${item.name}</td>
+              <td>${qty}</td>
+              <td>$${subtotal}</td>
+            </tr>
+          `;
+        }
+      });
+    
+      html += `</table><hr><strong>總金額：$${total}</strong>`;
+
+      return html;
+    }
+
     async function submitCart() {
 
       if (!userId) {
@@ -315,33 +342,13 @@
         // console.log("✅ 成功送出：", result);
         // alert("✅ 訂單已送出！");
         if( result.orders==true ){
-          // 組成品項清單
-          let html = `<table style="width:100%; text-align:left;">`;
-          html += `<tr><th>品項</th><th>數量</th><th>小計</th></tr>`;
-        
-          let total = 0;
-        
-          cart.forEach((item, index) => {
-            const qty = quantities[index];
-            if (qty > 0) {
-              const subtotal = item.price * qty;
-              total += subtotal;
-              html += `
-                <tr>
-                  <td>${item.name}</td>
-                  <td>${qty}</td>
-                  <td>$${subtotal}</td>
-                </tr>
-              `;
-            }
-          });
-        
-          html += `</table><hr><strong>總金額：$${total}</strong>`;
+          // var html = showOrderSummary();
         
           // 顯示 SweetAlert
           Swal.fire({
             title: '訂單明細',
-            html: html,
+            // html: html,
+            text: 'test',
             icon: 'success',
             footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
           });
