@@ -169,7 +169,7 @@
   <body>
     <h2 id="title">Loading...</h2>
     <ul id="cartList">載入中...</ul>
-    <div id="cartTotal" class="total">總金額 <span id="totalAmount">0</span> 元</div>
+    <div id="cartTotal" class="total" style="display:none">總金額 <span id="totalAmount">0</span> 元</div>
     <button class="submit" id="sendOrder" onclick="submitCart()" disabled style="display:none">✅ 確認送出</button>
     <div id="loadingMask"><div class="spinner"></div></div>
   </body>
@@ -195,8 +195,6 @@
     const gasUrl = `https://script.google.com/macros/s/AKfycbzA3h7lHwRiSEGuP2EOotaE4ihRNGtUlcG8WmRJG6AYWppkgB4ruTOZ5D7Txb5uQ2e0cQ/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
-    document.getElementById("title").innerText = name;
-
     async function fetchCart() {
       try {
         mask.style.display = 'flex';
@@ -212,15 +210,19 @@
           });
           return; // 停止往下
         }
+
+        document.getElementById("title").innerText = name;
         // cart = JSON.parse(data);
         quantities = cart.map(() => 0); // 預設全部為 0
         // console.log("✅ 拿到 cart 資料：", cart);
         renderCart(); // 呼叫你自己的渲染函式
+
+        document.getElementById('sendOrder').style.display = 'block';
+        document.getElementById('cartTotal').style.display = 'block';
       } catch (err) {
         console.error("❌ 無法取得 cart 資料", err);
       } finally {
         mask.style.display = 'none';
-        document.getElementById('sendOrder').style.display = 'block';
       }
     }
 
