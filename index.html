@@ -60,6 +60,12 @@
         align-items: center;
       }
 
+      .controls .price {
+        font-weight: bold;
+        color: #444;
+        min-width: 70px;
+      }
+
       .controls-row {
         display: flex;
         align-items: center;
@@ -224,6 +230,7 @@
               <span class="stock">${item.remain !== 0 ? `剩下 ${item.remain} 個` : ''}</span>
             </div>
             <div class="controls">
+              <span class="price">$${item.price}</span>
               <div class="controls-row">
                 <button onclick="changeQty(${index}, -1)">
                   <i class="fas fa-minus"></i>
