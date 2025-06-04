@@ -282,7 +282,7 @@
           total += subtotal;
           html += `
             <tr>
-              <td>${item.name}</td>
+              <td>${name}${item.flavor ? ` - ${item.flavor}` : ''}</td>
               <td>${qty}</td>
               <td>$${subtotal}</td>
             </tr>
