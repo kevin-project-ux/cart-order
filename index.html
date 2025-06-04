@@ -192,7 +192,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbxcy4g1qaoqo_rl_4D5Hv4qU7Iod2lMTscMaKqxxZk1Wy4S3uz2ONWTepRagHSRwL_1gQ/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbzA3h7lHwRiSEGuP2EOotaE4ihRNGtUlcG8WmRJG6AYWppkgB4ruTOZ5D7Txb5uQ2e0cQ/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     document.getElementById("title").innerText = name;
@@ -202,6 +202,16 @@
         mask.style.display = 'flex';
         const res = await fetch(getUrl);
         cart = await res.json();
+
+        if( typeof cart[0].status !== 'undefined' ){
+          Swal.fire({
+            icon: 'warning',
+            title: '查無該品項',
+            text: '該品項已到期或已提前關閉！',
+            confirmButtonText: '知道了'
+          });
+          return; // 停止往下
+        }
         // cart = JSON.parse(data);
         quantities = cart.map(() => 0); // 預設全部為 0
         // console.log("✅ 拿到 cart 資料：", cart);
@@ -234,7 +244,7 @@
                 <button onclick="changeQty(${index}, -1)" ${item.remain === 0 && item.num !== 0 ? 'disabled' : ''}>
                   <i class="fas fa-minus"></i>
                 </button>
-                <input type="number" min="0" ${hasLimit ? `max="${item.num}"` : ''} value="${currentQty}" onchange="updateQty(${index}, this.value)">
+                <input type="number" min="0" ${hasLimit ? `max="${item.num}"` : ''} value="${currentQty}" onchange="updateQty(${index}, this.value)" ${item.remain === 0 && item.num !== 0 ? 'disabled' : ''}>
                 <button onclick="changeQty(${index}, 1)" ${reachedMax ? 'disabled' : ''}>
                   <i class="fas fa-plus"></i>
                 </button>
@@ -341,25 +351,40 @@
       .then(result => {
         // console.log("✅ 成功送出：", result);
         // alert("✅ 訂單已送出！");
-        var html = showOrderSummary();
-        // 顯示 SweetAlert
-        Swal.fire({
-          title: '訂單明細',
-          html: html,
-          // text: 'test',
-          icon: 'success',
-          footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
-        });
+        if( result.status=='success' ){
+          var html = showOrderSummary();
+          // 顯示 SweetAlert
+          Swal.fire({
+            title: '訂單明細',
+            html: html,
+            icon: 'success',
+            footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
+          });
+          
+          document.querySelectorAll('#cartList input[type="number"]').forEach(input => {
+            input.value = 0;
+          });
+          quantities = quantities.map(() => 0); // 清空 quantities 陣列（若有）
+          fetchCart(); // 重新抓取品項數量並重新渲染購物車
+        }else{
+          Swal.fire({
+            title: '訂購失敗',
+            text: result.alert,
+            icon: 'error',
+            footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
+          });
+        }
         
-        document.querySelectorAll('#cartList input[type="number"]').forEach(input => {
-          input.value = 0;
-        });
-        quantities = quantities.map(() => 0); // 清空 quantities 陣列（若有）
-        fetchCart(); // 重新抓取品項數量並重新渲染購物車
       })
       .catch(error => {
-        console.error("❌ 發生錯誤：", error);
-        alert("❌ 訂單送出失敗！");
+        // console.error("❌ 發生錯誤：", error);
+        // alert("❌ 訂單送出失敗！");
+        Swal.fire({
+          title: '訂購失敗',
+          // text: result.alert,
+          icon: 'error',
+          // footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
+        });
       })
       .finally(() => {
         mask.style.display = 'none';
