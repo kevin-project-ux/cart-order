@@ -380,7 +380,7 @@
           // console.log(result);
           Swal.fire({
             title: '訂購失敗',
-            text: result[0].alert,
+            html: result[0].alert,
             icon: 'error',
             footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
           });
@@ -388,12 +388,9 @@
       })
       .catch(error => {
         // console.error("❌ 發生錯誤：", error);
-        // alert("❌ 訂單送出失敗！");
         Swal.fire({
-          title: '訂購失敗',
-          // text: error.alert,
-          icon: 'error',
-          // footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
+          title: '系統異常',
+          icon: 'error'
         });
       })
       .finally(() => {
