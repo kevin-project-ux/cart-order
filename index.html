@@ -254,7 +254,7 @@
                 <button onclick="changeQty(${index}, -1)" ${item.remain === 0 && item.num !== 0 ? 'disabled' : ''}>
                   <i class="fas fa-minus"></i>
                 </button>
-                <input type="number" min="0" ${hasLimit ? `max="${item.num}"` : ''} value="${currentQty}" onchange="updateQty(${index}, this.value)" ${item.remain === 0 && item.num !== 0 ? 'disabled' : ''}  oninput="validateMax(this)">
+                <input type="number" min="0" ${hasLimit ? `max="${item.remain}"` : ''} value="${currentQty}" onchange="updateQty(${index}, this.value)" ${item.remain === 0 && item.num !== 0 ? 'disabled' : ''}  oninput="validateMax(this)">
                 <button onclick="changeQty(${index}, 1)" ${reachedMax ? 'disabled' : ''}>
                   <i class="fas fa-plus"></i>
                 </button>
