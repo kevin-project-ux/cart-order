@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>新增團購品項</title>
+  <!-- ✅ Flatpickr 日期時間套件 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <style>
     body {
       font-family: sans-serif;
@@ -29,18 +32,41 @@
     .row > div {
       flex: 1;
     }
-    button {
-      margin-top: 1.5rem;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
+    button.submit {
+        display: block;
+        width: 100%;
+        padding: 1em;
+        font-size: 24px;
+        font-weight: bold;
+        background-color: #06c755;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        margin-top: 1em;
     }
   </style>
 </head>
+<script>
+  window.onload = async () => {
+    await liff.init({ liffId: "2007457926-DVgm8yJO" });
+
+    if (!liff.isLoggedIn()) {
+      liff.login();
+      return;
+    }
+
+    const profile = await liff.getProfile();
+    // console.log("✅ userId:", profile.userId);
+    userId = profile.userId;
+    userName = profile.displayName;
+    document.getElementById("createOrder").disabled = false;
+  }
+</script>
 <body>
   <h2>新增團購品項</h2>
   <form id="createGroupForm">
-    <label for="productName">品項名稱</label>
-    <input type="text" id="productName" required />
+    <label for="name">品項名稱</label>
+    <input type="text" id="name" required />
 
     <label for="price">價格（NT$）</label>
     <input type="number" id="price" required min="1" />
@@ -65,26 +91,44 @@
     <label for="note">備註（可選）</label>
     <textarea id="note" rows="3"></textarea>
 
-    <button type="submit">建立團購</button>
+    <button class="submit" id="createOrder" onclick="submitCreateCart()">建立團購</button>
   </form>
 
   <script>
-    document.getElementById("createGroupForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const data = {
-        name: document.getElementById("productName").value,
-        price: parseInt(document.getElementById("price").value),
-        limitQty: parseInt(document.getElementById("limitQty").value),
-        flavors: document.getElementById("flavors").value.split(",").map(f => f.trim()).filter(f => f),
-        start: document.getElementById("startTime").value,
-        end: document.getElementById("endTime").value,
-        note: document.getElementById("note").value
-      };
-
-      console.log("要送出的團購資料：", data);
-      // 這裡可以改成 fetch 傳送到 Firebase 或 Google Apps Script
+    // 初始化 Flatpickr 套件
+    flatpickr("#startTime", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i"
     });
+
+    flatpickr("#endTime", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i"
+    });
+    
+    async function submitCreateCart() {
+
+      if (!userId) {
+        alert("⚠️ 尚未取得 userId");
+        return;
+      }
+    }
+    // document.getElementById("createGroupForm").addEventListener("submit", function (e) {
+    //   e.preventDefault();
+
+    //   const data = {
+    //     name: document.getElementById("productName").value,
+    //     price: parseInt(document.getElementById("price").value),
+    //     limitQty: parseInt(document.getElementById("limitQty").value),
+    //     flavors: document.getElementById("flavors").value.split(",").map(f => f.trim()).filter(f => f),
+    //     start: document.getElementById("startTime").value,
+    //     end: document.getElementById("endTime").value,
+    //     note: document.getElementById("note").value
+    //   };
+
+    //   console.log("要送出的團購資料：", data);
+    //   // 這裡可以改成 fetch 傳送到 Firebase 或 Google Apps Script
+    // });
   </script>
 </body>
 </html>
