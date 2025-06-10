@@ -11,7 +11,6 @@
 
   <!-- Date Range Picker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-date-range-picker@0.20.0/dist/daterangepicker.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery-date-range-picker@0.20.0/dist/jquery.daterangepicker.min.js"></script>
   <style>
     body {
       font-family: sans-serif;
@@ -52,41 +51,6 @@
   </style>
 </head>
 <script>
-
-  window.addEventListener("load", function () {
-    $.dateRangePickerLanguages = $.dateRangePickerLanguages || {};
-    $.dateRangePickerLanguages['zh-tw'] = {
-      'selected': '已選擇:',
-      'days': '天',
-      'apply': '確認',
-      'week-1': '一',
-      'week-2': '二',
-      'week-3': '三',
-      'week-4': '四',
-      'week-5': '五',
-      'week-6': '六',
-      'week-0': '日',
-      'month-name': ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-      'shortcuts': '快捷選擇',
-      'past': '過去',
-      'following': '未來',
-      'previous': '上個',
-      'prev-week': '上週',
-      'prev-month': '上月',
-      'prev-year': '去年',
-      'next': '下個',
-      'next-week': '下週',
-      'next-month': '下月',
-      'next-year': '明年',
-      'less-than': '日期間隔不能小於 %d 天',
-      'more-than': '日期間隔不能超過 %d 天',
-      'default-more': '請選擇超過 %d 天',
-      'default-less': '請選擇少於 %d 天',
-      'default-range': '請選擇 %d 到 %d 天之間',
-      'default-default': '請選擇一個日期區間'
-    };
-  });
-  
   window.onload = async () => {
     await liff.init({ liffId: "2007457926-5wAYNP0w" });
 
@@ -128,7 +92,42 @@
 </body>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-date-range-picker@0.20.0/dist/jquery.daterangepicker.min.js"></script>
 <script>
+
+  window.addEventListener("load", function () {
+    $.dateRangePickerLanguages = $.dateRangePickerLanguages || {};
+    $.dateRangePickerLanguages['zh-tw'] = {
+      'selected': '已選擇:',
+      'days': '天',
+      'apply': '確認',
+      'week-1': '一',
+      'week-2': '二',
+      'week-3': '三',
+      'week-4': '四',
+      'week-5': '五',
+      'week-6': '六',
+      'week-0': '日',
+      'month-name': ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+      'shortcuts': '快捷選擇',
+      'past': '過去',
+      'following': '未來',
+      'previous': '上個',
+      'prev-week': '上週',
+      'prev-month': '上月',
+      'prev-year': '去年',
+      'next': '下個',
+      'next-week': '下週',
+      'next-month': '下月',
+      'next-year': '明年',
+      'less-than': '日期間隔不能小於 %d 天',
+      'more-than': '日期間隔不能超過 %d 天',
+      'default-more': '請選擇超過 %d 天',
+      'default-less': '請選擇少於 %d 天',
+      'default-range': '請選擇 %d 到 %d 天之間',
+      'default-default': '請選擇一個日期區間'
+    };
+  });
 
   // $('#dateRangeInput').dateRangePicker({
   //   language: 'zh-tw',
@@ -157,21 +156,5 @@
       return;
     }
   }
-  // document.getElementById("createGroupForm").addEventListener("submit", function (e) {
-  //   e.preventDefault();
-
-  //   const data = {
-  //     name: document.getElementById("productName").value,
-  //     price: parseInt(document.getElementById("price").value),
-  //     limitQty: parseInt(document.getElementById("limitQty").value),
-  //     flavors: document.getElementById("flavors").value.split(",").map(f => f.trim()).filter(f => f),
-  //     start: document.getElementById("startTime").value,
-  //     end: document.getElementById("endTime").value,
-  //     note: document.getElementById("note").value
-  //   };
-
-  //   console.log("要送出的團購資料：", data);
-  //   // 這裡可以改成 fetch 傳送到 Firebase 或 Google Apps Script
-  // });
 </script>
 </html>
