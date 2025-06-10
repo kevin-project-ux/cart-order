@@ -93,42 +93,43 @@
 
     <button class="submit" id="createOrder" onclick="submitCreateCart()">建立團購</button>
   </form>
-
-  <script>
-    // 初始化 Flatpickr 套件
-    flatpickr("#startTime", {
-      enableTime: true,
-      dateFormat: "Y-m-d H:i"
-    });
-
-    flatpickr("#endTime", {
-      enableTime: true,
-      dateFormat: "Y-m-d H:i"
-    });
-    
-    async function submitCreateCart() {
-
-      if (!userId) {
-        alert("⚠️ 尚未取得 userId");
-        return;
-      }
-    }
-    // document.getElementById("createGroupForm").addEventListener("submit", function (e) {
-    //   e.preventDefault();
-
-    //   const data = {
-    //     name: document.getElementById("productName").value,
-    //     price: parseInt(document.getElementById("price").value),
-    //     limitQty: parseInt(document.getElementById("limitQty").value),
-    //     flavors: document.getElementById("flavors").value.split(",").map(f => f.trim()).filter(f => f),
-    //     start: document.getElementById("startTime").value,
-    //     end: document.getElementById("endTime").value,
-    //     note: document.getElementById("note").value
-    //   };
-
-    //   console.log("要送出的團購資料：", data);
-    //   // 這裡可以改成 fetch 傳送到 Firebase 或 Google Apps Script
-    // });
-  </script>
 </body>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  // 初始化 Flatpickr 套件
+  flatpickr("#startTime", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i"
+  });
+
+  flatpickr("#endTime", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i"
+  });
+  
+  async function submitCreateCart() {
+
+    if (!userId) {
+      alert("⚠️ 尚未取得 userId");
+      return;
+    }
+  }
+  // document.getElementById("createGroupForm").addEventListener("submit", function (e) {
+  //   e.preventDefault();
+
+  //   const data = {
+  //     name: document.getElementById("productName").value,
+  //     price: parseInt(document.getElementById("price").value),
+  //     limitQty: parseInt(document.getElementById("limitQty").value),
+  //     flavors: document.getElementById("flavors").value.split(",").map(f => f.trim()).filter(f => f),
+  //     start: document.getElementById("startTime").value,
+  //     end: document.getElementById("endTime").value,
+  //     note: document.getElementById("note").value
+  //   };
+
+  //   console.log("要送出的團購資料：", data);
+  //   // 這裡可以改成 fetch 傳送到 Firebase 或 Google Apps Script
+  // });
+</script>
 </html>
