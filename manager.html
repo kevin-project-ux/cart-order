@@ -130,14 +130,24 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
-  $('#dateRangeInput').dateRangePicker({
-    language: 'zh-tw',
-    startOfWeek: 'monday',
-    format: 'YYYY-MM-DD HH:mm',
-    separator: ' ~ ',
-    time: {
-      enabled: true
-    }
+  // $('#dateRangeInput').dateRangePicker({
+  //   language: 'zh-tw',
+  //   startOfWeek: 'monday',
+  //   format: 'YYYY-MM-DD HH:mm',
+  //   separator: ' ~ ',
+  //   time: {
+  //     enabled: true
+  //   }
+  // });
+
+  $(function () {
+    $('#dateRangeInput').dateRangePicker({
+      language: 'zh-tw',
+      time: {
+        enabled: true
+      },
+      format: 'YYYY-MM-DD HH:mm'
+    });
   });
   
   async function submitCreateCart() {
