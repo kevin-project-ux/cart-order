@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>新增團購品項</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      box-sizing: border-box;
+    }
+    .row {
+      display: flex;
+      gap: 1rem;
+    }
+    .row > div {
+      flex: 1;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>新增團購品項</h2>
+  <form id="createGroupForm">
+    <label for="productName">品項名稱</label>
+    <input type="text" id="productName" required />
+
+    <label for="price">價格（NT$）</label>
+    <input type="number" id="price" required min="1" />
+
+    <label for="limitQty">數量限制（0 表示不限制）</label>
+    <input type="number" id="limitQty" min="0" />
+
+    <label for="flavors">口味選項（用逗號分隔）</label>
+    <input type="text" id="flavors" placeholder="例如：巧克力,原味,抹茶" />
+
+    <div class="row">
+      <div>
+        <label for="startTime">開始時間</label>
+        <input type="datetime-local" id="startTime" required />
+      </div>
+      <div>
+        <label for="endTime">結束時間</label>
+        <input type="datetime-local" id="endTime" required />
+      </div>
+    </div>
+
+    <label for="note">備註（可選）</label>
+    <textarea id="note" rows="3"></textarea>
+
+    <button type="submit">建立團購</button>
+  </form>
+
+  <script>
+    document.getElementById("createGroupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const data = {
+        name: document.getElementById("productName").value,
+        price: parseInt(document.getElementById("price").value),
+        limitQty: parseInt(document.getElementById("limitQty").value),
+        flavors: document.getElementById("flavors").value.split(",").map(f => f.trim()).filter(f => f),
+        start: document.getElementById("startTime").value,
+        end: document.getElementById("endTime").value,
+        note: document.getElementById("note").value
+      };
+
+      console.log("要送出的團購資料：", data);
+      // 這裡可以改成 fetch 傳送到 Firebase 或 Google Apps Script
+    });
+  </script>
+</body>
+</html>
