@@ -41,6 +41,13 @@
     .row > div {
       flex: 1;
     }
+
+    .flavor-row {
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
     button.submit {
         display: block;
         width: 100%;
@@ -54,6 +61,7 @@
         margin-top: 1em;
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <script>
   window.onload = async () => {
@@ -88,10 +96,10 @@
       <div class="flavor-row">
         <input type="text" placeholder="口味名稱" class="flavor-name">
         <input type="number" placeholder="數量" class="flavor-limit">
-        <button onclick="removeFlavor(this)">❌</button>
+        <button onclick="removeFlavor(this)"><i class="fas fa-times"></i></button>
       </div>
     </div>
-    <button onclick="addFlavor()">➕ 新增口味</button><br><br>
+    <button onclick="addFlavor()"><i class="fas fa-plus"></i> 新增口味</button><br><br>
 
     <label for="note">備註</label>
     <input type="text" id="note" />
