@@ -4,92 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>新增團購品項</title>
-  <!-- ✅ Flatpickr 日期時間套件 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   
-  <!-- JS -->
+  <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 1rem;
-      max-width: 600px;
-      margin: auto;
-    }
-    .req{
-      color: red;
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.25rem;
-      box-sizing: border-box;
-    }
-    .row {
-      display: flex;
-      gap: 1rem;
-    }
-    .row > div {
-      flex: 1;
-    }
-
-    .flavor-row {
-      margin-bottom: 8px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .icon-btn {
-      background: transparent;
-      border: none;
-      color: red;
-      cursor: pointer;
-      font-size: 1.2rem;
-    }
-  
-    .full-btn {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  
-    .full-btn i {
-      margin-right: 6px;
-    }
-  
-    .full-btn:hover {
-      background-color: #0056b3;
-    }
-    
-    button.submit {
-        display: block;
-        width: 100%;
-        padding: 1em;
-        font-size: 24px;
-        font-weight: bold;
-        background-color: #06c755;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        margin-top: 1em;
-    }
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <script>
   window.onload = async () => {
@@ -108,50 +31,70 @@
   }
 </script>
 <body>
-  <h2>新增團購品項</h2>
-  <form id="createGroupForm">
-    <label for="name"><span class="req">*</span> 品項名稱</label>
-    <input type="text" id="name" required />
-
-    <label for="price"><span class="req">*</span> 價格（NT$）</label>
-    <input type="number" id="price" min="1" required />
-
-    <label for="dateRangeInput">團購期間 </label>
-    <input type="text" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;">
-
-    <!-- 單/多口味選擇 -->
-    <div>
-      <label><input type="radio" name="flavorType" value="single" checked onchange="toggleFlavor()"> 單口味</label>
-      <label><input type="radio" name="flavorType" value="multiple" onchange="toggleFlavor()"> 多口味</label>
-    </div><br>
-
-    <!-- 單口味限量 -->
-    <div id="singleFlavor">
-      <label>限量數量：<input type="number" id="singleLimit"></label>
+  <div class="container mt-4">
+    <h4>建立新團購品項</h4>
+    <div class="mb-3">
+      <label class="form-label"><span class="req">*</span> 品項名稱</label>
+      <input type="text" class="form-control" id="itemName" required>
     </div>
 
-    <!-- 多口味輸入區 -->
-    <div id="multiFlavor" style="display: none;">
-      <label>口味與限量：</label><br>
-      <div id="flavorWrapper">
-        <div class="flavor-row">
-          <input type="text" placeholder="口味名稱" class="flavor-name">
-          <input type="number" placeholder="數量" class="flavor-limit">
-          <button class="icon-btn" onclick="removeFlavor(this)">
+    <div class="mb-3">
+      <label class="form-label"><span class="req">*</span> 價格（NT$）</label>
+      <input type="number" class="form-control" id="price" min="1" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">團購期間 </label>
+      <input type="text" class="form-control" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;">
+    </div>
+
+    <!-- 單/多口味切換 -->
+    <div class="mb-3">
+      <label class="form-label">口味選擇</label><br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="flavorType" value="single" checked onchange="toggleFlavor()">
+        <label class="form-check-label">單口味</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="flavorType" value="multiple" onchange="toggleFlavor()">
+        <label class="form-check-label">多口味</label>
+      </div>
+    </div>
+
+    <!-- 單口味 -->
+  <div id="singleFlavor" class="mb-3">
+    <label class="form-label">限量數量</label>
+    <input type="number" class="form-control" id="singleLimit" placeholder="輸入限量數量">
+  </div>
+
+  <!-- 多口味 -->
+  <div id="multiFlavor" class="mb-3" style="display: none;">
+    <label class="form-label">口味與限量</label>
+    <div id="flavorWrapper">
+      <div class="row g-2 mb-2 flavor-row">
+        <div class="col">
+          <input type="text" class="form-control flavor-name" placeholder="口味名稱">
+        </div>
+        <div class="col">
+          <input type="number" class="form-control flavor-limit" placeholder="數量">
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-outline-danger" onclick="removeFlavor(this)">
             <i class="fas fa-times"></i>
           </button>
         </div>
       </div>
-      <button class="full-btn" onclick="addFlavor()">
-        <i class="fas fa-plus"></i> 新增口味
-      </button>
-    </div><br>
+    </div>
+    <button class="btn btn-outline-primary w-100" onclick="addFlavor()">
+      <i class="fas fa-plus"></i> 新增口味
+    </button>
+  </div>
 
     <label for="note">備註</label>
     <input type="text" id="note" />
 
-    <button class="submit" id="createOrder" onclick="submitCreateCart()">建立團購</button>
-  </form>
+    <button class="btn btn-success w-100" id="createOrder" onclick="submitCreateCart()">建立團購</button>
+  </div>
 </body>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
