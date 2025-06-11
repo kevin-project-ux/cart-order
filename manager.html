@@ -48,6 +48,38 @@
       gap: 8px;
       align-items: center;
     }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+  
+    .icon-btn:hover {
+      color: red;
+    }
+  
+    .full-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  
+    .full-btn i {
+      margin-right: 6px;
+    }
+  
+    .full-btn:hover {
+      background-color: #0056b3;
+    }
+    
     button.submit {
         display: block;
         width: 100%;
@@ -96,10 +128,10 @@
       <div class="flavor-row">
         <input type="text" placeholder="口味名稱" class="flavor-name">
         <input type="number" placeholder="數量" class="flavor-limit">
-        <button onclick="removeFlavor(this)"><i class="fas fa-times"></i></button>
+        <button class="icon-btn" onclick="removeFlavor(this)"><i class="fas fa-times"></i></button>
       </div>
     </div>
-    <button onclick="addFlavor()"><i class="fas fa-plus"></i> 新增口味</button><br><br>
+    <button class="full-btn" onclick="addFlavor()"><i class="fas fa-plus"></i> 新增口味</button><br><br>
 
     <label for="note">備註</label>
     <input type="text" id="note" />
@@ -125,7 +157,7 @@
     div.innerHTML = `
       <input type="text" placeholder="口味名稱" class="flavor-name">
       <input type="number" placeholder="數量" class="flavor-limit">
-      <button onclick="removeFlavor(this)">❌</button>
+      <button class="icon-btn" onclick="removeFlavor(this)"><i class="fas fa-times"></i></button>
     `;
     document.getElementById("flavorWrapper").appendChild(div);
   }
