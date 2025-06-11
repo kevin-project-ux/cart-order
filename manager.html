@@ -100,7 +100,8 @@
     mode: "range",
     enableTime: true,
     dateFormat: "Y-m-d H:i",
-    locale: "zh"
+    locale: "zh",
+    minDate: "today" // ✅ 限制今天以前不能選
   });
   
   async function submitCreateCart() {
