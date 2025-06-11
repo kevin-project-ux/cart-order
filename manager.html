@@ -140,8 +140,8 @@
       return;
     }
 
-    const name = document.getElementById('itemName').value.trim();
-    const limit = parseInt(document.getElementById('price').value);
+    const name  = document.getElementById('itemName').value.trim();
+    const price = parseInt(document.getElementById('price').value);
     const range = document.getElementById('rangePicker').value;
 
     if ( !name || !range || price==0 ) {
