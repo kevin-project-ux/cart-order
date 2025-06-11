@@ -6,13 +6,13 @@
   <title>新增團購品項</title>
   <!-- ✅ Flatpickr 日期時間套件 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <!-- jQuery（必須）-->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- Date Range Picker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.21.1/daterangepicker.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.21.1/jquery.daterangepicker.min.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
   <style>
     body {
       font-family: sans-serif;
@@ -84,7 +84,7 @@
     <input type="text" id="flavors" placeholder="例如：巧克力,原味,抹茶" />
 
     <label for="dateRangeInput">限定時間範圍 </label>
-    <input type="text" id="dateRangeInput" placeholder="請選擇時間範圍">
+    <input type="text" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;">
 
     <label for="note">備註</label>
     <input type="text" id="note" />
@@ -96,48 +96,11 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
-  window.addEventListener("load", function () {
-    $.dateRangePickerLanguages = $.dateRangePickerLanguages || {};
-    $.dateRangePickerLanguages['zh-tw'] = {
-      'selected': '已選擇:',
-      'days': '天',
-      'apply': '確認',
-      'week-1': '一',
-      'week-2': '二',
-      'week-3': '三',
-      'week-4': '四',
-      'week-5': '五',
-      'week-6': '六',
-      'week-0': '日',
-      'month-name': ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-      'shortcuts': '快捷選擇',
-      'past': '過去',
-      'following': '未來',
-      'previous': '上個',
-      'prev-week': '上週',
-      'prev-month': '上月',
-      'prev-year': '去年',
-      'next': '下個',
-      'next-week': '下週',
-      'next-month': '下月',
-      'next-year': '明年',
-      'less-than': '日期間隔不能小於 %d 天',
-      'more-than': '日期間隔不能超過 %d 天',
-      'default-more': '請選擇超過 %d 天',
-      'default-less': '請選擇少於 %d 天',
-      'default-range': '請選擇 %d 到 %d 天之間',
-      'default-default': '請選擇一個日期區間'
-    };
-  });
-
-  $('#dateRangeInput').dateRangePicker({
-    language: 'zh-tw',
-    startOfWeek: 'monday',
-    format: 'YYYY-MM-DD HH:mm',
-    separator: ' ~ ',
-    time: {
-      enabled: true
-    }
+  flatpickr("#rangePicker", {
+    mode: "range",
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    locale: "zh"
   });
   
   async function submitCreateCart() {
