@@ -35,12 +35,12 @@
     <div class="p-4 bg-light rounded shadow-sm">
       <h4>建立新團購品項</h4>
       <div class="mb-3">
-        <label class="form-label"><span class="req">*</span> 品項名稱</label>
+        <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
         <input type="text" class="form-control" id="itemName" required>
       </div>
   
       <div class="mb-3">
-        <label class="form-label"><span class="req">*</span> 價格（NT$）</label>
+        <label class="form-label"><span class="text-danger">*</span> 價格（NT$）</label>
         <input type="number" class="form-control" id="price" min="1" required>
       </div>
   
@@ -64,13 +64,13 @@
   
       <!-- 單口味 -->
       <div id="singleFlavor" class="mb-3">
-        <label class="form-label">限量數量</label>
+        <label class="form-label"><span class="text-danger">*</span> 限量數量</label>
         <input type="number" class="form-control" id="singleLimit" placeholder="輸入限量數量">
       </div>
   
       <!-- 多口味 -->
       <div id="multiFlavor" class="mb-3" style="display: none;">
-        <label class="form-label">口味與限量</label>
+        <label class="form-label"><span class="text-danger">*</span> 口味與限量</label>
         <div id="flavorWrapper">
           <div class="row g-2 mb-2 flavor-row">
             <div class="col">
@@ -90,11 +90,13 @@
           <i class="fas fa-plus"></i> 新增口味
         </button>
       </div>
+
+      <div id="singleFlavor" class="mb-3">
+        <label for="note">備註</label>
+        <input type="text" class="form-control" id="note" />
+      </div>
   
-      <label for="note">備註</label>
-      <input type="text" class="form-control" id="note" />
-  
-      <button class="btn btn-success w-100" id="createOrder" onclick="submitCreateCart()">建立團購</button>
+      <button class="btn btn-success w-100" id="createOrder" onclick="submitForm()">建立團購</button>
     </div>
   </div>
 </body>
@@ -131,11 +133,108 @@
     btn.parentElement.remove();
   }
   
-  async function submitCreateCart() {
+  async function submitForm() {
 
     if (!userId) {
       alert("⚠️ 尚未取得 userId");
       return;
+    }
+
+    const name = document.getElementById('itemName').value.trim();
+    const limit = parseInt(document.getElementById('price').value);
+    const range = document.getElementById('rangePicker').value;
+
+    if ( !name || !range || price==0 ) {
+      Swal.fire('請填寫完整品項資訊');
+      return;
+    }
+    
+    const flavorType = document.querySelector('input[name="flavorType"]:checked').value;
+  
+    let flavors = [];
+    let limit = 0;
+  
+    if (flavorType === 'single') {
+      const singleLimit = parseInt(document.getElementById('singleLimit').value);
+      if (isNaN(singleLimit) || singleLimit <= 0) {
+        Swal.fire('請輸入有效的限量');
+        return;
+      }
+      limit = singleLimit;
+    } else {
+      const flavorRows = document.querySelectorAll('.flavor-row');
+      for (const row of flavorRows) {
+        const name = row.querySelector('.flavor-name').value.trim();
+        const limitValue = parseInt(row.querySelector('.flavor-limit').value);
+        if (!name || isNaN(limitValue) || limitValue <= 0) {
+          Swal.fire('請填寫所有口味與有效數量');
+          return;
+        }
+        flavors.push({ name, limit: limitValue });
+      }
+      if (flavors.length === 0) {
+        Swal.fire('至少新增一個口味');
+        return;
+      }
+    }
+
+    // 組合資料
+    const payload = {
+      name,
+      start,
+      end,
+      flavorType,
+      limit,
+      flavors
+    };
+
+    console.log(payload);
+    return false;
+
+    // ✅ Google Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxMML3h4ogRSQf8BK01ux0LJbphrLz8g8ayq3UI80EqujgaKE39ab8L_BJJ9tGdtKgnbg/exec';
+
+    try {
+      const response = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          limit,
+          start,
+          end
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: '送出成功',
+          text: `品項「${name}」已新增！`
+        });
+
+        // 清空表單
+        document.getElementById('itemName').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('startDate').value = '';
+        document.getElementById('endDate').value = '';
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '送出失敗',
+          text: result.message || '請稍後再試'
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: err.message
+      });
     }
   }
 </script>
