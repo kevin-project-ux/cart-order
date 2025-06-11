@@ -20,6 +20,9 @@
       max-width: 600px;
       margin: auto;
     }
+    span .req{
+      color: red;
+    }
     label {
       display: block;
       margin-top: 1rem;
@@ -71,13 +74,13 @@
 <body>
   <h2>新增團購品項</h2>
   <form id="createGroupForm">
-    <label for="name">* 品項名稱</label>
+    <label for="name"><span class="req">*</span> 品項名稱</label>
     <input type="text" id="name" required />
 
-    <label for="price">* 價格（NT$）</label>
+    <label for="price"><span class="req">*</span> 價格（NT$）</label>
     <input type="number" id="price" required min="1" />
 
-    <label for="limitQty">* 數量限制（0 表示不限制）</label>
+    <label for="limitQty"><span class="req">*</span> 數量限制（0 表示不限制）</label>
     <input type="number" id="limitQty" min="0" />
 
     <label for="flavors">口味選項（用逗號分隔）</label>
