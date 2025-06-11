@@ -20,7 +20,7 @@
       max-width: 600px;
       margin: auto;
     }
-    span .req{
+    .req{
       color: red;
     }
     label {
@@ -78,16 +78,20 @@
     <input type="text" id="name" required />
 
     <label for="price"><span class="req">*</span> 價格（NT$）</label>
-    <input type="number" id="price" required min="1" />
+    <input type="number" id="price" min="1" required />
 
-    <label for="limitQty"><span class="req">*</span> 數量限制（0 表示不限制）</label>
-    <input type="number" id="limitQty" min="0" />
-
-    <label for="flavors">口味選項（用逗號分隔）</label>
-    <input type="text" id="flavors" placeholder="例如：巧克力,原味,抹茶" />
-
-    <label for="dateRangeInput">限定時間範圍 </label>
+    <label for="dateRangeInput">團購時間範圍 </label>
     <input type="text" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;">
+
+    <div id="flavorWrapper">
+      <label>口味與限量：</label><br>
+      <div class="flavor-row">
+        <input type="text" placeholder="口味名稱" class="flavor-name">
+        <input type="number" placeholder="數量" class="flavor-limit">
+        <button onclick="removeFlavor(this)">❌</button>
+      </div>
+    </div>
+    <button onclick="addFlavor()">➕ 新增口味</button><br><br>
 
     <label for="note">備註</label>
     <input type="text" id="note" />
@@ -106,6 +110,21 @@
     locale: "zh",
     minDate: "today" // ✅ 限制今天以前不能選
   });
+
+  function addFlavor() {
+    const div = document.createElement('div');
+    div.className = "flavor-row";
+    div.innerHTML = `
+      <input type="text" placeholder="口味名稱" class="flavor-name">
+      <input type="number" placeholder="數量" class="flavor-limit">
+      <button onclick="removeFlavor(this)">❌</button>
+    `;
+    document.getElementById("flavorWrapper").appendChild(div);
+  }
+
+  function removeFlavor(btn) {
+    btn.parentElement.remove();
+  }
   
   async function submitCreateCart() {
 
