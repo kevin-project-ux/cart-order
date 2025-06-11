@@ -52,13 +52,9 @@
     .icon-btn {
       background: transparent;
       border: none;
-      color: #888;
+      color: red;
       cursor: pointer;
       font-size: 1.2rem;
-    }
-  
-    .icon-btn:hover {
-      color: red;
     }
   
     .full-btn {
@@ -120,18 +116,36 @@
     <label for="price"><span class="req">*</span> 價格（NT$）</label>
     <input type="number" id="price" min="1" required />
 
-    <label for="dateRangeInput">團購時間範圍 </label>
+    <label for="dateRangeInput">團購期間 </label>
     <input type="text" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;">
 
-    <div id="flavorWrapper">
-      <label>口味與限量：</label><br>
-      <div class="flavor-row">
-        <input type="text" placeholder="口味名稱" class="flavor-name">
-        <input type="number" placeholder="數量" class="flavor-limit">
-        <button class="icon-btn" onclick="removeFlavor(this)"><i class="fas fa-times"></i></button>
-      </div>
+    <!-- 單/多口味選擇 -->
+    <div>
+      <label><input type="radio" name="flavorType" value="single" checked onchange="toggleFlavor()"> 單口味</label>
+      <label><input type="radio" name="flavorType" value="multiple" onchange="toggleFlavor()"> 多口味</label>
+    </div><br>
+
+    <!-- 單口味限量 -->
+    <div id="singleFlavor">
+      <label>限量數量：<input type="number" id="singleLimit"></label>
     </div>
-    <button class="full-btn" onclick="addFlavor()"><i class="fas fa-plus"></i> 新增口味</button><br><br>
+
+    <!-- 多口味輸入區 -->
+    <div id="multiFlavor" style="display: none;">
+      <label>口味與限量：</label><br>
+      <div id="flavorWrapper">
+        <div class="flavor-row">
+          <input type="text" placeholder="口味名稱" class="flavor-name">
+          <input type="number" placeholder="數量" class="flavor-limit">
+          <button class="icon-btn" onclick="removeFlavor(this)">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <button class="full-btn" onclick="addFlavor()">
+        <i class="fas fa-plus"></i> 新增口味
+      </button>
+    </div><br>
 
     <label for="note">備註</label>
     <input type="text" id="note" />
@@ -150,6 +164,12 @@
     locale: "zh",
     minDate: "today" // ✅ 限制今天以前不能選
   });
+
+  function toggleFlavor() {
+    const selected = document.querySelector('input[name="flavorType"]:checked').value;
+    document.getElementById("singleFlavor").style.display = selected === "single" ? "block" : "none";
+    document.getElementById("multiFlavor").style.display = selected === "multiple" ? "block" : "none";
+  }
 
   function addFlavor() {
     const div = document.createElement('div');
