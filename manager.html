@@ -44,10 +44,10 @@
     <table id="example" class="table table-striped" style="width:100%">
       <thead>
         <tr>
-          <th>品項</th>
-          <th>口味</th>
-          <th>數量</th>
+          <th>名稱</th>
+          <th>狀態</th>
           <th>價格</th>
+          <th>限時</th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
@@ -170,16 +170,16 @@
       const res = await fetch(GAS_URL);
       const data = await res.json();
 
-      console.log(data);return false;
+      console.log(data);
   
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${item.品項 || ''}</td>
-          <td>${item.口味 || ''}</td>
-          <td>${item.數量 || ''}</td>
-          <td>NT$${item.價格 || ''}</td>
+          <td>${item.名稱 || ''}</td>
+          <td>${item.狀態 || ''}</td>
+          <td>${item.價格 || ''}</td>
+          <td>NT$${item.限時 || ''}</td>
         `;
         tbody.appendChild(row);
       });
@@ -275,7 +275,7 @@
       flavors
     };
 
-    console.log(payload);
+    // console.log(payload);
 
     // 價格/口味：120元/盒(韭菜)、120元/盒(玉米，限量5盒)、120元/盒(蔥蔥)、140元/盒(泡菜，限量5盒)、140元/盒(剝皮辣椒)
     // 限時：06/03 09:00 ~ 06/04 17:00
