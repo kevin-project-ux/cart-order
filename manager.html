@@ -39,10 +39,10 @@
         <input type="text" class="form-control" id="itemName" required>
       </div>
   
-      <div class="mb-3">
+<!--       <div class="mb-3">
         <label class="form-label"><span class="text-danger">*</span> 價格（NT$）</label>
         <input type="number" class="form-control" id="price" min="1" required>
-      </div>
+      </div> -->
   
       <div class="mb-3">
         <label class="form-label">團購期間 </label>
@@ -64,8 +64,15 @@
   
       <!-- 單口味 -->
       <div id="singleFlavor" class="mb-3">
-        <label class="form-label"><span class="text-danger">*</span> 限量數量(※ 0為不限量)</label>
-        <input type="number" class="form-control" id="singleLimit" placeholder="輸入限量數量">
+        <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
+        <div class="row g-2 mb-2 flavor-row">
+            <div class="col">
+              <input type="number" class="form-control" id="price" min="1" placeholder="價格">
+            </div>
+            <div class="col">
+              <input type="number" class="form-control" id="singleLimit" placeholder="數量">
+            </div>
+        </div>
       </div>
   
       <!-- 多口味 -->
@@ -73,6 +80,9 @@
         <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
         <div id="flavorWrapper">
           <div class="row g-2 mb-2 flavor-row">
+            <div class="col">
+              <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
+            </div>
             <div class="col">
               <input type="text" class="form-control flavor-name" placeholder="口味名稱">
             </div>
@@ -141,11 +151,10 @@
     }
 
     const name  = document.getElementById('itemName').value.trim();
-    const price = parseInt(document.getElementById('price').value);
     const range = document.getElementById('rangePicker').value;
 
-    if ( !name || price==0 ) {
-      Swal.fire('請填寫完整品項資訊');
+    if ( !name ) {
+      Swal.fire('請填寫名稱');
       return;
     }
     
@@ -156,6 +165,11 @@
   
     if (flavorType === 'single') {
       const singleLimit = parseInt(document.getElementById('singleLimit').value);
+      const price = parseInt(document.getElementById('price').value);
+      if ( price<=0 ) {
+        Swal.fire('價格不能為0或小於0');
+        return;
+      }
       if (isNaN(singleLimit) || singleLimit < 0) {
         Swal.fire('請輸入有效的限量');
         return;
@@ -165,12 +179,13 @@
       const flavorRows = document.querySelectorAll('.flavor-row');
       for (const row of flavorRows) {
         const name = row.querySelector('.flavor-name').value.trim();
+        const price = row.querySelector('.flavor-price').value.trim();
         const limitValue = parseInt(row.querySelector('.flavor-limit').value);
-        if (!name || isNaN(limitValue) || limitValue < 0) {
-          Swal.fire('請填寫所有口味與有效數量');
+        if (!name || isNaN(limitValue) || limitValue < 0 || price <= 0) {
+          Swal.fire('請填寫所有口味與有效數量及價格');
           return;
         }
-        flavors.push({ name, limit: limitValue });
+        flavors.push({ name: name, limit: limitValue, price: price });
       }
       if (flavors.length === 0) {
         Swal.fire('至少新增一個口味');
@@ -188,6 +203,28 @@
     };
 
     console.log(payload);
+
+    // 價格/口味：120元/盒(韭菜)、120元/盒(玉米，限量5盒)、120元/盒(蔥蔥)、140元/盒(泡菜，限量5盒)、140元/盒(剝皮辣椒)
+    // 限時：06/03 09:00 ~ 06/04 17:00
+
+    let createOrder;
+    createOrder += `預購【${name}】\n`;
+    if( payload.flavorType=='single' ){
+      createOrder += `價格：${price}元/個`;
+      if( payload.limit>0 ){ createOrder += `(限量${limit}個)\n`; }
+    }else{
+      var max = flavors.length-1;
+      createOrder += `價格/口味：`;
+      flavors.forEach((flavor, i) => {
+        if( i>0 ){ createOrder += `、`; }
+        createOrder += `${flavor.price}元/個(${flavor.name}`;
+        if( flavor.limit>0 ){ createOrder += `，限量${flavor.limit}個)`; }else{ createOrder += `)`; }
+        if( max==i ){ createOrder += `\n`; }
+      });
+    }
+    createOrder += `限時：${range}\n`;
+    
+    console.log(createOrder);
     return false;
 
     // ✅ Google Apps Script 網址
@@ -199,12 +236,7 @@
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name,
-          limit,
-          start,
-          end
-        })
+        body: createOrder
       });
 
       const result = await response.json();
