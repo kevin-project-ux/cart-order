@@ -31,77 +31,98 @@
   }
 </script>
 <body>
-  <div class="container mt-4">
-    <div class="p-4 bg-light rounded shadow-sm">
-      <h4>建立新團購品項</h4>
-      <div class="mb-3">
-        <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
-        <input type="text" class="form-control" id="itemName" required>
-      </div>
-  
-      <div class="mb-3">
-        <label class="form-label">團購期間 </label>
-        <input type="text" class="form-control" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;">
-      </div>
-  
-      <!-- 單/多口味切換 -->
-      <div class="mb-3">
-        <label class="form-label">口味選擇</label><br>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="flavorType" value="single" checked onchange="toggleFlavor()">
-          <label class="form-check-label">單口味</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="flavorType" value="multiple" onchange="toggleFlavor()">
-          <label class="form-check-label">多口味</label>
-        </div>
-      </div>
-  
-      <!-- 單口味 -->
-      <div id="singleFlavor" class="mb-3">
-        <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
-        <div class="row g-2 mb-2 flavor-row">
-            <div class="col">
-              <input type="number" class="form-control" id="price" min="1" placeholder="價格">
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#add" type="button" role="tab">新增團購/預購</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="multi-tab" data-bs-toggle="tab" data-bs-target="#del" type="button" role="tab">刪除團購/預購</button>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="flavorTabsContent">
+    <!-- 新增團購/預購 -->
+    <div class="tab-pane fade show active" id="add" role="tabpanel" aria-labelledby="add-tab">
+      <div class="container mt-4">
+        <div class="p-4 bg-light rounded shadow-sm">
+          <h4>建立新團購品項</h4>
+          <div class="mb-3">
+            <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
+            <input type="text" class="form-control" id="itemName" required>
+          </div>
+      
+          <div class="mb-3">
+            <label class="form-label">團購期間 </label>
+            <input type="text" class="form-control" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;">
+          </div>
+      
+          <!-- 單/多口味切換 -->
+          <div class="mb-3">
+            <label class="form-label">口味選擇</label><br>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="flavorType" value="single" checked onchange="toggleFlavor()">
+              <label class="form-check-label">單口味</label>
             </div>
-            <div class="col">
-              <input type="number" class="form-control" id="singleLimit" placeholder="數量">
-            </div>
-        </div>
-      </div>
-  
-      <!-- 多口味 -->
-      <div id="multiFlavor" class="mb-3" style="display: none;">
-        <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
-        <div id="flavorWrapper">
-          <div class="row g-2 mb-2 flavor-row">
-            <div class="col">
-              <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
-            </div>
-            <div class="col">
-              <input type="text" class="form-control flavor-name" placeholder="口味名稱">
-            </div>
-            <div class="col">
-              <input type="number" class="form-control flavor-limit" placeholder="數量">
-            </div>
-            <div class="col-auto">
-              <button class="btn btn-outline-danger" onclick="removeFlavor(this)">
-                <i class="fas fa-times"></i>
-              </button>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="flavorType" value="multiple" onchange="toggleFlavor()">
+              <label class="form-check-label">多口味</label>
             </div>
           </div>
+      
+          <!-- 單口味 -->
+          <div id="singleFlavor" class="mb-3">
+            <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
+            <div class="row g-2 mb-2 flavor-row">
+                <div class="col">
+                  <input type="number" class="form-control" id="price" min="1" placeholder="價格">
+                </div>
+                <div class="col">
+                  <input type="number" class="form-control" id="singleLimit" placeholder="數量">
+                </div>
+            </div>
+          </div>
+      
+          <!-- 多口味 -->
+          <div id="multiFlavor" class="mb-3" style="display: none;">
+            <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
+            <div id="flavorWrapper">
+              <div class="row g-2 mb-2 flavor-row">
+                <div class="col">
+                  <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control flavor-name" placeholder="口味名稱">
+                </div>
+                <div class="col">
+                  <input type="number" class="form-control flavor-limit" placeholder="數量">
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-outline-danger" onclick="removeFlavor(this)">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-outline-primary w-100" onclick="addFlavor()">
+              <i class="fas fa-plus"></i> 新增口味
+            </button>
+          </div>
+    
+          <div id="singleFlavor" class="mb-3">
+            <label for="note">備註</label>
+            <input type="text" class="form-control" id="note" />
+          </div>
+      
+          <button class="btn btn-success w-100" id="createOrder" onclick="submitForm()">建立團購</button>
         </div>
-        <button class="btn btn-outline-primary w-100" onclick="addFlavor()">
-          <i class="fas fa-plus"></i> 新增口味
-        </button>
       </div>
-
-      <div id="singleFlavor" class="mb-3">
-        <label for="note">備註</label>
-        <input type="text" class="form-control" id="note" />
-      </div>
+    </div>
   
-      <button class="btn btn-success w-100" id="createOrder" onclick="submitForm()">建立團購</button>
+    <!-- 刪除團購/預購 -->
+    <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab">
+      
     </div>
   </div>
 </body>
