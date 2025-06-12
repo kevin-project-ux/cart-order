@@ -64,13 +64,13 @@
   
       <!-- 單口味 -->
       <div id="singleFlavor" class="mb-3">
-        <label class="form-label"><span class="text-danger">*</span> 限量數量</label>
+        <label class="form-label"><span class="text-danger">*</span> 限量數量(※ 0為不限量)</label>
         <input type="number" class="form-control" id="singleLimit" placeholder="輸入限量數量">
       </div>
   
       <!-- 多口味 -->
       <div id="multiFlavor" class="mb-3" style="display: none;">
-        <label class="form-label"><span class="text-danger">*</span> 口味與限量</label>
+        <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
         <div id="flavorWrapper">
           <div class="row g-2 mb-2 flavor-row">
             <div class="col">
@@ -156,7 +156,7 @@
   
     if (flavorType === 'single') {
       const singleLimit = parseInt(document.getElementById('singleLimit').value);
-      if (isNaN(singleLimit) || singleLimit <= 0) {
+      if (isNaN(singleLimit) || singleLimit < 0) {
         Swal.fire('請輸入有效的限量');
         return;
       }
@@ -166,7 +166,7 @@
       for (const row of flavorRows) {
         const name = row.querySelector('.flavor-name').value.trim();
         const limitValue = parseInt(row.querySelector('.flavor-limit').value);
-        if (!name || isNaN(limitValue) || limitValue <= 0) {
+        if (!name || isNaN(limitValue) || limitValue < 0) {
           Swal.fire('請填寫所有口味與有效數量');
           return;
         }
