@@ -21,6 +21,14 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
 </head>
+<style>
+  .truncate {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
 <script>
   window.onload = async () => {
     await liff.init({ liffId: "2007457926-5wAYNP0w" });
@@ -195,7 +203,7 @@
       data.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${item.名稱 || ''}</td>
+          <td title="${item.名稱 || ''}" class="truncate">${item.名稱 || ''}</td>
           <td>${item.狀態 || ''}</td>
           <td>
             <i class="fas fa-pen text-success"></i>
@@ -208,6 +216,8 @@
       $('#example').DataTable({
         pageLength: 5,           // 一頁顯示 5 筆
         lengthChange: false,     // 不顯示筆數設定下拉選單
+        searching: false,
+        ordering: false, // 不啟用欄位排序
         language: {
           url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
         }
