@@ -206,7 +206,7 @@
     let orderText = '';
     orderText += `預購【${name}】\n`;
     if( payload.flavorType=='single' ){
-      orderText += `價格：${price}元/個`;
+      orderText += `價格：${price}元/個\n`;
       if( payload.limit>0 ){ orderText += `(限量${limit}個)\n`; }
     }else{
       var max = flavors.length-1;
