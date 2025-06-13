@@ -228,7 +228,7 @@
 
       console.log(data);
 
-      const data = data.sort((a, b) => Number(b.id) - Number(a.id));
+      data = data.sort((a, b) => Number(b.id) - Number(a.id));
   
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
