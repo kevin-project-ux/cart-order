@@ -210,7 +210,7 @@
   flatpickr("#rangePicker", {
     mode: "range",
     enableTime: true,
-    dateFormat: "Y-m-d H:i",
+    dateFormat: "m-d H:i",
     locale: "zh",
     minDate: "today" // ✅ 限制今天以前不能選
   });
@@ -357,7 +357,11 @@
         if( max==i ){ orderText += `\n`; }
       });
     }
-    orderText += `限時：${range}\n`;
+    if( range ){ 
+      range = range.replace('至', '~');
+      orderText += `限時：${range}\n`; 
+    }
+    
     
     console.log(orderText);
     return false;
