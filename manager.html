@@ -225,10 +225,9 @@
       mask.style.display = 'flex';
       const res = await fetch(GAS_URL);
       var data = await res.json();
-
+      
+      data = data.sort((a, b) => Number(b.ID) - Number(a.ID));
       console.log(data);
-
-      data = data.sort((a, b) => Number(b.id) - Number(a.id));
   
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
