@@ -28,6 +28,31 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  #loadingMask {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 </style>
 <script>
   window.onload = async () => {
@@ -67,6 +92,7 @@
       </div>
     </div>
   </div>
+  <div id="loadingMask"><div class="spinner"></div></div>
 
     <!-- Modal 表單 -->
   <div class="modal fade" id="groupBuyModal" tabindex="-1">
@@ -182,6 +208,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
+  const mask = document.getElementById('loadingMask');
+
   flatpickr("#rangePicker", {
     mode: "range",
     enableTime: true,
@@ -194,10 +222,13 @@
 
   document.addEventListener('DOMContentLoaded', async function () {
     try {
+      mask.style.display = 'flex';
       const res = await fetch(GAS_URL);
-      const data = await res.json();
+      var data = await res.json();
 
       console.log(data);
+
+      const data = data.sort((a, b) => Number(b.id) - Number(a.id));
   
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
@@ -224,6 +255,8 @@
       });
     } catch (err) {
       console.error('讀取 Google Sheet 資料失敗', err);
+    } finally {
+      mask.style.display = 'none';
     }
   });
 
