@@ -131,7 +131,6 @@
                     <input class="form-check-input" type="radio" name="itemType" value="old" onchange="toggleItem()">
                     <label class="form-check-label">舊品項</label>
                   </div>
-                  <input type="text" class="form-control" id="itemName" required>
                 </div>
 
                 <!-- 新品項 -->
@@ -141,7 +140,7 @@
 
                 <!-- 舊品項 -->
                 <div id="oldItem" class="mb-3" style="display: none;">
-                  <select class="form-control" id="itemName" required></select>
+                  <select class="form-control" id="itemName" required><option value="">請選擇品項</option></select>
                 </div>
             
                 <div class="mb-3">
