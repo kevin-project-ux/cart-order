@@ -108,7 +108,7 @@
           <!-- Tabs -->
           <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#add" type="button" role="tab">新增預購</button>
+              <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#add" type="button" role="tab">新增團購品項</button>
             </li>
 <!--             <li class="nav-item" role="presentation">
               <button class="nav-link" id="multi-tab" data-bs-toggle="tab" data-bs-target="#del" type="button" role="tab">刪除預購</button>
@@ -121,10 +121,27 @@
             <div class="tab-pane fade show active" id="add" role="tabpanel" aria-labelledby="add-tab">
               
               <div class="p-4 bg-light rounded shadow-sm">
-                <h4>建立新團購品項</h4>
                 <div class="mb-3">
                   <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="itemType" value="new" checked onchange="toggleItem()">
+                    <label class="form-check-label">新品項</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="itemType" value="old" onchange="toggleItem()">
+                    <label class="form-check-label">舊品項</label>
+                  </div>
                   <input type="text" class="form-control" id="itemName" required>
+                </div>
+
+                <!-- 新品項 -->
+                <div id="newItem" class="mb-3">
+                  <input type="text" class="form-control" id="itemName" required>
+                </div>
+
+                <!-- 舊品項 -->
+                <div id="oldItem" class="mb-3" style="display: none;">
+                  <select class="form-control" id="itemName" required></select>
                 </div>
             
                 <div class="mb-3">
@@ -303,11 +320,18 @@
     }
   });
 
+  function toggleItem() {
+    const selected = document.querySelector('input[name="itemType"]:checked').value;
+    document.getElementById("newItem").style.display = selected === "new" ? "block" : "none";
+    document.getElementById("oldItem").style.display = selected === "old" ? "block" : "none";
+  }
+
   function toggleFlavor() {
     const selected = document.querySelector('input[name="flavorType"]:checked').value;
     document.getElementById("singleFlavor").style.display = selected === "single" ? "block" : "none";
     document.getElementById("multiFlavor").style.display = selected === "multiple" ? "block" : "none";
   }
+  
 
   function addFlavor() {
     const div = document.createElement('div');
