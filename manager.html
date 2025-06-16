@@ -167,7 +167,7 @@
                         <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
                       </div>
                       <div class="col">
-                        <input type="text" class="form-control flavor-name" placeholder="口味名稱">
+                        <input type="text" class="form-control flavor-name" placeholder="口味">
                       </div>
                       <div class="col">
                         <input type="number" class="form-control flavor-limit" placeholder="數量">
@@ -311,9 +311,10 @@
     const div = document.createElement('div');
     div.className = "flavor-row";
     div.innerHTML = `
-      <input type="text" placeholder="口味名稱" class="flavor-name">
-      <input type="number" placeholder="數量" class="flavor-limit">
-      <button class="icon-btn" onclick="removeFlavor(this)"><i class="fas fa-times"></i></button>
+      <div class="col"><input type="number" class="form-control flavor-price" min="1" placeholder="價格"></div>
+      <div class="col"><input type="text" class="form-control flavor-name" placeholder="口味"></div>
+      <div class="col"><input type="number" class="form-control flavor-limit" placeholder="數量"></div>
+      <div class="col"><button class="btn btn-outline-danger" onclick="removeFlavor(this)"><i class="fas fa-times"></i></button></div>
     `;
     document.getElementById("flavorWrapper").appendChild(div);
   }
