@@ -267,6 +267,10 @@
       console.log(data);
 
       const nodel = ['已結單', '延後中'];
+
+      var view = `<a href="#" class="link-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-eye"></i></a>`;
+      var edit = `<a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-pencil-alt"></i></a>`;
+      var del  = `<a href="#" class="link-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#delModal"><i class="far fa-trash-alt"></i></a>`;
   
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
@@ -275,11 +279,9 @@
           <td title="${item.名稱 || ''}" class="truncate">${item.名稱 || ''}</td>
           <td>${item.狀態 || ''}</td>
           <td>
-            <a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal">
-              <i class="fas fa-pencil-alt"></i>
-            </a>
+            ${item.狀態 === '已結單' ? view : item.狀態 === '開啟中' ? edit : ''}
             &nbsp;
-            ${!nodel.includes(item.狀態) ? '<a href="#" class="link-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#delModal"><i class="far fa-trash-alt"></i></a>' : ''}
+            ${!nodel.includes(item.狀態) ? del : ''}
           </td>
         `;
         tbody.appendChild(row);
@@ -309,12 +311,12 @@
 
   function addFlavor() {
     const div = document.createElement('div');
-    div.className = "flavor-row";
+    div.className = "row g-2 mb-2 flavor-row";
     div.innerHTML = `
       <div class="col"><input type="number" class="form-control flavor-price" min="1" placeholder="價格"></div>
       <div class="col"><input type="text" class="form-control flavor-name" placeholder="口味"></div>
       <div class="col"><input type="number" class="form-control flavor-limit" placeholder="數量"></div>
-      <div class="col"><button class="btn btn-outline-danger" onclick="removeFlavor(this)"><i class="fas fa-times"></i></button></div>
+      <div class="col-auto"><button class="btn btn-outline-danger" onclick="removeFlavor(this)"><i class="fas fa-times"></i></button></div>
     `;
     document.getElementById("flavorWrapper").appendChild(div);
   }
