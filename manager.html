@@ -406,13 +406,13 @@
     }
 
     // 組合資料
-    const payload = {
-      name,
-      range,
-      flavorType,
-      limit,
-      flavors
-    };
+    // const payload = {
+    //   name,
+    //   range,
+    //   flavorType,
+    //   limit,
+    //   flavors
+    // };
 
     // console.log(payload);
 
@@ -443,6 +443,22 @@
     console.log(orderText);
     // return false;
 
+    const payload = {
+      events: [
+        {
+          type: "message",
+          source: {
+            userId: userId,
+            type: "user"
+          },
+          message: {
+            type: "text",
+            text: orderText
+          }
+        }
+      ]
+    };
+
     // ✅ Google Apps Script 網址
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbz4-iFs4ZgBMXibWlxhYFkPjyM-6qmtg8-BAuPD811Vwmdy4CepxTjOuvLIoYlE0NGGVw/exec';
 
@@ -452,7 +468,7 @@
         headers: {
           'Content-Type': 'application/json',
         },
-        body: orderText
+        body: JSON.stringify(payload)
       });
 
       const result = await response.json();
