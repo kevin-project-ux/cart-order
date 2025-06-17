@@ -188,11 +188,6 @@
                       <div class="col">
                         <input type="number" class="form-control flavor-limit" placeholder="數量">
                       </div>
-                      <div class="col-auto">
-                        <button class="btn btn-outline-danger" onclick="removeFlavor(this)">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </div>
                     </div>
                   </div>
                   <button class="btn btn-outline-primary w-100" onclick="addFlavor()">
@@ -345,7 +340,7 @@
   }
 
   function removeFlavor(btn) {
-    btn.parentElement.remove();
+    btn.closest('.flavor-row').remove();
   }
   
   async function submitForm() {
