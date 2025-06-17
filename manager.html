@@ -373,12 +373,12 @@
   
     let flavors = [];
     let limit = 0;
-    let price = 0;
+    let price = [];
   
     if (flavorType === 'single') {
       const singleLimit = parseInt(document.getElementById('singleLimit').value);
-      price = parseInt(document.getElementById('price').value);
-      if ( price<=0 ) {
+      p = parseInt(document.getElementById('price').value);
+      if ( p<=0 ) {
         Swal.fire('價格不能為0或小於0');
         return;
       }
@@ -386,18 +386,20 @@
         Swal.fire('請輸入有效的限量');
         return;
       }
+      price.push(p);
       limit = singleLimit;
     } else {
       const flavorRows = document.querySelectorAll('.flavor-row');
       for (const row of flavorRows) {
         const name = row.querySelector('.flavor-name').value.trim();
-        const price = row.querySelector('.flavor-price').value.trim();
+        const p = row.querySelector('.flavor-price').value.trim();
         const limitValue = parseInt(row.querySelector('.flavor-limit').value);
-        if (!name || isNaN(limitValue) || limitValue < 0 || price <= 0) {
+        if (!name || isNaN(limitValue) || limitValue < 0 || p <= 0) {
           Swal.fire('請填寫所有口味與有效數量及價格');
           return;
         }
-        flavors.push({ flavor: name, num: limitValue, price: price });
+        price.push(p);
+        flavors.push({ flavor: name, num: limitValue, price: p });
       }
       if (flavors.length === 0) {
         Swal.fire('至少新增一個口味');
@@ -445,6 +447,7 @@
       range: range,
       type: flavorType,
       limit: limit,
+      price: price,
       flavors: flavors
     };
 
