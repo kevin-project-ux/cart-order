@@ -397,7 +397,7 @@
           Swal.fire('請填寫所有口味與有效數量及價格');
           return;
         }
-        flavors.push({ name: name, limit: limitValue, price: price });
+        flavors.push({ flavor: name, num: limitValue, price: price });
       }
       if (flavors.length === 0) {
         Swal.fire('至少新增一個口味');
