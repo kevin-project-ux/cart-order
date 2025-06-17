@@ -416,47 +416,36 @@
 
     // console.log(payload);
 
-    // 價格/口味：120元/盒(韭菜)、120元/盒(玉米，限量5盒)、120元/盒(蔥蔥)、140元/盒(泡菜，限量5盒)、140元/盒(剝皮辣椒)
-    // 限時：06/03 09:00 ~ 06/04 17:00
-
-    let orderText = '';
-    orderText += `預購【${name}】\n`;
-    if( payload.flavorType=='single' ){
-      orderText += `價格：${price}元/個\n`;
-      if( payload.limit>0 ){ orderText += `(限量${limit}個)\n`; }
-    }else{
-      var max = flavors.length-1;
-      orderText += `價格/口味：`;
-      flavors.forEach((flavor, i) => {
-        if( i>0 ){ orderText += `、`; }
-        orderText += `${flavor.price}元/個(${flavor.name}`;
-        if( flavor.limit>0 ){ orderText += `，限量${flavor.limit}個)`; }else{ orderText += `)`; }
-        if( max==i ){ orderText += `\n`; }
-      });
-    }
-    if( range ){ 
-      range = range.replace('至', '~');
-      orderText += `限時：${range}\n`; 
-    }
+    // let orderText = '';
+    // orderText += `預購【${name}】\n`;
+    // if( payload.flavorType=='single' ){
+    //   orderText += `價格：${price}元/個\n`;
+    //   if( payload.limit>0 ){ orderText += `(限量${limit}個)\n`; }
+    // }else{
+    //   var max = flavors.length-1;
+    //   orderText += `價格/口味：`;
+    //   flavors.forEach((flavor, i) => {
+    //     if( i>0 ){ orderText += `、`; }
+    //     orderText += `${flavor.price}元/個(${flavor.name}`;
+    //     if( flavor.limit>0 ){ orderText += `，限量${flavor.limit}個)`; }else{ orderText += `)`; }
+    //     if( max==i ){ orderText += `\n`; }
+    //   });
+    // }
+    // if( range ){ 
+    //   range = range.replace('至', '~');
+    //   orderText += `限時：${range}\n`; 
+    // }
     
-    
-    console.log(orderText);
+    // console.log(orderText);
     // return false;
 
     const data = {
-      events: [
-        {
-          type: "message",
-          source: {
-            userId: userId,
-            type: "user"
-          },
-          message: {
-            type: "text",
-            text: orderText
-          }
-        }
-      ]
+      userId: userId,
+      name: name,
+      range: range,
+      type: flavorType,
+      limit: limit,
+      flavors: flavors
     };
 
     // ✅ Google Apps Script 網址
