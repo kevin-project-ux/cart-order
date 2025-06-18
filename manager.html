@@ -295,7 +295,7 @@
 
       var view = `<a href="#" class="link-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-eye"></i></a>`;
       var edit = `<a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-pencil-alt"></i></a>`;
-      var del  = `<a href="#" class="link-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#delModal"><i class="far fa-trash-alt"></i></a>`;
+      var del  = `<a href="#" class="link-danger text-decoration-none" onclick="delOrder()"><i class="far fa-trash-alt"></i></a>`;
 
       // 1. 銷毀原本 DataTable
       if ( $.fn.DataTable.isDataTable('#example') ) {
@@ -402,6 +402,48 @@
     btn.closest('.flavor-row').remove();
   }
 
+  function delOrder(){
+    try {
+      mask.style.display = 'flex';
+      const response = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result[0].status == 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: '刪除成功',
+          text: `品項「${name}」已刪除！`
+        });
+
+        // 清空表單
+        resetForm();
+
+        // 重新載入資料
+        fetchData();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '刪除失敗',
+          text: result[0].alert || '請稍後再試'
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: '系統異常'
+      });
+    } finally {
+      mask.style.display = 'none';
+    }
+  }
+
   function resetForm() {
 
     $('#groupBuyModal').modal('hide');
@@ -432,12 +474,15 @@
     }
 
     const name  = document.getElementById('itemName').value.trim();
+    const old_name = document.getElementById('itemNames').value.trim();
     const range = document.getElementById('rangePicker').value;
 
-    if ( !name ) {
+    if ( !name && !old_name ) {
       Swal.fire('請填寫名稱');
       return;
     }
+
+    if( old_name ){ name = old_name; }
     
     const flavorType = document.querySelector('input[name="flavorType"]:checked').value;
   
@@ -501,9 +546,6 @@
       });
 
       const result = await response.json();
-
-      console.log(result);
-      console.log(result[0].status);
 
       if (result[0].status == 'success') {
         Swal.fire({
