@@ -271,11 +271,11 @@
 
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbyT9gu8B91J5FsjwvBLROb6DKaT_cU9t2oT0S44TviwCNqEdWnW9nPZatkoH7hshdPVqQ/exec'; // 改為你的 Apps Script 網址
 
-  document.addEventListener('DOMContentLoaded', async function () {
+  document.addEventListener('DOMContentLoaded', function () {
     fetchData()
   });
 
-  function fetchData(){
+  async function fetchData(){
     try {
       mask.style.display = 'flex';
       const res = await fetch(GAS_URL);
