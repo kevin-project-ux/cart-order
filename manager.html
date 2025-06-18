@@ -304,6 +304,10 @@
         `;
         tbody.appendChild(row);
       });
+
+      if ( $.fn.DataTable.isDataTable('#example') ) {
+        $('#example').DataTable().destroy();
+      }
   
       $('#example').DataTable({
         pageLength: 5,           // 一頁顯示 5 筆
