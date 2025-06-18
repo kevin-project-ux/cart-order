@@ -466,7 +466,10 @@
 
       const result = await response.json();
 
-      if (result.status === 'success') {
+      console.log(result);
+      console.log(result[0].status);
+
+      if (result[0].status == 'success') {
         Swal.fire({
           icon: 'success',
           title: '送出成功',
@@ -474,10 +477,10 @@
         });
 
         // 清空表單
-        document.getElementById('itemName').value = '';
-        document.getElementById('price').value = '';
-        document.getElementById('startDate').value = '';
-        document.getElementById('endDate').value = '';
+        // document.getElementById('itemName').value = '';
+        // document.getElementById('price').value = '';
+        // document.getElementById('startDate').value = '';
+        // document.getElementById('endDate').value = '';
       } else {
         Swal.fire({
           icon: 'error',
