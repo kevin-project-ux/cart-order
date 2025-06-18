@@ -289,6 +289,10 @@
       var view = `<a href="#" class="link-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-eye"></i></a>`;
       var edit = `<a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-pencil-alt"></i></a>`;
       var del  = `<a href="#" class="link-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#delModal"><i class="far fa-trash-alt"></i></a>`;
+
+      if ( $.fn.DataTable.isDataTable('#example') ) {
+        $('#example').DataTable().clear().destroy();
+      }
   
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
@@ -304,10 +308,6 @@
         `;
         tbody.appendChild(row);
       });
-
-      if ( $.fn.DataTable.isDataTable('#example') ) {
-        $('#example').DataTable().destroy();
-      }
   
       $('#example').DataTable({
         pageLength: 5,           // 一頁顯示 5 筆
