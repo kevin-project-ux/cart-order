@@ -198,7 +198,8 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbxMML3h4ogRSQf8BK01ux0LJbphrLz8g8ayq3UI80EqujgaKE39ab8L_BJJ9tGdtKgnbg/exec`;
+    // const gasUrl = `https://script.google.com/macros/s/AKfycbxMML3h4ogRSQf8BK01ux0LJbphrLz8g8ayq3UI80EqujgaKE39ab8L_BJJ9tGdtKgnbg/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbwzcPF07fBWqnN5C6k7cgPFtEt-C0RCV-bihJHJV6FS44qnCMtC3oxzvcFB57xfGDSTuw/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
     async function fetchCart() {
