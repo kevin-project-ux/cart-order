@@ -353,6 +353,28 @@
   function removeFlavor(btn) {
     btn.closest('.flavor-row').remove();
   }
+
+  function resetForm() {
+
+    $('#groupBuyModal').modal('hide');
+    $('#rangePicker').flatpickr().clear();
+    $('input[type="text"]').val('');
+    $('input[type="number"]').val('');
+
+    // 1. 還原 radio 預設 (假設預設是 single)
+    $('input[name="flavorType"][value="single"]')
+      .prop('checked', true)
+      .trigger('change');    // 觸發 toggleFlavor()
+  
+    // 2. 清空所有欄位 (input, select, textarea)
+    $('#singleFlavor, #multiFlavor').find('input')
+      .val('')               // 清空文字 / 數字
+      .prop('checked', false) // 取消 checkbox / radio
+      .prop('selected', false); // 取消 select 選項
+  
+    // 3. 如果 multiFlavor 有動態新增的 .flavor-row，留第一列移除其餘
+    $('#flavorWrapper .flavor-row').not(':first').remove();
+  }
   
   async function submitForm() {
 
@@ -407,40 +429,6 @@
       }
     }
 
-    // 組合資料
-    const payload = {
-      name,
-      range,
-      flavorType,
-      limit,
-      flavors
-    };
-
-    // console.log(payload);
-
-    // let orderText = '';
-    // orderText += `預購【${name}】\n`;
-    // if( payload.flavorType=='single' ){
-    //   orderText += `價格：${price}元/個\n`;
-    //   if( payload.limit>0 ){ orderText += `(限量${limit}個)\n`; }
-    // }else{
-    //   var max = flavors.length-1;
-    //   orderText += `價格/口味：`;
-    //   flavors.forEach((flavor, i) => {
-    //     if( i>0 ){ orderText += `、`; }
-    //     orderText += `${flavor.price}元/個(${flavor.name}`;
-    //     if( flavor.limit>0 ){ orderText += `，限量${flavor.limit}個)`; }else{ orderText += `)`; }
-    //     if( max==i ){ orderText += `\n`; }
-    //   });
-    // }
-    // if( range ){ 
-    //   range = range.replace('至', '~');
-    //   orderText += `限時：${range}\n`; 
-    // }
-    
-    // console.log(orderText);
-    // return false;
-
     const data = {
       userId: userId,
       name: name,
@@ -477,10 +465,7 @@
         });
 
         // 清空表單
-        // document.getElementById('itemName').value = '';
-        // document.getElementById('price').value = '';
-        // document.getElementById('startDate').value = '';
-        // document.getElementById('endDate').value = '';
+        resetForm();
       } else {
         Swal.fire({
           icon: 'error',
