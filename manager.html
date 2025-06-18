@@ -361,6 +361,8 @@
       );
       console.log(oldName);
       $('#itemNames').empty(); // 清空原有內容（若有）
+
+      $('#itemNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
       
       // 將 oldName 陣列加入 select 中
       oldName.forEach(item => {
