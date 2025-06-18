@@ -289,6 +289,14 @@
       var view = `<a href="#" class="link-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-eye"></i></a>`;
       var edit = `<a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-pencil-alt"></i></a>`;
       var del  = `<a href="#" class="link-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#delModal"><i class="far fa-trash-alt"></i></a>`;
+
+      // 1. 銷毀原本 DataTable
+      if ( $.fn.DataTable.isDataTable('#example') ) {
+        $('#example').DataTable().clear().destroy();
+      }
+      
+      // 2. 清空 table body（避免重複資料）
+      $('#tableBody').empty();
   
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
@@ -306,7 +314,6 @@
       });
   
       $('#example').DataTable({
-        destroy: true,
         responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
         autoWidth: false,      // 關閉自動欄寬
         pageLength: 5,           // 一頁顯示 5 筆
@@ -314,6 +321,8 @@
         searching: false,
         ordering: false, // 不啟用欄位排序
         language: {
+          paginate: { previous: '‹', next: '›' },
+          zeroRecords: '目前沒有資料',
           url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
         }
       });
