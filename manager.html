@@ -466,6 +466,8 @@
 
       const result = await response.json();
 
+      console.log(result);
+
       if (result[0].status === 'success') {
         Swal.fire({
           icon: 'success',
