@@ -455,6 +455,7 @@
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbwzcPF07fBWqnN5C6k7cgPFtEt-C0RCV-bihJHJV6FS44qnCMtC3oxzvcFB57xfGDSTuw/exec';
 
     try {
+      mask.style.display = 'flex';
       const response = await fetch(GAS_URL, {
         method: 'POST',
         headers: {
@@ -465,7 +466,7 @@
 
       const result = await response.json();
 
-      if (result.status === 'success') {
+      if (result[0].status === 'success') {
         Swal.fire({
           icon: 'success',
           title: '送出成功',
@@ -481,15 +482,16 @@
         Swal.fire({
           icon: 'error',
           title: '送出失敗',
-          text: result.message || '請稍後再試'
+          text: result[0].alert || '請稍後再試'
         });
       }
     } catch (err) {
       Swal.fire({
         icon: 'error',
-        title: '錯誤',
-        text: err.message
+        title: '系統異常'
       });
+    } finally {
+      mask.style.display = 'none';
     }
   }
 </script>
