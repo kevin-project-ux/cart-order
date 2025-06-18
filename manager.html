@@ -282,7 +282,7 @@
   });
 
   async function fetchData(){
-    var data = '';
+
     try {
       mask.style.display = 'flex';
       const res = await fetch(GAS_URL);
@@ -353,6 +353,8 @@
     const selected = document.querySelector('input[name="itemType"]:checked').value;
     document.getElementById("newItem").style.display = selected === "new" ? "block" : "none";
     document.getElementById("oldItem").style.display = selected === "old" ? "block" : "none";
+
+    console.log(data);
 
     if( selected=='old' ){
       const oldName = data.filter((item, index, self) =>
