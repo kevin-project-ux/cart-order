@@ -269,17 +269,13 @@
 
   const mask = document.getElementById('loadingMask');
 
-  flatpickr("#rangePicker", {
-    mode: "range",
-    enableTime: true,
-    dateFormat: "m-d H:i",
-    locale: "zh",
-    minDate: "today" // ✅ 限制今天以前不能選
-  });
-
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbyT9gu8B91J5FsjwvBLROb6DKaT_cU9t2oT0S44TviwCNqEdWnW9nPZatkoH7hshdPVqQ/exec'; // 改為你的 Apps Script 網址
 
   document.addEventListener('DOMContentLoaded', async function () {
+    fetchData()
+  });
+
+  functino fetchData(){
     try {
       mask.style.display = 'flex';
       const res = await fetch(GAS_URL);
@@ -318,12 +314,20 @@
           url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
         }
       });
+
+      flatpickr("#rangePicker", {
+        mode: "range",
+        enableTime: true,
+        dateFormat: "m-d H:i",
+        locale: "zh",
+        minDate: "today" // ✅ 限制今天以前不能選
+      });
     } catch (err) {
       console.error('讀取 Google Sheet 資料失敗', err);
     } finally {
       mask.style.display = 'none';
     }
-  });
+  }
 
   function toggleItem() {
     const selected = document.querySelector('input[name="itemType"]:checked').value;
@@ -466,6 +470,9 @@
 
         // 清空表單
         resetForm();
+
+        // 重新載入資料
+        fetchData();
       } else {
         Swal.fire({
           icon: 'error',
