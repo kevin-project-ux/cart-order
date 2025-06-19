@@ -308,7 +308,7 @@
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
         const row = document.createElement('tr');
-        del = del.replace('$id', $item.ID);
+        del = del.replace('$id', item.ID);
         row.innerHTML = `
           <td title="${item.名稱 || ''}" class="truncate">${item.名稱 || ''}</td>
           <td>${item.狀態 || ''}</td>
