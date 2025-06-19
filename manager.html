@@ -144,7 +144,7 @@
 
                 <!-- 舊品項 -->
                 <div id="oldItem" class="mb-3" style="display: none;">
-                  <select class="form-select w-100" id="itemNames" required></select>
+                  <select class="form-select w-100" id="itemNames" onchange="setItemData()" required></select>
                 </div>
             
                 <div class="mb-3">
@@ -173,7 +173,7 @@
                         <input type="number" class="form-control" id="price" min="1" placeholder="價格">
                       </div>
                       <div class="col">
-                        <input type="number" class="form-control" id="singleLimit" placeholder="數量">
+                        <input type="number" class="form-control" id="singleLimit" placeholder="數量" value="0">
                       </div>
                   </div>
                 </div>
@@ -190,7 +190,7 @@
                         <input type="text" class="form-control flavor-name" placeholder="口味">
                       </div>
                       <div class="col">
-                        <input type="number" class="form-control flavor-limit" placeholder="數量">
+                        <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
                       </div>
                     </div>
                     <div class="row g-2 mb-2 flavor-row">
@@ -201,7 +201,7 @@
                         <input type="text" class="form-control flavor-name" placeholder="口味">
                       </div>
                       <div class="col">
-                        <input type="number" class="form-control flavor-limit" placeholder="數量">
+                        <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
                       </div>
                     </div>
                   </div>
@@ -273,7 +273,7 @@
 
   const mask = document.getElementById('loadingMask');
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbx1y_2xxe53DSM6lc1sBOdnlH2Qr7XiXXin-T4gm2UBc-ztyRdWYjM8sW6j0HwJ5iBLaw/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbywgeg9JjyKKAQ_z2W5Z050lYkUpM58c9PTS88qPASozbTj5qa4qPM7nxCfahyCxyHmBg/exec'; // 改為你的 Apps Script 網址
 
   let data;
 
@@ -380,6 +380,19 @@
         width: 'resolve'
       });
     }
+  }
+
+  function setItemData(item){
+    
+    var name = item.value;
+    const result = data.find(item => item.name === name);
+
+    if( data.售價=='---' ){ // 代表是多口味
+      
+    }else{ // 單口味
+      document.getElementById("price").value = data.售價;
+    }
+    
   }
 
   function toggleFlavor() {
