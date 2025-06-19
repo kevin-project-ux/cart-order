@@ -293,10 +293,6 @@
 
       const nodel = ['已結單', '延後中'];
 
-      var view = `<a href="#" class="link-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-eye"></i></a>`;
-      var edit = `<a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-pencil-alt"></i></a>`;
-      var del  = `<a href="#" class="link-danger text-decoration-none" data-id="$id" onclick="delOrder()"><i class="far fa-trash-alt"></i></a>`;
-
       // 1. 銷毀原本 DataTable
       if ( $.fn.DataTable.isDataTable('#example') ) {
         $('#example').DataTable().clear().destroy();
@@ -307,8 +303,14 @@
   
       const tbody = document.getElementById('tableBody');
       data.forEach(item => {
-        const row = document.createElement('tr');
+
+        var view = `<a href="#" class="link-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-eye"></i></a>`;
+        var edit = `<a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-pencil-alt"></i></a>`;
+        var del  = `<a href="#" class="link-danger text-decoration-none" data-id="$id" onclick="delOrder()"><i class="far fa-trash-alt"></i></a>`;
+
         del = del.replace('$id', item.ID);
+        
+        const row = document.createElement('tr');
         row.innerHTML = `
           <td title="${item.名稱 || ''}" class="truncate">${item.名稱 || ''}</td>
           <td>${item.狀態 || ''}</td>
