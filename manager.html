@@ -276,9 +276,13 @@
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbwrq1ncD6dfZ6shZAAnH7-B5tds5jlb-xpjDrcahQcs6xPUOuCELX61UBG05SF8HBBMfA/exec'; // 改為你的 Apps Script 網址
 
   let data;
+  let prd_list;
+  let flv_list;
 
   document.addEventListener('DOMContentLoaded', function () {
     data = fetchData();
+    prd_list = data['品項列表'];
+    flv_list = data['口味列表']
   });
 
   async function fetchData(){
@@ -287,9 +291,10 @@
       mask.style.display = 'flex';
       const res = await fetch(GAS_URL);
       data = await res.json();
-      
-      data = data.sort((a, b) => Number(b.ID) - Number(a.ID));
-      console.log(data);
+
+      prd_list = data['品項列表'];
+      prd_list = prd_list.sort((a, b) => Number(b.ID) - Number(a.ID));
+      // console.log(data);
 
       const nodel = ['已結單', '延後中'];
 
@@ -302,7 +307,7 @@
       $('#tableBody').empty();
   
       const tbody = document.getElementById('tableBody');
-      data.forEach(item => {
+      prd_list.forEach(item => {
 
         var view = `<a href="#" class="link-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-eye"></i></a>`;
         var edit = `<a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-pencil-alt"></i></a>`;
@@ -359,7 +364,7 @@
 
     if( selected=='old' ){
       // console.log(data);
-      const oldName = data.filter((item, index, self) =>
+      const oldName = prd_list.filter((item, index, self) =>
         index === self.findIndex(t => t.名稱 === item.名稱)
       );
       console.log(oldName);
@@ -385,12 +390,13 @@
   function setItemData(item){
     
     var name = item.value;
-    const result = data.find(item => item.name === name);
+    const result = prd_list.find(item => item.name === name);
+    console.log(flv_list);
 
-    if( data.售價=='---' ){ // 代表是多口味
+    if( prd_list.售價=='---' ){ // 代表是多口味
       
     }else{ // 單口味
-      document.getElementById("price").value = data.售價;
+      document.getElementById("price").value = prd_list.售價;
     }
     
   }
