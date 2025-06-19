@@ -418,6 +418,9 @@
       if (result.isConfirmed) {
         delOrder(e);
       }
+    } else if (result.isDismissed) {
+      // 使用者按下「取消」或點旁邊關閉
+      console.log('使用者取消');
     });
   }
 
@@ -470,10 +473,6 @@
       mask.style.display = 'none';
     }
     
-  } else if (result.isDismissed) {
-    // 使用者按下「取消」或點旁邊關閉
-    console.log('使用者取消');
-  }
   }
 
   function resetForm() {
