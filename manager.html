@@ -390,12 +390,33 @@
     
     var name = item.value;
     const result = prd_list.find(item => item.name === name);
-    console.log(flv_list);
 
     if( prd_list.售價=='---' ){ // 代表是多口味
-      
+      const flavorRows = document.querySelectorAll('.flavor-row');
+      const results = data.filter(item => item.品項 === name);
+
+      if( results.length<=2 ){
+        $('.flavor-row').each(function(index, row) {
+          $(row).find('.flavor-name').val(results[index].口味);
+          $(row).find('.flavor-price').val(results[index].價格);
+          $(row).find('.flavor-limit').val(results[index].限量);
+        });
+      }else{ // 超過兩種口味，需要新增口味
+        var num = results.length-2;
+        for(i=0; i<num; i++){ addFlavor(); }
+        
+        $('.flavor-row').each(function(index, row) {
+          $(row).find('.flavor-name').val(results[index].口味);
+          $(row).find('.flavor-price').val(results[index].價格);
+          $(row).find('.flavor-limit').val(results[index].限量);
+        });
+      }
     }else{ // 單口味
       document.getElementById("price").value = prd_list.售價;
+      var res = flv_list.find(item => item.品項 === name)
+      if( res ){ // 找到該品項，代表有限量
+        document.getElementById("singleLimit").value = flv_list.限量;
+      }
     }
     
   }
