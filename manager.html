@@ -555,8 +555,8 @@
     }
 
     if( id ){ 
-      var prd = prd_list.find(item => item.ID === id);
-      name = prd.名稱; 
+      var prd = prd_list.find(item => item.ID === Number(id));
+      if( prd ){ name = prd.名稱; }
     }
     
     const flavorType = document.querySelector('input[name="flavorType"]:checked').value;
