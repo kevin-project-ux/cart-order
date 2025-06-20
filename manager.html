@@ -396,7 +396,7 @@
     const checked = $('input[name="flavorType"]:checked');
 
     if( prd.售價=='---' ){ // 代表是多口味
-      if( checked.val()=='single' ){ toggleFlavor("multiple"); }
+      if( checked.val()=='single' ){ $('input[name="flavorType"][value="multiple"]').prop('checked', true); toggleFlavor("multiple"); }
       
       const results = flv_list.filter(item => item.品項ID === id);
       
@@ -409,7 +409,7 @@
         $(row).find('.flavor-limit').val(results[index].限量);
       });
     }else{ // 單口味
-      if( checked.val()=='multiple' ){ toggleFlavor("single"); }
+      if( checked.val()=='multiple' ){ $('input[name="flavorType"][value="single"]').prop('checked', true); toggleFlavor("single"); }
       if( prd ){ $("#price").val(prd.售價); }
       if( flv ){ $("#singleLimit").val(flv.限量); }else{ $("#singleLimit").val(0); } // 找到該品項，代表有限量
     }
@@ -523,7 +523,7 @@
       .prop('selected', false); // 取消 select 選項
   
     // 3. 如果 multiFlavor 有動態新增的 .flavor-row，留第一列移除其餘
-    $('#flavorWrapper .flavor-row').not(':first').remove();
+    $('#flavorWrapper .flavor-row').slice(2).remove();
   }
   
   async function submitForm() {
