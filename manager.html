@@ -279,11 +279,11 @@
   let prd_list;
   let flv_list;
 
-  document.addEventListener('DOMContentLoaded', function () {
-    data = fetchData();
-    prd_list = data['品項列表'];
-    flv_list = data['口味列表'];
-  });
+  // document.addEventListener('DOMContentLoaded', async function () {
+  //   data = fetchData();
+  //   prd_list = data['品項列表'];
+  //   flv_list = data['口味列表'];
+  // });
 
   async function fetchData(){
 
@@ -293,6 +293,7 @@
       data = await res.json();
 
       prd_list = data['品項列表'];
+      flv_list = data['口味列表'];
       prd_list = prd_list.sort((a, b) => Number(b.ID) - Number(a.ID));
       console.log(data);
 
