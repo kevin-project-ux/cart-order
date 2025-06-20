@@ -412,11 +412,10 @@
         });
       }
     }else{ // 單口味
-      document.getElementById("price").value = prd_list.售價;
-      var res = flv_list.find(item => item.品項 === name)
-      if( res ){ // 找到該品項，代表有限量
-        document.getElementById("singleLimit").value = flv_list.限量;
-      }
+      var prd = prd_list.find(item => item.品項 === name);
+      var flv = flv_list.find(item => item.品項 === name);
+      if( prd ){ document.getElementById("price").value = prd.售價; }
+      if( flv ){ document.getElementById("singleLimit").value = flv.限量; } // 找到該品項，代表有限量
     }
     
   }
