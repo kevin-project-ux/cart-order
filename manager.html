@@ -399,29 +399,33 @@
     resetForm();
     
     var id  = Number(item.value);
-    var prd = prd_list.find(item => item.ID === id);
-    var flv = flv_list.find(item => item.品項ID === id);
-    const checked = $('input[name="flavorType"]:checked');
 
-    if( typeof prd.售價 !== 'undefined' && prd.售價=='---' ){ // 代表是多口味
-      if( checked.val()=='single' ){ $('input[name="flavorType"][value="multiple"]').prop('checked', true); toggleFlavor("multiple"); }
-      
-      const results = flv_list.filter(item => item.品項ID === id);
-      
-      var num = results.length-2;
-      if( num>0 ){ for(i=0; i<num; i++){ addFlavor(); } }
+    if( id ){
+      var prd = prd_list.find(item => item.ID === id);
+      var flv = flv_list.find(item => item.品項ID === id);
+      const checked = $('input[name="flavorType"]:checked');
 
-      $('.flavor-row').each(function(index, row) {
-        $(row).find('.flavor-name').val(results[index].口味);
-        $(row).find('.flavor-price').val(results[index].價格);
-        $(row).find('.flavor-limit').val(results[index].限量);
-      });
-    }else{ // 單口味
-      if( checked.val()=='multiple' ){ $('input[name="flavorType"][value="single"]').prop('checked', true); toggleFlavor("single"); }
-      if( prd ){ $("#price").val(prd.售價); }
-      if( flv ){ $("#singleLimit").val(flv.限量); }else{ $("#singleLimit").val(0); } // 找到該品項，代表有限量
+      if( !prd ){ return; }
+  
+      if( prd.售價=='---' ){ // 代表是多口味
+        if( checked.val()=='single' ){ $('input[name="flavorType"][value="multiple"]').prop('checked', true); toggleFlavor("multiple"); }
+        
+        const results = flv_list.filter(item => item.品項ID === id);
+        
+        var num = results.length-2;
+        if( num>0 ){ for(i=0; i<num; i++){ addFlavor(); } }
+  
+        $('.flavor-row').each(function(index, row) {
+          $(row).find('.flavor-name').val(results[index].口味);
+          $(row).find('.flavor-price').val(results[index].價格);
+          $(row).find('.flavor-limit').val(results[index].限量);
+        });
+      }else{ // 單口味
+        if( checked.val()=='multiple' ){ $('input[name="flavorType"][value="single"]').prop('checked', true); toggleFlavor("single"); }
+        if( prd ){ $("#price").val(prd.售價); }
+        if( flv ){ $("#singleLimit").val(flv.限量); }else{ $("#singleLimit").val(0); } // 找到該品項，代表有限量
+      }
     }
-    
   }
 
   function toggleFlavor(type) {
@@ -545,7 +549,7 @@
     const id    = document.getElementById('itemNames').value.trim();
     const range = document.getElementById('rangePicker').value;
 
-    if ( !name && !old_name ) {
+    if ( !name && !id ) {
       Swal.fire('請填寫名稱');
       return;
     }
