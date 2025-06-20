@@ -392,19 +392,18 @@
     var prd = prd_list.find(item => item.ID === id);
     var flv = flv_list.find(item => item.品項ID === id);
     const checked = $('input[name="flavorType"]:checked');
-    // console.log(prd);
 
     if( prd.售價=='---' ){ // 代表是多口味
       if( checked.val()=='single' ){ toggleFlavor("multiple"); }
       
-      const flavorRows = document.querySelectorAll('.flavor-row');
       const results = flv_list.filter(item => item.品項ID === id);
-      console.log(results);
-
+      
       var num = results.length-2;
       if( num>0 ){ for(i=0; i<num; i++){ addFlavor(); } }
 
       $('.flavor-row').each(function(index, row) {
+        console.log(index);
+        console.log(results[index]);
         $(row).find('.flavor-name').val(results[index].口味);
         $(row).find('.flavor-price').val(results[index].價格);
         $(row).find('.flavor-limit').val(results[index].限量);
