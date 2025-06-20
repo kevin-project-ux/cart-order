@@ -278,6 +278,7 @@
   let data;
   let prd_list;
   let flv_list;
+  let fp;
 
   document.addEventListener('DOMContentLoaded', function () {
     data = fetchData();
@@ -341,7 +342,7 @@
         }
       });
 
-      flatpickr("#rangePicker", {
+      fp = flatpickr("#rangePicker", {
         mode: "range",
         enableTime: true,
         dateFormat: "m-d H:i",
@@ -357,7 +358,7 @@
   }
 
   function addGroupBuyModal(){
-    $('#rangePicker').flatpickr().clear();
+    fp.clear();
     $('input[type="text"]').val('');
     resetForm();
     $('#groupBuyModal').modal('show');
