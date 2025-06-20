@@ -392,12 +392,14 @@
     var prd = prd_list.find(item => item.名稱 === name);
     var flv = flv_list.find(item => item.品項 === name);
     const checked = $('input[name="flavorType"]:checked');
+    console.log(checked.val);
 
     if( prd.售價=='---' ){ // 代表是多口味
       if( checked.val=='single' ){ toggleFlavor("multiple"); }
       
       const flavorRows = document.querySelectorAll('.flavor-row');
-      const results = prd_list.filter(item => item.品項 === name);
+      const results = flv_list.filter(item => item.品項 === name);
+      console.log(results);
 
       if( results.length<=2 ){
         $('.flavor-row').each(function(index, row) {
