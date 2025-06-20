@@ -389,14 +389,15 @@
   function setItemData(item){
     
     var name = item.value;
-    const result = prd_list.find(item => item.name === name);
+    var prd = prd_list.find(item => item.名稱 === name);
+    var flv = flv_list.find(item => item.品項 === name);
     const checked = $('input[name="flavorType"]:checked');
 
-    if( prd_list.售價=='---' ){ // 代表是多口味
+    if( prd.售價=='---' ){ // 代表是多口味
       if( checked.val=='single' ){ toggleFlavor("multiple"); }
       
       const flavorRows = document.querySelectorAll('.flavor-row');
-      const results = data.filter(item => item.品項 === name);
+      const results = prd_list.filter(item => item.品項 === name);
 
       if( results.length<=2 ){
         $('.flavor-row').each(function(index, row) {
@@ -417,8 +418,6 @@
         });
       }
     }else{ // 單口味
-      var prd = prd_list.find(item => item.名稱 === name);
-      var flv = flv_list.find(item => item.品項 === name);
       if( prd ){ $("#price").val(prd.售價); }
       if( flv ){ $("#singleLimit").val(flv.限量); }else{ $("#singleLimit").val(0); } // 找到該品項，代表有限量
     }
