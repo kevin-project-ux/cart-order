@@ -357,6 +357,8 @@
   }
 
   function addGroupBuyModal(){
+    $('#rangePicker').flatpickr().clear();
+    $('input[type="text"]').val('');
     resetForm();
     $('#groupBuyModal').modal('show');
   }
@@ -399,6 +401,8 @@
     var prd = prd_list.find(item => item.ID === id);
     var flv = flv_list.find(item => item.品項ID === id);
     const checked = $('input[name="flavorType"]:checked');
+
+    if( typeof prd.售價 === 'undefined' ){ return; }
 
     if( prd.售價=='---' ){ // 代表是多口味
       if( checked.val()=='single' ){ $('input[name="flavorType"][value="multiple"]').prop('checked', true); toggleFlavor("multiple"); }
