@@ -156,11 +156,11 @@
                 <div class="mb-3">
                   <label class="form-label">口味選擇</label><br>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="flavorType" value="single" checked onchange="toggleFlavor()">
+                    <input class="form-check-input" type="radio" name="flavorType" value="single" checked onchange="toggleFlavor(this)">
                     <label class="form-check-label">單口味</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="flavorType" value="multiple" onchange="toggleFlavor()">
+                    <input class="form-check-input" type="radio" name="flavorType" value="multiple" onchange="toggleFlavor(this)">
                     <label class="form-check-label">多口味</label>
                   </div>
                 </div>
@@ -392,6 +392,9 @@
     const result = prd_list.find(item => item.name === name);
 
     if( prd_list.售價=='---' ){ // 代表是多口味
+      const checked = $('input[name="status"]:checked');
+      if( checked.val=='single' ){ toggleFlavor({"type":"multiple"}); }
+      
       const flavorRows = document.querySelectorAll('.flavor-row');
       const results = data.filter(item => item.品項 === name);
 
@@ -402,6 +405,9 @@
           $(row).find('.flavor-limit').val(results[index].限量);
         });
       }else{ // 超過兩種口味，需要新增口味
+        const checked = $('input[name="status"]:checked');
+        if( checked.val=='multiple' ){ toggleFlavor({"type":"single"}); }
+        
         var num = results.length-2;
         for(i=0; i<num; i++){ addFlavor(); }
         
@@ -412,16 +418,16 @@
         });
       }
     }else{ // 單口味
-      var prd = prd_list.find(item => item.品項 === name);
+      var prd = prd_list.find(item => item.名稱 === name);
       var flv = flv_list.find(item => item.品項 === name);
-      if( prd ){ document.getElementById("price").value = prd.售價; }
-      if( flv ){ document.getElementById("singleLimit").value = flv.限量; } // 找到該品項，代表有限量
+      if( prd ){ $("#price").val(prd.售價); }
+      if( flv ){ $("#singleLimit").val(flv.限量); }else{ $("#singleLimit").val(0); } // 找到該品項，代表有限量
     }
     
   }
 
-  function toggleFlavor() {
-    const selected = document.querySelector('input[name="flavorType"]:checked').value;
+  function toggleFlavor(type) {
+    const selected = type.value;
     document.getElementById("singleFlavor").style.display = selected === "single" ? "block" : "none";
     document.getElementById("multiFlavor").style.display = selected === "multiple" ? "block" : "none";
   }
