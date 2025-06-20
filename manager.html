@@ -389,10 +389,11 @@
   function setItemData(item){
     
     var id = item.value;
+    console.log(id);
     var prd = prd_list.find(item => item.ID === id);
     var flv = flv_list.find(item => item.品項ID === id);
     const checked = $('input[name="flavorType"]:checked');
-    // console.log(checked.val());
+    console.log(prd);
 
     if( prd.售價=='---' ){ // 代表是多口味
       if( checked.val()=='single' ){ toggleFlavor("multiple"); }
