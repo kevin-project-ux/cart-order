@@ -293,7 +293,7 @@
       prd_list = data['品項列表'];
       flv_list = data['口味列表'];
       prd_list = prd_list.sort((a, b) => Number(b.ID) - Number(a.ID));
-      console.log(data);
+      // console.log(data);
 
       const nodel = ['已結單', '延後中'];
 
@@ -366,14 +366,14 @@
       const oldName = prd_list.filter((item, index, self) =>
         index === self.findIndex(t => t.名稱 === item.名稱)
       );
-      console.log(oldName);
+      // console.log(oldName);
       $('#itemNames').empty(); // 清空原有內容（若有）
 
       $('#itemNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
       
       // 將 oldName 陣列加入 select 中
       oldName.forEach(item => {
-        $('#itemNames').append(`<option value="${item.名稱}">${item.名稱}</option>`);
+        $('#itemNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
       });
     
       // 初始化 Select2
@@ -388,17 +388,17 @@
 
   function setItemData(item){
     
-    var name = item.value;
-    var prd = prd_list.find(item => item.名稱 === name);
-    var flv = flv_list.find(item => item.品項 === name);
+    var id = item.value;
+    var prd = prd_list.find(item => item.ID === id);
+    var flv = flv_list.find(item => item.品項ID === id);
     const checked = $('input[name="flavorType"]:checked');
-    console.log(checked.val);
+    console.log(checked.val());
 
     if( prd.售價=='---' ){ // 代表是多口味
-      if( checked.val=='single' ){ toggleFlavor("multiple"); }
+      if( checked.val()=='single' ){ toggleFlavor("multiple"); }
       
       const flavorRows = document.querySelectorAll('.flavor-row');
-      const results = flv_list.filter(item => item.品項 === name);
+      const results = flv_list.filter(item => item.品項ID === id);
       console.log(results);
 
       if( results.length<=2 ){
@@ -408,7 +408,7 @@
           $(row).find('.flavor-limit').val(results[index].限量);
         });
       }else{ // 超過兩種口味，需要新增口味
-        if( checked.val=='multiple' ){ toggleFlavor("single"); }
+        if( checked.val()=='multiple' ){ toggleFlavor("single"); }
         
         var num = results.length-2;
         for(i=0; i<num; i++){ addFlavor(); }
