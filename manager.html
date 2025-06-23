@@ -490,10 +490,10 @@
       const result = await response.json();
 
       if (result[0].status == 'success') {
-        var data  = result[0].orders;
-        var tbody = $('#orderSummaryTableBody');
+        var orders = result[0].orders;
+        var tbody  = $('#orderSummaryTableBody');
         $tbody.empty(); // 清空 tbody
-        data.forEach((user) => {
+        orders.forEach((user) => {
           if( user.orders.length>0 ){
             var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${user.name}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>`;
             const $row = $(`
