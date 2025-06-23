@@ -486,12 +486,13 @@
       });
 
       const result = await response.json();
+      console.log(result);
 
       if (result[0].status == 'success') {
-        var orders = result[0].orders;
+        var ords = result[0].orders;
         var tbody  = $('#orderSummaryTableBody');
         $tbody.empty(); // 清空 tbody
-        orders.forEach((user) => {
+        ords.forEach((user) => {
           if( user.orders.length>0 ){
             var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${user.name}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>`;
             const $row = $(`
