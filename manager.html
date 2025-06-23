@@ -400,6 +400,8 @@
     
     var id  = Number(item.value);
 
+    if( !flv_list ){ return; }
+
     if( id ){
       var prd = prd_list.find(item => item.ID === id);
       var flv = flv_list.find(item => item.品項ID === id);
