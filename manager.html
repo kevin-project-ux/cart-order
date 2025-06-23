@@ -400,11 +400,9 @@
     
     var id  = Number(item.value);
 
-    if( !flv_list ){ return; }
-
     if( id ){
-      var prd = prd_list.find(item => item.ID === id);
-      var flv = flv_list.find(item => item.品項ID === id);
+      if( prd_list ){ var prd = prd_list.find(item => item.ID === id); }
+      if( flv_list ){ var flv = flv_list.find(item => item.品項ID === id); }
       const checked = $('input[name="flavorType"]:checked');
 
       if( !prd ){ return; }
