@@ -310,7 +310,7 @@
           total += subtotal;
           html += `
             <tr>
-              <td>${name}${item.flavor ? ` - ${item.flavor}` : ''}</td>
+              <td>${item.flavor && item.flavor !== name ? `${name} - ${item.flavor}` : name}</td>
               <td>${qty}</td>
               <td>$${subtotal}</td>
             </tr>
