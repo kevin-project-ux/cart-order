@@ -253,6 +253,7 @@
               <div class="p-4 bg-light rounded shadow-sm">
                 <h5 class="mb-3">訂購明細</h5>
                 <div class="accordion" id="orderAccordion"></div>
+                <div class="container mt-4" id="itemContainer"></div>
               </div>
             </div>
           
@@ -272,7 +273,7 @@
 
   const mask = document.getElementById('loadingMask');
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzDPqMs8mPt6H8_kPC2-_d5c3jr0JR4KZS8tp9UXmkpWPdb0yEkoYdwRbvuiNtaYPoXZQ/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzPsykyiZtuGZP2uUKN1RE0tJmS8H6zfJqoTaZOekqjyueJ1cqpjGaWXRcX0waCQiugeA/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -448,7 +449,7 @@
     btn.closest('.flavor-row').remove();
   }
 
-  async function editModal(e){
+  async function viewModal(e){
     
     $('#editModal').modal('show');
 
@@ -456,7 +457,7 @@
     const name = e.dataset.name;
 
     const data = {
-      type: 'edit',
+      type: 'view',
       userId: userId,
       id: id,
       name: name
@@ -499,7 +500,14 @@
           const collapseId = `collapse${i}`;
           const headerId = `heading${i}`;
     
-          const flavorList = orders.map(o => `<li class="list-group-item">${o.flavor}：${o.qty}</li>`).join('');
+          const flavorList = orders.map(o => {
+            // 如果 flavor 是空的或與 name 相同，就只顯示品項數量
+            if (!o.flavor || o.flavor === name) {
+              return `<li class="list-group-item">${name}：${o.qty}</li>`;
+            } else {
+              return `<li class="list-group-item">${name} - ${o.flavor}：${o.qty}</li>`;
+            }
+          }).join('');
     
           const item = `
             <div class="accordion-item">
@@ -520,20 +528,6 @@
           $accordion.append(item);
           i++;
         }
-        // ords.forEach((user) => {
-        //   if( user.orders.length>0 ){
-        //     var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${user.name}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>`;
-        //     const $row = $(`
-        //       <tr>
-        //         <td>${user.name}</td>
-        //         <td>${user.taste}</td>
-        //         <td>${user.count}</td>
-        //         <td>${del}</td>
-        //       </tr>
-        //     `);
-        //     $tbody.append($row);
-        //   }
-        // });
 
         // 重新載入資料
         // fetchData();
@@ -554,6 +548,121 @@
       mask.style.display = 'none';
     }
     
+  }
+
+  async function editModal(e){
+    
+    $('#editModal').modal('show');
+
+    const id = e.dataset.id;
+    const name = e.dataset.name;
+
+    const data = {
+      type: 'view',
+      userId: userId,
+      id: id,
+      name: name
+    };
+    
+    try {
+      mask.style.display = 'flex';
+      const response = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      // console.log(result);
+
+      if (result[0].status == 'success') {
+        var ords  = result[0].orders;
+        var $list = $('#orderSummaryList');
+        $list.empty();
+        
+        const item = [];
+        ords.forEach(user => {
+          if( user.orders.length>0 ){
+            item.push({name:name, flavor:user.orders});
+          }
+        });
+
+        renderItems(item);
+
+        // ords.forEach((user) => {
+        //   if( user.orders.length>0 ){
+        //     var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${user.name}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>`;
+        //     const $row = $(`
+        //       <tr>
+        //         <td>${user.name}</td>
+        //         <td>${user.taste}</td>
+        //         <td>${user.count}</td>
+        //         <td>${del}</td>
+        //       </tr>
+        //     `);
+        //     $tbody.append($row);
+        //   }
+        // });
+
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '維護失敗',
+          text: result[0].alert || '請稍後再試'
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        icon: 'error',
+        title: '系統異常'
+      });
+    } finally {
+      mask.style.display = 'none';
+    }
+    
+  }
+
+  function renderItems(items) {
+    const container = document.getElementById("itemContainer");
+    container.innerHTML = ''; // 清空
+  
+    items.forEach((item, index) => {
+      const collapseId = `itemDetail${index}`;
+      
+      const flavorList = item.flavors.map(f =>
+        `<li class="list-group-item">${f.taste} - 數量 ${f.count}</li>`
+      ).join('');
+  
+      const card = document.createElement("div");
+      card.className = "card mb-3";
+  
+      card.innerHTML = `
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <strong>🍪 ${item.name}</strong><br>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-primary" onclick="editItem(${index})">編輯</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteItem(${index})">刪除</button>
+            <button class="btn btn-sm btn-link" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false">
+              詳細 ▼
+            </button>
+          </div>
+        </div>
+        <div class="collapse" id="${collapseId}">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+              ${flavorList}
+            </ul>
+          </div>
+        </div>
+      `;
+  
+      container.appendChild(card);
+    });
   }
 
   function delConfirm(e){
