@@ -251,9 +251,21 @@
             <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
               
               <div class="p-4 bg-light rounded shadow-sm">
-                
-            
-<!--                 <button class="btn btn-success w-100" id="createOrder" onclick="submitForm()">建立團購</button> -->
+                <h5 class="mb-3">訂購明細</h5>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-sm align-middle">
+                    <thead class="table-light">
+                      <tr>
+                        <th>訂購人</th>
+                        <th>口味</th>
+                        <th>數量</th>
+                      </tr>
+                    </thead>
+                    <tbody id="orderSummaryTableBody">
+                      <!-- 動態填入 -->
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           
@@ -273,7 +285,7 @@
 
   const mask = document.getElementById('loadingMask');
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwsB635yPzg741Uq-Lw03pp8Tuc5SkRnDLgMpSfGLqTmsG1nxua0oXs6cvTxuEpv0mLpQ/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzDPqMs8mPt6H8_kPC2-_d5c3jr0JR4KZS8tp9UXmkpWPdb0yEkoYdwRbvuiNtaYPoXZQ/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -309,8 +321,8 @@
       const tbody = document.getElementById('tableBody');
       prd_list.forEach(item => {
 
-        var view = `<a href="#" class="link-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-eye"></i></a>`;
-        var edit = `<a href="#" class="link-success text-decoration-none" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-pencil-alt"></i></a>`;
+        var view = `<a href="#" class="link-warning text-decoration-none" data-id="$id" data-name="$name" onclick="viewModal()"><i class="fas fa-eye"></i></a>`;
+        var edit = `<a href="#" class="link-success text-decoration-none" data-id="$id" data-name="$name" onclick="editModal()"><i class="fas fa-pencil-alt"></i></a>`;
         var del  = `<a href="#" class="link-danger text-decoration-none" data-id="$id" data-name="$name" onclick="delConfirm(this)"><i class="far fa-trash-alt"></i></a>`;
 
         del = del.replace('$id', item.ID).replace('$name', item.名稱);
@@ -449,6 +461,71 @@
 
   function removeFlavor(btn) {
     btn.closest('.flavor-row').remove();
+  }
+
+  function editModal(e){
+    
+    $('#editModal').modal('show');
+
+    const id = e.dataset.id;
+    const name = e.dataset.name;
+
+    const data = {
+      type: 'edit',
+      userId: userId,
+      id: id,
+      name: name
+    };
+    
+    try {
+      mask.style.display = 'flex';
+      const response = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result[0].status == 'success') {
+        var data  = result[0].orders;
+        var tbody = $('#orderSummaryTableBody');
+        $tbody.empty(); // 清空 tbody
+        data.forEach((user) => {
+          if( user.orders.length>0 ){
+            var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${user.name}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>`;
+            const $row = $(`
+              <tr>
+                <td>${user.name}</td>
+                <td>${user.taste}</td>
+                <td>${user.count}</td>
+                <td>${del}</td>
+              </tr>
+            `);
+            $tbody.append($row);
+          }
+        });
+
+        // 重新載入資料
+        // fetchData();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '維護失敗',
+          text: result[0].alert || '請稍後再試'
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: '系統異常'
+      });
+    } finally {
+      mask.style.display = 'none';
+    }
+    
   }
 
   function delConfirm(e){
