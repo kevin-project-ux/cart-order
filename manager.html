@@ -582,7 +582,7 @@
         const item = [];
         ords.forEach(user => {
           if (!item.user) item.user = user.name;
-          if( user.orders.length>0 ){ item.orders = user.orders; }
+          if( user.orders.length>0 ){ item.flavors = user.orders; }
         });
         renderItems(item);
 
@@ -640,7 +640,6 @@
             <strong>${item.user}</strong><br>
           </div>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-primary" onclick="editItem(${index})">編輯</button>
             <button class="btn btn-sm btn-outline-danger" onclick="deleteItem(${index})">刪除</button>
             <button class="btn btn-sm btn-link" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false">
               詳細 ▼
