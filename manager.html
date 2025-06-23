@@ -252,19 +252,8 @@
               
               <div class="p-4 bg-light rounded shadow-sm">
                 <h5 class="mb-3">訂購明細</h5>
-                <div class="table-responsive">
-                  <table class="table table-bordered table-sm align-middle">
-                    <thead class="table-light">
-                      <tr>
-                        <th>訂購人</th>
-                        <th>口味</th>
-                        <th>數量</th>
-                      </tr>
-                    </thead>
-                    <tbody id="orderSummaryTableBody">
-                      <!-- 動態填入 -->
-                    </tbody>
-                  </table>
+                <div class="list-group" id="orderSummaryList">
+                  <!-- 每個訂購人一個區塊，口味以內嵌列表表示 -->
                 </div>
               </div>
             </div>
@@ -489,23 +478,48 @@
       // console.log(result);
 
       if (result[0].status == 'success') {
-        var ords = result[0].orders;
-        var $tbody  = $('#orderSummaryTableBody');
-        $tbody.empty(); // 清空 tbody
-        ords.forEach((user) => {
+        var ords  = result[0].orders;
+        var $list = $('#orderSummaryList');
+        $list.empty();
+        
+        const grouped = {};
+        ords.forEach(user => {
+          if (!grouped[user.name]) grouped[user.name] = [];
           if( user.orders.length>0 ){
-            var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${user.name}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>`;
-            const $row = $(`
-              <tr>
-                <td>${user.name}</td>
-                <td>${user.taste}</td>
-                <td>${user.count}</td>
-                <td>${del}</td>
-              </tr>
-            `);
-            $tbody.append($row);
+            user.orders.forEach(ord => {
+              grouped[user.name].push({ flavor: ord.taste, qty: ord.count });
+            });
           }
         });
+        
+        Object.entries(grouped).forEach(([name, orders]) => {
+          let flavorHtml = orders.map(order => 
+            `<li>${order.flavor}：${order.qty}</li>`
+          ).join('');
+        
+          const $item = $(`
+            <div class="list-group-item">
+              <strong>${name}</strong>
+              <ul class="mb-0 ms-3 small">${flavorHtml}</ul>
+            </div>
+          `);
+        
+          $list.append($item);
+        });
+        // ords.forEach((user) => {
+        //   if( user.orders.length>0 ){
+        //     var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${user.name}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>`;
+        //     const $row = $(`
+        //       <tr>
+        //         <td>${user.name}</td>
+        //         <td>${user.taste}</td>
+        //         <td>${user.count}</td>
+        //         <td>${del}</td>
+        //       </tr>
+        //     `);
+        //     $tbody.append($row);
+        //   }
+        // });
 
         // 重新載入資料
         // fetchData();
