@@ -369,7 +369,7 @@
       .then(result => {
         // console.log("✅ 成功送出：", result);
         // alert("✅ 訂單已送出！");
-        if( result.status=='success' ){
+        if( result[0].status=='success' ){
           var html = showOrderSummary();
           // 顯示 SweetAlert
           Swal.fire({
