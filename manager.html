@@ -539,7 +539,7 @@
         });
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       Swal.fire({
         icon: 'error',
         title: '系統異常'
@@ -579,16 +579,11 @@
 
       if (result[0].status == 'success') {
         var ords  = result[0].orders;
-        var $list = $('#orderSummaryList');
-        $list.empty();
-        
         const item = [];
         ords.forEach(user => {
-          if( user.orders.length>0 ){
-            item.push({name:name, flavors:user.orders});
-          }
+          if (!item.user) item.user = user.name;
+          if( user.orders.length>0 ){ item.orders = user.orders; }
         });
-
         renderItems(item);
 
         // ords.forEach((user) => {
@@ -642,7 +637,7 @@
       card.innerHTML = `
         <div class="card-header d-flex justify-content-between align-items-center">
           <div>
-            <strong>🍪 ${item.name}</strong><br>
+            <strong>${item.user}</strong><br>
           </div>
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-outline-primary" onclick="editItem(${index})">編輯</button>
