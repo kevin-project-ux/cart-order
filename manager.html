@@ -520,15 +520,14 @@
     items.forEach((item, index) => {
 
       const collapseId = `itemDetail${index}`;
+      const card = document.createElement("div");
+      card.className = "card mb-3";
 
       if( flavor>1 ){
         const flavorList = item.orders.map(f =>
           `<li class="list-group-item">${f.taste} - 數量 ${f.count}</li>`
         ).join('');
-    
-        const card = document.createElement("div");
-        card.className = "card mb-3";
-    
+        
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
             <div>
@@ -560,8 +559,6 @@
         `;
       }
       
-      
-  
       container.appendChild(card);
     });
   }
