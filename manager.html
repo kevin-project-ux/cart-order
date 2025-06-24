@@ -525,13 +525,13 @@
 
       if( flavor>1 ){
         const flavorList = item.orders.map(f =>
-          `<li class="list-group-item">${f.taste} - 數量 ${f.count}</li>`
+          `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
         ).join('');
         
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-              <strong>${item.name}</strong><br>
+              <strong><i class="fas fa-user"></i> ${item.name}</strong><br>
             </div>
             <div class="d-flex gap-3">
               ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-id="${id}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>` : ''}
@@ -548,12 +548,12 @@
         `;
       }else{
         const flavorList = item.orders.map(f =>
-          `<li class="list-group-item">數量 ${f.count}</li>`
+          `<li class="list-group-item">數量 <span class="badge bg-danger">${f.count}</span></li>`
         ).join('');
         
         card.innerHTML = `
-          <div class="card-header">
-            <strong>${item.name}</strong>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <strong><i class="fas fa-user"></i> ${item.name}</strong>
             <span class="text-muted">${flavorList}</span>
           </div>
         `;
