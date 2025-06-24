@@ -485,7 +485,7 @@
 
       if (result[0].status == 'success') {
         var ords  = result[0].orders;
-        $('#order_title').val(name+' - 訂單明細');
+        $('#order_title').text(name+' - 訂購明細');
         renderItems(ords, data);
 
       } else {
@@ -554,8 +554,8 @@
         card.innerHTML = `
           <div class="card-header">
             <strong>${item.name}</strong>
+            <span class="text-muted">${flavorList}</span>
           </div>
-          <ul class="list-group list-group-flush">${flavorList}</ul>
         `;
       }
       
