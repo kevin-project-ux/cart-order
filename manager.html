@@ -579,12 +579,7 @@
 
       if (result[0].status == 'success') {
         var ords  = result[0].orders;
-        const item = [];
-        ords.forEach(user => {
-          if (!item.user) item.user = user.name;
-          if( user.orders.length>0 ){ item.flavors = user.orders; }
-        });
-        renderItems(item);
+        renderItems(ords);
 
         // ords.forEach((user) => {
         //   if( user.orders.length>0 ){
@@ -623,10 +618,12 @@
   function renderItems(items) {
     const container = document.getElementById("itemContainer");
     container.innerHTML = ''; // 清空
+
+    console.log(items);
   
     items.forEach((item, index) => {
+
       console.log(item);
-      
       const collapseId = `itemDetail${index}`;
       
       const flavorList = item.flavors.map(f =>
