@@ -504,6 +504,8 @@
     container.innerHTML = ''; // 清空
 
     console.log(items);
+
+    if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
   
     items.forEach((item, index) => {
 
