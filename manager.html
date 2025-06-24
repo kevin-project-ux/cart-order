@@ -618,15 +618,12 @@
   function renderItems(items) {
     const container = document.getElementById("itemContainer");
     container.innerHTML = ''; // 清空
-
-    console.log(items);
   
     items.forEach((item, index) => {
 
-      console.log(item);
       const collapseId = `itemDetail${index}`;
       
-      const flavorList = item.flavors.map(f =>
+      const flavorList = item.orders.map(f =>
         `<li class="list-group-item">${f.taste} - 數量 ${f.count}</li>`
       ).join('');
   
@@ -636,7 +633,7 @@
       card.innerHTML = `
         <div class="card-header d-flex justify-content-between align-items-center">
           <div>
-            <strong>${item.user}</strong><br>
+            <strong>${item.name}</strong><br>
           </div>
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-outline-danger" onclick="deleteItem(${index})">刪除</button>
