@@ -623,9 +623,10 @@
   function renderItems(items) {
     const container = document.getElementById("itemContainer");
     container.innerHTML = ''; // 清空
-    console.log(items);
   
     items.forEach((item, index) => {
+      console.log(item);
+      
       const collapseId = `itemDetail${index}`;
       
       const flavorList = item.flavors.map(f =>
