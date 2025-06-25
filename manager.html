@@ -338,6 +338,9 @@
           paginate: { previous: '‹', next: '›' },
           zeroRecords: '目前沒有資料',
           url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
+        },
+        initComplete: function () {
+          mask.style.display = 'none';
         }
       });
 
@@ -350,8 +353,6 @@
       });
     } catch (err) {
       console.error('讀取 Google Sheet 資料失敗', err);
-    } finally {
-      mask.style.display = 'none';
     }
     return data;
   }
@@ -534,7 +535,7 @@
               <strong><i class="fas fa-user"></i> ${item.name}</strong><br>
             </div>
             <div class="d-flex gap-3">
-              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-id="${id}" onclick="del(this)"><i class="far fa-trash-alt"></i></a>` : ''}
+              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${name}" data-user="${item.name}" onclick="delUser(this)"><i class="far fa-trash-alt"></i></a>` : ''}
               <a href="#" class="link-secondary text-decoration-none" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
             </div>
           </div>
@@ -631,6 +632,56 @@
       mask.style.display = 'none';
     }
     
+  }
+
+  function delUser(e){
+
+    const id = e.dataset.id;
+    const name = e.dataset.name;
+    const user = e.dataset.user;
+
+    var data {
+      type: 'deluser',
+      userId: userId,
+      user: user,
+      id: id,
+      name: name
+    };
+
+    try {
+      mask.style.display = 'flex';
+      const response = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result[0].status == 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: '刪除成功',
+          text: `${user}下單品項「${name}」已刪除！`
+        });
+
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '刪除失敗',
+          text: result[0].alert || '請稍後再試'
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: '系統異常'
+      });
+    } finally {
+      mask.style.display = 'none';
+    }
   }
 
   function resetForm() {
