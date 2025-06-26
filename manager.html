@@ -298,36 +298,38 @@
       const nodel = ['已結單', '延後中'];
 
       // 1. 銷毀原本 DataTable
-      if ( $.fn.DataTable.isDataTable('#example') ) {
-        $('#example').DataTable().clear().destroy();
-      }
+      // if ( $.fn.DataTable.isDataTable('#example') ) {
+      //   $('#example').DataTable().clear().destroy();
+      // }
       
       // 2. 清空 table body（避免重複資料）
-      $('#tableBody').empty();
+      // $('#tableBody').empty();
   
-      const tbody = document.getElementById('tableBody');
-      prd_list.forEach(item => {
+      // const tbody = document.getElementById('tableBody');
+      // prd_list.forEach(item => {
 
-        var flavor = item.售價.length;
+      //   var flavor = item.售價.length;
 
-        var view = `<a href="#" class="link-warning text-decoration-none" data-id="${item.ID}" data-name="${item.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i></a>`;
-        var edit = `<a href="#" class="link-success text-decoration-none" data-id="${item.ID}" data-name="${item.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i></a>`;
-        var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${item.ID}" data-name="${item.名稱}" onclick="delConfirm(this)"><i class="far fa-trash-alt"></i></a>`;
+      //   var view = `<a href="#" class="link-warning text-decoration-none" data-id="${item.ID}" data-name="${item.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i></a>`;
+      //   var edit = `<a href="#" class="link-success text-decoration-none" data-id="${item.ID}" data-name="${item.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i></a>`;
+      //   var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${item.ID}" data-name="${item.名稱}" onclick="delConfirm(this)"><i class="far fa-trash-alt"></i></a>`;
         
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td title="${item.名稱 || ''}" class="truncate">${item.名稱 || ''}</td>
-          <td>${item.狀態 || ''}</td>
-          <td>
-            ${item.狀態 === '已結單' ? view : item.狀態 === '開啟中' ? edit : ''}
-            &nbsp;
-            ${!nodel.includes(item.狀態) ? del : ''}
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-  
+      //   const row = document.createElement('tr');
+      //   row.innerHTML = `
+      //     <td title="${item.名稱 || ''}" class="truncate">${item.名稱 || ''}</td>
+      //     <td>${item.狀態 || ''}</td>
+      //     <td>
+      //       ${item.狀態 === '已結單' ? view : item.狀態 === '開啟中' ? edit : ''}
+      //       &nbsp;
+      //       ${!nodel.includes(item.狀態) ? del : ''}
+      //     </td>
+      //   `;
+      //   tbody.appendChild(row);
+      // });
+
       $('#example').DataTable({
+        data: prd_list,
+        destroy: true, // 重新載入時清除舊表格
         responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
         autoWidth: false,      // 關閉自動欄寬
         pageLength: 5,           // 一頁顯示 5 筆
@@ -341,8 +343,38 @@
         },
         initComplete: function () {
           mask.style.display = 'none';
-        }
+        },
+        columns: [
+          { data: '名稱' },
+          { data: '狀態' },
+          {
+            data: null,
+            render: function (data, type, row) {
+              return `
+                <button class="btn btn-sm btn-primary edit-btn" data-id="${row.id}">編輯</button>
+                <button class="btn btn-sm btn-danger delete-btn" data-id="${row.id}">刪除</button>
+              `;
+            }
+          }
+        ]
       });
+  
+      // $('#example').DataTable({
+      //   responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
+      //   autoWidth: false,      // 關閉自動欄寬
+      //   pageLength: 5,           // 一頁顯示 5 筆
+      //   lengthChange: false,     // 不顯示筆數設定下拉選單
+      //   searching: false,
+      //   ordering: false, // 不啟用欄位排序
+      //   language: {
+      //     paginate: { previous: '‹', next: '›' },
+      //     zeroRecords: '目前沒有資料',
+      //     url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
+      //   },
+      //   initComplete: function () {
+      //     mask.style.display = 'none';
+      //   }
+      // });
 
       fp = flatpickr("#rangePicker", {
         mode: "range",
