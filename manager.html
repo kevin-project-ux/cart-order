@@ -353,7 +353,7 @@
               
               const nodel = ['已結單', '延後中'];
               
-              var flavor = item.售價.length;
+              var flavor = row.售價.length;
               
               var view = `<a href="#" class="link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i></a>`;
               var edit = `<a href="#" class="link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i></a>`;
