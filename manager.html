@@ -295,7 +295,7 @@
       prd_list = prd_list.sort((a, b) => Number(b.ID) - Number(a.ID));
       // console.log(data);
 
-      const nodel = ['已結單', '延後中'];
+      // const nodel = ['已結單', '延後中'];
 
       // 1. 銷毀原本 DataTable
       // if ( $.fn.DataTable.isDataTable('#example') ) {
@@ -350,9 +350,18 @@
           {
             data: null,
             render: function (data, type, row) {
+              
+              const nodel = ['已結單', '延後中'];
+              
+              var flavor = item.售價.length;
+              
+              var view = `<a href="#" class="link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i></a>`;
+              var edit = `<a href="#" class="link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i></a>`;
+              var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" onclick="delConfirm(this)"><i class="far fa-trash-alt"></i></a>`;
               return `
-                <button class="btn btn-sm btn-primary edit-btn" data-id="${row.id}">編輯</button>
-                <button class="btn btn-sm btn-danger delete-btn" data-id="${row.id}">刪除</button>
+                ${row.狀態 === '已結單' ? view : row.狀態 === '開啟中' ? edit : ''}
+                &nbsp;
+                ${!nodel.includes(row.狀態) ? del : ''}
               `;
             }
           }
