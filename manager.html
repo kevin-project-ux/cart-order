@@ -345,7 +345,7 @@
           mask.style.display = 'none';
         },
         columns: [
-          { data: '名稱' },
+          { data: '名稱', className: 'truncate' },
           { data: '狀態' },
           {
             data: null,
@@ -367,23 +367,6 @@
           }
         ]
       });
-  
-      // $('#example').DataTable({
-      //   responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
-      //   autoWidth: false,      // 關閉自動欄寬
-      //   pageLength: 5,           // 一頁顯示 5 筆
-      //   lengthChange: false,     // 不顯示筆數設定下拉選單
-      //   searching: false,
-      //   ordering: false, // 不啟用欄位排序
-      //   language: {
-      //     paginate: { previous: '‹', next: '›' },
-      //     zeroRecords: '目前沒有資料',
-      //     url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
-      //   },
-      //   initComplete: function () {
-      //     mask.style.display = 'none';
-      //   }
-      // });
 
       fp = flatpickr("#rangePicker", {
         mode: "range",
