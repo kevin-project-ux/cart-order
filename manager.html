@@ -744,8 +744,7 @@
     const flavorType = document.querySelector('input[name="flavorType"]:checked').value;
   
     let flavors = [];
-    let limit = 0;
-    let price = [];
+    let price   = [];
   
     if (flavorType === 'single') {
       const singleLimit = parseInt(document.getElementById('singleLimit').value);
@@ -759,7 +758,7 @@
         return;
       }
       price.push(p);
-      limit = singleLimit;
+      flavors.push({ flavor: '', num: singleLimit, price: p });
     } else {
       const flavorRows = document.querySelectorAll('.flavor-row');
       for (const row of flavorRows) {
