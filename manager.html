@@ -518,6 +518,9 @@
 
     if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
 
+    const card = document.createElement("div");
+    card.className = "card mb-3";
+
     if( flavor>1 ){
       const grouped = {};
       items.forEach(item => {
@@ -532,8 +535,6 @@
   
       Object.entries(grouped).forEach(([name, flavors], index) => {
         const collapseId = `itemDetail${index}`;
-        const card = document.createElement("div");
-        card.className = "card mb-3";
       
         const flavorList = flavors.map(f =>
           `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
