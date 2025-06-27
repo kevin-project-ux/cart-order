@@ -486,7 +486,7 @@
 
       if (result[0].status == 'success') {
         var ords  = result[0].orders;
-        $('#order_title').text(name + ' - 訂購明細' + '總金額：<span class="text-danger">' + result[0].total + '</span>');
+        $('#order_title').html(name + ' - 訂購明細' + '總金額：<span class="text-danger">' + result[0].total + '</span>');
         renderItems(ords, data);
 
       } else {
