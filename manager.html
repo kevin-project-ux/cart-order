@@ -518,68 +518,34 @@
 
     if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
 
-    const grouped = {};
-    items.forEach(item => {
-      if (!grouped[item.姓名]) {
-        grouped[item.姓名] = [];
-      }
-      grouped[item.姓名].push({
-        taste: item.口味,
-        count: item.數量
+    if( flavor>1 ){
+      const grouped = {};
+      items.forEach(item => {
+        if (!grouped[item.姓名]) {
+          grouped[item.姓名] = [];
+        }
+        grouped[item.姓名].push({
+          taste: item.口味,
+          count: item.數量
+        });
       });
-    });
-
-    Object.entries(grouped).forEach(([name, flavors], index) => {
-  const collapseId = `itemDetail${index}`;
-  const card = document.createElement("div");
-  card.className = "card mb-3";
-
-  const flavorList = flavors.map(f =>
-    `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
-  ).join('');
-
-  card.innerHTML = `
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <div>
-        <strong><i class="fas fa-user"></i> ${name}</strong><br>
-      </div>
-      <div class="d-flex gap-3">
-        <a href="#" class="link-danger text-decoration-none" onclick="delUserOrderConfirm('${name}')"><i class="far fa-trash-alt"></i></a>
-        <a href="#" class="link-secondary text-decoration-none" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
-      </div>
-    </div>
-    <div class="collapse" id="${collapseId}">
-      <div class="card-body p-0">
-        <ul class="list-group list-group-flush">
-          ${flavorList}
-        </ul>
-      </div>
-    </div>
-  `;
-
-  document.getElementById('yourContainer').appendChild(card);
-});
   
-    items.forEach((item, index) => {
-
-      const collapseId = `itemDetail${index}`;
-      const card = document.createElement("div");
-      card.className = "card mb-3";
-
-      console.log(item);
-
-      if( flavor>1 ){
-        const flavorList = item.map(f =>
+      Object.entries(grouped).forEach(([name, flavors], index) => {
+        const collapseId = `itemDetail${index}`;
+        const card = document.createElement("div");
+        card.className = "card mb-3";
+      
+        const flavorList = flavors.map(f =>
           `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
         ).join('');
-        
+      
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-              <strong><i class="fas fa-user"></i> ${item.姓名}</strong><br>
+              <strong><i class="fas fa-user"></i> ${name}</strong><br>
             </div>
             <div class="d-flex gap-3">
-              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
+              <a href="#" class="link-danger text-decoration-none" onclick="delUserOrderConfirm('${name}')"><i class="far fa-trash-alt"></i></a>
               <a href="#" class="link-secondary text-decoration-none" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
             </div>
           </div>
@@ -591,20 +557,20 @@
             </div>
           </div>
         `;
-      }else{
-        const flavorList = `<li class="list-group-item">數量 <span class="badge bg-danger">${item.數量}</span></li>`
-        
+      });
+    }else{
+      items.forEach(item => {
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
             <strong><i class="fas fa-user"></i> ${item.姓名}</strong>
-            <span class="text-muted">${flavorList}</span>
+            <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.數量}</span></li></span>
             ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
           </div>
         `;
-      }
-      
-      container.appendChild(card);
-    });
+      });
+    }
+    
+    container.appendChild(card);
   }
 
   function chkConfirm(e){
