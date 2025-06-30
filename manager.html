@@ -67,7 +67,7 @@
       return;
     }
 
-    const idToken = await liff.getIDToken();
+    idToken = await liff.getIDToken();
     authUser();
 
     const profile = await liff.getProfile();
