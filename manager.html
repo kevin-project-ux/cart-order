@@ -525,9 +525,11 @@
         if (!grouped[item.name]) {
           grouped[item.name] = [];
         }
-        grouped[item.name].push({
-          taste: item.taste,
-          count: item.count
+        item.orders.forEach(ord => {
+          grouped[item.name].push({
+            taste: ord.taste,
+            count: ord.count
+          });
         });
       });
   
@@ -559,20 +561,20 @@
             </div>
           </div>
         `;
+        container.appendChild(card);
       });
     }else{
       items.forEach(item => {
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
             <strong><i class="fas fa-user"></i> ${item.name}</strong>
-            <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.count}</span></li></span>
+            <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.orders[0].count}</span></li></span>
             ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
           </div>
         `;
+        container.appendChild(card);
       });
     }
-    
-    container.appendChild(card);
   }
 
   function orderConfirm(e){
