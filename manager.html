@@ -615,9 +615,9 @@
 
     let title;
     let text;
-    if( data.type=='stop' )  { title = '延後'; text = `品項「${name}」已延後！`; }
-    if( data.type=='chkout' ){ title = '結單'; text = `品項「${name}」${result[0].alert}`; }
-    if( data.type=='delete' ){ title = '刪除'; text = `品項「${name}」已刪除！`; }
+    if( data.type=='stop' )  { title = '延後'; text = `品項「${data.name}」已延後！`; }
+    if( data.type=='chkout' ){ title = '結單'; text = `品項「${data.name}」${result[0].alert}`; }
+    if( data.type=='delete' ){ title = '刪除'; text = `品項「${data.name}」已刪除！`; }
 
     try {
       mask.style.display = 'flex';
