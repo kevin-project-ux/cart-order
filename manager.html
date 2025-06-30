@@ -67,6 +67,9 @@
       return;
     }
 
+    const idToken = liff.getIDToken();
+    authUser();
+
     const profile = await liff.getProfile();
     // console.log("✅ userId:", profile.userId);
     userId = profile.userId;
@@ -272,16 +275,58 @@
 
   const mask = document.getElementById('loadingMask');
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxl-wt4nOpsQsm4ivG-1AdxENsEZMiYHJZfrNDmDKNVrnUUNuBjfnfdjaGYTuORlCN0fg/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyO-885SB75OqPxOwHFDxmPDlrbMWoeOhcWPpYPU3NmxDtOsRdSIoYQhAS_gcB90m_Biw/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
   let flv_list;
   let fp;
 
-  document.addEventListener('DOMContentLoaded', function () {
-    data = fetchData();
-  });
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   data = fetchData();
+  // });
+
+  async function authUser(){
+    
+    var data = {
+      type: 'auth',
+      token: idToken,
+    };
+
+    try {
+      mask.style.display = 'flex';
+      const response = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result[0].status == 'success' && result[0].auth) {
+        Swal.fire({
+          icon: 'success',
+          title: '驗證成功',
+        });
+        fetchData();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '驗證失敗',
+          text: '您無權限使用此頁面'
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: '系統異常'
+      });
+    } finally {
+      mask.style.display = 'none';
+    }
+  }
 
   async function fetchData(){
 
