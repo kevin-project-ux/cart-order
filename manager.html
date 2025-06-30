@@ -508,7 +508,7 @@
 
   function renderItems(items, data) {
     const container = document.getElementById("itemContainer");
-    // console.log(items);
+    console.log(items);
     var id = data.id;
     var type = data.type;
     var name = data.name;
@@ -533,10 +533,13 @@
   
       Object.entries(grouped).forEach(([name, flavors], index) => {
         const collapseId = `itemDetail${index}`;
+
+        console.log(flavors);
       
         const flavorList = flavors.map(f =>
           `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
         ).join('');
+        console.log(flavorList);
       
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
