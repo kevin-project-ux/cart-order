@@ -512,7 +512,7 @@
 
   function renderItems(items, data) {
     const container = document.getElementById("itemContainer");
-    // console.log(items);
+    console.log(items);
     var id = data.id;
     var type = data.type;
     var name = data.name;
@@ -534,6 +534,7 @@
           count: item.數量
         });
       });
+      console.log(grouped);
   
       Object.entries(grouped).forEach(([name, flavors], index) => {
         const collapseId = `itemDetail${index}`;
