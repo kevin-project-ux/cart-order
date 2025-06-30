@@ -341,17 +341,21 @@
               var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
               
               var html = `
-                <div class="dropdown">
-                  <a href="#" class="link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-bars"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>${row.狀態 === '已結單' ? view : row.狀態 === '開啟中' ? edit : ''}</li>
-                    <li>${row.狀態 === '開啟中' ? stop : ''}</li>
-                    <li>${row.狀態 === '開啟中' ? chk : ''}</li>
-                    <li>${!nodel.includes(row.狀態) ? del : ''}</li>
-                  </ul>
-                </div>
+                ${
+                  row.狀態 !== '延後中' ?
+                  `<div class="dropdown">
+                    <a href="#" class="link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-bars"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li>${row.狀態 === '已結單' ? view : row.狀態 === '開啟中' ? edit : ''}</li>
+                      <li>${row.狀態 === '開啟中' ? stop : ''}</li>
+                      <li>${row.狀態 === '開啟中' ? chk : ''}</li>
+                      <li>${!nodel.includes(row.狀態) ? del : ''}</li>
+                    </ul>
+                  </div>`
+                  : ''
+                }
               `;
               return html;
               // return `
