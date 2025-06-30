@@ -67,9 +67,6 @@
       return;
     }
 
-    idToken = await liff.getIDToken();
-    authUser();
-
     const profile = await liff.getProfile();
     // console.log("✅ userId:", profile.userId);
     userId = profile.userId;
@@ -275,22 +272,23 @@
 
   const mask = document.getElementById('loadingMask');
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyO-885SB75OqPxOwHFDxmPDlrbMWoeOhcWPpYPU3NmxDtOsRdSIoYQhAS_gcB90m_Biw/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyntK_dgNfdHY0qDfVJuhPneUV8FAedFTh-P93OmuuANgMb6vzB5dyltcZIBlNAOp7GRQ/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
   let flv_list;
   let fp;
 
-  // document.addEventListener('DOMContentLoaded', function () {
-  //   data = fetchData();
-  // });
+  document.addEventListener('DOMContentLoaded', function () {
+    // data = fetchData();
+    authUser();
+  });
 
   async function authUser(){
     
     var data = {
       type: 'auth',
-      token: idToken,
+      userId: userId,
     };
 
     try {
@@ -310,7 +308,7 @@
           icon: 'success',
           title: '驗證成功',
         });
-        fetchData();
+        data = fetchData();
       } else {
         Swal.fire({
           icon: 'error',
