@@ -329,11 +329,7 @@
               var chk  = `<a href="#" class="link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i></a>`;
               var del  = `<a href="#" class="link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i></a>`;
               return `
-                ${row.狀態 === '已結單' ? view : row.狀態 === '開啟中' ? edit : ''}
-                &nbsp;
-                ${row.狀態 === '開啟中' ? stop+'&nbsp;'+chk : ''}
-                &nbsp;
-                ${!nodel.includes(row.狀態) ? del : ''}
+                ${row.狀態 === '已結單' ? view : row.狀態 === '開啟中' ? edit : ''}&nbsp;${row.狀態 === '開啟中' ? stop+'&nbsp;'+chk : ''}&nbsp;${!nodel.includes(row.狀態) ? del : ''}
               `;
             }
           }
@@ -512,7 +508,7 @@
 
   function renderItems(items, data) {
     const container = document.getElementById("itemContainer");
-    console.log(items);
+    // console.log(items);
     var id = data.id;
     var type = data.type;
     var name = data.name;
@@ -526,15 +522,14 @@
     if( flavor>1 ){
       const grouped = {};
       items.forEach(item => {
-        if (!grouped[item.姓名]) {
-          grouped[item.姓名] = [];
+        if (!grouped[item.name]) {
+          grouped[item.name] = [];
         }
-        grouped[item.姓名].push({
-          taste: item.口味,
-          count: item.數量
+        grouped[item.name].push({
+          taste: item.taste,
+          count: item.count
         });
       });
-      console.log(grouped);
   
       Object.entries(grouped).forEach(([name, flavors], index) => {
         const collapseId = `itemDetail${index}`;
@@ -566,8 +561,8 @@
       items.forEach(item => {
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
-            <strong><i class="fas fa-user"></i> ${item.姓名}</strong>
-            <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.數量}</span></li></span>
+            <strong><i class="fas fa-user"></i> ${item.name}</strong>
+            <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.count}</span></li></span>
             ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
           </div>
         `;
