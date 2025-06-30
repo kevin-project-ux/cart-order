@@ -314,7 +314,16 @@
         },
         columns: [
           { data: '名稱', className: 'truncate' },
-          { data: '狀態' },
+          { 
+            data: '狀態',
+            createdCell: function (td, cellData) {
+              if (cellData === '開啟中') {
+                $(td).addClass('text-success');
+              } else if (cellData === '已結單') {
+                $(td).addClass('text-danger');
+              }
+            }
+          },
           {
             data: null,
             render: function (data, type, row) {
@@ -323,15 +332,15 @@
               
               var flavor = (row.售價 === '---' ? 2 : 1);
               
-              var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i></a>`;
-              var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i></a>`;
-              var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i></a>`;
-              var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i></a>`;
-              var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i></a>`;
+              var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i> 檢視訂單</a>`;
+              var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i> 修改訂單</a>`;
+              var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
+              var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
+              var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
               
               var html = `
                 <div class="dropdown">
-                  <a href="#" class="text-muted" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a href="#" class="link-success" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-bars"></i>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
