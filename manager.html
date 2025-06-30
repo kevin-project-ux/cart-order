@@ -686,7 +686,7 @@
     let title;
     let text;
     if( data.type=='stop' )  { title = '延後'; text = `品項「${data.name}」已延後！`; }
-    if( data.type=='chkout' ){ title = '結單'; text = `品項「${data.name}」${result[0].alert}`; }
+    if( data.type=='chkout' ){ title = '結單'; text = `品項「${data.name}」`; }
     if( data.type=='delete' ){ title = '刪除'; text = `品項「${data.name}」已刪除！`; }
 
     try {
@@ -705,7 +705,7 @@
         Swal.fire({
           icon: 'success',
           title: title+'成功',
-          text: text
+          text: text+`${result[0].alert}`
         });
         fetchData();
       } else {
