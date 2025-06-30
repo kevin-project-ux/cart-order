@@ -72,6 +72,8 @@
     userId = profile.userId;
     userName = profile.displayName;
     document.getElementById("createOrder").disabled = false;
+
+    authUser(userId);
   }
 </script>
 <body>
@@ -279,12 +281,7 @@
   let flv_list;
   let fp;
 
-  document.addEventListener('DOMContentLoaded', function () {
-    // data = fetchData();
-    authUser();
-  });
-
-  async function authUser(){
+  async function authUser(userId){
     
     var data = {
       type: 'auth',
