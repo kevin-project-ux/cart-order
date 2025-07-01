@@ -71,6 +71,7 @@
     // console.log("✅ userId:", profile.userId);
     userId = profile.userId;
     userName = profile.displayName;
+    const idToken = await liff.getIDToken();
     document.getElementById("createOrder").disabled = false;
 
     authUser(userId);
@@ -274,7 +275,7 @@
 
   const mask = document.getElementById('loadingMask');
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwXzw-aL7xf3E_wG08P4OVwhtVn5-Df1wWaJuFkfkfiwdlk0nsiWKovHSYJw0ACcRSQwA/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxQaEw8uYWpxUV1E1WOMNHeLx70hL7hQ8_LNKEI1UhiDdWzatYDb28P_HDUoXzt8UBgcw/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -305,7 +306,6 @@
           icon: 'success',
           title: '驗證成功',
         });
-        data = await fetchData();
       } else {
         Swal.fire({
           icon: 'error',
