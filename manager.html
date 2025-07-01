@@ -609,11 +609,9 @@
           if (!grouped[item.姓名]) {
             grouped[item.姓名] = [];
           }
-          item.forEach(ord => {
-            grouped[item.姓名].push({
-              taste: ord.口味,
-              count: ord.數量
-            });
+          grouped[item.姓名].push({
+            taste: ord.口味,
+            count: ord.數量
           });
         }
       });
@@ -640,7 +638,7 @@
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-              <strong><i class="fas fa-user"></i> ${name}</strong><br>
+              <strong class="truncate"><i class="fas fa-user"></i> ${name}</strong><br>
             </div>
             <div class="d-flex gap-3">
               ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" onclick="delUserOrderConfirm('${name}')"><i class="far fa-trash-alt"></i></a>` : ''}
