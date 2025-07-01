@@ -275,7 +275,7 @@
 
   const mask = document.getElementById('loadingMask');
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxQaEw8uYWpxUV1E1WOMNHeLx70hL7hQ8_LNKEI1UhiDdWzatYDb28P_HDUoXzt8UBgcw/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwWUZfSOx4-Oy0IpO6eR0cKgkZLLXu2eYiT1Jb7nQ4w42nQHAjp1g7Hog7rOsE0UILTTg/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -306,6 +306,7 @@
           icon: 'success',
           title: '驗證成功',
         });
+        data = await fetchData(result[0].data);
       } else {
         Swal.fire({
           icon: 'error',
@@ -323,12 +324,15 @@
     }
   }
 
-  async function fetchData(){
-
+  async function fetchData(data=''){
+    console.log(data);
     try {
       mask.style.display = 'flex';
-      const res = await fetch(GAS_URL);
-      data = await res.json();
+
+      if( data=='' ){
+        const res = await fetch(GAS_URL);
+        data = await res.json();
+      }
 
       prd_list = data['品項列表'];
       flv_list = data['口味列表'];
