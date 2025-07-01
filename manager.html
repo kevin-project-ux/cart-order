@@ -593,25 +593,47 @@
     if( flavor>1 ){
       const grouped = {};
       items.forEach(item => {
-        if (!grouped[item.name]) {
-          grouped[item.name] = [];
-        }
-        item.orders.forEach(ord => {
-          grouped[item.name].push({
-            taste: ord.taste,
-            count: ord.count
+        if( type=='edit' ){
+          if (!grouped[item.name]) {
+            grouped[item.name] = [];
+          }
+          item.orders.forEach(ord => {
+            grouped[item.name].push({
+              taste: ord.taste,
+              count: ord.count
+            });
           });
-        });
+        }
+        if( type=='view' ){
+          if (!grouped[item.姓名]) {
+            grouped[item.姓名] = [];
+          }
+          item.orders.forEach(ord => {
+            grouped[item.姓名].push({
+              taste: ord.口味,
+              count: ord.數量
+            });
+          });
+        }
       });
   
       Object.entries(grouped).forEach(([name, flavors], index) => {
         const collapseId = `itemDetail${index}`;
         const card = document.createElement("div");
         card.className = "card mb-3";
-      
-        const flavorList = flavors.map(f =>
-          `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
-        ).join('');
+
+        if( type=='edit' ){
+          const flavorList = flavors.map(f =>
+            `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
+          ).join('');
+        }
+
+        if( type=='view' ){
+          const flavorList = flavors.map(f =>
+            `<li class="list-group-item">${f.口味} - 數量 <span class="badge bg-danger">${f.數量}</span></li>`
+          ).join('');
+        }
+        
         console.log(flavorList);
       
         card.innerHTML = `
@@ -638,13 +660,24 @@
       items.forEach(item => {
         const card = document.createElement("div");
         card.className = "card mb-3";
-        card.innerHTML = `
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <strong><i class="fas fa-user"></i> ${item.name}</strong>
-            <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.orders[0].count}</span></li></span>
-            ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
-          </div>
-        `;
+        if( type=='edit' ){
+          card.innerHTML = `
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <strong><i class="fas fa-user"></i> ${item.name}</strong>
+              <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.orders[0].count}</span></li></span>
+              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
+            </div>
+          `;
+        }
+        if( type=='view' ){
+          card.innerHTML = `
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <strong><i class="fas fa-user"></i> ${item.姓名}</strong>
+              <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.數量}</span></li></span>
+              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.姓名}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
+            </div>
+          `;
+        }
         container.appendChild(card);
       });
     }
