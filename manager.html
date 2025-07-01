@@ -254,8 +254,11 @@
             <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
               
               <div class="p-4 bg-light rounded shadow-sm">
-                <h5 class="mb-3" id="order_title"></h5>
-                <h5 class="mt-1 mb-3 text-center">訂購明細</h5>
+                <h5 class="mb-3">
+                  <span class="truncate" id="order_title"></span>
+                  <span id="order_price"></span>
+                </h5>
+                <h5 class="mt-1 mb-3 text-center text-success">訂購明細</h5>
                 <div class="container mt-4" id="itemContainer"></div>
               </div>
             </div>
@@ -520,7 +523,7 @@
 
   function editModal(e){
 
-    $('#order_title').text('訂購明細');
+    $('#order_title').text('');
     $('#editModal').modal('show');
     getUserOrderData(e);
   }
@@ -558,8 +561,9 @@
 
       if (result[0].status == 'success') {
         var ords   = result[0].orders;
-        var price  = `${ typeof result[0].total!=='undefined' ? `<span style="float:right;">金額：<span class="text-danger">${result[0].total}</span></span>` : ''}`;
-        $('#order_title').html(name + price);
+        var price  = `${ typeof result[0].total!=='undefined' ? `<span style="float:right;">總金額(元)：<span class="text-danger">${result[0].total}</span></span>` : ''}`;
+        $('#order_title').html(name);
+        $('#order_price').html(price);
         renderItems(ords, data);
 
       } else {
