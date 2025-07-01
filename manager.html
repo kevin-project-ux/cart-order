@@ -653,18 +653,17 @@
         if( type=='edit' ){
           card.innerHTML = `
             <div class="card-header d-flex justify-content-between align-items-center">
-              <strong><i class="fas fa-user"></i> ${item.name}</strong>
+              <strong class="truncate"><i class="fas fa-user"></i> ${item.name}</strong>
               <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.orders[0].count}</span></li></span>
-              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
+              <a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>
             </div>
           `;
         }
         if( type=='view' ){
           card.innerHTML = `
             <div class="card-header d-flex justify-content-between align-items-center">
-              <strong><i class="fas fa-user"></i> ${item.姓名}</strong>
+              <strong class="truncate"><i class="fas fa-user"></i> ${item.姓名}</strong>
               <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.數量}</span></li></span>
-              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.姓名}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
             </div>
           `;
         }
