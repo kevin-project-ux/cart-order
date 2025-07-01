@@ -610,8 +610,8 @@
             grouped[item.姓名] = [];
           }
           grouped[item.姓名].push({
-            taste: ord.口味,
-            count: ord.數量
+            taste: item.口味,
+            count: item.數量
           });
         }
       });
@@ -621,18 +621,9 @@
         const card = document.createElement("div");
         card.className = "card mb-3";
 
-        if( type=='edit' ){
-          const flavorList = flavors.map(f =>
-            `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
-          ).join('');
-        }
-
-        if( type=='view' ){
-          const flavorList = flavors.map(f =>
-            `<li class="list-group-item">${f.口味} - 數量 <span class="badge bg-danger">${f.數量}</span></li>`
-          ).join('');
-        }
-        
+        const flavorList = flavors.map(f =>
+          `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
+        ).join('');
         // console.log(flavorList);
       
         card.innerHTML = `
