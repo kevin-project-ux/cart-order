@@ -627,6 +627,7 @@
       Object.keys(grouped).forEach(key => {
         totals[key] = grouped[key].reduce((sum, item) => sum + (item.price || 0), 0);
       });
+      console.log(totals);
 
       Object.entries(grouped).forEach(([name, flavors], index) => {
         const collapseId = `itemDetail${index}`;
@@ -657,7 +658,8 @@
             <div class="card-body p-0">
               <ul class="list-group list-group-flush">
                 ${flavorList}
-                金額 <span>${totals[name]}</span>
+                <span>合計</span>
+                <span>${totals[name]}</span>
               </ul>
             </div>
           </div>
@@ -681,7 +683,12 @@
           card.innerHTML = `
             <div class="card-header d-flex justify-content-between align-items-center">
               <strong class="truncate"><i class="fas fa-user"></i> ${item.姓名}</strong>
-              <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.數量}</span></li></span>
+              <span class="text-muted">
+                <li class="list-group-item">
+                  <span class="badge bg-danger me-2">x${item.數量}</span>
+                  <span class="text-end text-nowrap">$${item.金額}</span>
+                </li>
+              </span>
             </div>
           `;
         }
