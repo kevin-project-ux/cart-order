@@ -625,9 +625,8 @@
       const totals = {};
 
       Object.keys(grouped).forEach(key => {
-        totals[key] = grouped[key].reduce((sum, item) => sum + (item.price || 0), 0);
+        totals[key] = grouped[key].reduce((sum, item) => sum + (item.total || 0), 0);
       });
-      console.log(totals);
 
       Object.entries(grouped).forEach(([name, flavors], index) => {
         const collapseId = `itemDetail${index}`;
@@ -658,8 +657,12 @@
             <div class="card-body p-0">
               <ul class="list-group list-group-flush">
                 ${flavorList}
-                <span>合計</span>
-                <span>${totals[name]}</span>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  合計
+                  <span>
+                    <span class="text-end text-nowrap">$${totals[name]}</span>
+                  </span>
+                </li>
               </ul>
             </div>
           </div>
