@@ -329,7 +329,7 @@
   }
 
   async function fetchData(data=''){
-    console.log(data);
+    // console.log(data);
     try {
       mask.style.display = 'flex';
 
@@ -588,7 +588,7 @@
 
   function renderItems(items, data) {
     const container = document.getElementById("itemContainer");
-    console.log(items);
+    // console.log(items);
     var id = data.id;
     var type = data.type;
     var name = data.name;
@@ -616,18 +616,32 @@
           }
           grouped[item.姓名].push({
             taste: item.口味,
-            count: item.數量
+            count: item.數量,
+            total: item.金額
           });
         }
       });
-  
+
+      const totals = {};
+
+      Object.keys(grouped).forEach(key => {
+        totals[key] = grouped[key].reduce((sum, item) => sum + (item.price || 0), 0);
+      });
+
       Object.entries(grouped).forEach(([name, flavors], index) => {
         const collapseId = `itemDetail${index}`;
         const card = document.createElement("div");
         card.className = "card mb-3";
 
         const flavorList = flavors.map(f =>
-          `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
+          // `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
+          `<li class="list-group-item d-flex justify-content-between align-items-center">
+            ${f.taste}
+            <span>
+              <span class="badge bg-danger me-2">x${f.count}</span>
+              <span class="text-end text-nowrap">$${f.total}</span>
+            </span>
+          </li>`
         ).join('');
         // console.log(flavorList);
       
@@ -643,6 +657,7 @@
             <div class="card-body p-0">
               <ul class="list-group list-group-flush">
                 ${flavorList}
+                金額 <span>${totals[name]}</span>
               </ul>
             </div>
           </div>
