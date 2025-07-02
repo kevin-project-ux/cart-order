@@ -24,6 +24,10 @@
   <!-- Select2 -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 <style>
   .truncate {
@@ -62,33 +66,6 @@
     color: #cc9900 !important; /* 深一點的黃 */
   }
 
-  .ellipsis-text {
-    max-width: 130px;
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  /* 浮出的 tooltip 样式 */
-  .ellipsis-tooltip {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 10;
-    background: #333;
-    color: #fff;
-    padding: 4px 8px;
-    font-size: 14px;
-    border-radius: 4px;
-    white-space: normal;
-    max-width: 250px;
-    margin-top: 5px;
-    word-break: break-all;
-  }
 </style>
 <script>
   window.onload = async () => {
@@ -287,7 +264,7 @@
               
               <div class="p-4 bg-light rounded shadow-sm">
                 <h5 class="mb-3">
-                  <span class="ellipsis-text" onclick="toggleTooltip(this)" data-full="" id="order_title"></span>
+                  <span class="truncate d-inline-block" id="order_title" style="max-width: 130px;"></span>
                   <span id="order_price"></span>
                 </h5>
                 <h5 class="mt-1 mb-3 text-center text-success">訂購明細</h5>
@@ -615,8 +592,12 @@
         var ords   = result[0].orders;
         var price  = `${ typeof result[0].total!=='undefined' ? `<span style="float:right;">總金額(元)：<span class="text-danger">${result[0].total}</span></span>` : ''}`;
         $('#order_title').html(name);
-        $('#order_title').data('full', name);
         $('#order_price').html(price);
+        tippy('#order_title', {
+          content: name,
+          placement: 'top', // 上方顯示
+          trigger: 'click', // 手機適用：點一下顯示
+        });
         renderItems(ords, data);
 
       } else {
