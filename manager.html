@@ -744,45 +744,38 @@
   async function orderOpen(e){
     
     const name = e.dataset.name;
-    const row  = e.dataset.row;
+    const row  = JSON.parse(e.dataset.row);
 
-    console.log(JSON.parse(row));
-    Swal.fire({
-      icon: 'info',
-      title: 'test',
-      text: row
-    });
+    var text = `親愛的朋友們~\n`;
+    text += `開團【${name}】開放下單囉！\n`;
+    text += `想吃的人客記得下單喔\n`;
+    if( row.限時開始!='---' && row.限時結束!='---' ){ text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; }
+    text += `下單後才會開始製作請耐心等待❤️`;
 
-    // var text = `親愛的朋友們~
-    // 預購【${name}】開放下單囉！
-    // 想吃的人客記得下單喔
-    // 下單後才會開始製作
-    // 請耐心等待❤️`.trim();
-
-    // try {
-    //   await liff.shareTargetPicker([
-    //     { type: 'text', text: text }
-    //   ]);
-    //   Swal.fire({
-    //     icon: 'success',
-    //     title: '開團成功',
-    //     text: '請回到分享該群組查看訊息哦!'
-    //   });
-    // } catch (e) {
-    //   if (e.code !== 'USER_CANCEL') console.log('分享失敗：' + e.message);
-    // }
+    try {
+      await liff.shareTargetPicker([
+        { type: 'text', text: text.trim() }
+      ]);
+      Swal.fire({
+        icon: 'success',
+        title: '開團成功',
+        text: '請回到分享該群組查看訊息哦!'
+      });
+    } catch (e) {
+      if (e.code !== 'USER_CANCEL') console.log('分享失敗：' + e.message);
+    }
   }
 
   async function orderShow(e){
 
     const name = e.dataset.name;
 
-    var text = `親愛的朋友們~
-    已下單【${name}】名單如下哦!`.trim();
+    var text = `親愛的朋友們~\n`;
+    text += `已下單【${name}】名單如下哦!`;
 
     try {
       await liff.shareTargetPicker([
-        { type: 'text', text: text }
+        { type: 'text', text: text.trim() }
       ]);
       Swal.fire({
         icon: 'success',
@@ -1074,6 +1067,24 @@
     } finally {
       mask.style.display = 'none';
     }
+  }
+
+  function formatDate(datetime){
+    const date = new Date(datetime);
+    
+    // 轉為台灣時間（+8）
+    const taiwanOffset = date.getTime() + (8 * 60 * 60 * 1000);
+    const taiwanDate = new Date(taiwanOffset);
+    
+    // 組合格式：m/d h:i
+    const m = taiwanDate.getUTCMonth() + 1;
+    const d = taiwanDate.getUTCDate();
+    const h = taiwanDate.getUTCHours().toString().padStart(2, '0');
+    const i = taiwanDate.getUTCMinutes().toString().padStart(2, '0');
+    
+    const formatted = `${m}/${d} ${h}:${i}`;
+
+    return formatted;
   }
 </script>
 </html>
