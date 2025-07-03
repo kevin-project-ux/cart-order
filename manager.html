@@ -399,7 +399,7 @@
               var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i> 修改訂單</a>`;
               var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
               var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
-              var list = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-list-alt"></i> 顯示名單</a>`;
+              var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-list-alt"></i> 顯示名單</a>`;
               var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
               
               var html = `
@@ -742,23 +742,33 @@
     }
   }
 
-  function orderShow(e){
+  async function orderShow(e){
+
+
+    try {
+      await liff.shareTargetPicker([
+        { type: 'text', text: '這是我要分享的純文字✉️' }
+      ]);
+      alert('已分享！');
+    } catch (e) {
+      if (e.code !== 'USER_CANCEL') alert('分享失敗：' + e.message);
+    }
     
-    const name = e.dataset.name;
+    // const name = e.dataset.name;
 
-    var text = `
-      親愛的朋友們~
-      已下單【${name}】名單如下哦!
-    `;
+    // var text = `
+    //   親愛的朋友們~
+    //   已下單【${name}】名單如下哦!
+    // `;
 
-    var copy_btn = `<a class="link-primary copy_btn" data-clipboard-text="${text}"><i class="fas fa-copy"></i></a>`;
+    // var copy_btn = `<a class="link-primary copy_btn" data-clipboard-text="${text}"><i class="fas fa-copy"></i></a>`;
 
-    Swal.fire({
-      icon: 'info',
-      title: '品項名單',
-      html: text + copy_btn,
-      footer: '<small>將上方文字複製貼在群組聊天室送出即可~</small>'
-    });
+    // Swal.fire({
+    //   icon: 'info',
+    //   title: '品項名單',
+    //   html: copy_btn,
+    //   footer: '<small>點擊<i class="fas fa-copy"></i>複製後貼在群組聊天室送出即可~</small>'
+    // });
   }
 
   function orderConfirm(e){
