@@ -283,6 +283,40 @@
       </div>
     </div>
   </div>
+
+  <!-- 開啟團購 Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">開啟團購</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabs -->
+          <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">團購內容</button>
+            </li>
+          </ul>
+      
+          <!-- Tab Content -->
+          <div class="tab-content" id="editTabsContent">
+            <!-- 開啟團購/預購 -->
+            <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
+              
+              <div class="p-4 bg-light rounded shadow-sm">
+                <div class="container mt-4">
+                  <textarea class="form-control" id="cartContent" rows="6"></textarea>
+                </div>
+                <button class="btn btn-success w-100" id="createCart" onclick="orderOpen()">開啟團購</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -395,7 +429,7 @@
               
               var flavor = (row.售價 === '---' ? 2 : 1);
 
-              var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row='${JSON.stringify(row)}' data-type="open" onclick="orderOpen(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
+              var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row='${JSON.stringify(row)}' data-type="open" onclick="cartModal(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
               var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i> 檢視訂單</a>`;
               var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i> 修改訂單</a>`;
               var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
@@ -741,7 +775,9 @@
     }
   }
 
-  async function orderOpen(e){
+  function cartModal(e){
+
+    $('#cartModal').modal('show');
     
     const name = e.dataset.name;
     const row  = JSON.parse(e.dataset.row);
@@ -752,9 +788,15 @@
     if( row.限時開始!='---' && row.限時結束!='---' ){ text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; }
     text += `下單後才會開始製作請耐心等待❤️`;
 
+    $('#cartContent').val(text);
+    
+  }
+
+  async function orderOpen(){
+
     try {
       await liff.shareTargetPicker([
-        { type: 'text', text: text.trim() }
+        { type: 'text', text: $('#cartContent').val().trim() }
       ]);
       Swal.fire({
         icon: 'success',
