@@ -411,6 +411,7 @@
                       <i class="fas fa-bars"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
+                      <li>${row.狀態 === '開啟中' ? open : ''}</li>
                       <li>${row.狀態 === '已結單' ? view : row.狀態 === '開啟中' ? edit : ''}</li>
                       <li>${row.狀態 === '開啟中' ? stop : ''}</li>
                       <li>${row.狀態 === '開啟中' ? chk : ''}</li>
