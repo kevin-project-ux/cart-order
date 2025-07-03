@@ -28,6 +28,8 @@
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 </head>
 <style>
   .truncate {
@@ -288,7 +290,9 @@
 
   const mask = document.getElementById('loadingMask');
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwWUZfSOx4-Oy0IpO6eR0cKgkZLLXu2eYiT1Jb7nQ4w42nQHAjp1g7Hog7rOsE0UILTTg/exec'; // 改為你的 Apps Script 網址
+  new ClipboardJS('.copy_btn');
+
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycby4Cm0jtC7iSAuzPFk3W-mIJTyJI8sABFI1pqU-cJUo7l_wvWP4-xNfOq_LCNXr_eEvGg/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -395,6 +399,7 @@
               var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i> 修改訂單</a>`;
               var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
               var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
+              var list = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-list-alt"></i> 顯示名單</a>`;
               var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
               
               var html = `
@@ -734,6 +739,25 @@
         container.appendChild(card);
       });
     }
+  }
+
+  function orderShow(e){
+    
+    const name = e.dataset.name;
+
+    var text = `
+      親愛的朋友們~
+      已下單【${name}】名單如下哦!
+    `;
+
+    var copy_btn = `<a class="link-primary copy_btn" data-clipboard-text="${text}"><i class="fas fa-copy"></i></a>`;
+
+    Swal.fire({
+      icon: 'info',
+      title: '品項名單',
+      html: text + copy_btn,
+      footer: '<small>將上方文字複製貼在群組聊天室送出即可~</small>'
+    });
   }
 
   function orderConfirm(e){
