@@ -749,13 +749,11 @@
     const name = e.dataset.name;
     const row  = e.dataset.row;
 
-    var text = `
-      親愛的朋友們~
-      預購【${name}】開放下單囉！
-      想吃的人客記得下單喔
-      下單後才會開始製作
-      請耐心等待❤️
-    `;
+    var text = `親愛的朋友們~
+    預購【${name}】開放下單囉！
+    想吃的人客記得下單喔
+    下單後才會開始製作
+    請耐心等待❤️`.trim();
 
     try {
       await liff.shareTargetPicker([
@@ -775,10 +773,8 @@
 
     const name = e.dataset.name;
 
-    var text = `
-      親愛的朋友們~
-      已下單【${name}】名單如下哦!
-    `.trim();
+    var text = `親愛的朋友們~
+    已下單【${name}】名單如下哦!`.trim();
 
     try {
       await liff.shareTargetPicker([
