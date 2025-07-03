@@ -395,7 +395,7 @@
               
               var flavor = (row.售價 === '---' ? 2 : 1);
 
-              var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row="${row}" data-type="open" onclick="orderOpen(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
+              var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row="${JSON.stringify(row)}" data-type="open" onclick="orderOpen(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
               var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i> 檢視訂單</a>`;
               var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i> 修改訂單</a>`;
               var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
@@ -749,7 +749,7 @@
     const name = e.dataset.name;
     const row  = e.dataset.row;
 
-    console.log(row);
+    console.log(JSON.parse(row));
     Swal.fire({
       icon: 'info',
       title: 'test',
