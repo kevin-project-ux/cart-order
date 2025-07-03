@@ -597,6 +597,9 @@
           content: name,
           placement: 'top', // 上方顯示
           trigger: 'click', // 手機適用：點一下顯示
+          onShow(instance) {
+            tippy.hideAll({ exclude: instance });
+          },
         });
         renderItems(ords, data);
 
