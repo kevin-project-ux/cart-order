@@ -394,12 +394,13 @@
               const nodel = ['已結單', '延後中'];
               
               var flavor = (row.售價 === '---' ? 2 : 1);
-              
+
+              var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row="${row}" data-type="open" onclick="orderOpen(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
               var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i> 檢視訂單</a>`;
               var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i> 修改訂單</a>`;
               var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
               var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
-              var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享名單</a>`;
+              var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</a>`;
               var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
               
               var html = `
@@ -742,11 +743,41 @@
     }
   }
 
+  async function orderOpen(e){
+    
+    const name = e.dataset.name;
+    const row  = e.dataset.row;
+
+    var text = `
+      親愛的朋友們~
+      預購【${name}】開放下單囉！
+      想吃的人客記得下單喔
+      下單後才會開始製作
+      請耐心等待❤️
+    `;
+
+    try {
+      await liff.shareTargetPicker([
+        { type: 'text', text: text }
+      ]);
+      Swal.fire({
+        icon: 'success',
+        title: '開團成功',
+        text: '請回到分享該群組查看訊息哦!'
+      });
+    } catch (e) {
+      if (e.code !== 'USER_CANCEL') console.log('分享失敗：' + e.message);
+    }
+  }
+
   async function orderShow(e){
 
     const name = e.dataset.name;
 
-    var text = `親愛的朋友們~\n已下單【${name}】名單如下哦!`;
+    var text = `
+      親愛的朋友們~
+      已下單【${name}】名單如下哦!
+    `.trim();
 
     try {
       await liff.shareTargetPicker([
