@@ -410,7 +410,7 @@
   async function fetchData(data=''){
     // console.log(data);
     try {
-      mask.style.display = 'flex';
+      // mask.style.display = 'flex';
 
       if( data=='' ){
         const res = await fetch(GAS_URL);
@@ -944,6 +944,7 @@
     if( data.type=='delete' ){ title = '刪除'; text = `品項「${data.name}」已刪除！`; }
 
     try {
+      mask.style.display = 'flex';
       const response = await fetch(GAS_URL, {
         method: 'POST',
         headers: {
@@ -975,6 +976,8 @@
         icon: 'error',
         title: '系統異常'
       });
+    } finally {
+      mask.style.display = 'none';
     }
   }
 
@@ -1135,6 +1138,7 @@
     };
 
     try {
+      mask.style.display = 'flex';
       const response = await fetch(GAS_URL, {
         method: 'POST',
         headers: {
@@ -1174,6 +1178,8 @@
         icon: 'error',
         title: '系統異常'
       });
+    } finally {
+      mask.style.display = 'none';
     }
   }
 
