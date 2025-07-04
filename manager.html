@@ -816,26 +816,30 @@
 
     console.log(flv_list);
 
-    if( row.售價=='---' ){
-      var flvs = flv_list.filter(val => val.品項ID === Number(row.ID));
-      console.log(flvs);
-    }
-
     var text = `想吃的人客記得下單喔\n`;
+    text += `價格：`; 
+
+    var flvs = flv_list.filter(val => val.品項ID === Number(row.ID));
+    // console.log(flvs);
     if( flvs.length>0 ){ 
-      text += `價格：`; 
-      flvs.forEach((item,i) => {
-        if( i==0 ){
-          text += `${item.價格}`; 
-        }else{
-          text += `、${item.價格}`; 
-        }
-        text += `(${item.口味}`;
-        if( item.限量>0 ){ text += `，限量${item.限量}個)` }
-        text += `)`;
-      });
-      text += `\n`;
+      if( row.售價=='---' ){
+        flvs.forEach((item,i) => {
+          if( i==0 ){
+            text += `${item.價格}`; 
+          }else{
+            text += `、${item.價格}`; 
+          }
+          text += `(${item.口味}`;
+          if( item.限量>0 ){ text += `，限量${item.限量}個` }
+          text += `)`;
+        });
+        text += `\n`;
+      }else{
+        text += `${row.售價}`
+        if( item.限量>0 ){ text += `(限量${item.限量}個)` }
+      }
     }
+    
     if( row.限時開始!='---' && row.限時結束!='---' ){ text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; }
     text += `下單後才會開始製作請耐心等待❤️`;
 
