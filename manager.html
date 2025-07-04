@@ -501,6 +501,8 @@
         locale: "zh",
         minDate: "today" // ✅ 限制今天以前不能選
       });
+
+      fp.clear();
     } catch (err) {
       console.error('讀取 Google Sheet 資料失敗', err);
     }
@@ -508,7 +510,7 @@
   }
 
   function addGroupBuyModal(){
-    fp.clear();
+    $('#itemNames').val('').trigger('change');
     $('input[type="text"]').val('');
     resetForm();
     $('#groupBuyModal').modal('show');
