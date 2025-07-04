@@ -335,13 +335,13 @@
     }
   });
 
-  const Inline = Quill.import('blots/inline');
+  const Embed = Quill.import('blots/embed');
 
-  class ReadonlyText extends Inline {
+  class ReadonlyEmbed extends Embed {
     static create(value) {
       const node = super.create();
       node.setAttribute('contenteditable', 'false');
-      node.setAttribute('style', 'background: #f5f5f5; color: #999; padding: 2px 4px; border-radius: 4px;');
+      node.setAttribute('style', 'background:#eee;padding:4px;border-radius:4px;color:#333;');
       node.innerText = value;
       return node;
     }
@@ -350,9 +350,9 @@
       return node.innerText;
     }
   }
-  ReadonlyText.blotName = 'readonly';
-  ReadonlyText.tagName = 'span';
-  Quill.register(ReadonlyText);
+  ReadonlyEmbed.blotName = 'readonly';
+  ReadonlyEmbed.tagName = 'span';
+  Quill.register(ReadonlyEmbed);
 
   const GAS_URL = 'https://script.google.com/macros/s/AKfycby4Cm0jtC7iSAuzPFk3W-mIJTyJI8sABFI1pqU-cJUo7l_wvWP4-xNfOq_LCNXr_eEvGg/exec'; // 改為你的 Apps Script 網址
 
@@ -819,7 +819,7 @@
     quill.setText('');
     const delta = [
       { insert: '親愛的朋友們~\n' },
-      { insert: `開團【${name}】`, attributes: { readonly: true } },
+      { insert: { readonly: `開團【${name}】\n` } },  // ⬅️ Embed 方式
       { insert: text }
     ];
     
