@@ -819,9 +819,12 @@
     // $('#cartContent').val(text);
     // quill.setText(text);
     quill.setText('');
-    quill.insertText(0, '親愛的朋友們~');
-    quill.insertEmbed(1, 'readonly', `開團【${name}】開放下單囉！`);
-    quill.insertText(2, text);
+    // quill.insertText(0, '親愛的朋友們~');
+    // quill.insertEmbed(1, 'readonly', `開團【${name}】開放下單囉！`);
+    // quill.insertText(2, text);
+    quill.insertText(0, '請填寫以下資訊：\n');
+    quill.insertEmbed(1, 'readonly', '開團【神秘商品】');
+    quill.insertText(2, '\n請輸入商品說明...');
     
   }
 
