@@ -822,8 +822,8 @@
     var flvs = flv_list.filter(val => val.品項ID === Number(row.ID));
     // console.log(flvs);
     if( flvs.length>0 ){ 
-      if( row.售價=='---' ){
-        flvs.forEach((item,i) => {
+      flvs.forEach((item,i) => {
+        if( row.售價=='---' ){
           if( i==0 ){
             text += `${item.價格}`; 
           }else{
@@ -832,12 +832,12 @@
           text += `(${item.口味}`;
           if( item.限量>0 ){ text += `，限量${item.限量}個` }
           text += `)`;
-        });
-        text += `\n`;
-      }else{
-        text += `${row.售價}`
-        if( item.限量>0 ){ text += `(限量${item.限量}個)` }
-      }
+        }else{
+          text += `${row.售價}`
+          if( item.限量>0 ){ text += `(限量${item.限量}個)` }
+        }
+      });
+      text += `\n`;
     }
     
     if( row.限時開始!='---' && row.限時結束!='---' ){ text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; }
