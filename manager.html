@@ -835,7 +835,7 @@
 
     try {
       await liff.shareTargetPicker([
-        { type: 'text', text: $('#cartContent').text().trim() }
+        { type: 'text', text: $('#cartContent').text() }
       ]);
       Swal.fire({
         icon: 'success',
