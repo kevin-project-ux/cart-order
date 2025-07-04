@@ -944,7 +944,6 @@
     if( data.type=='delete' ){ title = '刪除'; text = `品項「${data.name}」已刪除！`; }
 
     try {
-      mask.style.display = 'flex';
       const response = await fetch(GAS_URL, {
         method: 'POST',
         headers: {
@@ -956,12 +955,13 @@
       const result = await response.json();
 
       if (result[0].status == 'success') {
+        data = await fetchData();
+
         Swal.fire({
           icon: 'success',
           title: title+'成功',
           text: text+`${result[0].alert}`
         });
-        data = await fetchData();
       } else {
         Swal.fire({
           icon: 'error',
@@ -975,8 +975,6 @@
         icon: 'error',
         title: '系統異常'
       });
-    } finally {
-      mask.style.display = 'none';
     }
   }
 
@@ -1137,7 +1135,6 @@
     };
 
     try {
-      mask.style.display = 'flex';
       const response = await fetch(GAS_URL, {
         method: 'POST',
         headers: {
@@ -1149,6 +1146,12 @@
       const result = await response.json();
 
       if (result[0].status == 'success') {
+        // 清空表單
+        resetForm();
+
+        // 重新載入資料
+        data = await fetchData();
+
         Swal.fire({
           icon: 'success',
           title: '送出成功',
@@ -1159,12 +1162,6 @@
         $('#rangePicker').flatpickr().clear();
         $('input[type="text"]').val('');
         $('input[type="number"]').val('');
-
-        // 清空表單
-        resetForm();
-
-        // 重新載入資料
-        data = await fetchData();
       } else {
         Swal.fire({
           icon: 'error',
@@ -1177,8 +1174,6 @@
         icon: 'error',
         title: '系統異常'
       });
-    } finally {
-      mask.style.display = 'none';
     }
   }
 
