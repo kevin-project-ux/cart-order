@@ -961,7 +961,7 @@
           title: title+'成功',
           text: text+`${result[0].alert}`
         });
-        fetchData();
+        data = await fetchData();
       } else {
         Swal.fire({
           icon: 'error',
@@ -1164,7 +1164,7 @@
         resetForm();
 
         // 重新載入資料
-        fetchData();
+        data = await fetchData();
       } else {
         Swal.fire({
           icon: 'error',
