@@ -824,7 +824,7 @@
     const delta = [
       { insert: '親愛的朋友們~\n' },
       { insert: { readonly: `開團【${name}】\n` } },
-      { insert: '想吃的人客記得下單喔\n' },
+      { insert: `${text}\n` },
     ];
     
     quill.setContents(delta);
@@ -835,7 +835,7 @@
 
     try {
       await liff.shareTargetPicker([
-        { type: 'text', text: $('#cartContent').val().trim() }
+        { type: 'text', text: $('#cartContent').text().trim() }
       ]);
       Swal.fire({
         icon: 'success',
