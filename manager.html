@@ -840,7 +840,7 @@
       if (typeof op.insert === 'string') {
         text += op.insert;
       } else if (typeof op.insert === 'object' && op.insert.readonly) {
-        text += `[${op.insert.readonly}]`;
+        text += `${op.insert.readonly}開放下單囉\n`;
       }
     });
 
