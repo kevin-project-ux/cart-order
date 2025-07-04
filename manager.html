@@ -817,14 +817,14 @@
     text += `下單後才會開始製作請耐心等待❤️`;
 
     // $('#cartContent').val(text);
-    // quill.setText(text);
     quill.setText('');
-    // quill.insertText(0, '親愛的朋友們~');
-    // quill.insertEmbed(1, 'readonly', `開團【${name}】開放下單囉！`);
-    // quill.insertText(2, text);
-    quill.insertText(0, '請填寫以下資訊：\n');
-    quill.insertEmbed(1, 'readonly', '開團【神秘商品】');
-    quill.insertText(2, '\n請輸入商品說明...');
+    const delta = [
+      { insert: '親愛的朋友們~\n' },
+      { insert: '開團【神秘商品】\n', attributes: { readonly: true } },
+      { insert: text }
+    ];
+    
+    quill.setContents(delta);
     
   }
 
