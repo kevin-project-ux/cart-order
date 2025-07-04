@@ -30,6 +30,8 @@
   <script src="https://unpkg.com/tippy.js@6"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 </head>
 <style>
   .truncate {
@@ -306,9 +308,7 @@
             <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
               
               <div class="p-4 bg-light rounded shadow-sm">
-                <div class="container mt-4">
-                  <textarea class="form-control" id="cartContent" rows="6"></textarea>
-                </div>
+                <div class="container mt-4 mb-4" id="cartContent"></div>
                 <button class="btn btn-success w-100" id="createCart" onclick="orderOpen()">開啟團購</button>
               </div>
             </div>
@@ -320,11 +320,39 @@
 </body>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script>
 
   const mask = document.getElementById('loadingMask');
 
   new ClipboardJS('.copy_btn');
+
+  const quill = new Quill('#cartContent', {
+    theme: 'snow',
+    placeholder: '請輸入團購內容...',
+    modules: {
+      toolbar: false // 關掉工具列（可打開）
+    }
+  });
+
+  const Inline = Quill.import('blots/inline');
+
+  class ReadonlyText extends Inline {
+    static create(value) {
+      const node = super.create();
+      node.setAttribute('contenteditable', 'false');
+      node.setAttribute('style', 'background: #f5f5f5; color: #999; padding: 2px 4px; border-radius: 4px;');
+      node.innerText = value;
+      return node;
+    }
+  
+    static value(node) {
+      return node.innerText;
+    }
+  }
+  ReadonlyText.blotName = 'readonly';
+  ReadonlyText.tagName = 'span';
+  Quill.register(ReadonlyText);
 
   const GAS_URL = 'https://script.google.com/macros/s/AKfycby4Cm0jtC7iSAuzPFk3W-mIJTyJI8sABFI1pqU-cJUo7l_wvWP4-xNfOq_LCNXr_eEvGg/exec'; // 改為你的 Apps Script 網址
 
@@ -782,13 +810,17 @@
     const name = e.dataset.name;
     const row  = JSON.parse(e.dataset.row);
 
-    var text = `親愛的朋友們~\n`;
-    text += `開團【${name}】開放下單囉！\n`;
-    text += `想吃的人客記得下單喔\n`;
+    // var text = `親愛的朋友們~\n`;
+    // text += `開團【${name}】開放下單囉！\n`;
+    var text = `想吃的人客記得下單喔\n`;
     if( row.限時開始!='---' && row.限時結束!='---' ){ text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; }
     text += `下單後才會開始製作請耐心等待❤️`;
 
-    $('#cartContent').val(text);
+    // $('#cartContent').val(text);
+    // quill.setText(text);
+    quill.insertText(0, '親愛的朋友們~\n');
+    quill.insertEmbed(1, 'readonly', `開團【${name}】開放下單囉！\n`);
+    quill.insertText(2, text);
     
   }
 
