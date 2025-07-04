@@ -956,7 +956,7 @@
       const result = await response.json();
 
       if (result[0].status == 'success') {
-        data = await fetchData();
+        await fetchData();
 
         Swal.fire({
           icon: 'success',
@@ -1154,7 +1154,7 @@
         resetForm();
 
         // 重新載入資料
-        data = await fetchData();
+        await fetchData();
 
         Swal.fire({
           icon: 'success',
