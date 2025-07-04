@@ -813,8 +813,7 @@
     
     const name = e.dataset.name;
     const row  = JSON.parse(e.dataset.row);
-
-    console.log(flv_list);
+    // console.log(flv_list);
 
     var text = `想吃的人客記得下單喔\n`;
     text += `價格：`; 
@@ -825,15 +824,15 @@
       flvs.forEach((item,i) => {
         if( row.售價=='---' ){
           if( i==0 ){
-            text += `${item.價格}`; 
+            text += `${item.價格}元/盒`; 
           }else{
-            text += `、${item.價格}`; 
+            text += `、${item.價格}元/盒`; 
           }
           text += `(${item.口味}`;
-          if( item.限量>0 ){ text += `，限量${item.限量}個` }
+          if( item.限量>0 ){ text += `，限量${item.限量}盒` }
           text += `)`;
         }else{
-          text += `${row.售價}`
+          text += `${row.售價}元/個`
           if( item.限量>0 ){ text += `(限量${item.限量}個)` }
         }
       });
