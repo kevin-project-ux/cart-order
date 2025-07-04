@@ -833,9 +833,20 @@
 
   async function orderOpen(){
 
+    const delta = quill.getContents();
+    let text = '';
+    
+    delta.ops.forEach(op => {
+      if (typeof op.insert === 'string') {
+        text += op.insert;
+      } else if (typeof op.insert === 'object' && op.insert.readonly) {
+        text += `[${op.insert.readonly}]`;
+      }
+    });
+
     try {
       await liff.shareTargetPicker([
-        { type: 'text', text: quill.getText() }
+        { type: 'text', text: text }
       ]);
       Swal.fire({
         icon: 'success',
