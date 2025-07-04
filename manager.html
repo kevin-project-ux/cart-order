@@ -850,7 +850,23 @@
     ];
     
     quill.setContents(delta);
+
+    // 保存初始 readonly 的 index 和內容
+    const readonlyText = `開團【${name}】\n`;
     
+    quill.on('text-change', function (delta, oldDelta, source) {
+      const current = quill.getContents();
+      const hasReadonly = current.ops.some(op => op.insert && op.insert.readonly === readonlyText);
+    
+      if (!hasReadonly) {
+        // 找不到 readonly，使用者可能刪掉了 → 補回去
+        const insertAt = 1; // 根據你想要插入的位置決定
+        quill.updateContents([
+          { retain: insertAt },
+          { insert: { readonly: readonlyText } }
+        ]);
+      }
+    });
   }
 
   async function orderOpen(){
