@@ -667,6 +667,7 @@
         var price  = `${ typeof result[0].total!=='undefined' ? `<span style="float:right;">總金額(元)：<span class="text-danger">${result[0].total}</span></span>` : ''}`;
         $('#order_title').html(name);
         $('#order_price').html(price);
+        tippy('.truncate').forEach(t => t.destroy());
         tippy('.truncate', {
           content: name,
           placement: 'top', // 上方顯示
