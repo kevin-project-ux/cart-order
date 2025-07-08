@@ -663,6 +663,7 @@
 
       if (result[0].status == 'success') {
         var ords   = result[0].orders;
+        var flvs   = result[0].flavors || '';
         var price  = `${ typeof result[0].total!=='undefined' ? `<span style="float:right;">總金額(元)：<span class="text-danger">${result[0].total}</span></span>` : ''}`;
         $('#order_title').html(name);
         $('#order_price').html(price);
@@ -674,7 +675,7 @@
             tippy.hideAll({ exclude: instance });
           },
         });
-        renderItems(ords, data);
+        renderItems(ords, data, flvs);
 
       } else {
         Swal.fire({
@@ -695,7 +696,7 @@
     
   }
 
-  function renderItems(items, data) {
+  function renderItems(items, data, flvs='') {
     const container = document.getElementById("itemContainer");
     console.log(items);
     var id = data.id;
@@ -713,9 +714,15 @@
             grouped[item.name] = [];
           }
           item.orders.forEach(ord => {
+            var total = '';
+            if( flvs!='' ){
+              var flv = flvs.find(flv.flavor === ord.taste);
+              if( flv ){ total = ord.count * flv.price; }
+            }
             grouped[item.name].push({
               taste: ord.taste,
-              count: ord.count
+              count: ord.count,
+              total: total
             });
           });
         }
