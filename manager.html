@@ -486,7 +486,7 @@
                       <li>${!nodel.includes(row.狀態) ? del : ''}</li>
                     </ul>
                   </div>`
-                  : ''
+                  : row.備註
                 }
               `;
               return html;
@@ -660,7 +660,7 @@
       });
 
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
 
       if (result[0].status == 'success') {
         var ords   = result[0].orders;
@@ -699,7 +699,7 @@
 
   function renderItems(items, data) {
     const container = document.getElementById("itemContainer");
-    console.log(items);
+    // console.log(items);
     var id = data.id;
     var type = data.type;
     var name = data.name;
