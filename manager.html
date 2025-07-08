@@ -35,6 +35,7 @@
 </head>
 <style>
   .truncate {
+    width: 130px;
     max-width: 150px;
     white-space: nowrap;
     overflow: hidden;
@@ -748,8 +749,8 @@
           `<li class="list-group-item d-flex justify-content-between align-items-center">
             ${f.taste}
             <span>
-              <span class="badge bg-danger me-2">x${f.count}</span>
-              <span class="text-end text-nowrap">$${f.total}</span>
+              <span class="badge bg-danger me-2" style="width: 40px;">x${f.count}</span>
+              <span class="text-end text-nowrap" style="min-width: 40px; display: inline-block;">$${f.total}</span>
             </span>
           </li>`
         ).join('');
@@ -787,7 +788,7 @@
           card.innerHTML = `
             <div class="card-header d-flex justify-content-between align-items-center">
               <strong class="truncate"><i class="fas fa-user"></i> ${item.name}</strong>
-              <span class="text-muted"><li class="list-group-item">數量 <span class="badge bg-danger">${item.orders[0].count}</span></li></span>
+              <span class="text-muted"><li class="list-group-item"><span class="badge bg-danger" style="min-width: 40px; display: inline-block;">x${item.orders[0].count}</span></li></span>
               <a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>
             </div>
           `;
@@ -798,8 +799,8 @@
               <strong class="truncate"><i class="fas fa-user"></i> ${item.姓名}</strong>
               <span class="text-muted">
                 <li class="list-group-item">
-                  <span class="badge bg-danger me-2">x${item.數量}</span>
-                  <span class="text-end text-nowrap">$${item.金額}</span>
+                  <span class="badge bg-danger me-2" style="width: 40px;">x${item.數量}</span>
+                  <span class="text-end text-nowrap" style="min-width: 40px; display: inline-block;">$${item.金額}</span>
                 </li>
               </span>
             </div>
