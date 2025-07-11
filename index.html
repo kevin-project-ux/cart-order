@@ -193,7 +193,9 @@
 
     // 抓取網址參數
     // const params = new URLSearchParams(window.location.search);
-    const params = new URLSearchParams(location.href.split('?')[1]);
+    // const params = new URLSearchParams(location.href.split('?')[1]);
+    const url = liff.getContext().extra.queryString;
+    const params = new URLSearchParams(url);
     const name = params.get("name"); // 抓取name的值
 
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
