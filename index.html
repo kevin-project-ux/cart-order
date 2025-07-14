@@ -170,19 +170,18 @@
       const urlParams = new URLSearchParams(window.location.search);
       var name = urlParams.get("name");
       if (name) { localStorage.setItem("name", name); }
+      console.log('是否已登入：', liff.isLoggedIn());
 
       if (!liff.isLoggedIn()) {
         // liff.login();
+        console.log("尚未登入，執行 login");
         const stateParam = `name=${name}`;
-        console.log(123);
         liff.login({
           redirectUri: window.location.origin + window.location.pathname,
           state: stateParam,
         });
-        console.log(456);
         return;
       }
-      console.log(789);
 
       const profile = await liff.getProfile();
       // console.log("✅ userId:", profile.userId);
@@ -215,6 +214,7 @@
 
     const state = new URLSearchParams(window.location.search).get("state");
     if (state) {
+      console.log("取得 state 中的 test：", state);
       const parsedState = new URLSearchParams(state);
       name = parsedState.get("name");
       console.log(name);
