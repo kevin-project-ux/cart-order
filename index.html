@@ -167,13 +167,8 @@
     window.onload = async () => {
       await liff.init({ liffId: "2007457926-DVgm8yJO" });
 
-      const urlParams = new URLSearchParams(window.location.search);
-      var name = urlParams.get("name");
-      if (name) { localStorage.setItem("name", name); }
-
       if (!liff.isLoggedIn()) {
         // liff.login();
-        console.log("尚未登入，執行 login");
         const redirectUri = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(name)}`;
         liff.login({
           redirectUri:redirectUri,
@@ -207,25 +202,13 @@
     let data = '';
     let cart = [];
     let quantities = [];
-    let name = '';
 
     const mask = document.getElementById('loadingMask');
     const result = document.getElementById('result');
 
-    const state = new URLSearchParams(window.location.search).get("state");
-    if (state) {
-      console.log("取得 state 中的 test：", state);
-      const parsedState = new URLSearchParams(state);
-      name = parsedState.get("name");
-      console.log(name);
-    }
-
-    if( name=='' ){
-      // 抓取網址參數
-      const params = new URLSearchParams(window.location.search);
-      name = params.get("name"); // 抓取name的值
-    }
-    console.log(name);
+    // 抓取網址參數
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name"); // 抓取name的值
 
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
