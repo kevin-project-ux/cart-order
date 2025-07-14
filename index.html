@@ -170,16 +170,14 @@
       const urlParams = new URLSearchParams(window.location.search);
       var name = urlParams.get("name");
       if (name) { localStorage.setItem("name", name); }
-      console.log('是否已登入：', liff.isLoggedIn());
 
       if (!liff.isLoggedIn()) {
         // liff.login();
         console.log("尚未登入，執行 login");
-        const stateParam = `name=${name}`;
-        console.log(window.location.origin + window.location.pathname);
+        const redirectUri = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(name)}`;
         liff.login({
-          redirectUri: window.location.origin + window.location.pathname,
-          state: stateParam,
+          redirectUri:redirectUri,
+          state: name,
         });
         return;
       }
