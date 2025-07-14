@@ -213,11 +213,11 @@
     if (state) {
       const parsedState = new URLSearchParams(state);
       name = parsedState.get("test");
+    }else{
+      // 抓取網址參數
+      const params = new URLSearchParams(window.location.search);
+      name = params.get("name"); // 抓取name的值
     }
-
-    // 抓取網址參數
-    const params = new URLSearchParams(window.location.search);
-    name = params.get("name"); // 抓取name的值
     console.log(name);
 
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
