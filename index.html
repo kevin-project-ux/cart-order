@@ -170,7 +170,6 @@
       const urlParams = new URLSearchParams(window.location.search);
       var name = urlParams.get("name");
       if (name) { localStorage.setItem("name", name); }
-      console.log(name);
 
       if (!liff.isLoggedIn()) {
         // liff.login();
@@ -216,6 +215,7 @@
     if (state) {
       const parsedState = new URLSearchParams(state);
       name = parsedState.get("name");
+      console.log(name);
     }
 
     if( name=='' ){
