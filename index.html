@@ -174,13 +174,15 @@
       if (!liff.isLoggedIn()) {
         // liff.login();
         const stateParam = `name=${name}`;
-
+        console.log(123);
         liff.login({
           redirectUri: window.location.origin + window.location.pathname,
           state: stateParam,
         });
+        console.log(456);
         return;
       }
+      console.log(789);
 
       const profile = await liff.getProfile();
       // console.log("✅ userId:", profile.userId);
