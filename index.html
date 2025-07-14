@@ -171,6 +171,7 @@
         // liff.login();
         const name = new URLSearchParams(location.search).get("name");
         const stateParam = `name=${name}`;
+        console.log(name);
       
         liff.login({
           redirectUri: window.location.origin + window.location.pathname,
