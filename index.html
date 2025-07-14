@@ -176,6 +176,7 @@
         // liff.login();
         console.log("尚未登入，執行 login");
         const stateParam = `name=${name}`;
+        console.log(window.location.origin + window.location.pathname);
         liff.login({
           redirectUri: window.location.origin + window.location.pathname,
           state: stateParam,
