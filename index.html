@@ -168,7 +168,14 @@
       await liff.init({ liffId: "2007457926-DVgm8yJO" });
 
       if (!liff.isLoggedIn()) {
-        liff.login();
+        // liff.login();
+        const name = new URLSearchParams(location.search).get("name");
+        const stateParam = `name=${name}`;
+      
+        liff.login({
+          redirectUri: window.location.origin + window.location.pathname,
+          state: stateParam,
+        });
         return;
       }
 
@@ -196,13 +203,22 @@
     let data = '';
     let cart = [];
     let quantities = [];
+    let name = '';
 
     const mask = document.getElementById('loadingMask');
     const result = document.getElementById('result');
 
+    // 授權後的頁面處理
+    const state = new URLSearchParams(location.search).get("state");
+    if (state) {
+      const parsedState = new URLSearchParams(state);
+      name = parsedState.get("test");
+    }
+
     // 抓取網址參數
     const params = new URLSearchParams(window.location.search);
-    const name = params.get("name"); // 抓取name的值
+    name = params.get("name"); // 抓取name的值
+    console.log(name);
 
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
