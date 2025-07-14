@@ -167,16 +167,14 @@
     window.onload = async () => {
       await liff.init({ liffId: "2007457926-DVgm8yJO" });
 
+      const urlParams = new URLSearchParams(window.location.search);
+      var name = urlParams.get("name");
+    
+      // 第一次進入，參數存在就暫存
+      if (name) { localStorage.setItem("name", name); }
+
       if (!liff.isLoggedIn()) {
-        // liff.login();
-        const name = new URLSearchParams(location.search).get("name");
-        const stateParam = `name=${name}`;
-        console.log(name);
-      
-        liff.login({
-          redirectUri: window.location.origin + window.location.pathname,
-          state: stateParam,
-        });
+        liff.login();
         return;
       }
 
@@ -209,12 +207,7 @@
     const mask = document.getElementById('loadingMask');
     const result = document.getElementById('result');
 
-    // 授權後的頁面處理
-    const state = new URLSearchParams(location.search).get("state");
-    if (state) {
-      const parsedState = new URLSearchParams(state);
-      name = parsedState.get("name");
-    }else{
+    if( name=='' ){
       // 抓取網址參數
       const params = new URLSearchParams(window.location.search);
       name = params.get("name"); // 抓取name的值
