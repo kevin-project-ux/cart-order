@@ -212,7 +212,7 @@
     const state = new URLSearchParams(location.search).get("state");
     if (state) {
       const parsedState = new URLSearchParams(state);
-      name = parsedState.get("test");
+      name = parsedState.get("name");
     }else{
       // 抓取網址參數
       const params = new URLSearchParams(window.location.search);
