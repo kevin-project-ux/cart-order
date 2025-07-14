@@ -169,12 +169,16 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       var name = urlParams.get("name");
-    
-      // 第一次進入，參數存在就暫存
       if (name) { localStorage.setItem("name", name); }
 
       if (!liff.isLoggedIn()) {
-        liff.login();
+        // liff.login();
+        const stateParam = `name=${name}`;
+
+        liff.login({
+          redirectUri: window.location.origin + window.location.pathname,
+          state: stateParam,
+        });
         return;
       }
 
@@ -206,6 +210,12 @@
 
     const mask = document.getElementById('loadingMask');
     const result = document.getElementById('result');
+
+    const state = new URLSearchParams(window.location.search).get("state");
+    if (state) {
+      const parsedState = new URLSearchParams(state);
+      name = parsedState.get("name");
+    }
 
     if( name=='' ){
       // 抓取網址參數
