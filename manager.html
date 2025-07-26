@@ -179,7 +179,9 @@
             
                 <div class="mb-3">
                   <label class="form-label">團購期間 </label>
-                  <input type="text" class="form-control" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;">
+                  <input class="form-control" id="startDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
+                  <input class="form-control" id="endDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
+<!--                   <input type="text" class="form-control" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;"> -->
                 </div>
             
                 <!-- 單/多口味切換 -->
@@ -504,15 +506,22 @@
         ]
       });
 
-      fp = flatpickr("#rangePicker", {
-        mode: "range",
+      fp1 = flatpickr("#startDate", {
         enableTime: true,
         dateFormat: "m/d H:i",
         locale: "zh",
         minDate: "today" // ✅ 限制今天以前不能選
       });
 
-      fp.clear();
+      fp2 = flatpickr("#endDate", {
+        enableTime: true,
+        dateFormat: "m/d H:i",
+        locale: "zh",
+        minDate: "today" // ✅ 限制今天以前不能選
+      });
+
+      fp1.clear();
+      fp2.clear();
     } catch (err) {
       console.error('讀取 Google Sheet 資料失敗', err);
     }
@@ -1092,7 +1101,10 @@
 
     let name    = document.getElementById('itemName').value.trim();
     const id    = document.getElementById('itemNames').value.trim();
-    const range = document.getElementById('rangePicker').value;
+    // const range = document.getElementById('rangePicker').value;
+    const range1 = document.getElementById('startDate').value;
+    const range2 = document.getElementById('endDate').value;
+    const range  = range1 + ' ~ ' + range2;
 
     if ( !name && !id ) {
       Swal.fire('請填寫名稱');
@@ -1177,7 +1189,9 @@
         });
 
         $('#groupBuyModal').modal('hide');
-        $('#rangePicker').flatpickr().clear();
+        // $('#rangePicker').flatpickr().clear();
+        $('#startDate').flatpickr().clear();
+        $('#endDate').flatpickr().clear();
         $('input[type="text"]').val('');
         $('input[type="number"]').val('');
       } else {
