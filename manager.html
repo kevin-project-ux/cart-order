@@ -717,7 +717,7 @@
 
   function renderItems(items, data) {
     const container = document.getElementById("itemContainer");
-    console.log(data);
+    // console.log(data);
     var id = data.id;
     var type = data.type;
     var name = data.name;
@@ -758,7 +758,7 @@
         totals[key] = grouped[key].reduce((sum, item) => sum + (item.total || 0), 0);
       });
 
-      Object.entries(grouped).forEach(([name, flavors], index) => {
+      Object.entries(grouped).forEach(([user, flavors], index) => {
         const collapseId = `itemDetail${index}`;
         const card = document.createElement("div");
         card.className = "card mb-3";
@@ -777,9 +777,9 @@
       
         card.innerHTML = `
           <div class="card-header d-flex justify-content-between align-items-center">
-            <strong class="truncate"><i class="fas fa-user"></i> ${name}</strong>
+            <strong class="truncate"><i class="fas fa-user"></i> ${user}</strong>
             <div class="d-flex gap-3">
-              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${name}" data-user="${name}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
+              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${name}" data-user="${user}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
               <a href="#" class="link-secondary text-decoration-none" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
             </div>
           </div>
