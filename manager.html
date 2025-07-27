@@ -717,12 +717,11 @@
 
   function renderItems(items, data) {
     const container = document.getElementById("itemContainer");
-    // console.log(items);
+    console.log(data);
     var id = data.id;
     var type = data.type;
     var name = data.name;
     var flavor = data.flavor;
-    var user = data.userId;
 
     if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
 
@@ -780,7 +779,7 @@
           <div class="card-header d-flex justify-content-between align-items-center">
             <strong class="truncate"><i class="fas fa-user"></i> ${name}</strong>
             <div class="d-flex gap-3">
-              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${name}" data-user="${user}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
+              ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-id="${id}" data-name="${name}" data-user="${name}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
               <a href="#" class="link-secondary text-decoration-none" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
             </div>
           </div>
@@ -1006,7 +1005,7 @@
   }
 
   function delUserOrderConfirm(e){
-    console.log(e);
+    // console.log(e);
     Swal.fire({
       title: '你確定嗎？',
       text: '此操作無法復原！',
