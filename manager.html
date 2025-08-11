@@ -963,12 +963,18 @@
     }
   }
 
+  function AgentModal(e){
+
+    $('#AgentModal').modal('show');
+
+    orderAgent(e);
+  }
+
   function orderAgent(e){
 
     const id   = e.dataset.id;
     const name = e.dataset.name;
     const type = e.dataset.type;
-
 
   }
 
