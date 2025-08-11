@@ -314,18 +314,53 @@
           <!-- Tabs -->
           <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">團購內容</button>
+              <button class="nav-link active" id="cart-tab" data-bs-toggle="tab" data-bs-target="#cart" type="button" role="tab">團購內容</button>
             </li>
           </ul>
       
           <!-- Tab Content -->
-          <div class="tab-content" id="editTabsContent">
+          <div class="tab-content" id="cartTabsContent">
             <!-- 開啟團購/預購 -->
-            <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
+            <div class="tab-pane fade show active" id="cart" role="tabpanel" aria-labelledby="cart-tab">
               
               <div class="p-4 bg-light rounded shadow-sm">
                 <div class="container mt-4 mb-4" id="cartContent"></div>
                 <button class="btn btn-success w-100" id="createCart" onclick="orderOpen()">開啟團購</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 代購訂單 Modal -->
+  <div class="modal fade" id="AgentModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">代購訂單</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabs -->
+          <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="agent-tab" data-bs-toggle="tab" data-bs-target="#agent" type="button" role="tab">代購品項</button>
+            </li>
+          </ul>
+      
+          <!-- Tab Content -->
+          <div class="tab-content" id="agentTabsContent">
+            <!-- 開啟團購/預購 -->
+            <div class="tab-pane fade show active" id="agent" role="tabpanel" aria-labelledby="agent-tab">
+              
+              <div class="p-4 bg-light rounded shadow-sm">
+                <div class="container mt-4 mb-4" id="agentContent">
+                  <input type="text" class="form-control" name="agentName" value="">
+                  <input type="number" class="form-control" name="agentNum" value="0">
+                </div>
+                <button class="btn btn-success w-100" id="agentOrder" onclick="orderOpen()">確認送出</button>
               </div>
             </div>
           </div>
@@ -479,6 +514,7 @@
               var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
               var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
               var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</a>`;
+              var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="orderAgent(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單</a>`;
               var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
               
               var html = `
@@ -494,6 +530,7 @@
                       <li>${row.狀態 === '開啟中' ? stop : ''}</li>
                       <li>${row.狀態 === '開啟中' ? chk : ''}</li>
                       <li>${row.狀態 === '開啟中' ? list : ''}</li>
+                      <li>${row.狀態 === '開啟中' ? agent : ''}</li>
                       <li>${!nodel.includes(row.狀態) ? del : ''}</li>
                     </ul>
                   </div>`
@@ -863,7 +900,9 @@
       text += `\n`;
     }
     
-    if( row.限時開始!='---' && row.限時結束!='---' ){ text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; }
+    if( row.限時開始!='---' && row.限時結束!='---' && row.限時開始!='' && row.限時結束!='' ){ 
+      text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; 
+    }
     text += `下單後才會開始製作請耐心等待❤️`;
 
     quill.setText('');
@@ -922,6 +961,15 @@
     } catch (e) {
       if (e.code !== 'USER_CANCEL') console.log('分享失敗：' + e.message);
     }
+  }
+
+  function orderAgent(e){
+
+    const id   = e.dataset.id;
+    const name = e.dataset.name;
+    const type = e.dataset.type;
+
+
   }
 
   function orderConfirm(e){
