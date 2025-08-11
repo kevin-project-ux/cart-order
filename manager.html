@@ -360,11 +360,11 @@
                   <div class="mb-3">
                     <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleItem()">
+                      <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleAgentName()">
                       <label class="form-check-label">新名字</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="nameType" value="old" onchange="toggleItem()">
+                      <input class="form-check-input" type="radio" name="nameType" value="old" onchange="toggleAgentName()">
                       <label class="form-check-label">舊名字</label>
                     </div>
                   </div>
@@ -608,28 +608,28 @@
 
   function toggleItem() {
     const selected = document.querySelector('input[name="itemType"]:checked').value;
-    document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
-    document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
+    document.getElementById("newItem").style.display = selected === "new" ? "block" : "none";
+    document.getElementById("oldItem").style.display = selected === "old" ? "block" : "none";
 
     if( selected=='old' ){
       // console.log(data);
       const oldName = prd_list.filter((item, index, self) =>
         index === self.findIndex(t => t.名稱 === item.名稱)
       );
-      console.log(oldName);
-      $('#agentNames').empty(); // 清空原有內容（若有）
+      // console.log(oldName);
+      $('#itemNames').empty(); // 清空原有內容（若有）
 
-      $('#agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
+      $('#itemNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
       
       // 將 oldName 陣列加入 select 中
       oldName.forEach(item => {
-        $('#agentNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
+        $('#itemNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
       });
     
       // 初始化 Select2
-      $('#agentNames').select2({
-        dropdownParent: $('#agentModal'),
-        placeholder: '請選擇姓名',
+      $('#itemNames').select2({
+        dropdownParent: $('#groupBuyModal'),
+        placeholder: '請選擇品項',
         allowClear: true,
         width: 'resolve'
       });
@@ -1012,30 +1012,30 @@
 
   }
 
-  function toggleAgentType() {
+  function toggleAgentName() {
     const selected = document.querySelector('input[name="nameType"]:checked').value;
-    document.getElementById("newItem").style.display = selected === "new" ? "block" : "none";
-    document.getElementById("oldItem").style.display = selected === "old" ? "block" : "none";
+    document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
+    document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
     if( selected=='old' ){
       // console.log(data);
       const oldName = prd_list.filter((item, index, self) =>
         index === self.findIndex(t => t.名稱 === item.名稱)
       );
-      // console.log(oldName);
-      $('#itemNames').empty(); // 清空原有內容（若有）
+      console.log(oldName);
+      $('#agentNames').empty(); // 清空原有內容（若有）
 
-      $('#itemNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
+      $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
       
       // 將 oldName 陣列加入 select 中
       oldName.forEach(item => {
-        $('#itemNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
+        $('#agentNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
       });
     
       // 初始化 Select2
-      $('#itemNames').select2({
-        dropdownParent: $('#groupBuyModal'),
-        placeholder: '請選擇品項',
+      $('#agentNames').select2({
+        dropdownParent: $('#agentModal'),
+        placeholder: '請選擇姓名',
         allowClear: true,
         width: 'resolve'
       });
