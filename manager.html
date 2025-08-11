@@ -181,7 +181,6 @@
                   <label class="form-label">團購期間 </label>
                   <input class="form-control" id="startDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
                   <input class="form-control" id="endDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
-<!--                   <input type="text" class="form-control" id="rangePicker" placeholder="請選擇時間範圍" style="margin-top: 0.4rem;"> -->
                 </div>
             
                 <!-- 單/多口味切換 -->
@@ -355,10 +354,45 @@
             <!-- 開啟團購/預購 -->
             <div class="tab-pane fade show active" id="agent" role="tabpanel" aria-labelledby="agent-tab">
               
+
               <div class="p-4 bg-light rounded shadow-sm">
                 <div class="container mt-4 mb-4" id="agentContent">
-                  <input type="text" class="form-control" name="agentName" value="">
-                  <input type="number" class="form-control" name="agentNum" value="0">
+                  <div class="mb-3">
+                    <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleItem()">
+                      <label class="form-check-label">新名字</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="nameType" value="old" onchange="toggleItem()">
+                      <label class="form-check-label">舊名字</label>
+                    </div>
+                  </div>
+
+                  <!-- 新名字 -->
+                  <div id="newName" class="mb-3">
+                    <input type="text" class="form-control" id="agentName" required>
+                  </div>
+
+                  <!-- 舊名字 -->
+                  <div id="oldName" class="mb-3" style="display: none;">
+                    <select class="form-select w-100" id="agentNames" onchange="setItemData(this)" required></select>
+                  </div>
+            
+              
+                  <!-- 單口味 -->
+                  <div id="singleFlavor" class="mb-3">
+                    <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
+                    <div class="row g-2 mb-2">
+                        <div class="col">
+                          <input type="number" class="form-control" id="price" min="1" placeholder="價格">
+                        </div>
+                        <div class="col">
+                          <input type="number" class="form-control" id="singleLimit" placeholder="數量" value="0">
+                        </div>
+                    </div>
+                  </div>
+                  <input type="number" class="form-control" name="agentNum" min="1" value="0" placeholder="數量">
                 </div>
                 <button class="btn btn-success w-100" id="agentOrder" onclick="orderOpen()">確認送出</button>
               </div>
@@ -574,28 +608,28 @@
 
   function toggleItem() {
     const selected = document.querySelector('input[name="itemType"]:checked').value;
-    document.getElementById("newItem").style.display = selected === "new" ? "block" : "none";
-    document.getElementById("oldItem").style.display = selected === "old" ? "block" : "none";
+    document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
+    document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
     if( selected=='old' ){
       // console.log(data);
       const oldName = prd_list.filter((item, index, self) =>
         index === self.findIndex(t => t.名稱 === item.名稱)
       );
-      // console.log(oldName);
-      $('#itemNames').empty(); // 清空原有內容（若有）
+      console.log(oldName);
+      $('#agentNames').empty(); // 清空原有內容（若有）
 
-      $('#itemNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
+      $('#agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
       
       // 將 oldName 陣列加入 select 中
       oldName.forEach(item => {
-        $('#itemNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
+        $('#agentNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
       });
     
       // 初始化 Select2
-      $('#itemNames').select2({
-        dropdownParent: $('#groupBuyModal'),
-        placeholder: '請選擇品項',
+      $('#agentNames').select2({
+        dropdownParent: $('#agentModal'),
+        placeholder: '請選擇姓名',
         allowClear: true,
         width: 'resolve'
       });
@@ -976,6 +1010,36 @@
     const name = e.dataset.name;
     const type = e.dataset.type;
 
+  }
+
+  function toggleAgentType() {
+    const selected = document.querySelector('input[name="nameType"]:checked').value;
+    document.getElementById("newItem").style.display = selected === "new" ? "block" : "none";
+    document.getElementById("oldItem").style.display = selected === "old" ? "block" : "none";
+
+    if( selected=='old' ){
+      // console.log(data);
+      const oldName = prd_list.filter((item, index, self) =>
+        index === self.findIndex(t => t.名稱 === item.名稱)
+      );
+      // console.log(oldName);
+      $('#itemNames').empty(); // 清空原有內容（若有）
+
+      $('#itemNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
+      
+      // 將 oldName 陣列加入 select 中
+      oldName.forEach(item => {
+        $('#itemNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
+      });
+    
+      // 初始化 Select2
+      $('#itemNames').select2({
+        dropdownParent: $('#groupBuyModal'),
+        placeholder: '請選擇品項',
+        allowClear: true,
+        width: 'resolve'
+      });
+    }
   }
 
   function orderConfirm(e){
