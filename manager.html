@@ -757,6 +757,7 @@
       Object.keys(grouped).forEach(key => {
         totals[key] = grouped[key].reduce((sum, item) => sum + (item.total || 0), 0);
       });
+      console.log(totals);
 
       Object.entries(grouped).forEach(([user, flavors], index) => {
         const collapseId = `itemDetail${index}`;
@@ -807,7 +808,7 @@
           card.innerHTML = `
             <div class="card-header d-flex justify-content-between align-items-center">
               <strong class="truncate"><i class="fas fa-user"></i> ${item.name}</strong>
-              <span class="text-muted"><li class="list-group-item"><span class="badge bg-danger" style="min-width: 40px; display: inline-block;">x${item.orders[0].total}</span></li></span>
+              <span class="text-muted"><li class="list-group-item"><span class="badge bg-danger" style="min-width: 40px; display: inline-block;">x${item.orders[0].count}</span></li></span>
               <a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>
             </div>
           `;
