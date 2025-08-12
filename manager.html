@@ -156,6 +156,8 @@
               
               <div class="p-4 bg-light rounded shadow-sm">
                 <div class="mb-3">
+                  <input type="hidden" name="prd_name" id="prd_name">
+                  <h5 class="text-center" id="prd_title"></h5>
                   <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="itemType" value="new" checked onchange="toggleItem()">
@@ -241,7 +243,7 @@
                   </button>
                 </div>
           
-<!--                 <div id="singleFlavor" class="mb-3">
+                <!-- <div id="singleFlavor" class="mb-3">
                   <label for="note">備註</label>
                   <input type="text" class="form-control" id="note" />
                 </div> -->
@@ -251,7 +253,7 @@
             </div>
           
             <!-- 刪除團購/預購 -->
-<!--             <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab">
+            <!-- <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab">
               
             </div> -->
           </div>
@@ -292,7 +294,7 @@
             </div>
           
             <!-- 刪除團購/預購 -->
-<!--             <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab">
+            <!-- <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab">
               
             </div> -->
           </div>
@@ -377,20 +379,6 @@
                   <!-- 舊名字 -->
                   <div id="oldName" class="mb-3" style="display: none;">
                     <select class="form-select w-100" id="agentNames" onchange="setItemData(this)" required></select>
-                  </div>
-            
-              
-                  <!-- 單口味 -->
-                  <div id="singleFlavor" class="mb-3">
-                    <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
-                    <div class="row g-2 mb-2">
-                        <div class="col">
-                          <input type="number" class="form-control" id="price" min="1" placeholder="價格">
-                        </div>
-                        <div class="col">
-                          <input type="number" class="form-control" id="singleLimit" placeholder="數量" value="0">
-                        </div>
-                    </div>
                   </div>
                   <input type="number" class="form-control" name="agentNum" min="1" value="0" placeholder="數量">
                 </div>
@@ -1001,14 +989,17 @@
 
     $('#AgentModal').modal('show');
 
-    orderAgent(e);
-  }
-
-  function orderAgent(e){
-
     const id   = e.dataset.id;
     const name = e.dataset.name;
     const type = e.dataset.type;
+
+    $('#prd_title').text(name);
+    $('#prd_name').val(name);
+
+    // orderAgent(e);
+  }
+
+  function orderAgent(e){
 
   }
 
@@ -1017,11 +1008,14 @@
     document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
+    const name = $('#prd_name').val();
+
     if( selected=='old' ){
       // console.log(data);
-      const oldName = prd_list.filter((item, index, self) =>
-        index === self.findIndex(t => t.名稱 === item.名稱)
-      );
+      // const oldName = prd_list.filter((item, index, self) =>
+      //   index === self.findIndex(t => t.名稱 === item.名稱)
+      // );
+      const oldName = prd_list.filter(item => item.名稱 !== name);
       console.log(oldName);
       $('#agentNames').empty(); // 清空原有內容（若有）
 
