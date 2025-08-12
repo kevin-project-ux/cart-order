@@ -86,6 +86,8 @@
   gtag('config', 'G-K7ZW7QSTSY');
 </script>
 <script>
+  const mask = document.getElementById('loadingMask');
+
   window.onload = async () => {
     await liff.init({ liffId: "2007457926-5wAYNP0w" });
 
@@ -102,7 +104,16 @@
     document.getElementById("createOrder").disabled = false;
 
     // 檢查 LocalStorage 快取
-    if ( !isUserAuthenticated(userId) ) { authUser(userId); }else{ await fetchData(); }
+    if ( !isUserAuthenticated(userId) ) { 
+      authUser(userId); 
+    }else{ 
+      try{
+        mask.style.display = 'flex';
+        await fetchData(); 
+      } finally {
+        mask.style.display = 'none';
+      }
+    }
 
     // authUser(userId);
   }
@@ -374,6 +385,37 @@
                     </div>
                   </div>
 
+                  <!-- <div id="multiFlavor" class="mb-3" style="display: none;">
+                    <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
+                    <div id="flavorWrapper">
+                      <div class="row g-2 mb-2 flavor-row">
+                        <div class="col">
+                          <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
+                        </div>
+                        <div class="col">
+                          <input type="text" class="form-control flavor-name" placeholder="口味">
+                        </div>
+                        <div class="col">
+                          <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
+                        </div>
+                      </div>
+                      <div class="row g-2 mb-2 flavor-row">
+                        <div class="col">
+                          <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
+                        </div>
+                        <div class="col">
+                          <input type="text" class="form-control flavor-name" placeholder="口味">
+                        </div>
+                        <div class="col">
+                          <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
+                        </div>
+                      </div>
+                    </div>
+                    <button class="btn btn-outline-primary w-100" onclick="addFlavor()">
+                      <i class="fas fa-plus"></i> 新增口味
+                    </button>
+                  </div> -->
+
                   <!-- 新名字 -->
                   <div id="newName" class="mb-3">
                     <input type="text" class="form-control" id="agentName" required>
@@ -381,9 +423,15 @@
 
                   <!-- 舊名字 -->
                   <div id="oldName" class="mb-3" style="display: none;">
-                    <select class="form-select w-100" id="agentNames" onchange="setItemData(this)" required></select>
+                    <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" required></select>
                   </div>
+
                   <input type="number" class="form-control" name="agentNum" min="1" value="0" placeholder="數量">
+
+                  <button class="btn btn-outline-primary w-100" onclick="addAgent()">
+                    <i class="fas fa-plus"></i> 新增名字
+                  </button>
+
                 </div>
                 <button class="btn btn-success w-100" id="agentOrder" onclick="orderOpen()">確認送出</button>
               </div>
@@ -398,8 +446,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script>
-
-  const mask = document.getElementById('loadingMask');
 
   new ClipboardJS('.copy_btn');
 
@@ -568,7 +614,7 @@
               var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
               var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
               var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</a>`;
-              var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="AgentModal(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單</a>`;
+              var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="AgentModal(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單 <span class="badge bg-success">Beta</span></a>`;
               var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
               
               var html = `
