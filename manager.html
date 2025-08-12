@@ -356,10 +356,10 @@
               
 
               <div class="p-4 bg-light rounded shadow-sm">
+                <h5 class="text-center" id="prd_title"></h5>
                 <div class="container mt-4 mb-4" id="agentContent">
                   <div class="mb-3">
                     <input type="hidden" name="prd_name" id="prd_name">
-                    <h5 class="text-center" id="prd_title"></h5>
                     <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleAgentName()">
@@ -1009,6 +1009,7 @@
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
     const name = $('#prd_name').val();
+    console.log(name);
 
     if( name=='' ){ return false; }
 
@@ -1017,19 +1018,17 @@
       // const oldName = prd_list.filter((item, index, self) =>
       //   index === self.findIndex(t => t.名稱 === item.名稱)
       // );
-      const oldName = prd_list.filter(item => item.名稱 !== name);
+      const oldName = prd_list.filter(item => item.名稱 !== name && item.狀態 ==='已結單');
       console.log(oldName);
+      const data = oldName.map(item => ({ id: item.ID, text: item.名稱 }));
+      
       $('#agentNames').empty(); // 清空原有內容（若有）
 
-      $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
-      
-      // 將 oldName 陣列加入 select 中
-      oldName.forEach(item => {
-        $('#agentNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
-      });
+      // $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
     
       // 初始化 Select2
       $('#agentNames').select2({
+        data: data,
         dropdownParent: $('#agentModal'),
         placeholder: '請選擇姓名',
         allowClear: true,
