@@ -156,8 +156,6 @@
               
               <div class="p-4 bg-light rounded shadow-sm">
                 <div class="mb-3">
-                  <input type="hidden" name="prd_name" id="prd_name">
-                  <h5 class="text-center" id="prd_title"></h5>
                   <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="itemType" value="new" checked onchange="toggleItem()">
@@ -360,6 +358,8 @@
               <div class="p-4 bg-light rounded shadow-sm">
                 <div class="container mt-4 mb-4" id="agentContent">
                   <div class="mb-3">
+                    <input type="hidden" name="prd_name" id="prd_name">
+                    <h5 class="text-center" id="prd_title"></h5>
                     <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleAgentName()">
@@ -1009,6 +1009,8 @@
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
     const name = $('#prd_name').val();
+
+    if( name=='' ){ return false; }
 
     if( selected=='old' ){
       // console.log(data);
