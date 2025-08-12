@@ -101,7 +101,10 @@
     const idToken = await liff.getIDToken();
     document.getElementById("createOrder").disabled = false;
 
-    authUser(userId);
+    // 檢查 LocalStorage 快取
+    if ( !isUserAuthenticated(userId) ) { authUser(userId); }
+
+    // authUser(userId);
   }
 </script>
 <body>
@@ -434,6 +437,33 @@
   let flv_list;
   let fp;
 
+  // 檢查快取是否存在 & 有效期內
+  function isUserAuthenticated(userId) {
+      const cache = localStorage.getItem(AUTH_CACHE_KEY);
+      if (!cache) return false;
+
+      try {
+          const parsed = JSON.parse(cache);
+          const now = Date.now();
+          return (
+              parsed.userId === userId &&
+              now - parsed.timestamp < 24 * 60 * 60 * 1000 // 24 小時有效
+          );
+      } catch {
+          return false;
+      }
+  }
+
+  // 存快取
+
+  function saveAuthCache(userId) {
+    const data = {
+        userId: userId,
+        timestamp: Date.now()
+    };
+    localStorage.setItem('AUTH_CACHE_KEY', JSON.stringify(data));
+  }
+
   async function authUser(userId){
     
     var data = {
@@ -459,6 +489,8 @@
           title: '驗證成功',
         });
         data = await fetchData(result[0].data);
+
+        saveAuthCache(userId);
       } else {
         Swal.fire({
           icon: 'error',
@@ -1018,7 +1050,7 @@
       // const oldName = prd_list.filter((item, index, self) =>
       //   index === self.findIndex(t => t.名稱 === item.名稱)
       // );
-      const oldName = prd_list.filter(item => item.名稱 !== name && item.狀態 ==='已結單');
+      const oldName = prd_list.filter(item => item.名稱 === name && item.狀態 ==='已結單');
       console.log(oldName);
       const data = oldName.map(item => ({ id: item.ID, text: item.名稱 }));
       
