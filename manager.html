@@ -439,7 +439,7 @@
 
   // 檢查快取是否存在 & 有效期內
   function isUserAuthenticated(userId) {
-      const cache = localStorage.getItem(AUTH_CACHE_KEY);
+      const cache = localStorage.getItem('AUTH_CACHE_KEY');
       if (!cache) return false;
 
       try {
@@ -1047,16 +1047,13 @@
 
     if( selected=='old' ){
       // console.log(data);
-      // const oldName = prd_list.filter((item, index, self) =>
-      //   index === self.findIndex(t => t.名稱 === item.名稱)
-      // );
       const oldName = prd_list.filter(item => item.名稱 === name && item.狀態 ==='已結單');
       console.log(oldName);
       const data = oldName.map(item => ({ id: item.ID, text: item.名稱 }));
       
       $('#agentNames').empty(); // 清空原有內容（若有）
 
-      // $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+      $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
     
       // 初始化 Select2
       $('#agentNames').select2({
