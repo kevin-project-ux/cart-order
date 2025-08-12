@@ -102,9 +102,9 @@
     document.getElementById("createOrder").disabled = false;
 
     // 檢查 LocalStorage 快取
-    // if ( !isUserAuthenticated(userId) ) { authUser(userId); }
+    if ( !isUserAuthenticated(userId) ) { authUser(userId); }else{ await fetchData(); }
 
-    authUser(userId);
+    // authUser(userId);
   }
 </script>
 <body>
@@ -147,7 +147,7 @@
             <li class="nav-item" role="presentation">
               <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#add" type="button" role="tab">新增團購品項</button>
             </li>
-<!--             <li class="nav-item" role="presentation">
+            <!-- <li class="nav-item" role="presentation">
               <button class="nav-link" id="multi-tab" data-bs-toggle="tab" data-bs-target="#del" type="button" role="tab">刪除預購</button>
             </li> -->
           </ul>
