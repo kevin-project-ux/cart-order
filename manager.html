@@ -462,7 +462,7 @@
   ReadonlyEmbed.tagName = 'span';
   Quill.register(ReadonlyEmbed);
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzmPhZY-Q6bZISJYdwuU0eCB0icGOO0cpS80H-2OdHYjXETmnULElG2zfg_Cp3PAuVH8w/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzrLsXv9ilgqjxk1YObOU27TnK1TZQZPtYJzBoYWslVKdwmOAL5n0dyTjonvScUZOcC/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -1064,6 +1064,11 @@
     $('#prd_title').text(name);
     $('#prd_name').val(name);
 
+    const data = { type: type, userId: userId, name: name };
+
+    var agent_data = gasPostData(data);
+    console.log(agent_data);
+
     // orderAgent(e);
   }
 
@@ -1087,13 +1092,48 @@
     btn.closest('.flavor-row').remove();
   }
 
+  async function gasPostData(data){
+
+    try {
+      mask.style.display = 'flex';
+      const response = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result[0].status == 'success') {
+        var agentData = result[0].orders;
+        return agentData;
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: title+'失敗',
+          text: result[0].alert || '請稍後再試'
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        icon: 'error',
+        title: '系統異常'
+      });
+    } finally {
+      mask.style.display = 'none';
+    }
+  }
+
   function toggleAgentName() {
     const selected = document.querySelector('input[name="nameType"]:checked').value;
     document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
     const name = $('#prd_name').val();
-    console.log(name);
+    // console.log(name);
 
     if( name=='' ){ return false; }
 
@@ -1101,6 +1141,7 @@
       // console.log(data);
       const oldName = prd_list.filter(item => item.名稱 === name && item.狀態 ==='已結單');
       console.log(oldName);
+
       const data = oldName.map(item => ({ id: item.ID, text: item.名稱 }));
       
       $('#agentNames').empty(); // 清空原有內容（若有）
