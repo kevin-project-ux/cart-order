@@ -352,56 +352,27 @@
                     </div>
                   </div>
 
-                  <!-- <div id="multiFlavor" class="mb-3" style="display: none;">
-                    <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
-                    <div id="flavorWrapper">
-                      <div class="row g-2 mb-2 flavor-row">
-                        <div class="col">
-                          <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
-                        </div>
-                        <div class="col">
-                          <input type="text" class="form-control flavor-name" placeholder="口味">
-                        </div>
-                        <div class="col">
-                          <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
-                        </div>
+                  <div id="agentWrapper">
+                    <div class="row g-2 mb-2 flavor-row">
+                      <!-- 新名字 -->
+                      <div class="col" id="newName">
+                        <input type="text" class="form-control" id="agentName" placeholder="姓名" required>
                       </div>
-                      <div class="row g-2 mb-2 flavor-row">
-                        <div class="col">
-                          <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
-                        </div>
-                        <div class="col">
-                          <input type="text" class="form-control flavor-name" placeholder="口味">
-                        </div>
-                        <div class="col">
-                          <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
-                        </div>
+
+                      <!-- 舊名字 -->
+                      <div class="col" id="oldName" style="display: none;">
+                        <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" required></select>
                       </div>
+
+                      <input type="number" class="form-control col" name="agentNum" min="1" placeholder="數量">
+
                     </div>
-                  </div> -->
-
-                  <div class="row g-2 mb-2 flavor-row">
-
-                    <!-- 新名字 -->
-                    <div class="col" id="newName">
-                      <input type="text" class="form-control" id="agentName" required>
-                    </div>
-
-                    <!-- 舊名字 -->
-                    <div class="col" id="oldName" style="display: none;">
-                      <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" required></select>
-                    </div>
-
-                    <input type="number" class="form-control col" name="agentNum" min="1" value="0" placeholder="數量">
-
+                    <button class="btn btn-outline-primary w-100" onclick="addAgent()">
+                      <i class="fas fa-plus"></i> 新增名字
+                    </button>
                   </div>
-
-                  <button class="btn btn-outline-primary w-100" onclick="addAgent()">
-                    <i class="fas fa-plus"></i> 新增名字
-                  </button>
-
                 </div>
-                <button class="btn btn-success w-100" id="agentOrder" onclick="orderOpen()">確認送出</button>
+                <button class="btn btn-success w-100" id="agentOrder" onclick="orderAgent()">確認送出</button>
               </div>
             </div>
           </div>
@@ -1080,6 +1051,22 @@
 
   function orderAgent(e){
 
+  }
+
+  function addAgent(){
+
+    const div = document.createElement('div');
+    div.className = "row g-2 mb-2 flavor-row";
+    div.innerHTML = `
+      <div class="col"><input type="text" class="form-control" min="1" placeholder="姓名"></div>
+      <div class="col"><input type="number" class="form-control" placeholder="數量"></div>
+      <div class="col-auto"><button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
+    `;
+    document.getElementById("agentWrapper").appendChild(div);
+  }
+
+  function removeAgent(){
+    
   }
 
   function toggleAgentName() {
