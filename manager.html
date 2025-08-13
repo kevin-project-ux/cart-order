@@ -378,22 +378,23 @@
                         </div>
                       </div>
                     </div>
-                    <button class="btn btn-outline-primary w-100" onclick="addFlavor()">
-                      <i class="fas fa-plus"></i> 新增口味
-                    </button>
                   </div> -->
 
-                  <!-- 新名字 -->
-                  <div id="newName" class="mb-3">
-                    <input type="text" class="form-control" id="agentName" required>
-                  </div>
+                  <div class="row g-2 mb-2 flavor-row">
 
-                  <!-- 舊名字 -->
-                  <div id="oldName" class="mb-3" style="display: none;">
-                    <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" required></select>
-                  </div>
+                    <!-- 新名字 -->
+                    <div class="col" id="newName">
+                      <input type="text" class="form-control" id="agentName" required>
+                    </div>
 
-                  <input type="number" class="form-control" name="agentNum" min="1" value="0" placeholder="數量">
+                    <!-- 舊名字 -->
+                    <div class="col" id="oldName" style="display: none;">
+                      <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" required></select>
+                    </div>
+
+                    <input type="number" class="form-control col" name="agentNum" min="1" value="0" placeholder="數量">
+
+                  </div>
 
                   <button class="btn btn-outline-primary w-100" onclick="addAgent()">
                     <i class="fas fa-plus"></i> 新增名字
