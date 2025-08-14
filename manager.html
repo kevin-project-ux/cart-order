@@ -1069,10 +1069,8 @@
     console.log(agent_data);
     // 取出所有 id，合併成一維陣列並去重
     let oldName = [...new Set(
-        Object.values(agent_data)    // 取出每個陣列
-              .flat()                // 展平成一維
-              .map(item => item.姓名)  // 只取 id
-    )];
+        Object.values(agent_data).flat().map(item => item.姓名)
+    )].map(v => ({ id: v, text: v }));
 
     $('#agentNames').empty(); // 清空原有內容（若有）
 
