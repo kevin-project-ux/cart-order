@@ -414,18 +414,18 @@
     document.getElementById("createOrder").disabled = false;
 
     // 檢查 LocalStorage 快取
-    if ( !isUserAuthenticated(userId) ) { 
-      authUser(userId); 
-    }else{ 
-      try{
-        mask.style.display = 'flex';
-        await fetchData(); 
-      } finally {
-        mask.style.display = 'none';
-      }
-    }
+    // if ( !isUserAuthenticated(userId) ) { 
+    //   authUser(userId); 
+    // }else{ 
+    //   try{
+    //     mask.style.display = 'flex';
+    //     await fetchData(); 
+    //   } finally {
+    //     mask.style.display = 'none';
+    //   }
+    // }
 
-    // authUser(userId);
+    authUser(userId);
   }
 </script>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -462,7 +462,7 @@
   ReadonlyEmbed.tagName = 'span';
   Quill.register(ReadonlyEmbed);
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwfJLEzSSkPQqOafh2qGyYaKNMDMzeiAwxqjKYITEavAcUuiqd9QqL6eVJKg320mcxEBw/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxoMKS7auZshPI9plUH37OdZ4Lbph_H9Iba76Sj-SjGtWwOpWBoOtxl7s-STzToB0uT-A/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -487,7 +487,6 @@
   }
 
   // 存快取
-
   function saveAuthCache(userId) {
     const data = {
         userId: userId,
@@ -1068,6 +1067,22 @@
 
     var agent_data = gasPostData(data);
     console.log(agent_data);
+    const oldName = agent_data.filter((item, index, self) =>
+      index === self.findIndex(t => t.名稱 === item.名稱)
+    );
+
+    $('#agentNames').empty(); // 清空原有內容（若有）
+
+    $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+  
+    // 初始化 Select2
+    $('#agentNames').select2({
+      data: oldName,
+      dropdownParent: $('#agentModal'),
+      placeholder: '請選擇姓名',
+      allowClear: true,
+      width: 'resolve'
+    });
 
     // orderAgent(e);
   }
@@ -1107,8 +1122,7 @@
       const result = await response.json();
 
       if (result[0].status == 'success') {
-        var agentData = result[0].orders;
-        return agentData;
+        return result[0].orders;
       } else {
         Swal.fire({
           icon: 'error',
@@ -1139,23 +1153,23 @@
 
     if( selected=='old' ){
       // console.log(data);
-      const oldName = prd_list.filter(item => item.名稱 === name && item.狀態 ==='已結單');
-      console.log(oldName);
+      // const oldName = prd_list.filter(item => item.名稱 === name && item.狀態 ==='已結單');
+      // console.log(oldName);
 
-      const data = oldName.map(item => ({ id: item.ID, text: item.名稱 }));
+      // const data = oldName.map(item => ({ id: item.ID, text: item.名稱 }));
       
-      $('#agentNames').empty(); // 清空原有內容（若有）
+      // $('#agentNames').empty(); // 清空原有內容（若有）
 
-      $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+      // $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
     
       // 初始化 Select2
-      $('#agentNames').select2({
-        data: data,
-        dropdownParent: $('#agentModal'),
-        placeholder: '請選擇姓名',
-        allowClear: true,
-        width: 'resolve'
-      });
+      // $('#agentNames').select2({
+      //   data: data,
+      //   dropdownParent: $('#agentModal'),
+      //   placeholder: '請選擇姓名',
+      //   allowClear: true,
+      //   width: 'resolve'
+      // });
     }
   }
 
