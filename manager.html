@@ -1067,9 +1067,12 @@
 
     var agent_data = await gasPostData(data);
     console.log(agent_data);
-    const oldName = agent_data.filter((item, index, self) =>
-      index === self.findIndex(t => t.名稱 === item.名稱)
-    );
+    // 取出所有 id，合併成一維陣列並去重
+    let oldName = [...new Set(
+        Object.values(agent_data)    // 取出每個陣列
+              .flat()                // 展平成一維
+              .map(item => item.姓名)  // 只取 id
+    )];
 
     $('#agentNames').empty(); // 清空原有內容（若有）
 
