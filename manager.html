@@ -1052,7 +1052,7 @@
     }
   }
 
-  function AgentModal(e){
+  async function AgentModal(e){
 
     $('#AgentModal').modal('show');
 
@@ -1065,7 +1065,7 @@
 
     const data = { type: type, userId: userId, name: name };
 
-    var agent_data = gasPostData(data);
+    var agent_data = await gasPostData(data);
     console.log(agent_data);
     const oldName = agent_data.filter((item, index, self) =>
       index === self.findIndex(t => t.名稱 === item.名稱)
