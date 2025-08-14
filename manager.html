@@ -1060,11 +1060,22 @@
 
     $('#prd_title').text(name);
     $('#prd_name').val(name);
+
+    if ($('#agentNames').hasClass('select2-hidden-accessible')) {
+        $('#agentNames').select2('destroy');
+    }
     // orderAgent(e);
   }
 
   function orderAgent(e){
 
+  }
+
+  function setAgentData(item){
+
+    var name  = Number(item.value);
+
+    console.log(name);
   }
 
   function addAgent(){
