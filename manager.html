@@ -1054,6 +1054,8 @@
 
   function AgentModal(e){
 
+    const name = e.dataset.name;
+
     $('#AgentModal').modal('show');
 
     $('#prd_title').text(name);
@@ -1138,7 +1140,7 @@
     }
   }
 
-  async function toggleAgentName() {
+  function toggleAgentName() {
     const selected = document.querySelector('input[name="nameType"]:checked').value;
     document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
