@@ -1052,28 +1052,26 @@
     }
   }
 
-  async function AgentModal(e){
+  function AgentModal(e){
 
     $('#AgentModal').modal('show');
 
-    const id   = e.dataset.id;
-    const name = e.dataset.name;
-    const type = e.dataset.type;
-
     $('#prd_title').text(name);
     $('#prd_name').val(name);
+    // orderAgent(e);
+  }
 
-    const data = { type: type, userId: userId, name: name };
+  async function getAgentName(){
 
     var agent_data = await gasPostData(data);
-    console.log(agent_data);
-    // 取出所有 id，合併成一維陣列並去重
+
+    // 取出所有姓名，合併成一維陣列並去重複
     let oldName = [...new Set(
         Object.values(agent_data).flat().map(item => item.姓名)
     )].map(v => ({ id: v, text: v }));
+    console.log(oldName);
 
     $('#agentNames').empty(); // 清空原有內容（若有）
-
     $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
   
     // 初始化 Select2
@@ -1084,8 +1082,6 @@
       allowClear: true,
       width: 'resolve'
     });
-
-    // orderAgent(e);
   }
 
   function orderAgent(e){
@@ -1147,31 +1143,11 @@
     document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
-    const name = $('#prd_name').val();
-    // console.log(name);
+    var name = $('#prd_name').val();
 
-    if( name=='' ){ return false; }
+    const data = { type: type, userId: userId, name: name };
 
-    if( selected=='old' ){
-      // console.log(data);
-      // const oldName = prd_list.filter(item => item.名稱 === name && item.狀態 ==='已結單');
-      // console.log(oldName);
-
-      // const data = oldName.map(item => ({ id: item.ID, text: item.名稱 }));
-      
-      // $('#agentNames').empty(); // 清空原有內容（若有）
-
-      // $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
-    
-      // 初始化 Select2
-      // $('#agentNames').select2({
-      //   data: data,
-      //   dropdownParent: $('#agentModal'),
-      //   placeholder: '請選擇姓名',
-      //   allowClear: true,
-      //   width: 'resolve'
-      // });
-    }
+    getAgentName(data);
   }
 
   function orderConfirm(e){
