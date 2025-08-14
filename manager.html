@@ -1063,29 +1063,6 @@
     // orderAgent(e);
   }
 
-  async function getAgentName(){
-
-    var agent_data = await gasPostData(data);
-
-    // 取出所有姓名，合併成一維陣列並去重複
-    let oldName = [...new Set(
-        Object.values(agent_data).flat().map(item => item.姓名)
-    )].map(v => ({ id: v, text: v }));
-    console.log(oldName);
-
-    $('#agentNames').empty(); // 清空原有內容（若有）
-    $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
-  
-    // 初始化 Select2
-    $('#agentNames').select2({
-      data: oldName,
-      dropdownParent: $('#agentModal'),
-      placeholder: '請選擇姓名',
-      allowClear: true,
-      width: 'resolve'
-    });
-  }
-
   function orderAgent(e){
 
   }
@@ -1150,7 +1127,6 @@
       var name = $('#prd_name').val();
 
       const data = { type: 'agent', userId: userId, name: name };
-      // console.log(data);
 
       // getAgentName(data);
       var agent_data = await gasPostData(data);
@@ -1159,10 +1135,9 @@
       let oldName = [...new Set(
           Object.values(agent_data).flat().map(item => item.姓名)
       )].map(v => ({ id: v, text: v }));
-      console.log(oldName);
+      // console.log(oldName);
 
       $('#agentNames').empty(); // 清空原有內容（若有）
-      $('#agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
     
       // 初始化 Select2
       $('#agentNames').select2({
