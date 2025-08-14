@@ -1138,16 +1138,20 @@
     }
   }
 
-  function toggleAgentName() {
+  async function toggleAgentName() {
     const selected = document.querySelector('input[name="nameType"]:checked').value;
     document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
-    var name = $('#prd_name').val();
+    if( selected=='old' ){
 
-    const data = { type: 'agent', userId: userId, name: name };
+      var name = $('#prd_name').val();
 
-    getAgentName(data);
+      const data = { type: 'agent', userId: userId, name: name };
+      console.log(data);
+
+      getAgentName(data);
+    }
   }
 
   function orderConfirm(e){
