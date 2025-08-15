@@ -76,6 +76,7 @@
   }
 
   .select2-container .select2-selection--single {
+    display: block;
     height: calc(1.5em + 0.75rem + 2px);
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
@@ -369,16 +370,16 @@
                   <div id="agentWrapper">
                     <div class="row g-2 mb-2 flavor-row">
                       <!-- 新名字 -->
-                      <div class="col" id="newName">
+                      <div class="col-8" id="newName">
                         <input type="text" class="form-control" id="agentName" placeholder="姓名" required>
                       </div>
 
                       <!-- 舊名字 -->
-                      <div class="col" id="oldName" style="display: none;">
+                      <div class="col-8" id="oldName" style="display: none;">
                         <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" required></select>
                       </div>
 
-                      <input type="number" class="form-control col" name="agentNum" min="1" placeholder="數量">
+                      <input type="number" class="form-control col-4" name="agentNum" min="1" placeholder="數量">
 
                     </div>
                   </div>
