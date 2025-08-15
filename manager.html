@@ -1146,13 +1146,14 @@
       let oldName = [...new Set(
           Object.values(agent_data).flat().map(item => item.姓名)
       )].map(v => ({ id: v, text: v }));
-      // console.log(oldName);
+      console.log(oldName);
 
       $('#agentNames').empty(); // 清空原有內容（若有）
+      $('#agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
     
       // 初始化 Select2
       $('#agentNames').select2({
-        data: oldName,
+        data: [{ text: "XXX", id: "xxx" },{ text: "AAA", id: "aaa" },{ text: "BBB", id: "bbb" }],
         dropdownParent: $('#agentModal'),
         placeholder: '請選擇姓名',
         allowClear: true,
