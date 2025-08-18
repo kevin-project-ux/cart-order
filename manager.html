@@ -1134,11 +1134,15 @@
     document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
+    if ($('#addName').css('display') === 'none') {
+      $('#addName').css('display', 'block');
+    }
+
     if( selected=='old' ){
 
       if( $("#agentNames option").length>0 ){ return false; }
 
-      $('#addName').style('display', 'none');
+      $('#addName').css('display', 'none');
 
       var name = $('#prd_name').val();
 
