@@ -1083,20 +1083,24 @@
     div.className = "row g-2 mb-2 flavor-row";
 
     if ($('#oldName').css('display') === 'block') {
+
+      // 清空原本動態新增的元素
+      $('#newName').find('input.dynamic').remove();
+      $('#newName').find('button.dynamic').remove();
       
       div.innerHTML = `
         <div class="col-6">
-          <select class="form-select w-100 agentNames" onchange="setAgentData(this)"></select>
+          <select class="form-select w-100 agentNames dynamic" onchange="setAgentData(this)"></select>
         </div>
-        <input type="number" class="form-control col-4" name="agentNum" min="1" placeholder="數量" style="width: 33.3%;">
+        <input type="number" class="form-control col-4 dynamic" name="agentNum" min="1" placeholder="數量" style="width: 33.3%;">
         <div class="col-2">
-          <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+          <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
         </div>
       `;
 
-      $('.agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
-
       document.getElementById("agentWrapper").appendChild(div);
+
+      $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
       $('.agentNames').not('.select2-hidden-accessible').select2({
         data: oldAgentName,
@@ -1107,10 +1111,15 @@
       });
     }else{
 
+      // 清空原本態新增的元素
+      $('#oldName').find('select.dynamic').remove();
+      $('#oldName').find('input.dynamic').remove();
+      $('#oldName').find('button.dynamic').remove();
+
       div.innerHTML = `
-        <div class="col"><input type="text" class="form-control" min="1" placeholder="姓名"></div>
-        <div class="col"><input type="number" class="form-control" placeholder="數量"></div>
-        <div class="col-auto"><button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
+        <div class="col"><input type="text" class="form-control dynamic" min="1" placeholder="姓名"></div>
+        <div class="col"><input type="number" class="form-control dynamic" placeholder="數量"></div>
+        <div class="col-auto"><button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
       `;
 
       document.getElementById("agentWrapper").appendChild(div);
@@ -1179,7 +1188,7 @@
       // console.log(oldName);
 
       $('.agentNames').empty(); // 清空原有內容（若有）
-      $('.agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
+      $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
     
       // 初始化 Select2
       $('.agentNames').select2({
