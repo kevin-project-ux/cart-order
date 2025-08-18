@@ -376,14 +376,14 @@
 
                       <!-- 舊名字 -->
                       <div class="col-8" id="oldName" style="display: none;">
-                        <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" required></select>
+                        <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" multiple="multiple" required></select>
                       </div>
 
-                      <input type="number" class="form-control col-4" name="agentNum" min="1" placeholder="數量">
+                      <input type="number" class="form-control col-4" name="agentNum" min="1" placeholder="數量" style="width: 33.3%;">
 
                     </div>
                   </div>
-                  <button class="btn btn-outline-primary w-100" onclick="addAgent()">
+                  <button class="btn btn-outline-primary w-100" id="addName" onclick="addAgent()">
                     <i class="fas fa-plus"></i> 新增名字
                   </button>
                 </div>
@@ -1135,6 +1135,10 @@
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
     if( selected=='old' ){
+
+      if( $("#agentNames option").length>0 ){ return false; }
+
+      $('#addName').style('display', 'none');
 
       var name = $('#prd_name').val();
 
