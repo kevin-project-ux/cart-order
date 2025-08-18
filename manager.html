@@ -1082,7 +1082,7 @@
     const div = document.createElement('div');
     div.className = "row g-2 mb-2 flavor-row";
 
-    if ($('.agentNames').css('display') === 'block') {
+    if ($('#oldName').css('display') === 'block') {
       
       div.innerHTML = `
         <div class="col-6">
@@ -1093,6 +1093,9 @@
           <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
         </div>
       `;
+
+      $('.agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
+
       $('.agentNames').not('.select2-hidden-accessible').select2({
         data: oldAgentName,
         dropdownParent: $('#AgentModal'),
@@ -1173,7 +1176,7 @@
       // console.log(oldName);
 
       $('.agentNames').empty(); // 清空原有內容（若有）
-      // $('#agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
+      $('.agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
     
       // 初始化 Select2
       $('.agentNames').select2({
