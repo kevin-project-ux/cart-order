@@ -371,12 +371,12 @@
                     <div class="row g-2 mb-2 flavor-row">
                       <!-- 新名字 -->
                       <div class="col-8" id="newName">
-                        <input type="text" class="form-control" id="agentName" placeholder="姓名" required>
+                        <input type="text" class="form-control agentName" placeholder="姓名" required>
                       </div>
 
                       <!-- 舊名字 -->
                       <div class="col-8" id="oldName" style="display: none;">
-                        <select class="form-select w-100" id="agentNames" onchange="setAgentData(this)" multiple="multiple" required></select>
+                        <select class="form-select w-100 agentNames" onchange="setAgentData(this)" required></select>
                       </div>
 
                       <input type="number" class="form-control col-4" name="agentNum" min="1" placeholder="數量" style="width: 33.3%;">
@@ -469,6 +469,7 @@
   let prd_list;
   let flv_list;
   let fp;
+  let oldAgentName; //代購訂單-下拉選單
 
   // 檢查快取是否存在 & 有效期內
   function isUserAuthenticated(userId) {
@@ -1062,9 +1063,6 @@
     $('#prd_title').text(name);
     $('#prd_name').val(name);
 
-    if ($('#agentNames').hasClass('select2-hidden-accessible')) {
-        $('#agentNames').select2('destroy');
-    }
     // orderAgent(e);
   }
 
@@ -1083,11 +1081,34 @@
 
     const div = document.createElement('div');
     div.className = "row g-2 mb-2 flavor-row";
-    div.innerHTML = `
-      <div class="col"><input type="text" class="form-control" min="1" placeholder="姓名"></div>
-      <div class="col"><input type="number" class="form-control" placeholder="數量"></div>
-      <div class="col-auto"><button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
-    `;
+
+    if ($('.agentNames').css('display') === 'block') {
+      
+      div.innerHTML = `
+        <div class="col-6">
+          <select class="form-select w-100 agentNames" onchange="setAgentData(this)"></select>
+        </div>
+        <input type="number" class="form-control col-4" name="agentNum" min="1" placeholder="數量" style="width: 33.3%;">
+        <div class="col-2">
+          <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+        </div>
+      `;
+      $('.agentNames').not('.select2-hidden-accessible').select2({
+        data: oldAgentName,
+        dropdownParent: $('#AgentModal'),
+        placeholder: '請選擇姓名',
+        allowClear: true,
+        width: 'resolve',
+      });
+    }else{
+
+      div.innerHTML = `
+        <div class="col"><input type="text" class="form-control" min="1" placeholder="姓名"></div>
+        <div class="col"><input type="number" class="form-control" placeholder="數量"></div>
+        <div class="col-auto"><button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
+      `;
+    }
+
     document.getElementById("agentWrapper").appendChild(div);
   }
 
@@ -1134,15 +1155,9 @@
     document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
     document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
-    if ($('#addName').css('display') === 'none') {
-      $('#addName').css('display', 'block');
-    }
-
     if( selected=='old' ){
 
-      if( $("#agentNames option").length>0 ){ return false; }
-
-      $('#addName').css('display', 'none');
+      if( $(".agentNames option").length>0 ){ return false; }
 
       var name = $('#prd_name').val();
 
@@ -1152,21 +1167,21 @@
       var agent_data = await gasPostData(data);
 
       // 取出所有姓名，合併成一維陣列並去重複
-      let oldName = [...new Set(
+      oldAgentName = [...new Set(
           Object.values(agent_data).flat().map(item => item.姓名)
       )].map(v => ({ id: v, text: v }));
       // console.log(oldName);
 
-      $('#agentNames').empty(); // 清空原有內容（若有）
-      $('#agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
+      $('.agentNames').empty(); // 清空原有內容（若有）
+      // $('#agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
     
       // 初始化 Select2
-      $('#agentNames').select2({
-        data: oldName,
+      $('.agentNames').select2({
+        data: oldAgentName,
         dropdownParent: $('#AgentModal'),
         placeholder: '請選擇姓名',
         allowClear: true,
-        width: 'resolve'
+        width: 'resolve',
       });
     }
   }
