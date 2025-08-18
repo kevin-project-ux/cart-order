@@ -1096,6 +1096,8 @@
 
       $('.agentNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
 
+      document.getElementById("agentWrapper").appendChild(div);
+
       $('.agentNames').not('.select2-hidden-accessible').select2({
         data: oldAgentName,
         dropdownParent: $('#AgentModal'),
@@ -1110,9 +1112,10 @@
         <div class="col"><input type="number" class="form-control" placeholder="數量"></div>
         <div class="col-auto"><button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
       `;
-    }
 
-    document.getElementById("agentWrapper").appendChild(div);
+      document.getElementById("agentWrapper").appendChild(div);
+    }
+    
   }
 
   function removeAgent(btn){
