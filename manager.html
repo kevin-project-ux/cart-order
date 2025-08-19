@@ -1065,8 +1065,10 @@
     $('#prd_title').text(name);
     $('#prd_name').val(name);
 
-    if( flv_list ){ var flvs = flv_list.find(item => item.品項ID === id); }
-    if( flvs ){ 
+    console.log(flv_list);
+
+    if( flv_list ){ 
+      var flvs = flv_list.find(item => item.品項ID === id); 
       console.log(flvs);
       flvs_opt = '';
       flvs.forEach(flv => { flvs_opt += '<option value="'+flv.口味+'">'+flv.口味+'</option>'; });
