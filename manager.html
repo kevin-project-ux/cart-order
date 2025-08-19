@@ -370,8 +370,9 @@
                   <div id="agentWrapper">
                     <div class="row g-2 mb-2 flavor-row">
                       <!-- 新名字 -->
-                      <div class="col-8" id="newName">
+                      <div class="col-8 d-flex gap-2" id="newName">
                         <input type="text" class="form-control agentName" placeholder="姓名" required>
+                        <select class="form-select w-100 agentFlavors"></select>
                       </div>
 
                       <!-- 舊名字 -->
@@ -1056,12 +1057,22 @@
 
   function AgentModal(e){
 
+    const id   = e.dataset.id;
     const name = e.dataset.name;
 
     $('#AgentModal').modal('show');
 
     $('#prd_title').text(name);
     $('#prd_name').val(name);
+
+    if( flv_list ){ var flvs = flv_list.find(item => item.品項ID === id); }
+    if( flvs ){ 
+      console.log(flvs);
+      flvs_opt = '';
+      flvs.forEach(flv => { flvs_opt += '<option value="'+flv.口味+'">'+flv.口味+'</option>'; });
+      
+      $(".agentFlavors").html(flvs_opt); 
+    }
 
     // orderAgent(e);
   }
