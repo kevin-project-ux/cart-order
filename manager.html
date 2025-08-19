@@ -1057,7 +1057,7 @@
 
   function AgentModal(e){
 
-    const id   = e.dataset.id;
+    const id   = Number(e.dataset.id);
     const name = e.dataset.name;
 
     $('#AgentModal').modal('show');
@@ -1065,7 +1065,8 @@
     $('#prd_title').text(name);
     $('#prd_name').val(name);
 
-    // console.log(flv_list);
+    console.log(flv_list);
+    console.log(id);
 
     if( flv_list ){ 
       var flvs = flv_list.filter(item => item.品項ID === id); 
