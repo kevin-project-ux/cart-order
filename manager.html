@@ -729,7 +729,7 @@
         if( checked.val()=='single' ){ $('input[name="flavorType"][value="multiple"]').prop('checked', true); toggleFlavor("multiple"); }
         
         const results = flv_list.filter(item => item.品項ID === id);
-        
+        console.log(results);
         var num = results.length-2;
         if( num>0 ){ for(i=0; i<num; i++){ addFlavor(); } }
   
@@ -1068,6 +1068,10 @@
     $('#prd_title').text(name);
     $('#prd_name').val(name);
 
+    var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.品項===name);
+
+    if( prds.length==0 ){ $('input[name="nameType"][value="old"]').prop('disabled', true); }
+
     if( prd_list ){ 
       var prd = prd_list.find(item => item.ID === id);
       if( prd.售價=='---' ){ //多口味
@@ -1243,7 +1247,7 @@
 
       var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.品項===name);
 
-      if( prds.length==0 ){ Swal.fire('該品項尚未有已結單的訂購人!'); return false; }
+      if( prds.length==0 ){ return false; }
 
       const data = { type: 'agent', userId: userId, name: name };
 
