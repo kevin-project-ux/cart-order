@@ -369,18 +369,19 @@
 
                   <div id="agentWrapper">
                     <div class="row g-2 mb-2 flavor-row">
+                      <input type="hidden" id="prd_type" value="single">
                       <!-- 新名字 -->
                       <div class="col-8 d-flex gap-2" id="newName">
-                        <input type="text" class="form-control agentName" placeholder="姓名" required>
-                        <select class="form-select w-100 agentFlavors"></select>
+                        <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
+                        <select class="form-select w-100 agentFlavors d-none" name="flavors[]"></select>
                       </div>
 
                       <!-- 舊名字 -->
-                      <div class="col-8" id="oldName" style="display: none;">
-                        <select class="form-select w-100 agentNames" onchange="setAgentData(this)" required></select>
+                      <div class="col-8 d-none" id="oldName">
+                        <select class="form-select w-100 agentNames" name="oldName[]" required></select>
                       </div>
 
-                      <input type="number" class="form-control col-4" name="agentNum" min="1" placeholder="數量" style="width: 33.3%;">
+                      <input type="number" class="form-control col-4" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
 
                     </div>
                   </div>
@@ -556,6 +557,8 @@
       flv_list = data['口味列表'];
       prd_list = prd_list.sort((a, b) => Number(b.ID) - Number(a.ID));
       // console.log(data);
+
+      prd_list = prd_list.filter(prd => prd.訂單金額總計>0 || prd.狀態==='開啟中' || prd.狀態==='延後中' );
 
       $('#example').DataTable({
         data: prd_list,
@@ -1065,16 +1068,20 @@
     $('#prd_title').text(name);
     $('#prd_name').val(name);
 
-    console.log(flv_list);
-    console.log(id);
+    if( prd_list ){ 
+      var prd = prd_list.find(item => item.ID === id);
+      if( prd.售價=='---' ){ //多口味
 
-    if( flv_list ){ 
-      var flvs = flv_list.filter(item => item.品項ID === id); 
-      console.log(flvs);
-      flvs_opt = '';
-      flvs.forEach(flv => { flvs_opt += '<option value="'+flv.口味+'">'+flv.口味+'</option>'; });
-      
-      $(".agentFlavors").html(flvs_opt); 
+        $(".agentFlavors").css('display', 'block');
+
+        $('#prd_type').val('multiple');
+
+        var flvs = flv_list.filter(item => item.品項ID === id); 
+        flvs_opt = '';
+        flvs.forEach(flv => { flvs_opt += '<option value="'+flv.口味+'">'+flv.口味+'</option>'; });
+        
+        $(".agentFlavors").html(flvs_opt); 
+      }
     }
 
     // orderAgent(e);
@@ -1084,59 +1091,101 @@
 
   }
 
-  function setAgentData(item){
-
-    var name  = Number(item.value);
-
-    console.log(name);
-  }
-
   function addAgent(){
 
     const div = document.createElement('div');
     div.className = "row g-2 mb-2 flavor-row";
 
-    if ($('#oldName').css('display') === 'block') {
+    var prd_type = $('#prd_type').val();
 
-      // 清空原本動態新增的元素
-      $('#newName').find('input.dynamic').remove();
-      $('#newName').find('button.dynamic').remove();
-      
-      div.innerHTML = `
-        <div class="col-6">
-          <select class="form-select w-100 agentNames dynamic" onchange="setAgentData(this)"></select>
-        </div>
-        <input type="number" class="form-control col-4 dynamic" name="agentNum" min="1" placeholder="數量" style="width: 33.3%;">
-        <div class="col-2">
-          <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
-        </div>
-      `;
+    if( prd_type=='single' ){
+      if ($('#oldName').css('display') === 'block') {
 
-      document.getElementById("agentWrapper").appendChild(div);
+        // 清空原本動態新增的元素
+        $('#newName').find('input.dynamic').remove();
+        $('#newName').find('button.dynamic').remove();
+        
+        div.innerHTML = `
+          <div class="col-6">
+            <select class="form-select w-100 agentNames dynamic" name="oldName[]"></select>
+          </div>
+          <input type="number" class="form-control col-4 dynamic" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
+          <div class="col-2">
+            <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+          </div>
+        `;
 
-      $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+        document.getElementById("agentWrapper").appendChild(div);
 
-      $('.agentNames').not('.select2-hidden-accessible').select2({
-        data: oldAgentName,
-        dropdownParent: $('#AgentModal'),
-        placeholder: '請選擇姓名',
-        allowClear: true,
-        width: 'resolve',
-      });
-    }else{
+        $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
-      // 清空原本態新增的元素
-      $('#oldName').find('select.dynamic').remove();
-      $('#oldName').find('input.dynamic').remove();
-      $('#oldName').find('button.dynamic').remove();
+        $('.agentNames').not('.select2-hidden-accessible').select2({
+          data: oldAgentName,
+          dropdownParent: $('#AgentModal'),
+          placeholder: '請選擇姓名',
+          allowClear: true,
+          width: 'resolve',
+        });
+      }else{
 
-      div.innerHTML = `
-        <div class="col"><input type="text" class="form-control dynamic" min="1" placeholder="姓名"></div>
-        <div class="col"><input type="number" class="form-control dynamic" placeholder="數量"></div>
-        <div class="col-auto"><button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
-      `;
+        // 清空原本態新增的元素
+        $('#oldName').find('select.dynamic').remove();
+        $('#oldName').find('input.dynamic').remove();
+        $('#oldName').find('button.dynamic').remove();
 
-      document.getElementById("agentWrapper").appendChild(div);
+        div.innerHTML = `
+          <div class="col"><input type="text" class="form-control dynamic" min="1" placeholder="姓名"></div>
+          <div class="col"><input type="number" class="form-control dynamic" placeholder="數量"></div>
+          <div class="col-auto"><button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
+        `;
+
+        document.getElementById("agentWrapper").appendChild(div);
+      }
+    }
+
+    if( prd_type=='multiple' ){
+      if ($('#oldName').css('display') === 'block') {
+
+        // 清空原本動態新增的元素
+        $('#newName').find('input.dynamic').remove();
+        $('#newName').find('button.dynamic').remove();
+        
+        div.innerHTML = `
+          <div class="col-6">
+            <select class="form-select w-100 agentNames dynamic" name="oldName[]"></select>
+          </div>
+          <input type="number" class="form-control col-4 dynamic" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
+          <div class="col-2">
+            <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+          </div>
+        `;
+
+        document.getElementById("agentWrapper").appendChild(div);
+
+        $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+
+        $('.agentNames').not('.select2-hidden-accessible').select2({
+          data: oldAgentName,
+          dropdownParent: $('#AgentModal'),
+          placeholder: '請選擇姓名',
+          allowClear: true,
+          width: 'resolve',
+        });
+      }else{
+
+        // 清空原本態新增的元素
+        $('#oldName').find('select.dynamic').remove();
+        $('#oldName').find('input.dynamic').remove();
+        $('#oldName').find('button.dynamic').remove();
+
+        div.innerHTML = `
+          <div class="col"><input type="text" class="form-control dynamic" min="1" placeholder="姓名"></div>
+          <div class="col"><input type="number" class="form-control dynamic" placeholder="數量"></div>
+          <div class="col-auto"><button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
+        `;
+
+        document.getElementById("agentWrapper").appendChild(div);
+      }
     }
     
   }
@@ -1181,14 +1230,20 @@
 
   async function toggleAgentName() {
     const selected = document.querySelector('input[name="nameType"]:checked').value;
-    document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
-    document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
+    $("#newName").removeClass("d-block d-none").addClass(selected === "new" ? "d-flex" : "d-none");
+    $("#oldName").removeClass("d-block d-none").addClass(selected === "old" ? "d-block" : "d-none");
+    // document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
+    // document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
     if( selected=='old' ){
 
       if( $(".agentNames option").length>0 ){ return false; }
 
       var name = $('#prd_name').val();
+
+      var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.品項===name);
+
+      if( prds.length==0 ){ Swal.fire('該品項尚未有已結單的訂購人!'); return false; }
 
       const data = { type: 'agent', userId: userId, name: name };
 
