@@ -379,6 +379,7 @@
                       <!-- 舊名字 -->
                       <div class="col-8 d-none" id="oldName">
                         <select class="form-select w-100 agentNames" name="oldName[]" required></select>
+                        <select class="form-select w-100 agentFlavors d-none" name="flavors[]"></select>
                       </div>
 
                       <input type="number" class="form-control col-4" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
@@ -1069,7 +1070,7 @@
     $('#prd_name').val(name);
 
     var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
-    console.log(prds);
+    // console.log(prds);
 
     var isDisabled = $('input[name="nameType"][value="old"]').prop('disabled');
 
@@ -1098,8 +1099,17 @@
     // orderAgent(e);
   }
 
-  function orderAgent(e){
+  function orderAgent(){
 
+    const sed = document.querySelector('input[name="nameType"]:checked').value;
+
+    if( sed=='new' ){
+      let names = $('input[name="newName[]"]').map(function () {
+          return $(this).val();
+      }).get().filter(function (val) { return val !== ""; });   // 排除空字串
+
+      console.log(names);
+    }
   }
 
   function addAgent(){
@@ -1241,10 +1251,10 @@
 
   async function toggleAgentName() {
     const selected = document.querySelector('input[name="nameType"]:checked').value;
-    $("#newName").removeClass("d-block d-none").addClass(selected === "new" ? "d-flex" : "d-none");
-    $("#oldName").removeClass("d-block d-none").addClass(selected === "old" ? "d-block" : "d-none");
-    // document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
-    // document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
+    $("#newName").find('.agentFlavors').removeClass("d-block d-none").addClass(selected === "new" ? "d-flex" : "d-none");
+    $("#oldName").find('.agentFlavors').removeClass("d-block d-none").addClass(selected === "old" ? "d-flex" : "d-none");
+    document.getElementById("newName").style.display = selected === "new" ? "block" : "none";
+    document.getElementById("oldName").style.display = selected === "old" ? "block" : "none";
 
     if( selected=='old' ){
 
