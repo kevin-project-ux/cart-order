@@ -1155,8 +1155,8 @@
         $('#oldName').find('button.dynamic').remove();
 
         div.innerHTML = `
-          <div class="col"><input type="text" class="form-control dynamic" min="1" placeholder="姓名"></div>
-          <div class="col"><input type="number" class="form-control dynamic" placeholder="數量"></div>
+          <div class="col"><input type="text" class="form-control dynamic" name="newName[]" placeholder="姓名"></div>
+          <div class="col"><input type="number" class="form-control dynamic" name="flavors[]" placeholder="數量"></div>
           <div class="col-auto"><button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
         `;
 
