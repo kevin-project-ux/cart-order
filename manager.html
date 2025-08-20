@@ -1068,7 +1068,8 @@
     $('#prd_title').text(name);
     $('#prd_name').val(name);
 
-    var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.品項===name);
+    var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
+    console.log(prds);
 
     if( prds.length==0 ){ $('input[name="nameType"][value="old"]').prop('disabled', true); }
 
@@ -1245,7 +1246,7 @@
 
       var name = $('#prd_name').val();
 
-      var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.品項===name);
+      var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
 
       if( prds.length==0 ){ return false; }
 
