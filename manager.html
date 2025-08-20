@@ -417,18 +417,18 @@
     document.getElementById("createOrder").disabled = false;
 
     // 檢查 LocalStorage 快取
-    // if ( !isUserAuthenticated(userId) ) { 
-    //   authUser(userId); 
-    // }else{ 
-    //   try{
-    //     mask.style.display = 'flex';
-    //     await fetchData(); 
-    //   } finally {
-    //     mask.style.display = 'none';
-    //   }
-    // }
+    if ( !isUserAuthenticated(userId) ) { 
+      authUser(userId); 
+    }else{ 
+      try{
+        mask.style.display = 'flex';
+        await fetchData(); 
+      } finally {
+        mask.style.display = 'none';
+      }
+    }
 
-    authUser(userId);
+    // authUser(userId);
   }
 </script>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -1071,7 +1071,13 @@
     var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
     console.log(prds);
 
-    if( prds.length==0 ){ $('input[name="nameType"][value="old"]').prop('disabled', true); }
+    var isDisabled = $('input[name="nameType"][value="old"]').prop('disabled');
+
+    if( isDisabled ){ //true代表已禁用
+      if( prds.length>0 ){ $('input[name="nameType"][value="old"]').prop('disabled', false); }
+    }else{
+      if( prds.length==0 ){ $('input[name="nameType"][value="old"]').prop('disabled', true); }
+    }
 
     if( prd_list ){ 
       var prd = prd_list.find(item => item.ID === id);
