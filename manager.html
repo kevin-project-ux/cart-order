@@ -371,18 +371,18 @@
                     <div class="row g-2 mb-2 agent-row">
                       <input type="hidden" id="prd_type" value="single">
                       <!-- 新名字 -->
-                      <div class="col-8 d-flex gap-2" id="newName">
+                      <div class="col-12 d-flex gap-2" id="newName">
                         <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
-                        <select class="form-select w-100 agentFlavors d-none" name="flavors[]"></select>
+                        <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
+                        <input type="number" class="form-control col-4" name="newNums[]" min="1" placeholder="數量">
                       </div>
 
                       <!-- 舊名字 -->
-                      <div class="col-8 d-none" id="oldName">
+                      <div class="col-12 d-none" id="oldName">
                         <select class="form-select w-100 agentNames" name="oldName[]" required></select>
-                        <select class="form-select w-100 agentFlavors d-none" name="flavors[]"></select>
+                        <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
+                        <input type="number" class="form-control col-4" name="oldNums[]" min="1" placeholder="數量">
                       </div>
-
-                      <input type="number" class="form-control col-4" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
 
                     </div>
                   </div>
@@ -1084,7 +1084,7 @@
       var prd = prd_list.find(item => item.ID === id);
       if( prd.售價=='---' ){ //多口味
 
-        $(".agentFlavors").css('display', 'block');
+        $(".agentFlavors").removeClass('d-none').addClass('d-block');
 
         $('#prd_type').val('multiple');
 
@@ -1093,10 +1093,11 @@
         flvs.forEach(flv => { flvs_opt += '<option value="'+flv.口味+'">'+flv.口味+'</option>'; });
         
         $(".agentFlavors").html(flvs_opt); 
+      }else{ // 單口味
+        $(".agentFlavors").html(''); 
+        $(".agentFlavors").removeClass('d-block').addClass('d-none');
       }
     }
-
-    // orderAgent(e);
   }
 
   function orderAgent(){
@@ -1108,7 +1109,32 @@
           return $(this).val();
       }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
-      console.log(names);
+      let nums = $('input[name="newNums[]"]').map(function () {
+          return $(this).val();
+      }).get().filter(function (val) { return val !== ""; });   // 排除空字串
+
+      const prd = $('#prd_name').val();
+
+      const arr = names.map((name, index) => ({
+        flavor: prd,
+        qty: nums[index]
+      }));
+
+      let order;
+      let orders = [];
+
+      names.forEach(name => {
+
+        order = {};
+        order['orders'] = arr;
+        order['name']   = name;
+        order['id']     = 'agent';
+        order['item']   = prd;
+
+        orders.push(order);
+      });
+
+      console.log(orders);
     }
   }
 
@@ -1127,12 +1153,10 @@
         $('#newName').find('button.dynamic').remove();
         
         div.innerHTML = `
-          <div class="col-6">
-            <select class="form-select w-100 agentNames dynamic" name="oldName[]"></select>
-          </div>
-          <input type="number" class="form-control col-4 dynamic" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
-          <div class="col-2">
-            <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+          <div class="col-12 d-none" id="oldName">
+            <select class="form-select w-100 agentNames dynamic" name="oldName[]" required></select>
+            <select class="form-select w-100 agentFlavors dynamic d-none" name="oldFlavors[]"></select>
+            <input type="number" class="form-control col-4 dynamic" name="oldNums[]" min="1" placeholder="數量">
           </div>
         `;
 
@@ -1155,9 +1179,11 @@
         $('#oldName').find('button.dynamic').remove();
 
         div.innerHTML = `
-          <div class="col"><input type="text" class="form-control dynamic" name="newName[]" placeholder="姓名"></div>
-          <div class="col"><input type="number" class="form-control dynamic" name="flavors[]" placeholder="數量"></div>
-          <div class="col-auto"><button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
+          <div class="col-12 d-flex gap-2" id="newName">
+            <input type="text" class="form-control agentName dynamic" name="newName[]" placeholder="姓名" required>
+            <select class="form-select w-100 agentFlavors dynamic d-none" name="newFlavors[]"></select>
+            <input type="number" class="form-control col-4 dynamic" name="newNums[]" min="1" placeholder="數量">
+          </div>
         `;
 
         document.getElementById("agentWrapper").appendChild(div);
@@ -1266,7 +1292,7 @@
 
       if( prds.length==0 ){ return false; }
 
-      const data = { type: 'agent', userId: userId, name: name };
+      const data = { type: 'aguser', userId: userId, name: name };
 
       // getAgentName(data);
       var agent_data = await gasPostData(data);
