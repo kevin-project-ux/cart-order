@@ -1116,24 +1116,23 @@
       // console.log(names);
 
       const prd = $('#prd_name').val();
-      
-      let order;
-      let orders = [];
+
+      let data = { type:'agent', userId: userId, orders: [] };
 
       names.forEach((name, i) => {
 
         var arr = { flavor: prd, qty: nums[i] };
 
-        order = {};
+        var order = {};
         order['orders'] = arr;
         order['name']   = name;
         order['id']     = 'agent';
         order['item']   = prd;
 
-        orders.push(order);
+        data.orders.push(order);
       });
 
-      console.log(orders);
+      console.log(data);
     }
   }
 
