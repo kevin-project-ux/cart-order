@@ -356,6 +356,7 @@
                 <div class="container mt-4 mb-4" id="agentContent">
                   <div class="mb-3">
                     <input type="hidden" name="prd_name" id="prd_name">
+                    <input type="hidden" id="prd_type" value="single">
                     <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleAgentName()">
@@ -369,19 +370,18 @@
 
                   <div id="agentWrapper">
                     <div class="row g-2 mb-2 agent-row">
-                      <input type="hidden" id="prd_type" value="single">
                       <!-- 新名字 -->
                       <div class="col-12 d-flex gap-2" id="newName">
                         <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
                         <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
-                        <input type="number" class="form-control col-4" name="newNums[]" min="1" placeholder="數量">
+                        <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
                       </div>
 
                       <!-- 舊名字 -->
                       <div class="col-12 d-none" id="oldName">
                         <select class="form-select w-100 agentNames" name="oldName[]" required></select>
                         <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
-                        <input type="number" class="form-control col-4" name="oldNums[]" min="1" placeholder="數量">
+                        <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
                       </div>
 
                     </div>
@@ -466,7 +466,7 @@
   ReadonlyEmbed.tagName = 'span';
   Quill.register(ReadonlyEmbed);
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxoMKS7auZshPI9plUH37OdZ4Lbph_H9Iba76Sj-SjGtWwOpWBoOtxl7s-STzToB0uT-A/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzEKMT0-sQDUriPNx_iJYlprys_NRggb-GZpN_VLtGHIgqWLt_m37oFVTz8BJlJh-cp_Q/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -1113,6 +1113,8 @@
           return $(this).val();
       }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
+      console.log(names);
+
       const prd = $('#prd_name').val();
 
       const arr = names.map((name, index) => ({
@@ -1179,7 +1181,7 @@
         $('#oldName').find('button.dynamic').remove();
 
         div.innerHTML = `
-          <div class="col-12 d-flex gap-2" id="newName">
+          <div class="col-12 d-flex gap-2">
             <input type="text" class="form-control agentName dynamic" name="newName[]" placeholder="姓名" required>
             <select class="form-select w-100 agentFlavors dynamic d-none" name="newFlavors[]"></select>
             <input type="number" class="form-control col-4 dynamic" name="newNums[]" min="1" placeholder="數量">
