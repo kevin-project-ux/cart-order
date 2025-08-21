@@ -1116,16 +1116,13 @@
       // console.log(names);
 
       const prd = $('#prd_name').val();
-
-      const arr = names.map((name, index) => ({
-        flavor: prd,
-        qty: nums[index]
-      }));
-
+      
       let order;
       let orders = [];
 
-      names.forEach(name => {
+      names.forEach((name, i) => {
+
+        var arr = { flavor: prd, qty: nums[i] };
 
         order = {};
         order['orders'] = arr;
