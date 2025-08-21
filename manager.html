@@ -466,7 +466,7 @@
   ReadonlyEmbed.tagName = 'span';
   Quill.register(ReadonlyEmbed);
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzEKMT0-sQDUriPNx_iJYlprys_NRggb-GZpN_VLtGHIgqWLt_m37oFVTz8BJlJh-cp_Q/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbx-ZpSD-9ujhBKbl5WyEvwKwpm2JEsQEq-mMo6Bc0eI6ypAlY8XpvgxTem7BqROJKQhxw/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -1117,7 +1117,7 @@
 
       const prd = $('#prd_name').val();
 
-      let data = { type:'agent', userId: userId, orders: [] };
+      let data = { type:'agent', userId: userId, agOrders: [] };
 
       names.forEach((name, i) => {
 
@@ -1129,7 +1129,7 @@
         order['id']     = 'agent';
         order['item']   = prd;
 
-        data.orders.push(order);
+        data.agOrders.push(order);
       });
 
       try {
@@ -1154,7 +1154,7 @@
         } else {
           Swal.fire({
             icon: 'error',
-            title: title+'失敗',
+            title: '代訂失敗',
             text: result[0].alert || '請稍後再試'
           });
         }
