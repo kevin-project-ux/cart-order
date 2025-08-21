@@ -1113,7 +1113,7 @@
           return $(this).val();
       }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
-      console.log(names);
+      // console.log(names);
 
       const prd = $('#prd_name').val();
 
@@ -1158,7 +1158,8 @@
           <div class="col-12 d-none" id="oldName">
             <select class="form-select w-100 agentNames dynamic" name="oldName[]" required></select>
             <select class="form-select w-100 agentFlavors dynamic d-none" name="oldFlavors[]"></select>
-            <input type="number" class="form-control col-4 dynamic" name="oldNums[]" min="1" placeholder="數量">
+            <input type="number" class="form-control dynamic" name="oldNums[]" min="1" placeholder="數量">
+            <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
           </div>
         `;
 
@@ -1184,7 +1185,8 @@
           <div class="col-12 d-flex gap-2">
             <input type="text" class="form-control agentName dynamic" name="newName[]" placeholder="姓名" required>
             <select class="form-select w-100 agentFlavors dynamic d-none" name="newFlavors[]"></select>
-            <input type="number" class="form-control col-4 dynamic" name="newNums[]" min="1" placeholder="數量">
+            <input type="number" class="form-control dynamic" name="newNums[]" min="1" placeholder="數量">
+            <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
           </div>
         `;
 
