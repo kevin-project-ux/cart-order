@@ -1132,7 +1132,43 @@
         data.orders.push(order);
       });
 
-      console.log(data);
+      try {
+        mask.style.display = 'flex';
+        const response = await fetch(GAS_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        console.log(result);
+
+        if (result[0].status == 'success') {
+          Swal.fire({
+            icon: 'success',
+            title: result[0].alert,
+            text: '請到修改訂單查看訂單明細'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: title+'失敗',
+            text: result[0].alert || '請稍後再試'
+          });
+        }
+      } catch (err) {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: '系統異常'
+        });
+      } finally {
+        mask.style.display = 'none';
+      }
+
+      // console.log(data);
     }
   }
 
