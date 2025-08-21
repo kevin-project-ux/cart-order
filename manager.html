@@ -466,7 +466,7 @@
   ReadonlyEmbed.tagName = 'span';
   Quill.register(ReadonlyEmbed);
 
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbw7aPo3dCWfvOr1C0Pzxf9m26t2ijlzX7e2iOUrPYzoNsV5XAaQDYy1GyW3kG6Wx4insw/exec'; // 改為你的 Apps Script 網址
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxmjekyUhh9q9QuzeuOKwiwAdTuDt4Izb9YUxmfllTBDiaZj_47noMWBey2DgR_yi9v/exec'; // 改為你的 Apps Script 網址
 
   let data;
   let prd_list;
@@ -1121,12 +1121,12 @@
 
       names.forEach((name, i) => {
 
-        var arr = { flavor: prd, qty: nums[i] };
+        var arr = [{ flavor: prd, qty: nums[i] }];
 
         var order = {};
         order['orders'] = arr;
         order['name']   = name;
-        order['id']     = 'agent';
+        order['id']     = name;
         order['item']   = prd;
 
         data.agOrders.push(order);
