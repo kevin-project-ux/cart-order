@@ -1042,7 +1042,7 @@
         if( !$select ){
             $(".agentFlavors").html(flvs_opt); 
         }else{
-            $($select).html(flvs_opt); 
+            $select.html(flvs_opt); 
         }
     }
 
@@ -1206,7 +1206,7 @@
 
                 let $select = $(div).find("select");
 
-                setFlavorsOpt(prd_id, $select);
+                setFlavorsOpt(Number(prd_id), $select);
             }
         }
     }
