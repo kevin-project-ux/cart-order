@@ -350,6 +350,7 @@
                                 <h5 class="text-center" id="prd_title"></h5>
                                 <div class="container mt-4 mb-4" id="agentContent">
                                     <div class="mb-3">
+                                        <input type="hidden" name="prd_id" id="prd_id">
                                         <input type="hidden" name="prd_name" id="prd_name">
                                         <input type="hidden" id="prd_type" value="single">
                                         <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
@@ -1003,6 +1004,7 @@
 
         $('#prd_title').text(name);
         $('#prd_name').val(name);
+        $('#prd_id').val(id);
 
         var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
         // console.log(prds);
@@ -1023,15 +1025,24 @@
 
                 $('#prd_type').val('multiple');
 
-                var flvs = flv_list.filter(item => item.品項ID === id); 
-                flvs_opt = '<option value="" disabled>請選擇口味</option>';
-                flvs.forEach(flv => { flvs_opt += '<option value="'+flv.口味+'">'+flv.口味+'</option>'; });
-        
-                $(".agentFlavors").html(flvs_opt); 
+                setFlavorsOpt(id);
             }else{ // 單口味
                 $(".agentFlavors").html(''); 
                 $(".agentFlavors").removeClass('d-block').addClass('d-none');
             }
+        }
+    }
+
+    function setFlavorsOpt(id, $select=false){
+
+        var flvs = flv_list.filter(item => item.品項ID === id); 
+        flvs_opt = '<option value="" selected disabled>口味</option>';
+        flvs.forEach(flv => { flvs_opt += '<option value="'+flv.口味+'">'+flv.口味+'</option>'; });
+
+        if( !$select ){
+            $(".agentFlavors").html(flvs_opt); 
+        }else{
+            $($select).html(flvs_opt); 
         }
     }
 
@@ -1100,6 +1111,7 @@
         div.className = "row g-2 mb-2 agent-row";
 
         var prd_type = $('#prd_type').val();
+        var prd_id   = $('#prd_id').val();
 
         if( prd_type=='single' ){
             if ($('#oldName').css('display') === 'block') {
@@ -1184,11 +1196,17 @@
                 $('#oldName').find('button.dynamic').remove();
 
                 div.innerHTML = `
-                    <div class="col"><input type="text" class="form-control dynamic" min="1" placeholder="姓名"></div>
-                    <div class="col"><input type="number" class="form-control dynamic" placeholder="數量"></div>
-                    <div class="col-auto"><button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button></div>
+                    <div class="col-12 d-flex gap-2">
+                        <input type="text" class="form-control agentName dynamic" name="newName[]" placeholder="姓名" required>
+                        <select class="form-select w-100 agentFlavors dynamic" name="newFlavors[]"></select>
+                        <input type="number" class="form-control dynamic" name="newNums[]" min="1" placeholder="數量">
+                    </div>
                 `;
                 document.getElementById("agentWrapper").appendChild(div);
+
+                let $select = div.find("select");
+
+                setFlavorsOpt(prd_id, $select);
             }
         }
     }
