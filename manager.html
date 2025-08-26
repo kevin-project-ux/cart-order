@@ -1006,6 +1006,8 @@
         $('#prd_name').val(name);
         $('#prd_id').val(id);
 
+        $('.dynamic').remove(); // 清除動態產生div
+
         var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
         // console.log(prds);
 
@@ -1150,16 +1152,14 @@
             }else{
 
                 // 清空原本態新增的元素
-                $('#oldName').find('select.dynamic').remove();
-                $('#oldName').find('input.dynamic').remove();
-                $('#oldName').find('button.dynamic').remove();
+                $('#oldName').find('div.dynamic').remove();
 
                 div.innerHTML = `
-                    <div class="col-12 d-flex gap-2">
-                        <input type="text" class="form-control agentName dynamic" name="newName[]" placeholder="姓名" required>
-                        <select class="form-select w-100 agentFlavors dynamic d-none" name="newFlavors[]"></select>
-                        <input type="number" class="form-control dynamic" name="newNums[]" min="1" placeholder="數量">
-                        <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                    <div class="col-12 d-flex gap-2 dynamic">
+                        <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
+                        <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
+                        <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
                     </div>
                 `;
 
@@ -1198,15 +1198,14 @@
             }else{
 
                 // 清空原本態新增的元素
-                $('#oldName').find('select.dynamic').remove();
-                $('#oldName').find('input.dynamic').remove();
-                $('#oldName').find('button.dynamic').remove();
+                $('#oldName').find('div.dynamic').remove();
 
                 div.innerHTML = `
-                    <div class="col-12 d-flex gap-2">
-                        <input type="text" class="form-control agentName dynamic" name="newName[]" placeholder="姓名" required>
-                        <select class="form-select w-100 agentFlavors dynamic" name="newFlavors[]"></select>
-                        <input type="number" class="form-control dynamic" name="newNums[]" min="1" placeholder="數量">
+                    <div class="col-12 d-flex gap-2 dynamic">
+                        <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
+                        <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
+                        <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
                     </div>
                 `;
                 document.getElementById("agentWrapper").appendChild(div);
