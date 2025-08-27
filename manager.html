@@ -1249,8 +1249,12 @@
     async function toggleAgentName() {
 
         const selected = document.querySelector('input[name="nameType"]:checked').value;
-        $("#newName").find('.agentFlavors').removeClass("d-none d-flex").addClass(selected === "new" ? "d-flex" : "d-none");
-        $("#oldName").find('.agentFlavors').removeClass("d-none d-flex").addClass(selected === "old" ? "d-flex" : "d-none");
+        const prd_type = $('#prd_type').val();
+
+        if( prd_type=='multiple' ){
+            $("#newName").find('.agentFlavors').removeClass("d-none d-flex").addClass(selected === "new" ? "d-flex" : "d-none");
+            $("#oldName").find('.agentFlavors').removeClass("d-none d-flex").addClass(selected === "old" ? "d-flex" : "d-none");
+        }
 
         $("#newName").removeClass("d-none d-flex").addClass(selected === "new" ? "d-flex" : "d-none");
         $("#oldName").removeClass("d-none d-flex").addClass(selected === "old" ? "d-flex" : "d-none");
