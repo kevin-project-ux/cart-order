@@ -1008,6 +1008,8 @@
 
         $('.dynamic').remove(); // 清除動態產生div
 
+        $('input[name="nameType"][value="single"]').prop('checked', true).trigger('change'); // 還原預設single
+
         var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
         // console.log(prds);
 
@@ -1023,14 +1025,14 @@
             var prd = prd_list.find(item => item.ID === id);
             if( prd.售價=='---' ){ //多口味
 
-                $(".agentFlavors").removeClass('d-none').addClass('d-block');
+                $(".agentFlavors").removeClass('d-none').addClass('d-flex');
 
                 $('#prd_type').val('multiple');
 
                 setFlavorsOpt(id);
             }else{ // 單口味
                 $(".agentFlavors").html(''); 
-                $(".agentFlavors").removeClass('d-block').addClass('d-none');
+                $(".agentFlavors").removeClass('d-flex').addClass('d-none');
             }
         }
     }
