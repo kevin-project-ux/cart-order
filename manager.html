@@ -1122,90 +1122,110 @@
 
         var prd_type = $('#prd_type').val();
         var prd_id   = $('#prd_id').val();
+        const sed    = document.querySelector('input[name="nameType"]:checked').value;
 
-        if( prd_type=='single' ){
-            if ($('#oldName').css('display') === 'block') {
+        if( prd_type=='single' && sed=='old' ){
         
-                div.innerHTML = `
-                    <div class="col-12 d-none" id="oldName">
-                        <select class="form-select w-100 agentNames" name="oldName[]" required></select>
-                        <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
-                        <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
-                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
-                    </div>
-                `;
+            div.innerHTML = `
+                <div class="col-12 d-flex gap-2">
+                    <select class="form-select w-100 agentNames" name="oldName[]" required></select>
+                    <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
+                    <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
+                    <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                </div>
+            `;
 
-                document.getElementById("agentWrapper").appendChild(div);
+            document.getElementById("agentWrapper").appendChild(div);
 
-                $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+            $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
-                $('.agentNames').not('.select2-hidden-accessible').select2({
-                    data: oldAgentName,
-                    dropdownParent: $('#AgentModal'),
-                    placeholder: '請選擇姓名',
-                    allowClear: true,
-                    width: 'resolve',
-                });
-            }else{
-
-                div.innerHTML = `
-                    <div class="col-12 d-flex gap-2">
-                        <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
-                        <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
-                        <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
-                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
-                    </div>
-                `;
-
-                document.getElementById("agentWrapper").appendChild(div);
-            }
+            $('.agentNames').not('.select2-hidden-accessible').select2({
+                data: oldAgentName,
+                dropdownParent: $('#AgentModal'),
+                placeholder: '請選擇姓名',
+                allowClear: true,
+                width: 'resolve',
+            });
         }
+        if( prd_type=='single' && sed=='new' ){
 
-        if( prd_type=='multiple' ){
-            if ($('#oldName').css('display') === 'block') {
+            div.innerHTML = `
+                <div class="col-12 d-flex gap-2">
+                    <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
+                    <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
+                    <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                    <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+
+            document.getElementById("agentWrapper").appendChild(div);
+        }
         
-                div.innerHTML = `
-                    <div class="col-6">
-                        <select class="form-select w-100 agentNames" name="oldName[]"></select>
-                    </div>
-                    <input type="number" class="form-control col-4" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
-                    <div class="col-2">
-                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
-                    </div>
-                `;
 
-                document.getElementById("agentWrapper").appendChild(div);
+        if( prd_type=='multiple' && sed=='old' ){
 
-                $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+            div.innerHTML = `
+                <div class="col-12 d-flex gap-2">
+                    <select class="form-select w-100 agentNames" name="oldName[]"></select>
+                    <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
+                    <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                    <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                </div>
+            `;
 
-                $('.agentNames').not('.select2-hidden-accessible').select2({
-                    data: oldAgentName,
-                    dropdownParent: $('#AgentModal'),
-                    placeholder: '請選擇姓名',
-                    allowClear: true,
-                    width: 'resolve',
-                });
-            }else{
+            document.getElementById("agentWrapper").appendChild(div);
 
-                div.innerHTML = `
-                    <div class="col-12 d-flex gap-2">
-                        <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
-                        <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
-                        <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
-                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
-                    </div>
-                `;
-                document.getElementById("agentWrapper").appendChild(div);
+            $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
-                let $select = $(div).find("select");
+            $('.agentNames').not('.select2-hidden-accessible').select2({
+                data: oldAgentName,
+                dropdownParent: $('#AgentModal'),
+                placeholder: '請選擇姓名',
+                allowClear: true,
+                width: 'resolve',
+            });
+        }
+        if( prd_type=='multiple' && sed=='new' ){
 
-                setFlavorsOpt(Number(prd_id), $select);
-            }
+            div.innerHTML = `
+                <div class="col-12 d-flex gap-2">
+                    <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
+                    <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
+                    <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                    <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+            document.getElementById("agentWrapper").appendChild(div);
+
+            let $select = $(div).find("select");
+
+            setFlavorsOpt(Number(prd_id), $select);
         }
     }
 
     function removeAgent(btn){
         btn.closest('.agent-row').remove();
+    }
+
+    function agentRow(){
+
+        const sed  = document.querySelector('input[name="nameType"]:checked').value;
+
+        var html = `
+            <div class="row g-2 mb-2 agent-row">
+                <div class="col-12 d-flex gap-2">
+                    <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
+                    <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
+                    <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                </div>
+                <div class="col-12 d-none">
+                    <select class="form-select w-100 agentNames" name="oldName[]" required></select>
+                    <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
+                    <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
+                </div>
+            </div>
+        `;
+        
     }
 
     async function gasPostData(data){
