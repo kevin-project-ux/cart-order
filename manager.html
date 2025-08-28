@@ -372,14 +372,12 @@
                                                 <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
                                                 <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
                                             </div>
-
                                             <!-- 舊名字 -->
                                             <div class="col-12 d-none" id="oldName">
                                                 <select class="form-select w-100 agentNames" name="oldName[]" required></select>
                                                 <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
                                                 <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
                                             </div>
-
                                         </div>
                                     </div>
                                     <button class="btn btn-outline-primary w-100" id="addName" onclick="addAgent()">
@@ -1120,24 +1118,20 @@
     function addAgent(){
 
         const div = document.createElement('div');
-        div.className = "row g-2 mb-2 agent-row";
+        div.className = "row g-2 mb-2 agent-row dynamic";
 
         var prd_type = $('#prd_type').val();
         var prd_id   = $('#prd_id').val();
 
         if( prd_type=='single' ){
             if ($('#oldName').css('display') === 'block') {
-
-                // 清空原本動態新增的元素
-                $('#newName').find('input.dynamic').remove();
-                $('#newName').find('button.dynamic').remove();
         
                 div.innerHTML = `
                     <div class="col-12 d-none" id="oldName">
-                        <select class="form-select w-100 agentNames dynamic" name="oldName[]" required></select>
-                        <select class="form-select w-100 agentFlavors dynamic d-none" name="oldFlavors[]"></select>
-                        <input type="number" class="form-control dynamic" name="oldNums[]" min="1" placeholder="數量">
-                        <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                        <select class="form-select w-100 agentNames" name="oldName[]" required></select>
+                        <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
+                        <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
+                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
                     </div>
                 `;
 
@@ -1154,11 +1148,8 @@
                 });
             }else{
 
-                // 清空原本態新增的元素
-                $('#oldName').find('div.dynamic').remove();
-
                 div.innerHTML = `
-                    <div class="col-12 d-flex gap-2 dynamic">
+                    <div class="col-12 d-flex gap-2">
                         <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
                         <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
                         <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
@@ -1172,18 +1163,14 @@
 
         if( prd_type=='multiple' ){
             if ($('#oldName').css('display') === 'block') {
-
-                // 清空原本動態新增的元素
-                $('#newName').find('input.dynamic').remove();
-                $('#newName').find('button.dynamic').remove();
         
                 div.innerHTML = `
                     <div class="col-6">
-                        <select class="form-select w-100 agentNames dynamic" name="oldName[]"></select>
+                        <select class="form-select w-100 agentNames" name="oldName[]"></select>
                     </div>
-                    <input type="number" class="form-control col-4 dynamic" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
+                    <input type="number" class="form-control col-4" name="nums[]" min="1" placeholder="數量" style="width: 33.3%;">
                     <div class="col-2">
-                        <button class="btn btn-outline-danger dynamic" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
                     </div>
                 `;
 
@@ -1200,11 +1187,8 @@
                 });
             }else{
 
-                // 清空原本態新增的元素
-                $('#oldName').find('div.dynamic').remove();
-
                 div.innerHTML = `
-                    <div class="col-12 d-flex gap-2 dynamic">
+                    <div class="col-12 d-flex gap-2">
                         <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
                         <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
                         <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
