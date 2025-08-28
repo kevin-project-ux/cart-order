@@ -1006,9 +1006,7 @@
         $('#prd_name').val(name);
         $('#prd_id').val(id);
 
-        $('.dynamic').remove(); // 清除動態產生div
-
-        $('input[name="nameType"][value="single"]').prop('checked', true).trigger('change'); // 還原預設single
+        resetAgentForm();
 
         var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
         // console.log(prds);
@@ -1254,6 +1252,8 @@
         const selected = document.querySelector('input[name="nameType"]:checked').value;
         const prd_type = $('#prd_type').val();
 
+        resetAgentForm();
+
         if( prd_type=='multiple' ){
             $("#newName").find('.agentFlavors').removeClass("d-none d-flex").addClass(selected === "new" ? "d-flex" : "d-none");
             $("#oldName").find('.agentFlavors').removeClass("d-none d-flex").addClass(selected === "old" ? "d-flex" : "d-none");
@@ -1422,6 +1422,17 @@
   
         // 3. 如果 multiFlavor 有動態新增的 .flavor-row，留第一列移除其餘
         $('#flavorWrapper .flavor-row').slice(2).remove();
+    }
+
+    function resetAgentForm(){
+
+        $('.dynamic').remove(); // 清除動態產生div
+
+        $('input[name="nameType"][value="new"]').prop('checked', true).trigger('change'); // 還原預設new
+  
+        // 清空所有欄位 (input, select, textarea)
+        $('#newName, #oldName').find('input').val('').prop('checked', false).prop('selected', false);
+  
     }
   
     async function submitForm() {
