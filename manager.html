@@ -1259,8 +1259,8 @@
         }
 
         if( prd_type=='single' ){
-            $("#newName").find('.agentFlavors').toggleClass("d-flex").addClass("d-none");
-            $("#oldName").find('.agentFlavors').toggleClass("d-flex").addClass("d-none");
+            $("#newName").find('.agentFlavors').removeClass("d-flex").addClass("d-none");
+            $("#oldName").find('.agentFlavors').removeClass("d-flex").addClass("d-none");
         }
 
         $("#newName").removeClass("d-none d-flex").addClass(selected === "new" ? "d-flex" : "d-none");
