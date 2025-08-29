@@ -1183,13 +1183,17 @@
 
             $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
-            $('.agentNames').not('.select2-hidden-accessible').select2({
-                data: oldAgentName,
-                dropdownParent: $('#AgentModal'),
-                placeholder: '請選擇姓名',
-                allowClear: true,
-                width: 'resolve',
+            oldAgentName.forEach(val => {
+                $('.agentNames').append('<option value="'+val.id+'">'+val.text+'</option>');
             });
+
+            // $('.agentNames').not('.select2-hidden-accessible').select2({
+            //     data: oldAgentName,
+            //     dropdownParent: $('#AgentModal'),
+            //     placeholder: '請選擇姓名',
+            //     allowClear: true,
+            //     width: 'resolve',
+            // });
         }
         if( prd_type=='multiple' && sed=='new' ){
 
@@ -1304,15 +1308,19 @@
 
             $('.agentNames').empty(); // 清空原有內容（若有）
             $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+
+            oldAgentName.forEach(val => {
+                $('.agentNames').append('<option value="'+val.id+'">'+val.text+'</option>');
+            });
     
             // 初始化 Select2
-            $('.agentNames').select2({
-                data: oldAgentName,
-                dropdownParent: $('#AgentModal'),
-                placeholder: '請選擇姓名',
-                allowClear: true,
-                width: 'resolve',
-            });
+            // $('.agentNames').select2({
+            //     data: oldAgentName,
+            //     dropdownParent: $('#AgentModal'),
+            //     placeholder: '請選擇姓名',
+            //     allowClear: true,
+            //     width: 'resolve',
+            // });
         }
     }
 
