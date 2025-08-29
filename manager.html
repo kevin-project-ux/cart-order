@@ -375,11 +375,17 @@
                                             <!-- 舊名字 -->
                                             <div class="col-12 d-none" id="oldName">
                                                 <div class="row g-2 align-items-center">
-                                                    <div class="col-md-9 d-flex">
-                                                        <select class="form-select me-2 flex-grow-1 agentNames" name="oldName[]" required></select>
-                                                        <select class="form-select flex-grow-1 agentFlavors d-none" name="oldFlavors[]"></select>
+                                                    <div class="col-9 d-flex">
+                                                        <div class="row g-2">
+                                                            <div class="col">
+                                                                <select class="form-select me-2 flex-grow-1 agentNames" name="oldName[]" required></select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <select class="form-select flex-grow-1 agentFlavors d-none" name="oldFlavors[]"></select>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-3">
                                                         <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
                                                     </div>
                                                 </div>
