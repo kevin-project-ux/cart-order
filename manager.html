@@ -974,7 +974,7 @@
 
         try {
             const result = await liff.shareTargetPicker([{ type: 'text', text: text }]);
-            if (result) {
+            if (result && result.status !== 'cancel') {
                 Swal.fire({ icon: 'success', title: '開團成功', text: '請回到分享該群組查看訊息哦!' });
             }
         } catch (e) {
