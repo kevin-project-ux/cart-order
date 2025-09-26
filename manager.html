@@ -100,7 +100,7 @@
         position: relative;
         z-index: 2;
         background: #fff;
-        padding: 15px;
+        padding: 10px;
         transition: transform 0.2s ease;
     }
     .swipe-delete {
@@ -108,7 +108,7 @@
         top: 0;
         right: 0;
         bottom: 0;
-        width: 80px;
+        width: 60px;
         background: #e74c3c;
         color: #fff;
         display: flex;
@@ -1204,7 +1204,7 @@
                     <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
                 </div>
                 <div class="swipe-delete d-flex justify-content-center align-items-center">
-                    <a href="#" onclick="removeAgent(this)"><i class="fas fa-trash-alt"></i></a>
+                    <i class="fas fa-trash-alt"></i>
                 </div>
             `;
 
@@ -1258,7 +1258,7 @@
         $el.on("touchend", function () {
             const $content = $(this).find(".swipe-content");
             if (currentX < -threshold) {
-                $content.css("transform", "translateX(-80px)");
+                $content.css("transform", "translateX(-60px)");
             } else {
                 $content.css("transform", "translateX(0px)");
             }
