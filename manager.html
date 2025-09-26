@@ -98,7 +98,7 @@
     }
     .swipe-content {
         position: relative;
-        z-index: 1;
+        z-index: 2;
         background: #fff;
         padding: 15px;
         transition: transform 0.2s ease;
@@ -115,6 +115,7 @@
         justify-content: center;
         align-items: center;
         font-weight: bold;
+        z-index: 1;
     }
 </style>
 <!-- Google tag (gtag.js) -->
@@ -1203,7 +1204,7 @@
                     <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
                 </div>
                 <div class="swipe-delete d-flex justify-content-center align-items-center">
-                    <button class="btn btn-danger" onclick="removeAgent(this)"><i class="fas fa-trash-o"></i></button>
+                    <a href="#" onclick="removeAgent(this)"><i class="fas fa-trash-alt"></i></a>
                 </div>
             `;
 
