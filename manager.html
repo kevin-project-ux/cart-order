@@ -89,7 +89,33 @@
         height: calc(1.5em + 0.75rem + 2px);
         top: 0;
     }
-
+    .swipe-item {
+        position: relative;
+        width: 100%;
+        background: #fff;
+        overflow: hidden;
+        border-bottom: 1px solid #ddd;
+    }
+    .swipe-content {
+        position: relative;
+        z-index: 1;
+        background: #fff;
+        padding: 15px;
+        transition: transform 0.2s ease;
+    }
+    .swipe-delete {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 80px;
+        background: #e74c3c;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+    }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K7ZW7QSTSY"></script>
@@ -586,7 +612,7 @@
                             var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row='${JSON.stringify(row)}' data-type="open" onclick="cartModal(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
                             var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="editModal(this)"><i class="fas fa-eye"></i> 檢視訂單</a>`;
                             var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-pencil-alt"></i> 修改訂單</a>`;
-                            var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="fas fa-ban"></i> 延後訂單</a>`;
+                            var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</a>`;
                             var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
                             var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</a>`;
                             var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="AgentModal(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單 <span class="badge bg-success">Beta</span></a>`;
@@ -1171,11 +1197,15 @@
         if( prd_type=='multiple' && sed=='old' ){
 
             div.innerHTML = `
-                <div class="col-12 d-flex gap-2">
-                    <select class="form-select w-100 agentNames" name="oldName[]"></select>
-                    <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
-                    <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
-                    <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                <div class="col-12 d-flex gap-2 swipe-item">
+                    <div class="swipe-content">
+                        <select class="form-select w-100 agentNames" name="oldName[]"></select>
+                        <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
+                        <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                    </div>
+                    <div class="swipe-delete">
+                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+                    </div>
                 </div>
             `;
 
