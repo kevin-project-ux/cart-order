@@ -1150,7 +1150,7 @@
     function addAgent(){
 
         const div = document.createElement('div');
-        div.className = "row g-2 mb-2 agent-row dynamic";
+        div.className = "row g-2 mb-2 agent-row dynamic swipe-item";
 
         var prd_type = $('#prd_type').val();
         var prd_id   = $('#prd_id').val();
@@ -1197,15 +1197,13 @@
         if( prd_type=='multiple' && sed=='old' ){
 
             div.innerHTML = `
-                <div class="swipe-item col-12 mb-2">
-                    <div class="swipe-content col-12 d-flex gap-2">
-                        <select class="form-select w-100 agentNames" name="oldName[]"></select>
-                        <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
-                        <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
-                    </div>
-                    <div class="swipe-delete d-flex justify-content-center align-items-center">
-                        <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
-                    </div>
+                <div class="swipe-content col-12 d-flex gap-2">
+                    <select class="form-select w-100 agentNames" name="oldName[]"></select>
+                    <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
+                    <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                </div>
+                <div class="swipe-delete d-flex justify-content-center align-items-center">
+                    <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
                 </div>
             `;
 
@@ -1241,7 +1239,8 @@
         }
     }
 
-    function initSwipeDelete($el) {
+    function initSwipeDelete(el) {
+        const $el = $(el); // 不管傳 DOM 或 jQuery 都轉成 jQuery
         let startX = 0, currentX = 0, threshold = 40;
 
         $el.on("touchstart", function (e) {
