@@ -1197,19 +1197,21 @@
         if( prd_type=='multiple' && sed=='old' ){
 
             div.innerHTML = `
-                <div class="col-12 d-flex gap-2 swipe-item">
-                    <div class="swipe-content">
+                <div class="swipe-item col-12 mb-2">
+                    <div class="swipe-content col-12 d-flex gap-2">
                         <select class="form-select w-100 agentNames" name="oldName[]"></select>
                         <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
                         <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
                     </div>
-                    <div class="swipe-delete">
+                    <div class="swipe-delete d-flex justify-content-center align-items-center">
                         <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
                     </div>
                 </div>
             `;
 
             document.getElementById("agentWrapper").appendChild(div);
+
+            initSwipeDelete(div);
 
             $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
@@ -1237,6 +1239,35 @@
 
             setFlavorsOpt(Number(prd_id), $select);
         }
+    }
+
+    function initSwipeDelete($el) {
+        let startX = 0, currentX = 0, threshold = 40;
+
+        $el.on("touchstart", function (e) {
+            startX = e.originalEvent.touches[0].clientX;
+        });
+
+        $el.on("touchmove", function (e) {
+            currentX = e.originalEvent.touches[0].clientX - startX;
+            if (currentX < 0) {
+                $(this).find(".swipe-content").css("transform", `translateX(${currentX}px)`);
+            }
+        });
+
+        $el.on("touchend", function () {
+            const $content = $(this).find(".swipe-content");
+            if (currentX < -threshold) {
+                $content.css("transform", "translateX(-60px)");
+            } else {
+                $content.css("transform", "translateX(0px)");
+            }
+            currentX = 0;
+        });
+
+        $el.find(".swipe-delete").on("click", function () {
+            $(this).closest(".swipe-item").remove();
+        });
     }
 
     function removeAgent(btn){
