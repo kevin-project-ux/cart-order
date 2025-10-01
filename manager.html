@@ -105,9 +105,9 @@
     }
     .swipe-delete {
         position: absolute;
-        top: 0;
+        top: 1px;
         right: 15px;
-        bottom: 0;
+        bottom: 1px;
         width: 45px;
         background: #e74c3c;
         color: #fff;
@@ -1081,17 +1081,17 @@
         const sed  = document.querySelector('input[name="nameType"]:checked').value;
         const type = $('#prd_type').val();
 
-        if( sed=='new' ){
+        if( sed=='new' || sed=='old' ){
 
-            let names = $('input[name="newName[]"]').map(function () {
+            let names = $('input[name="'+sed+'Name[]"]').map(function () {
                 return $(this).val();
             }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
-            let nums = $('input[name="newNums[]"]').map(function () {
+            let nums = $('input[name="'+sed+'Nums[]"]').map(function () {
                 return $(this).val();
             }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
-            let flavors = $('select[name="newFlavors[]"]').map(function () {
+            let flavors = $('select[name="'+sed+'Flavors[]"]').map(function () {
                 return $(this).val();
             }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
@@ -1137,9 +1137,9 @@
                 mask.style.display = 'none';
             }
         }
-        if( sed=='old' ){ // 舊名字
+        // if( sed=='old' ){ // 舊名字
 
-        }
+        // }
     }
 
     function addAgent(){
@@ -1369,13 +1369,13 @@
             });
     
             // 初始化 Select2
-            // $('.agentNames').select2({
-            //     data: oldAgentName,
-            //     dropdownParent: $('#AgentModal'),
-            //     placeholder: '請選擇姓名',
-            //     allowClear: true,
-            //     width: 'resolve',
-            // });
+            $('.agentNames').select2({
+                data: oldAgentName,
+                dropdownParent: $('#AgentModal'),
+                placeholder: '請選擇姓名',
+                allowClear: true,
+                width: 'resolve',
+            });
         }
     }
 
