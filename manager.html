@@ -1083,7 +1083,10 @@
 
         if( sed=='new' || sed=='old' ){
 
-            let names = $('input[name="'+sed+'Name[]"]').map(function () {
+            var $name = 'input[name="'+sed+'Name[]"]';
+            if( sed=='old' ){ $name = 'select[name="'+sed+'Name[]"]'; }
+
+            let names = $($name).map(function () {
                 return $(this).val();
             }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
