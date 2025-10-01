@@ -401,7 +401,7 @@
                                             </div>
                                             <!-- 舊名字 -->
                                             <div class="col-12 d-none gap-2" id="oldName">
-                                                <input type="text" class="form-control agentName" name="oldName[]" placeholder="姓名" required>
+                                                <select class="form-select w-100 agentNames" name="oldName[]"></select>
                                                 <select class="form-select w-100 agentFlavors" name="oldFlavors[]"></select>
                                                 <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
                                             </div>
@@ -1215,6 +1215,10 @@
                 allowClear: true,
                 width: 'resolve',
             });
+
+            let $select = $(div).find("select");
+
+            setFlavorsOpt(Number(prd_id), $select);
         }
         if( prd_type=='multiple' && sed=='new' ){
 
