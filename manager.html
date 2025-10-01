@@ -91,7 +91,7 @@
     }
     .swipe-item {
         position: relative;
-        width: 100%;
+        /*width: 100%;*/
         background: #fff;
         overflow: hidden;
         border-bottom: 1px solid #ddd;
@@ -400,16 +400,10 @@
                                                 <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
                                             </div>
                                             <!-- 舊名字 -->
-                                            <div class="col-12 d-none" id="oldName">
-                                                <div class="row g-2 align-items-center">
-                                                    <div class="col-9 d-flex">
-                                                        <select class="form-select me-2 flex-grow-1 agentNames" name="oldName[]" required></select>
-                                                        <select class="form-select flex-grow-1 agentFlavors d-none" name="oldFlavors[]"></select>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
-                                                    </div>
-                                                </div>
+                                            <div class="col-12 d-none gap-2" id="oldName">
+                                                <input type="text" class="form-control agentName" name="oldName[]" placeholder="姓名" required>
+                                                <select class="form-select w-100 agentFlavors" name="oldFlavors[]"></select>
+                                                <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
                                             </div>
                                         </div>
                                     </div>
