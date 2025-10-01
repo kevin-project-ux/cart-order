@@ -106,9 +106,9 @@
     .swipe-delete {
         position: absolute;
         top: 0;
-        right: -15px;
+        right: 15px;
         bottom: 0;
-        width: 60px;
+        width: 45px;
         background: #e74c3c;
         color: #fff;
         display: flex;
@@ -1194,8 +1194,8 @@
             div.innerHTML = `
                 <div class="swipe-content col-12 d-flex gap-2">
                     <select class="form-select w-100 agentNames" name="oldName[]"></select>
-                    <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
-                    <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                    <select class="form-select w-100 agentFlavors" name="oldFlavors[]"></select>
+                    <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
                 </div>
                 <div class="swipe-delete d-flex justify-content-center align-items-center">
                     <i class="fas fa-trash-alt"></i>
@@ -1216,7 +1216,7 @@
                 width: 'resolve',
             });
 
-            let $select = $(div).find("select");
+            let $select = $(div).find("select.agentFlavors");
 
             setFlavorsOpt(Number(prd_id), $select);
         }
