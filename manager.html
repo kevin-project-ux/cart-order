@@ -1211,7 +1211,7 @@
 
             $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
-            $(div).find('.agentNames').not('.select2-hidden-accessible').select2({
+            $(div).find('select.agentNames').select2({
                 data: oldAgentName,
                 dropdownParent: $('#AgentModal'),
                 placeholder: '請選擇姓名',
