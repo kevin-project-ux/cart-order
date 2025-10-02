@@ -484,7 +484,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwUsMGha-VqdbQ4AUA1wlxsDGWTKo4h5Z5T-KpubAbVMY29iujlWhbyqKRhJneMF2unUA/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwYzlyVkIdKz6tSKWM8KrNTLlTmKWuwxcmKSlEtBs1Mogc6A2cuTpa5gJL-huCu_fW3zQ/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -610,8 +610,9 @@
                             var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</a>`;
                             var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
                             var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</a>`;
-                            var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="AgentModal(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單 <span class="badge bg-success">Beta</span></a>`;
+                            var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="AgentModal(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單</a>`;
                             var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
+                             // <span class="badge bg-success">Beta</span>
               
                             var html = `
                                 ${ row.狀態 !== '延後中' ?
