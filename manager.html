@@ -99,7 +99,7 @@
     .swipe-content {
         position: relative;
         z-index: 2;
-        background: #fff;
+        /*background: #fff;*/
         /*padding: 10px;*/
         transition: transform 0.2s ease;
     }
@@ -1210,7 +1210,7 @@
 
             initSwipeDelete(div);
 
-            $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+            $(div).find('select.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
             $(div).find('select.agentNames').select2({
                 data: oldAgentName,
