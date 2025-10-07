@@ -401,9 +401,9 @@
                                             </div>
                                             <!-- 舊名字 -->
                                             <div class="col-12 d-none gap-2" id="oldName">
-                                                <select class="form-select w-100 agentNames" name="oldName[]"></select>
-                                                <select class="form-select w-50 agentFlavors" name="oldFlavors[]"></select>
-                                                <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width: 55%;">
+                                                <select class="form-select agentNames" name="oldName[]" style="width:40%"></select>
+                                                <select class="form-select agentFlavors" name="oldFlavors[]" style="width:30%"></select>
+                                                <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width: 30%;">
                                             </div>
                                         </div>
                                     </div>
@@ -1378,7 +1378,7 @@
                 dropdownParent: $('#AgentModal'),
                 placeholder: '請選擇姓名',
                 allowClear: true,
-                width: 'resolve',
+                width: '40%',
             });
         }
     }
