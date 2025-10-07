@@ -404,8 +404,8 @@
                                             <!-- 舊名字 -->
                                             <div class="col-12 d-none gap-2" id="oldName">
                                                 <select class="form-select agentNames" name="oldName[]"></select>
-                                                <select class="form-select agentFlavors" name="oldFlavors[]" style="width:35%"></select>
-                                                <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width: 30%;">
+                                                <select class="form-select agentFlavors" name="oldFlavors[]" style="width:45%"></select>
+                                                <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width: 35%;">
                                             </div>
                                         </div>
                                     </div>
@@ -1162,8 +1162,8 @@
             div.innerHTML = `
                 <div class="col-12 d-flex gap-2">
                     <select class="form-select w-100 agentNames" name="oldName[]" required></select>
-                    <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
-                    <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
+                    <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]" style="width:45%;"></select>
+                    <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width:35%;">
                     <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
                 </div>
             `;
@@ -1200,8 +1200,8 @@
             div.innerHTML = `
                 <div class="swipe-content col-12 d-flex gap-2">
                     <select class="form-select w-100 agentNames" name="oldName[]"></select>
-                    <select class="form-select w-100 agentFlavors" name="oldFlavors[]"></select>
-                    <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
+                    <select class="form-select w-100 agentFlavors" name="oldFlavors[]" style="width:45%;"></select>
+                    <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width:35%;">
                 </div>
                 <div class="swipe-delete d-flex justify-content-center align-items-center">
                     <i class="fas fa-trash-alt"></i>
@@ -1276,27 +1276,6 @@
 
     function removeAgent(btn){
         btn.closest('.agent-row').remove();
-    }
-
-    function agentRow(){
-
-        const sed  = document.querySelector('input[name="nameType"]:checked').value;
-
-        var html = `
-            <div class="row g-2 mb-2 agent-row">
-                <div class="col-12 d-flex gap-2">
-                    <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
-                    <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
-                    <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
-                </div>
-                <div class="col-12 d-none">
-                    <select class="form-select w-100 agentNames" name="oldName[]" required></select>
-                    <select class="form-select w-100 agentFlavors d-none" name="oldFlavors[]"></select>
-                    <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量">
-                </div>
-            </div>
-        `;
-        
     }
 
     async function gasPostData(data){
