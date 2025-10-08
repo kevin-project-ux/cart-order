@@ -108,7 +108,7 @@
     .swipe-delete {
         position: absolute;
         top: 1px;
-        right: 15px;
+        right: 10px;
         bottom: 1px;
         width: 45px;
         background: #e74c3c;
@@ -1199,8 +1199,8 @@
 
             div.innerHTML = `
                 <div class="swipe-content col-12 d-flex gap-2">
-                    <select class="form-select w-100 agentNames" name="oldName[]"></select>
-                    <select class="form-select w-100 agentFlavors" name="oldFlavors[]" style="width:45%;"></select>
+                    <select class="form-select agentNames" name="oldName[]"></select>
+                    <select class="form-select agentFlavors" name="oldFlavors[]" style="width:45%;"></select>
                     <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width:35%;">
                 </div>
                 <div class="swipe-delete d-flex justify-content-center align-items-center">
@@ -1231,7 +1231,7 @@
             div.innerHTML = `
                 <div class="col-12 d-flex gap-2">
                     <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
-                    <select class="form-select w-100 agentFlavors" name="newFlavors[]"></select>
+                    <select class="form-select agentFlavors" name="newFlavors[]"></select>
                     <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
                     <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
                 </div>
