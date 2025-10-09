@@ -1105,9 +1105,9 @@
             names.forEach(item => {
               if (!sort.includes(item)) sort.push(item);
             });
-            console.log(names);return false;
 
             names = sort.flatMap(o => names.filter(a => a === o));
+            console.log(names);return false;
 
             const prd = $('#prd_name').val();
 
