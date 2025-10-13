@@ -580,7 +580,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbw-jPGoobwhHSHYLDmaaPssovTKqGDGmXarapda7GV1OLPoORLEgNgm-3yVPJTPy3xN/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbx2WN8hZ0NMU3B1_X6CJvX8plWbWzz-kX6m154QIokteqbRY--Ph-WS1XalY2cv-iwNVQ/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -702,8 +702,8 @@
 
                             var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row='${JSON.stringify(row)}' data-type="open" onclick="cartModal(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
                             var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i> 檢視訂單</a>`;
-                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit-alt"></i> 編輯訂單<span class="badge bg-success">Beta</span></a>`;
-                            var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="updModal(this)"><i class="fas fa-pencil-alt"></i> 管理訂單</a>`;
+                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單<span class="badge bg-success">Beta</span></a>`;
+                            var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
                             var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</a>`;
                             var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
                             var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</a>`;
@@ -719,6 +719,7 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>${row.狀態 === '開啟中' ? open : ''}</li>
+                                        <li>${row.狀態 === '開啟中' ? edit : ''}</li>
                                         <li>${row.狀態 === '已結單' ? view : row.狀態 === '開啟中' ? upd : ''}</li>
                                         <li>${row.狀態 === '開啟中' ? stop : ''}</li>
                                         <li>${row.狀態 === '開啟中' ? chk : ''}</li>
