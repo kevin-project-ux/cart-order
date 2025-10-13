@@ -751,8 +751,8 @@
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            if (fp1.selectedDates.length > 0) { fp1.clear(); }
-            if (fp2.selectedDates.length > 0) { fp2.clear(); }
+            if ($('#startDate').val() || $('#editStartDate').val()) { fp1.clear(); }
+            if ($('#endDate').val() || $('#editEndDate').val()) { fp2.clear(); }
 
         } catch (err) {
             console.error('讀取 Google Sheet 資料失敗', err);
