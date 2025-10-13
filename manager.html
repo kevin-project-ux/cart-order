@@ -316,8 +316,8 @@
                                 </div>
 
                                 <!-- 品項 -->
-                                <div id="newItem" class="mb-3">
-                                    <input type="text" class="form-control" id="prdName" required readonly>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="prdName" disabled>
                                 </div>
                 
                                 <div class="mb-3">
@@ -737,14 +737,14 @@
                 ]
             });
 
-            const fp1 = flatpickr("#startDate, #editStartDate", {
+            const fp1 = flatpickr("#startDate", {
                 enableTime: true,
                 dateFormat: "m/d H:i",
                 locale: "zh",
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            const fp2 = flatpickr("#endDate, #editEndDate", {
+            const fp2 = flatpickr("#endDate", {
                 enableTime: true,
                 dateFormat: "m/d H:i",
                 locale: "zh",
@@ -1687,7 +1687,69 @@
     function editModal(e){
 
         $('#editModal').modal('show');
+
+        const id   = e.dataset.id;
+        const name = e.dataset.name;
+        const type = e.dataset.type;
+        const flavor = e.dataset.flavor;
+
+        var prd = prd_list.filter(prd => prd.ID===Number(id) && prd.名稱===name && prd.狀態==='開啟中' );
+
+        $('#prdName').val(prd[0].名稱);
+
+        const beg = flatpickr("#editStartDate", {
+            enableTime: true,
+            dateFormat: "m/d H:i",
+            locale: "zh",
+            minDate: "today" // ✅ 限制今天以前不能選
+        });
+
+        const end = flatpickr("#editEndDate", {
+            enableTime: true,
+            dateFormat: "m/d H:i",
+            locale: "zh",
+            minDate: "today" // ✅ 限制今天以前不能選
+        });
+
+        if( prd[0].限時開始!='' && prd[0].限時結束!='' ){
+            beg.setDate(prd[0].限時開始);
+            beg.setDate(prd[0].限時結束);
+        }
+
+        // if ($('#startDate').val() || $('#editStartDate').val()) { fp1.clear(); }
+        // if ($('#endDate').val() || $('#editEndDate').val()) { fp2.clear(); }
+
         console.log(prd_list);
+
+        // const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
+
+        // postGAS( data );
+    }
+
+    async function postGAS( data ){
+
+        try {
+            mask.style.display = 'flex';
+            const response = await fetch(GAS_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            console.log(result);
+
+            if (result[0].status == 'success') {
+
+            } else {
+                Swal.fire({ icon: 'error', title: '編輯失敗', text: result[0].alert || '請稍後再試' });
+            }
+        } catch (err) {
+            console.log(err);
+            Swal.fire({ icon: 'error', title: '系統異常' });
+        } finally {
+            mask.style.display = 'none';
+        }
     }
 
     function formatDate(datetime){
