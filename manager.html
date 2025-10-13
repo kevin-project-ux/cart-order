@@ -751,8 +751,9 @@
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            fp1.clear();
-            fp2.clear();
+            if (fp1.selectedDates.length > 0) { fp1.clear(); }
+            if (fp2.selectedDates.length > 0) { fp2.clear(); }
+            
         } catch (err) {
             console.error('讀取 Google Sheet 資料失敗', err);
         }
