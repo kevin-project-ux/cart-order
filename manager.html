@@ -737,14 +737,14 @@
                 ]
             });
 
-            fp1 = flatpickr("#startDate, #editStartDate", {
+            const fp1 = flatpickr("#startDate, #editStartDate", {
                 enableTime: true,
                 dateFormat: "m/d H:i",
                 locale: "zh",
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            fp2 = flatpickr("#endDate, #editEndDate", {
+            const fp2 = flatpickr("#endDate, #editEndDate", {
                 enableTime: true,
                 dateFormat: "m/d H:i",
                 locale: "zh",
@@ -753,7 +753,7 @@
 
             if (fp1.selectedDates.length > 0) { fp1.clear(); }
             if (fp2.selectedDates.length > 0) { fp2.clear(); }
-            
+
         } catch (err) {
             console.error('讀取 Google Sheet 資料失敗', err);
         }
