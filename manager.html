@@ -322,8 +322,8 @@
                 
                                 <div class="mb-3">
                                     <label class="form-label">團購期間 </label>
-                                    <input class="form-control" id="startDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
-                                    <input class="form-control" id="endDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control" id="editStartDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control" id="editEndDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
                                 </div>
                 
                                 <!-- 單口味 -->
@@ -702,7 +702,7 @@
 
                             var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row='${JSON.stringify(row)}' data-type="open" onclick="cartModal(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
                             var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i> 檢視訂單</a>`;
-                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單<span class="badge bg-success">Beta</span></a>`;
+                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單 <span class="badge bg-success">Beta</span></a>`;
                             var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
                             var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</a>`;
                             var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
@@ -737,14 +737,14 @@
                 ]
             });
 
-            fp1 = flatpickr("#startDate", {
+            fp1 = flatpickr("#startDate, #editStartDate", {
                 enableTime: true,
                 dateFormat: "m/d H:i",
                 locale: "zh",
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            fp2 = flatpickr("#endDate", {
+            fp2 = flatpickr("#endDate, #editEndDate", {
                 enableTime: true,
                 dateFormat: "m/d H:i",
                 locale: "zh",
