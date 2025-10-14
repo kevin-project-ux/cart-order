@@ -342,7 +342,7 @@
                                 <!-- 多口味 -->
                                 <div id="editMultiFlavor" class="mb-3" style="display: none;">
                                     <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
-                                    <div id="flavorWrapper">
+                                    <div id="editFlavorWrapper">
                                         <div class="row g-2 mb-2 flavor-row">
                                             <div class="col">
                                                 <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
@@ -821,6 +821,7 @@
         resetForm();
 
         var id  = Number(item.value);
+        var did = item.did ?? undefined;
 
         if( id ){
             if( prd_list ){ var prd = prd_list.find(item => item.ID === id); }
@@ -835,7 +836,7 @@
                 const results = flv_list.filter(item => item.品項ID === id);
 
                 var num = results.length-2;
-                if( num>0 ){ for(i=0; i<num; i++){ addFlavor(); } }
+                if( num>0 ){ for(i=0; i<num; i++){ addFlavor(did); } }
 
                 $('.flavor-row').each(function(index, row) {
                     $(row).find('.flavor-name').val(results[index].口味);
@@ -857,7 +858,7 @@
     }
   
 
-    function addFlavor() {
+    function addFlavor(id='flavorWrapper') {
         const div = document.createElement('div');
         div.className = "row g-2 mb-2 flavor-row";
         div.innerHTML = `
@@ -866,7 +867,7 @@
             <div class="col"><input type="number" class="form-control flavor-limit" placeholder="數量"></div>
             <div class="col-auto"><button class="btn btn-outline-danger" onclick="removeFlavor(this)"><i class="fas fa-times"></i></button></div>
         `;
-        document.getElementById("flavorWrapper").appendChild(div);
+        document.getElementById(id).appendChild(div);
     }
 
     function removeFlavor(btn) {
@@ -1726,7 +1727,7 @@
         }else{ // 單口味
             $('#editSingleFlavor').css('display','block');
         }
-        setItemData({value:id});
+        setItemData({value:id, did: 'editFlavorWrapper'});
 
         console.log(prd);
 
