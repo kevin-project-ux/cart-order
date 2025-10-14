@@ -327,7 +327,7 @@
                                 </div>
                 
                                 <!-- 單口味 -->
-                                <div id="singleFlavor" class="mb-3" style="display: none;">
+                                <div id="editSingleFlavor" class="mb-3" style="display: none;">
                                     <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
                                     <div class="row g-2 mb-2">
                                         <div class="col">
@@ -340,7 +340,7 @@
                                 </div>
                 
                                 <!-- 多口味 -->
-                                <div id="multiFlavor" class="mb-3" style="display: none;">
+                                <div id="editMultiFlavor" class="mb-3" style="display: none;">
                                     <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
                                     <div id="flavorWrapper">
                                         <div class="row g-2 mb-2 flavor-row">
@@ -1713,13 +1713,22 @@
 
         if( prd[0].限時開始!='' && prd[0].限時結束!='' ){
             beg.setDate(prd[0].限時開始);
-            beg.setDate(prd[0].限時結束);
+            end.setDate(prd[0].限時結束);
         }
 
-        // if ($('#startDate').val() || $('#editStartDate').val()) { fp1.clear(); }
-        // if ($('#endDate').val() || $('#editEndDate').val()) { fp2.clear(); }
+        $('#editSingleFlavor, #editMultiFlavor').css('display', 'none');
 
-        console.log(prd_list);
+        if( flavor>1 ){ // 多口味
+            $('#editMultiFlavor').css('display','block');
+            // for (var i = 1; i < flavor; i++) {
+            //     addFlavor();
+            // }
+        }else{ // 單口味
+            $('#editSingleFlavor').css('display','block');
+        }
+        setItemData({value:id});
+
+        console.log(prd);
 
         // const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
 
