@@ -331,10 +331,10 @@
                                     <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
                                     <div class="row g-2 mb-2">
                                         <div class="col">
-                                            <input type="number" class="form-control" id="price" min="1" placeholder="價格">
+                                            <input type="number" class="form-control" id="editPrice" min="1" placeholder="價格">
                                         </div>
                                         <div class="col">
-                                            <input type="number" class="form-control" id="singleLimit" placeholder="數量" value="0">
+                                            <input type="number" class="form-control" id="editNum" placeholder="數量" value="0">
                                         </div>
                                     </div>
                                 </div>
@@ -823,6 +823,9 @@
         var id  = Number(item.value);
         var did = item.did ?? undefined;
 
+        var $div = $('#multiFlavor');
+        if( did ){ $div = $('#editMultiFlavor'); }
+
         if( id ){
             if( prd_list ){ var prd = prd_list.find(item => item.ID === id); }
             if( flv_list ){ var flv = flv_list.find(item => item.品項ID === id); }
@@ -838,7 +841,7 @@
                 var num = results.length-2;
                 if( num>0 ){ for(i=0; i<num; i++){ addFlavor(did); } }
 
-                $('.flavor-row').each(function(index, row) {
+                $div.find('.flavor-row').each(function(index, row) {
                     $(row).find('.flavor-name').val(results[index].口味);
                     $(row).find('.flavor-price').val(results[index].價格);
                     $(row).find('.flavor-limit').val(results[index].限量);
