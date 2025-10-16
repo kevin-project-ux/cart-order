@@ -587,6 +587,8 @@
     let flv_list;
     let fp;
     let oldAgentName; //代購訂單-下拉選單
+    let beg; // 編輯訂單-限時開始
+    let end; // 編輯訂單-限時結束
 
     // 檢查快取是否存在 & 有效期內
     function isUserAuthenticated(userId) {
@@ -747,6 +749,20 @@
             });
 
             const fp2 = flatpickr("#endDate", {
+                enableTime: true,
+                dateFormat: "m/d H:i",
+                locale: "zh",
+                minDate: "today" // ✅ 限制今天以前不能選
+            });
+
+            beg = flatpickr("#editStartDate", {
+                enableTime: true,
+                dateFormat: "m/d H:i",
+                locale: "zh",
+                minDate: "today" // ✅ 限制今天以前不能選
+            });
+
+            end = flatpickr("#editEndDate", {
                 enableTime: true,
                 dateFormat: "m/d H:i",
                 locale: "zh",
@@ -1702,20 +1718,6 @@
         var prd = prd_list.filter(prd => prd.ID===Number(id) && prd.名稱===name && prd.狀態==='開啟中' );
 
         $('#prdName').val(prd[0].名稱);
-
-        const beg = flatpickr("#editStartDate", {
-            enableTime: true,
-            dateFormat: "m/d H:i",
-            locale: "zh",
-            minDate: "today" // ✅ 限制今天以前不能選
-        });
-
-        const end = flatpickr("#editEndDate", {
-            enableTime: true,
-            dateFormat: "m/d H:i",
-            locale: "zh",
-            minDate: "today" // ✅ 限制今天以前不能選
-        });
 
         if( prd[0].限時開始!='' && prd[0].限時結束!='' ){
             beg.setDate(prd[0].限時開始);
