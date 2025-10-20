@@ -342,30 +342,33 @@
                                 <!-- 多口味 -->
                                 <div id="editMultiFlavor" class="mb-3" style="display: none;">
                                     <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
-                                    <div id="editFlavorWrapper">
-                                        <div class="row g-2 mb-2 editFlavor-row">
+                                    <div id="editWrapper">
+                                        <div class="row g-2 mb-2 flavor-row">
                                             <div class="col">
-                                                <input type="number" class="form-control edit-price" min="1" placeholder="價格">
+                                                <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
                                             </div>
                                             <div class="col">
-                                                <input type="text" class="form-control edit-name" placeholder="口味">
+                                                <input type="text" class="form-control flavor-name" placeholder="口味">
                                             </div>
                                             <div class="col">
-                                                <input type="number" class="form-control edit-limit" placeholder="數量" value="0">
+                                                <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
                                             </div>
                                         </div>
-                                        <div class="row g-2 mb-2 editFlavor-row">
+                                        <div class="row g-2 mb-2 flavor-row">
                                             <div class="col">
-                                                <input type="number" class="form-control edit-price" min="1" placeholder="價格">
+                                                <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
                                             </div>
                                             <div class="col">
-                                                <input type="text" class="form-control edit-name" placeholder="口味">
+                                                <input type="text" class="form-control flavor-name" placeholder="口味">
                                             </div>
                                             <div class="col">
-                                                <input type="number" class="form-control edit-limit" placeholder="數量" value="0">
+                                                <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
                                             </div>
                                         </div>
                                     </div>
+                                    <button class="btn btn-outline-primary w-100" onclick="addFlavor()">
+                                        <i class="fas fa-plus"></i> 新增口味
+                                    </button>
                                 </div>
                                 <button class="btn btn-success w-100" id="createOrder" onclick="editForm()">編輯團購</button>
                             </div>
@@ -718,7 +721,7 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>${open}</li>
-                                        <li>${edit}</li>
+                                        <li>${row.訂單金額總計 === 0 ? edit : ''}</li>
                                         <li>${upd}</li>
                                         <li>${stop}</li>
                                         <li>${chk}</li>
@@ -1629,7 +1632,7 @@
             price.push(p);
             flavors.push({ flavor: '', num: singleLimit, price: p });
         } else {
-            const flavorRows = document.querySelectorAll('.flavor-row');
+            const flavorRows = document.querySelectorAll('#multiFlavor .flavor-row');
             for (const row of flavorRows) {
                 const name = row.querySelector('.flavor-name').value.trim();
                 const p = row.querySelector('.flavor-price').value.trim();
@@ -1725,7 +1728,7 @@
         }else{ // 單口味
             $('#editSingleFlavor').css('display','block');
         }
-        setItemData({value:id, did: 'editFlavorWrapper'});
+        setItemData({value:id, did: 'editWrapper'});
 
         console.log(prd);
 
