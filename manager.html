@@ -703,6 +703,8 @@
               
                             var flavor = (row.售價 === '---' ? 2 : 1);
 
+                            const price = Number(row.訂單金額總計);
+
                             var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row='${JSON.stringify(row)}' data-type="open" onclick="cartModal(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
                             var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
                             var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單 <span class="badge bg-success">Beta</span></a>`;
@@ -721,7 +723,7 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>${open}</li>
-                                        <li>${row.訂單金額總計 === 0 ? edit : ''}</li>
+                                        <li>${price === 0 ? edit : ''}</li>
                                         <li>${upd}</li>
                                         <li>${stop}</li>
                                         <li>${chk}</li>
