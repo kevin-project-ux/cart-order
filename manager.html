@@ -366,7 +366,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-outline-primary w-100" onclick="addFlavor()">
+                                    <button class="btn btn-outline-primary w-100" onclick="addFlavor('editWrapper')">
                                         <i class="fas fa-plus"></i> 新增口味
                                     </button>
                                 </div>
@@ -1724,15 +1724,12 @@
 
         if( flavor>1 ){ // 多口味
             $('#editMultiFlavor').css('display','block');
-            // for (var i = 1; i < flavor; i++) {
-            //     addFlavor();
-            // }
         }else{ // 單口味
             $('#editSingleFlavor').css('display','block');
         }
         setItemData({value:id, did: 'editWrapper'});
 
-        console.log(prd);
+        // console.log(prd);
 
         // const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
 
