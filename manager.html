@@ -723,7 +723,7 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>${open}</li>
-                                        <li>${price === 0 ? edit : ''}</li>
+                                        <li>${price === '' ? edit : ''}</li>
                                         <li>${upd}</li>
                                         <li>${stop}</li>
                                         <li>${chk}</li>
@@ -1730,7 +1730,11 @@
         setItemData({value:id, did: 'editWrapper'});
 
         // console.log(prd);
+    }
 
+    editForm(){
+
+        //editPrice,editNum
         // const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
 
         // postGAS( data );
