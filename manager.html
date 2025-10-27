@@ -315,7 +315,7 @@
                                     <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
                                 </div>
 
-                                <input type="text" id="editData">
+                                <input type="hidden" id="editData">
 
                                 <!-- 品項 -->
                                 <div class="mb-3">
@@ -1731,15 +1731,16 @@
 
         const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
 
-        $('#editData').val(data);
+        $('#editData').val(JSON.stringify(data));
 
-        console.log(prd);
+        // console.log(prd);
     }
 
     function editForm(){
 
         //editPrice,editNum
-        // const name = $('#prdName').val();
+        const data = JSON.parse($('#editData').val());
+        console.log(data);
 
         // postGAS( data );
     }
