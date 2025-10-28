@@ -1251,9 +1251,6 @@
                 mask.style.display = 'none';
             }
         }
-        // if( sed=='old' ){ // 舊名字
-
-        // }
     }
 
     function addAgent(){
@@ -1729,7 +1726,7 @@
         }
         setItemData({value:id, did: 'editWrapper'});
 
-        const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
+        const data = { type: type, userId: userId, id: id, name: name, flavor: flavor, price: [] };
 
         $('#editData').val(JSON.stringify(data));
 
@@ -1739,7 +1736,40 @@
     function editForm(){
 
         //editPrice,editNum
-        const data = JSON.parse($('#editData').val());
+        let data = JSON.parse($('#editData').val());
+        const flvs = data.flavor;
+
+        var arr = [];
+
+        if( flvs>1 ){
+
+            const flavorRows = document.querySelectorAll('#editMultiFlavor .flavor-row');
+            for (const row of flavorRows) {
+                const name = row.querySelector('.flavor-name').value.trim();
+                const p = row.querySelector('.flavor-price').value.trim();
+                const limitValue = parseInt(row.querySelector('.flavor-limit').value);
+                if (!name || isNaN(limitValue) || limitValue < 0 || p <= 0) {
+                    Swal.fire('請填寫所有口味與有效數量及價格');
+                    return;
+                }
+                
+                arr.push({ flavor: name, num: limitValue, price: p });
+                data.price.push(p);
+            }
+
+            if (arr.length === 0) { Swal.fire('至少新增一個口味'); return; }
+
+            data.flavor = arr;
+        }else{
+
+            var newPrice = $('#editPrice').val();
+            var newNum   = $('#editNum').val();
+
+            arr.push({ flavor: '', num: newNum, price: newPrice });
+            data.flavor = arr;
+            data.price.push(newPrice);
+        }
+
         console.log(data);
 
         // postGAS( data );
