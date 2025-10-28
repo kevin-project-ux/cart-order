@@ -1726,7 +1726,7 @@
         }
         setItemData({value:id, did: 'editWrapper'});
 
-        const data = { type: type, userId: userId, id: id, name: name, flavor: flavor, price: [] };
+        const data = { type: type, userId: userId, id: id, name: name, flavor: flavor, price: [], range: '' };
 
         $('#editData').val(JSON.stringify(data));
 
@@ -1738,6 +1738,9 @@
         //editPrice,editNum
         let data = JSON.parse($('#editData').val());
         const flvs = data.flavor;
+        const range1 = document.getElementById('editStartDate').value;
+        const range2 = document.getElementById('editEndDate').value;
+        data.range = range1 + ' 至 ' + range2;
 
         var arr = [];
 
@@ -1770,9 +1773,9 @@
             data.price.push(newPrice);
         }
 
-        console.log(data);
+        // console.log(data);
 
-        // postGAS( data );
+        postGAS( data );
     }
 
     async function postGAS( data ){
