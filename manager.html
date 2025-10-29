@@ -1789,15 +1789,16 @@
             });
 
             const result = await response.json();
-            console.log(result);
+            // console.log(result);
 
             if (result[0].status == 'success') {
-
+                $('#editModal').modal('hide');
+                Swal.fire({ icon: 'success', title: '編輯成功' });
             } else {
                 Swal.fire({ icon: 'error', title: '編輯失敗', text: result[0].alert || '請稍後再試' });
             }
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             Swal.fire({ icon: 'error', title: '系統異常' });
         } finally {
             mask.style.display = 'none';
