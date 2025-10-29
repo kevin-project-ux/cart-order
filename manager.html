@@ -1794,6 +1794,7 @@
             if (result[0].status == 'success') {
                 $('#editModal').modal('hide');
                 Swal.fire({ icon: 'success', title: '編輯成功' });
+                await fetchData(); // 重新載入品項、口味資料
             } else {
                 Swal.fire({ icon: 'error', title: '編輯失敗', text: result[0].alert || '請稍後再試' });
             }
