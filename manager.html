@@ -585,7 +585,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxGg6H7lOGT7uFhHjHmw0kzO6ZoXA1Np190Xko-7x_zZp64vWsWd_ZIF0erkmv8Oq910A/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxqeQuKgxUaogQlPI80v7ptdF0iPf-z7F4aqRmAAYgS7I7c13i3Nm9LMmMj725LzpjA-g/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -1689,10 +1689,10 @@
 
         $('#editModal').modal('show');
 
-        const id   = e.dataset.id;
-        const name = e.dataset.name;
-        const type = e.dataset.type;
-        const flavor = e.dataset.flavor;
+        const id      = e.dataset.id;
+        const name    = e.dataset.name;
+        const type    = e.dataset.type;
+        const flavors = e.dataset.flavor;
 
         var prd = prd_list.filter(prd => prd.ID===Number(id) && prd.名稱===name && prd.狀態==='開啟中' );
 
@@ -1726,7 +1726,7 @@
         }
         setItemData({value:id, did: 'editWrapper'});
 
-        const data = { type: type, userId: userId, id: id, name: name, flavor: flavor, price: [], range: '' };
+        const data = { type: type, userId: userId, id: id, name: name, flavors: flavors, price: [], range: '' };
 
         $('#editData').val(JSON.stringify(data));
 
@@ -1762,14 +1762,14 @@
 
             if (arr.length === 0) { Swal.fire('至少新增一個口味'); return; }
 
-            data.flavor = arr;
+            data.flavors = arr;
         }else{
 
             var newPrice = $('#editPrice').val();
             var newNum   = $('#editNum').val();
 
             arr.push({ flavor: '', num: newNum, price: newPrice });
-            data.flavor = arr;
+            data.flavors = arr;
             data.price.push(newPrice);
         }
 
