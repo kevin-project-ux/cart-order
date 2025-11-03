@@ -418,9 +418,11 @@
                                 </h5>
                                 <h5 class="mt-1 mb-3 text-center text-success">訂購明細</h5>
                                 <div class="container mt-4" id="itemContainer"></div>
-                                <button class="btn btn-info" id="orderStop" data-id="" data-name="" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</button>
-                                <!-- <button href="#" class="btn btn-secondary" data-id="" data-name="" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</button> -->
-                                <button class="btn btn-primary" id="orderShare" data-id="" data-name="" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</button>
+                                <div class="text-center">
+                                    <button class="btn btn-success" id="orderStop" data-id="" data-name="" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</button>
+                                    <button class="btn btn-primary" id="orderShare" data-id="" data-name="" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</button>
+                                    <!-- <button href="#" class="btn btn-secondary" data-id="" data-name="" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</button> -->
+                                </div>
                             </div>
                         </div>
               
@@ -718,9 +720,7 @@
                             var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
                             var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單 <span class="badge bg-success">Beta</span></a>`;
                             var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
-                            var stop = `<a href="#" class="dropdown-item link-info text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</a>`;
                             var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
-                            var list = `<a href="#" class="dropdown-item link-primary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</a>`;
                             var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="AgentModal(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單</a>`;
                             var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
                             // <span class="badge bg-success">Beta</span>
@@ -953,8 +953,8 @@
         if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
 
         if( type=='upd' ){
-            $('#orderStop').data('id', id);
-            $('#orderShare').data('name', name);
+            $('#orderStop').attr('data-id', id);
+            $('#orderShare').attr('data-name', name);
         }
 
         if( flavor>1 ){
