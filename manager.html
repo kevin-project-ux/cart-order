@@ -272,7 +272,7 @@
 
                                 <!-- 圖片 -->
                                 <div id="singleFlavor" class="mb-3">
-                                    <label for="image">圖片<span class="badge bg-success">Beta</span></label>
+                                    <label class="form-label">圖片<span class="badge bg-success">Beta</span></label>
                                     <input type="file" class="form-control" id="image" accept=".jpg, .jpeg, .png" onchange="uploadImg(this)" />
                                 </div>
               
@@ -407,7 +407,7 @@
                     </ul>
           
                     <!-- Tab Content -->
-                    <div class="tab-content" id="editTabsContent">
+                    <div class="tab-content" id="updTabsContent">
                         <!-- 新增團購/預購 -->
                         <div class="tab-pane fade show active" id="upd" role="tabpanel" aria-labelledby="upd-tab">
                   
@@ -418,6 +418,9 @@
                                 </h5>
                                 <h5 class="mt-1 mb-3 text-center text-success">訂購明細</h5>
                                 <div class="container mt-4" id="itemContainer"></div>
+                                <button class="btn btn-info" id="orderStop" data-id="" data-name="" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</button>
+                                <!-- <button href="#" class="btn btn-secondary" data-id="" data-name="" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</button> -->
+                                <button class="btn btn-primary" id="orderShare" data-id="" data-name="" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</button>
                             </div>
                         </div>
               
@@ -731,9 +734,7 @@
                                         <li>${open}</li>
                                         <li>${edit}</li>
                                         <li>${upd}</li>
-                                        <li>${stop}</li>
                                         <li>${chk}</li>
-                                        <li>${list}</li>
                                         <li>${agent}</li>
                                         <li>${del}</li>
                                     </ul>
@@ -951,10 +952,15 @@
 
         if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
 
+        if( type=='upd' ){
+            $('#orderStop').data('id', id);
+            $('#orderShare').data('name', name);
+        }
+
         if( flavor>1 ){
             const grouped = {};
             items.forEach(item => {
-                if( type=='edit' ){
+                if( type=='upd' ){
                     if (!grouped[item.name]) { grouped[item.name] = []; }
                     item.orders.forEach(ord => {
                         grouped[item.name].push({ taste: ord.taste, count: ord.count, total: ord.total });
@@ -994,7 +1000,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <strong class="truncate"><i class="fas fa-user"></i> ${user}</strong>
                         <div class="d-flex gap-3">
-                            ${type === 'edit' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${user}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
+                            ${type === 'upd' ? `<a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${user}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>` : ''}
                             <a href="#" class="link-secondary text-decoration-none" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false"><i class="fas fa-chevron-circle-down"></i></a>
                         </div>
                     </div>
@@ -1016,7 +1022,7 @@
             items.forEach(item => {
                 const card = document.createElement("div");
                 card.className = "card mb-3";
-                if( type=='edit' ){
+                if( type=='upd' ){
                     card.innerHTML = `
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <strong class="truncate"><i class="fas fa-user"></i> ${item.name}</strong>
