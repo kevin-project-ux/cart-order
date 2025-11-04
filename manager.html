@@ -418,7 +418,7 @@
                                 </h5>
                                 <h5 class="mt-1 mb-3 text-center text-success">訂購明細</h5>
                                 <div class="container mt-4" id="itemContainer"></div>
-                                <div class="text-center">
+                                <div id="orderFun" class="text-center d-none">
                                     <button class="btn btn-success" id="orderStop" data-id="" data-name="" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</button>
                                     <button class="btn btn-primary" id="orderShare" data-id="" data-name="" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</button>
                                     <!-- <button href="#" class="btn btn-secondary" data-id="" data-name="" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</button> -->
@@ -952,9 +952,12 @@
 
         if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
 
+        $('#orderFun').css('display', 'none');
+
         if( type=='upd' ){
-            $('#orderStop').attr('data-id', id);
-            $('#orderShare').attr('data-name', name);
+            $('#orderFun').css('display', 'block');
+            $('#orderStop').attr({'data-id':id, 'data-name':name});
+            $('#orderShare').attr({'data-id':id, 'data-name':name});
         }
 
         if( flavor>1 ){
