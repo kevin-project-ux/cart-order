@@ -952,10 +952,10 @@
 
         if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
 
-        $('#orderFun').css('display', 'none');
+        if( !$('#orderFun').hasClass('d-none') ){ $('#orderFun').addClass('d-none'); }
 
         if( type=='upd' ){
-            $('#orderFun').css('display', 'block');
+            $('#orderFun').removeClass('d-none');
             $('#orderStop').attr({'data-id':id, 'data-name':name});
             $('#orderShare').attr({'data-id':id, 'data-name':name});
         }
