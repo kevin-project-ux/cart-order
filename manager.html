@@ -1627,7 +1627,9 @@
         // 抓取網址參數
         const params = new URLSearchParams(window.location.search);
         const debug  = params.get("debug"); // 抓取debug的值
-        if( debug=='Y' ){ const file = uploadImg(); }
+        console.log(debug);
+        let file = '';
+        if( debug=='Y' ){ file = uploadImg(); }
         console.log(file);
 
         if ( !name && !id ) { Swal.fire('請填寫名稱'); return; }
