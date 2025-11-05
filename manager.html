@@ -1627,10 +1627,9 @@
         // 抓取網址參數
         const params = new URLSearchParams(window.location.search);
         const debug  = params.get("debug"); // 抓取debug的值
-        console.log(debug);
+
         let file = '';
-        if( debug=='Y' ){ file = uploadImg(); }
-        console.log(file);
+        if( debug=='Y' ){ file = uploadImg(); console.log(file); }
 
         if ( !name && !id ) { Swal.fire('請填寫名稱'); return; }
 
@@ -1670,7 +1669,7 @@
             if (flavors.length === 0) { Swal.fire('至少新增一個口味'); return; }
         }
 
-        const data = { type: 'create', userId: userId, name: name, range: range, price: price, flavors: flavors };
+        const data = { type: 'create', userId: userId, name: name, range: range, price: price, flavors: flavors, file: file };
 
         try {
             mask.style.display = 'flex';
@@ -1807,7 +1806,7 @@
 
         const file = $('#fileInput')[0].files[0];
 
-        if (!file) return;
+        if (!file) return false;
 
         const validTypes = ['image/png'];
         if (!validTypes.includes(file.type)) {
