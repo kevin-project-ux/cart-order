@@ -1635,14 +1635,11 @@
             console.log(img); 
 
             const reader = new FileReader();
+            let payload = {};
             reader.onload = function(e) {
                 const base64Data = e.target.result.split(',')[1];
 
-                const payload = {
-                  filename: img.name,
-                  mimeType: img.type,
-                  data: base64Data
-                };
+                payload = { filename: img.name, mimeType: img.type, data: base64Data };
             };
 
             file = [payload];
