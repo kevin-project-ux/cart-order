@@ -1634,15 +1634,7 @@
             img = await uploadImg(); 
             console.log(img); 
 
-            const reader = new FileReader();
-            let payload = {};
-            reader.onload = function(e) {
-                const base64Data = e.target.result.split(',')[1];
-
-                payload = { filename: img.name, mimeType: img.type, data: base64Data };
-            };
-
-            file = [payload];
+            file = [img];
         }
 
         if ( !name && !id ) { Swal.fire('請填寫名稱'); return; }
