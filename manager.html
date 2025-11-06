@@ -273,7 +273,7 @@
                                 <!-- 圖片 -->
                                 <div id="singleFlavor" class="mb-3">
                                     <label class="form-label">圖片<span class="badge bg-success">Beta</span></label>
-                                    <input type="file" id="fileInput" class="form-control" id="image" accept=".png" />
+                                    <input type="file" id="fileInput" class="form-control" id="image" accept=".jpg, .jpeg, .png" />
                                 </div>
               
                                 <!-- <div id="singleFlavor" class="mb-3">
@@ -1825,9 +1825,9 @@
 
         if (!file) return false;
 
-        const validTypes = ['image/png'];
+        const validTypes = ['image/jpeg', 'image/png'];
         if (!validTypes.includes(file.type)) {
-            alert('僅允許上傳 PNG 檔案');
+            alert('僅允許上傳 PNG 或 JPG 檔案');
             img.value = ''; // 清空檔案
         } else {
             console.log('檔案 OK:', file.name);
