@@ -1814,7 +1814,7 @@
         postGAS( data );
     }
 
-    function uploadImg(img){
+    function uploadImg(){
 
         // console.log(img.value);
 
@@ -1833,11 +1833,11 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const base64Data = e.target.result.split(',')[1];
-                    const payload = { filename: img.name, mimeType: img.type, data: base64Data };
+                    const payload = { filename: file.name, mimeType: file.type, data: base64Data };
                     resolve(payload);
                 };
                 reader.onerror = reject;
-                reader.readAsDataURL(img);
+                reader.readAsDataURL(file);
             });
         }
 
