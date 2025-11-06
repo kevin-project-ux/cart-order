@@ -1631,7 +1631,7 @@
         let file = '';
         if( debug=='Y' ){ 
 
-            img = uploadImg(); 
+            img = await uploadImg(); 
             console.log(img); 
 
             const reader = new FileReader();
@@ -1828,6 +1828,17 @@
             img.value = ''; // 清空檔案
         } else {
             console.log('檔案 OK:', file.name);
+
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Data = e.target.result.split(',')[1];
+                    const payload = { filename: img.name, mimeType: img.type, data: base64Data };
+                    resolve(payload);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(img);
+            });
         }
 
         return file;
