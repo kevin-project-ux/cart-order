@@ -1845,9 +1845,10 @@
             previewWidth: 120
         }, options);
 
-        const $input = $(inputSelector);
+        const $input   = $(inputSelector);
         const $preview = $(previewSelector);
-        let fileList = [];
+        const $count   = $(settings.countSelector);
+        let fileList   = [];
 
         $input.off('change').on('change', function () {
             const files = Array.from(this.files);
@@ -1870,8 +1871,8 @@
                 fileList.push(file);
                 renderPreview(file, $preview, settings, fileList);
             });
-
-            // $input.val('');
+            $count.text(`已選擇 ${fileList.length} 張圖片`);
+            $input.val('');
         });
     }
 
@@ -1911,7 +1912,10 @@
             $del.on('click', function () {
                 const index = $wrapper.index();
                 fileList.splice(index, 1);
-                $wrapper.fadeOut(200, () => $wrapper.remove());
+                $wrapper.fadeOut(200, () => {
+                    $wrapper.remove();
+                    $count.text(`已選擇 ${fileList.length} 張圖片`);
+                });
             });
 
             $wrapper.append($img).append($del);
