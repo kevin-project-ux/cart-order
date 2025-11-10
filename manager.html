@@ -1841,48 +1841,83 @@
         const settings = $.extend({
             maxCount: 5,
             maxSize: 2 * 1024 * 1024, // 2MB
-            validTypes: ['image/jpeg', 'image/png']
+            validTypes: ['image/jpeg', 'image/png'],
+            previewWidth: 120
         }, options);
 
         const $input = $(inputSelector);
         const $preview = $(previewSelector);
+        let fileList = [];
 
         $input.off('change').on('change', function () {
-            $preview.empty(); // 清空預覽
-
             const files = Array.from(this.files);
 
-            // 檢查數量
-            if (files.length > settings.maxCount) {
+            if (fileList.length + files.length > settings.maxCount) {
                 alert(`最多只能上傳 ${settings.maxCount} 個檔案`);
                 $input.val('');
                 return;
             }
 
-            // 處理每個檔案
             $.each(files, function (i, file) {
-                // 檢查格式
                 if (!settings.validTypes.includes(file.type)) {
                     alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
                     return;
                 }
-                // 檢查大小
                 if (file.size > settings.maxSize) {
                     alert(`${file.name} 超過 ${(settings.maxSize / 1024 / 1024).toFixed(1)}MB`);
                     return;
                 }
-
-                // FileReader 預覽
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const $img = $('<img>')
-                    .attr('src', e.target.result)
-                    .css({ width: '120px', margin: '6px', border: '1px solid #ccc', borderRadius: '4px' });
-                    $preview.append($img);
-                };
-                reader.readAsDataURL(file);
+                fileList.push(file);
+                renderPreview(file, $preview, settings, fileList);
             });
+
+            $input.val('');
         });
+    }
+
+    function renderPreview(file, $preview, settings, fileList) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const $wrapper = $('<div>').css({
+                position: 'relative',
+                margin: '4px',
+                display: 'inline-block'
+            });
+
+            const $img = $('<img>')
+            .attr('src', e.target.result)
+            .css({
+                width: `${settings.previewWidth}px`,
+                border: '1px solid #ccc',
+                borderRadius: '4px'
+            });
+
+            const $del = $('<span>✕</span>').css({
+                position: 'absolute',
+                top: '-5px',
+                right: '-5px',
+                background: 'rgba(0,0,0,0.7)',
+                color: '#fff',
+                borderRadius: '50%',
+                width: '18px',
+                height: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px',
+                cursor: 'pointer'
+            });
+
+            $del.on('click', function () {
+                const index = $wrapper.index();
+                fileList.splice(index, 1);
+                $wrapper.fadeOut(200, () => $wrapper.remove());
+            });
+
+            $wrapper.append($img).append($del);
+            $preview.append($wrapper);
+        };
+        reader.readAsDataURL(file);
     }
 
     async function postGAS( data ){
@@ -1937,6 +1972,7 @@
         previewFiles('#fileInput', '#preview', {
             maxCount: 3,           // 可自訂
             maxSize: 1 * 1024 * 1024, // 限制 1MB
+            previewWidth: 60 // ✅ 改成 60px
         });
     });
 </script>
