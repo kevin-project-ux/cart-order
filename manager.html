@@ -273,7 +273,8 @@
                                 <!-- 圖片 -->
                                 <div id="singleFlavor" class="mb-3">
                                     <label class="form-label">圖片<span class="badge bg-success">Beta</span></label>
-                                    <input type="file" id="fileInput" class="form-control" id="image" accept=".jpg, .jpeg, .png" />
+                                    <input type="file" id="fileInput" class="form-control" multiple accept=".jpg, .jpeg, .png" />
+                                    <div id="preview"></div>
                                 </div>
               
                                 <!-- <div id="singleFlavor" class="mb-3">
@@ -1836,6 +1837,54 @@
         return file;
     }
 
+    function previewFiles(inputSelector, previewSelector, options = {}) {
+        const settings = $.extend({
+            maxCount: 5,
+            maxSize: 2 * 1024 * 1024, // 2MB
+            validTypes: ['image/jpeg', 'image/png']
+        }, options);
+
+        const $input = $(inputSelector);
+        const $preview = $(previewSelector);
+
+        $input.off('change').on('change', function () {
+            $preview.empty(); // 清空預覽
+
+            const files = Array.from(this.files);
+
+            // 檢查數量
+            if (files.length > settings.maxCount) {
+                alert(`最多只能上傳 ${settings.maxCount} 個檔案`);
+                $input.val('');
+                return;
+            }
+
+            // 處理每個檔案
+            $.each(files, function (i, file) {
+                // 檢查格式
+                if (!settings.validTypes.includes(file.type)) {
+                    alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
+                    return;
+                }
+                // 檢查大小
+                if (file.size > settings.maxSize) {
+                    alert(`${file.name} 超過 ${(settings.maxSize / 1024 / 1024).toFixed(1)}MB`);
+                    return;
+                }
+
+                // FileReader 預覽
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const $img = $('<img>')
+                    .attr('src', e.target.result)
+                    .css({ width: '120px', margin: '6px', border: '1px solid #ccc', borderRadius: '4px' });
+                    $preview.append($img);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    }
+
     async function postGAS( data ){
 
         try {
@@ -1881,5 +1930,14 @@
 
         return formatted;
     }
+
+    //------------------------------------------------------------------------------------------------------//
+
+    $(document).ready(function () {
+        previewFiles('#fileInput', '#preview', {
+            maxCount: 3,           // 可自訂
+            maxSize: 1 * 1024 * 1024, // 限制 1MB
+        });
+    });
 </script>
 </html>
