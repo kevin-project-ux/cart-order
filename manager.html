@@ -1820,6 +1820,7 @@
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
+            console.log(file);
 
             if (!validTypes.includes(file.type)) {
                 alert(`❌ 僅允許上傳 PNG 或 JPG 檔案：${file.name}`);
