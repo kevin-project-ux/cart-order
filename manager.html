@@ -605,6 +605,7 @@
     let flv_list;
     let fp;
     let oldAgentName; //代購訂單-下拉選單
+    let fileList;
 
     // 檢查快取是否存在 & 有效期內
     function isUserAuthenticated(userId) {
@@ -1813,33 +1814,38 @@
 
         // console.log(img.value);
 
-        const files = $('#fileInput')[0].files;
+        // const files = $('#fileInput')[0].files;
         const validTypes = ['image/jpeg', 'image/png'];
 
         const promises = []; // 儲存每個 file reader 的 promise
 
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
+        if( fileList.length>0 ){
+            
+            for (let i = 0; i < fileList.length; i++) {
+                const file = fileList[i];
 
-            if (!validTypes.includes(file.type)) {
-                alert(`❌ 僅允許上傳 PNG 或 JPG 檔案：${file.name}`);
-                continue; // 跳過這個
+                if (!validTypes.includes(file.type)) {
+                    alert(`❌ 僅允許上傳 PNG 或 JPG 檔案：${file.name}`);
+                    continue; // 跳過這個
+                }
+
+                // 將每個檔案轉換成 Promise
+                const promise = new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const base64Data = e.target.result.split(',')[1];
+                        const payload = { filename: file.name, mimeType: file.type, data: base64Data };
+                        resolve(payload);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+
+                promises.push(promise);
             }
-
-            // 將每個檔案轉換成 Promise
-            const promise = new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const base64Data = e.target.result.split(',')[1];
-                    const payload = { filename: file.name, mimeType: file.type, data: base64Data };
-                    resolve(payload);
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-
-            promises.push(promise);
         }
+
+        
 
         // 等待全部讀取完成
         return Promise.all(promises);
@@ -1858,7 +1864,7 @@
         const $input   = $(inputSelector);
         const $preview = $(previewSelector);
         const $count   = $(settings.countSelector);
-        let fileList   = [];
+        fileList = [];
 
         $input.off('change').on('change', function () {
             const files = Array.from(this.files);
@@ -1882,7 +1888,7 @@
                 renderPreview(file, $preview, settings, fileList);
             });
             updateFileCount($count, fileList.length);
-            // $input.val('');
+            $input.val('');
         });
     }
 
