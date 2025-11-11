@@ -1634,9 +1634,9 @@
         let file = '';
         if( debug=='Y' ){ 
 
-            img = await uploadImg(); 
-            console.log(img);
-            return false; 
+            file = await uploadImg(); 
+            // console.log(img);
+            // return false; 
 
             // file = [img];
         }
@@ -1820,7 +1820,7 @@
         const promises = []; // 儲存每個 file reader 的 promise
 
         if( fileList.length>0 ){
-            
+
             for (let i = 0; i < fileList.length; i++) {
                 const file = fileList[i];
 
