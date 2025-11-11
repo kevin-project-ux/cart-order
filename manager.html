@@ -1634,9 +1634,10 @@
         if( debug=='Y' ){ 
 
             img = await uploadImg(); 
-            console.log(img); 
+            console.log(img);
+            return false; 
 
-            file = [img];
+            // file = [img];
         }
 
         if ( !name && !id ) { Swal.fire('請填寫名稱'); return; }
@@ -1812,20 +1813,23 @@
 
         // console.log(img.value);
 
-        const file = $('#fileInput')[0].files[0];
-
-        if (!file) return false;
-
+        const files = $('#fileInput')[0].files;
         const validTypes = ['image/jpeg', 'image/png'];
-        if (!validTypes.includes(file.type)) {
-            alert('僅允許上傳 PNG 或 JPG 檔案');
-            img.value = ''; // 清空檔案
-        } else {
-            console.log('檔案 OK:', file.name);
 
-            return new Promise((resolve, reject) => {
+        const promises = []; // 儲存每個 file reader 的 promise
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            if (!validTypes.includes(file.type)) {
+                alert(`❌ 僅允許上傳 PNG 或 JPG 檔案：${file.name}`);
+                continue; // 跳過這個
+            }
+
+            // 將每個檔案轉換成 Promise
+            const promise = new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const base64Data = e.target.result.split(',')[1];
                     const payload = { filename: file.name, mimeType: file.type, data: base64Data };
                     resolve(payload);
@@ -1833,9 +1837,13 @@
                 reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
+
+            promises.push(promise);
         }
 
-        return file;
+        // 等待全部讀取完成
+        return Promise.all(promises);
+        
     }
 
     function previewFiles(inputSelector, previewSelector, options = {}) {
