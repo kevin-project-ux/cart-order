@@ -1916,7 +1916,7 @@
                 fileList.splice(index, 1);
                 $wrapper.fadeOut(200, () => {
                     $wrapper.remove();
-                    updateFileCount($count, fileList.length);
+                    updateFileCount(settings.countSelector, fileList.length);
                 });
             });
 
