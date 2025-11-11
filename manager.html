@@ -598,7 +598,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyqf2i4iZQZ8T5gk5YJW12PTtTdtsTr2ilt8no9HNOSkPddbUToXs9Hr1ezdHmIAMa4Kg/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxm2TvquNZM3VPGvToRwgU_7TnXMESNvToFiS1yMu5yCdameIXSUCtv-ee3C6xRKSIX/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -1605,6 +1605,12 @@
   
         // 3. 如果 multiFlavor 有動態新增的 .flavor-row，留第一列移除其餘
         $('#flavorWrapper .flavor-row').slice(2).remove();
+
+        // 清除預覽圖片、文字
+        $("#preview, #fileCount").empty();
+
+        // 清除檔案
+        fileList = [];
     }
 
     function resetAgentForm(){
@@ -1633,12 +1639,7 @@
 
         let file = '';
         if( debug=='Y' ){ 
-
             file = await uploadImg(); 
-            // console.log(img);
-            // return false; 
-
-            // file = [img];
         }
 
         if ( !name && !id ) { Swal.fire('請填寫名稱'); return; }
@@ -1853,6 +1854,7 @@
     }
 
     function previewFiles(inputSelector, previewSelector, options = {}) {
+
         const settings = $.extend({
             maxCount: 5,
             maxSize: 2 * 1024 * 1024, // 2MB
