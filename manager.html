@@ -1921,8 +1921,8 @@
                     const watermarkedDataUrl = addWatermark(img, {
                         type: 'image',                  // 'text' or 'image'
                         text: '© 熊幸福小小烘焙',        // 文字浮水印用
-                        watermarkImg: $('#wmimg')[0],  // 圖片浮水印用
-                        position: 'center',            // 'top-left' | 'bottom-right' | ...
+                        watermarkImg: transparentWmImg, // 圖片浮水印用
+                        position: 'center',             // 'top-left' | 'bottom-right' | ...
                         opacity: 0.6
                     });
 
@@ -2127,7 +2127,8 @@
         previewFiles('#fileInput', '#preview', {
             maxCount: 3,           // 可自訂
             maxSize: 1 * 1024 * 1024, // 限制 1MB
-            previewWidth: 60 // ✅ 改成 60px
+            previewWidth: 60, // ✅ 改成 60px
+            watermarkSrc: "https://app.haolongbin9.site/logo.jpg"
         });
     });
 </script>
