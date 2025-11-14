@@ -271,7 +271,7 @@
                                 </div>
 
                                 <!-- 你的浮水印圖 (可以是透明PNG) -->
-                                <img id="wmimg" width="50" height="50" src="https://app.haolongbin9.site/logo.jpg" style="display:none;">
+                                <img id="wmimg" width="50" height="50" src="https://app.haolongbin9.site/logo.png" style="display:none;">
 
                                 <!-- 圖片 -->
                                 <div id="singleFlavor" class="mb-3">
@@ -609,7 +609,6 @@
     let fp;
     let oldAgentName; //代購訂單-下拉選單
     let fileList;
-    let transparentWmImg;
 
     // 檢查快取是否存在 & 有效期內
     function isUserAuthenticated(userId) {
@@ -1872,39 +1871,33 @@
         const $count   = $(settings.countSelector);
         fileList = [];
 
-        prepareWatermark($('#wmimg')[0]).then(wmImg => {
-            transparentWmImg = wmImg;
+        $input.off('change').on('change', function () {
+            const files = Array.from(this.files);
 
-            $input.off('change').on('change', function () {
-                const files = Array.from(this.files);
+            if (fileList.length + files.length > settings.maxCount) {
+                alert(`最多只能上傳 ${settings.maxCount} 個檔案`);
+                $input.val('');
+                return;
+            }
 
-                if (fileList.length + files.length > settings.maxCount) {
-                    alert(`最多只能上傳 ${settings.maxCount} 個檔案`);
-                    $input.val('');
+            $.each(files, function (i, file) {
+                if (!settings.validTypes.includes(file.type)) {
+                    alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
                     return;
                 }
-
-                $.each(files, function (i, file) {
-                    if (!settings.validTypes.includes(file.type)) {
-                        alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
-                        return;
-                    }
-                    if (file.size > settings.maxSize) {
-                        alert(`${file.name} 超過 ${(settings.maxSize / 1024 / 1024).toFixed(1)}MB`);
-                        return;
-                    }
-                    fileList.push(file);
-                    renderPreview(file, $preview, settings, fileList, transparentWmImg);
-                });
-                updateFileCount($count, fileList.length);
-                $input.val('');
+                if (file.size > settings.maxSize) {
+                    alert(`${file.name} 超過 ${(settings.maxSize / 1024 / 1024).toFixed(1)}MB`);
+                    return;
+                }
+                fileList.push(file);
+                renderPreview(file, $preview, settings, fileList);
             });
+            updateFileCount($count, fileList.length);
+            $input.val('');
         });
-
-        
     }
 
-    function renderPreview(file, $preview, settings, fileList, transparentWmImg) {
+    function renderPreview(file, $preview, settings, fileList) {
 
         const reader = new FileReader();
 
@@ -1913,13 +1906,12 @@
             const img = new Image();
 
             img.onload = function() {
-
                 // ✅ 呼叫我們的浮水印函式
                 const watermarkedDataUrl = addWatermark(img, {
                     type: 'image',                  // 'text' or 'image'
                     text: '© 熊幸福小小烘焙',        // 文字浮水印用
-                    watermarkImg: transparentWmImg, // 圖片浮水印用
-                    position: 'center',             // 'top-left' | 'bottom-right' | ...
+                    watermarkImg: $('#wmimg')[0],  // 圖片浮水印用
+                    position: 'center',            // 'top-left' | 'bottom-right' | ...
                     opacity: 0.6
                 });
 
@@ -2032,51 +2024,6 @@
 
         // ✅ 回傳 base64 結果
         return canvas.toDataURL('image/jpeg', 0.9);
-    }
-
-    // 預先載入浮水印
-    function prepareWatermark(src) {
-
-        return new Promise(resolve => {
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.onload = () => {
-                const canvas = removeWhiteBackground(img);    // 去背
-                const newImg = new Image();
-                newImg.src = canvas.toDataURL();              // 得到透明浮水印
-                transparentWmImg = newImg;                    // 存入全域變數
-                resolve();
-            };
-            img.src = src;
-        });
-    }
-
-    function removeWhiteBackground(img, tolerance = 240) {
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-      
-        canvas.width = img.width;
-        canvas.height = img.height;
-      
-        ctx.drawImage(img, 0, 0);
-
-        const imageData = ctx.getImageData(0, 0, img.width, img.height);
-        const data = imageData.data;
-
-        for (let i = 0; i < data.length; i += 4) {
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-
-            // 白色(255,255,255) 或接近白色
-            if (r > tolerance && g > tolerance && b > tolerance) {
-                data[i + 3] = 0; // 透明
-            }
-        }
-
-        ctx.putImageData(imageData, 0, 0);
-        return canvas;
     }
 
     // 顯示檔案數
