@@ -1856,7 +1856,7 @@
         
     }
 
-    function previewFiles(inputSelector, previewSelector, options = {}) {
+    async function previewFiles(inputSelector, previewSelector, options = {}) {
 
         const settings = $.extend({
             maxCount: 5,
@@ -1880,7 +1880,7 @@
                 return;
             }
 
-            var transparentWmImg = prepareWatermark("https://app.haolongbin9.site/logo.jpg");
+            var transparentWmImg = await prepareWatermark($('#wmimg')[0]);
 
             $.each(files, function (i, file) {
                 if (!settings.validTypes.includes(file.type)) {
