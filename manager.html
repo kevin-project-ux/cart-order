@@ -1880,6 +1880,8 @@
                 return;
             }
 
+            var transparentWmImg = prepareWatermark($('#wmimg')[0]);
+
             $.each(files, function (i, file) {
                 if (!settings.validTypes.includes(file.type)) {
                     alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
@@ -1890,14 +1892,14 @@
                     return;
                 }
                 fileList.push(file);
-                renderPreview(file, $preview, settings, fileList);
+                renderPreview(file, $preview, settings, fileList, transparentWmImg);
             });
             updateFileCount($count, fileList.length);
             $input.val('');
         });
     }
 
-    function renderPreview(file, $preview, settings, fileList) {
+    function renderPreview(file, $preview, settings, fileList, transparentWmImg) {
 
         const reader = new FileReader();
 
@@ -1907,71 +1909,56 @@
 
             img.onload = function() {
 
-                const wmImg = new Image();
-                wmImg.crossOrigin = "anonymous";
+                // ✅ 呼叫我們的浮水印函式
+                const watermarkedDataUrl = addWatermark(img, {
+                    type: 'image',                  // 'text' or 'image'
+                    text: '© 熊幸福小小烘焙',        // 文字浮水印用
+                    watermarkImg: transparentWmImg, // 圖片浮水印用
+                    position: 'center',             // 'top-left' | 'bottom-right' | ...
+                    opacity: 0.6
+                });
 
-                wmImg.onload = () => {
+                const $wrapper = $('<div>').css({
+                    position: 'relative',
+                    margin: '4px',
+                    display: 'inline-block'
+                });
 
-                    // 🔥 去背浮水印
-                    const transparentCanvas = removeWhiteBackground(wmImg);
-                    const transparentWmImg = new Image();
-                    transparentWmImg.src = transparentCanvas.toDataURL();
+                const $img = $('<img>')
+                .attr('src', watermarkedDataUrl)
+                .css({
+                    width: `${settings.previewWidth}px`,
+                    border: '1px solid #ccc',
+                    borderRadius: '4px'
+                });
 
-                    // ✅ 呼叫我們的浮水印函式
-                    const watermarkedDataUrl = addWatermark(img, {
-                        type: 'image',                  // 'text' or 'image'
-                        text: '© 熊幸福小小烘焙',        // 文字浮水印用
-                        watermarkImg: transparentWmImg, // 圖片浮水印用
-                        position: 'center',             // 'top-left' | 'bottom-right' | ...
-                        opacity: 0.6
+                const $del = $('<span>✕</span>').css({
+                    position: 'absolute',
+                    top: '-5px',
+                    right: '-5px',
+                    background: 'rgba(0,0,0,0.7)',
+                    color: '#fff',
+                    borderRadius: '50%',
+                    width: '18px',
+                    height: '18px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px',
+                    cursor: 'pointer'
+                });
+
+                $del.on('click', function () {
+                    const index = $wrapper.index();
+                    fileList.splice(index, 1);
+                    $wrapper.fadeOut(200, () => {
+                        $wrapper.remove();
+                        updateFileCount($(settings.countSelector), fileList.length);
                     });
+                });
 
-                    const $wrapper = $('<div>').css({
-                        position: 'relative',
-                        margin: '4px',
-                        display: 'inline-block'
-                    });
-
-                    const $img = $('<img>')
-                    .attr('src', watermarkedDataUrl)
-                    .css({
-                        width: `${settings.previewWidth}px`,
-                        border: '1px solid #ccc',
-                        borderRadius: '4px'
-                    });
-
-                    const $del = $('<span>✕</span>').css({
-                        position: 'absolute',
-                        top: '-5px',
-                        right: '-5px',
-                        background: 'rgba(0,0,0,0.7)',
-                        color: '#fff',
-                        borderRadius: '50%',
-                        width: '18px',
-                        height: '18px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '12px',
-                        cursor: 'pointer'
-                    });
-
-                    $del.on('click', function () {
-                        const index = $wrapper.index();
-                        fileList.splice(index, 1);
-                        $wrapper.fadeOut(200, () => {
-                            $wrapper.remove();
-                            updateFileCount($(settings.countSelector), fileList.length);
-                        });
-                    });
-
-                    $wrapper.append($img).append($del);
-                    $preview.append($wrapper);
-
-                };
-
-                // 設定浮水印圖片來源（換成你的 watermark png）
-                wmImg.src = settings.watermarkSrc;
+                $wrapper.append($img).append($del);
+                $preview.append($wrapper);
             };
 
             img.src = e.target.result; // 必須最後設定 src
@@ -2040,6 +2027,23 @@
 
         // ✅ 回傳 base64 結果
         return canvas.toDataURL('image/jpeg', 0.9);
+    }
+
+    // 預先載入浮水印
+    function prepareWatermark(src) {
+
+        return new Promise(resolve => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => {
+                const canvas = removeWhiteBackground(img);    // 去背
+                const newImg = new Image();
+                newImg.src = canvas.toDataURL();              // 得到透明浮水印
+                transparentWmImg = newImg;                    // 存入全域變數
+                resolve();
+            };
+            img.src = src;
+        });
     }
 
     function removeWhiteBackground(img, tolerance = 240) {
