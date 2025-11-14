@@ -1880,7 +1880,7 @@
                 return;
             }
 
-            var transparentWmImg = prepareWatermark($('#wmimg')[0]);
+            var transparentWmImg = prepareWatermark("https://app.haolongbin9.site/logo.jpg");
 
             $.each(files, function (i, file) {
                 if (!settings.validTypes.includes(file.type)) {
@@ -2131,8 +2131,7 @@
         previewFiles('#fileInput', '#preview', {
             maxCount: 3,           // 可自訂
             maxSize: 1 * 1024 * 1024, // 限制 1MB
-            previewWidth: 60, // ✅ 改成 60px
-            watermarkSrc: "https://app.haolongbin9.site/logo.jpg"
+            previewWidth: 60 // ✅ 改成 60px
         });
     });
 </script>
