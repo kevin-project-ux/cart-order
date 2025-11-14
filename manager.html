@@ -609,6 +609,7 @@
     let fp;
     let oldAgentName; //代購訂單-下拉選單
     let fileList;
+    let transparentWmImg;
 
     // 檢查快取是否存在 & 有效期內
     function isUserAuthenticated(userId) {
@@ -1856,7 +1857,7 @@
         
     }
 
-    async function previewFiles(inputSelector, previewSelector, options = {}) {
+    function previewFiles(inputSelector, previewSelector, options = {}) {
 
         const settings = $.extend({
             maxCount: 5,
@@ -1871,32 +1872,36 @@
         const $count   = $(settings.countSelector);
         fileList = [];
 
-        $input.off('change').on('change', function () {
-            const files = Array.from(this.files);
+        prepareWatermark($('#wmimg')[0]).then(wmImg => {
+            transparentWmImg = wmImg;
 
-            if (fileList.length + files.length > settings.maxCount) {
-                alert(`最多只能上傳 ${settings.maxCount} 個檔案`);
+            $input.off('change').on('change', function () {
+                const files = Array.from(this.files);
+
+                if (fileList.length + files.length > settings.maxCount) {
+                    alert(`最多只能上傳 ${settings.maxCount} 個檔案`);
+                    $input.val('');
+                    return;
+                }
+
+                $.each(files, function (i, file) {
+                    if (!settings.validTypes.includes(file.type)) {
+                        alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
+                        return;
+                    }
+                    if (file.size > settings.maxSize) {
+                        alert(`${file.name} 超過 ${(settings.maxSize / 1024 / 1024).toFixed(1)}MB`);
+                        return;
+                    }
+                    fileList.push(file);
+                    renderPreview(file, $preview, settings, fileList, transparentWmImg);
+                });
+                updateFileCount($count, fileList.length);
                 $input.val('');
-                return;
-            }
-
-            var transparentWmImg = await prepareWatermark($('#wmimg')[0]);
-
-            $.each(files, function (i, file) {
-                if (!settings.validTypes.includes(file.type)) {
-                    alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
-                    return;
-                }
-                if (file.size > settings.maxSize) {
-                    alert(`${file.name} 超過 ${(settings.maxSize / 1024 / 1024).toFixed(1)}MB`);
-                    return;
-                }
-                fileList.push(file);
-                renderPreview(file, $preview, settings, fileList, transparentWmImg);
             });
-            updateFileCount($count, fileList.length);
-            $input.val('');
         });
+
+        
     }
 
     function renderPreview(file, $preview, settings, fileList, transparentWmImg) {
