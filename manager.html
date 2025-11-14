@@ -1965,6 +1965,15 @@
 
     function addWatermark(img, options = {}) {
 
+        const {
+            type = 'image',                // 'image' 或 'text'
+            text = '© 熊幸福小小烘焙',      // 文字浮水印
+            watermarkImg = $('#wmimg')[0], // 圖片浮水印
+            position = 'center',
+            opacity = 0.6,
+            font = "Arial"
+        } = options;
+
         // 建立畫布
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -1975,13 +1984,13 @@
         ctx.drawImage(img, 0, 0, img.width, img.height);
         ctx.globalAlpha = img.opacity;
 
-        if (img.type === 'image' && img.watermarkImg) {
+        if( type === 'image' && watermarkImg ){
             // ✅ 使用圖片浮水印
             const wmWidth = img.width * 0.2; // 佔原圖 20%
-            const wmHeight = img.watermarkImg.height * (wmWidth / img.watermarkImg.width);
+            const wmHeight = watermarkImg.height * (wmWidth / watermarkImg.width);
             let x = 0, y = 0;
 
-            switch (img.position) {
+            switch (position) {
                 case 'top-left':
                     x = 20; y = 20; break;
                 case 'top-right':
@@ -1997,9 +2006,8 @@
                     x = img.width - wmWidth - 20; y = img.height - wmHeight - 20; break;
             }
 
-            ctx.drawImage(img.watermarkImg, x, y, wmWidth, wmHeight);
-        } 
-        else {
+            ctx.drawImage(watermarkImg, x, y, wmWidth, wmHeight);
+        }else{
             // ✅ 使用文字浮水印
             const fontSize = Math.floor(img.width / 25);
             ctx.font = `${fontSize}px ${font}`;
