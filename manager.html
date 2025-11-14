@@ -1912,7 +1912,7 @@
                     text: '© 熊幸福小小烘焙',        // 文字浮水印用
                     watermarkImg: $('#wmimg')[0],  // 圖片浮水印用
                     position: 'center',            // 'top-left' | 'bottom-right' | ...
-                    opacity: 0.6
+                    opacity: 0.3
                 });
 
                 const $wrapper = $('<div>').css({
@@ -1970,7 +1970,7 @@
             text = '© 熊幸福小小烘焙',      // 文字浮水印
             watermarkImg = $('#wmimg')[0], // 圖片浮水印
             position = 'center',
-            opacity = 0.6,
+            opacity = 0.3,
             font = "Arial"
         } = options;
 
@@ -1986,7 +1986,7 @@
 
         if( type === 'image' && watermarkImg ){
             // ✅ 使用圖片浮水印
-            const wmWidth = img.width * 0.2; // 佔原圖 20%
+            const wmWidth = img.width * 0.4; // 佔原圖 40%
             const wmHeight = watermarkImg.height * (wmWidth / watermarkImg.width);
             let x = 0, y = 0;
 
