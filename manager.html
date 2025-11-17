@@ -1871,7 +1871,7 @@
         const $count   = $(settings.countSelector);
         fileList = [];
 
-        $input.off('change').on('change', async function () {
+        $input.off('change').on('change', function () {
             const files = Array.from(this.files);
 
             if (fileList.length + files.length > settings.maxCount) {
@@ -1880,7 +1880,7 @@
                 return;
             }
 
-            $.each(files, function (i, file) {
+            $.each(files, async function (i, file) {
                 if (!settings.validTypes.includes(file.type)) {
                     alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
                     return;
