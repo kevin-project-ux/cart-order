@@ -1871,7 +1871,7 @@
         const $count   = $(settings.countSelector);
         fileList = [];
 
-        $input.off('change').on('change', function () {
+        $input.off('change').on('change', async function () {
             const files = Array.from(this.files);
 
             if (fileList.length + files.length > settings.maxCount) {
@@ -1918,6 +1918,7 @@
                 });
 
                 fileList.push(watermarkedDataUrl);
+                console.log(fileList);
 
                 const $wrapper = $('<div>').css({
                     position: 'relative',
