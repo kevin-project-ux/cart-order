@@ -1830,14 +1830,14 @@
 
                 // 將每個檔案轉換成 Promise
                 const promise = new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
+                    // const reader = new FileReader();
+                    // reader.onload = function (e) {
                         // const base64Data = e.target.result.split(',')[1];
                         const payload = { filename: file.name, mimeType: file.type, data: file.data };
                         resolve(payload);
-                    };
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
+                    // };
+                    // reader.onerror = reject;
+                    // reader.readAsDataURL(file);
                 });
 
                 promises.push(promise);
@@ -1912,7 +1912,7 @@
                     opacity: 0.2
                 });
 
-                fileList.push({filename: file.name, mimeType: file.type, data: watermarkedDataUrl});
+                fileList.push({name: file.name, type: file.type, data: watermarkedDataUrl});
 
                 const $wrapper = $('<div>').css({
                     position: 'relative',
