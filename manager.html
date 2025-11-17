@@ -601,7 +601,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxI8HCH9nBDko4rb-VWgcehIkAwG-DOq-_7IMnFuuFAfNErl12-0sFIz34g4OHBgA6kJA/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxFshrAp9xQ9Py6edumZpa8oyy7BiyrEFGFVqsW30B0x3A5vl2eISgQ-ZVNRSXIsaTpBQ/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -1889,8 +1889,9 @@
                     alert(`${file.name} 超過 ${(settings.maxSize / 1024 / 1024).toFixed(1)}MB`);
                     return;
                 }
-                fileList.push(file);
+                
                 renderPreview(file, $preview, settings, fileList);
+                // fileList.push(file);
             });
             updateFileCount($count, fileList.length);
             $input.val('');
@@ -1912,8 +1913,10 @@
                     text: '© 熊幸福小小烘焙',        // 文字浮水印用
                     watermarkImg: $('#wmimg')[0],  // 圖片浮水印用
                     position: 'center',            // 'top-left' | 'bottom-right' | ...
-                    opacity: 0.3
+                    opacity: 0.2
                 });
+
+                fileList.push(watermarkedDataUrl);
 
                 const $wrapper = $('<div>').css({
                     position: 'relative',
