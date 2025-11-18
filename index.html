@@ -293,7 +293,7 @@
         li.innerHTML = `
           <div class="item">
             <div class="img">
-              ${debug==='Y' ? 
+              ${debug==='Y' && item.imgs!=='' ? 
               `<div class="swiper ${swiperClass}">
                 <div class="swiper-wrapper">${slides}</div>
                 <div class="swiper-pagination"></div>
