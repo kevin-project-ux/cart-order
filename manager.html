@@ -1867,7 +1867,7 @@
                 return;
             }
 
-            $.each(files, async function (i, file) {
+            for (const file of files) {
                 if (!settings.validTypes.includes(file.type)) {
                     alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
                     return;
@@ -1878,7 +1878,7 @@
                 }
                 
                 await renderPreview(file, $preview, settings, fileList);
-            });
+            };
 
             updateFileCount($count, fileList.length);
             $input.val('');
@@ -1903,11 +1903,7 @@
                     opacity: 0.2
                 });
 
-                var files = {name: file.name, type: file.type, data: watermarkedDataUrl};
-
-                fileList.push(files);
-
-                resolve(files);
+                fileList.push({name: file.name, type: file.type, data: watermarkedDataUrl});
 
                 const $wrapper = $('<div>').css({
                     position: 'relative',
