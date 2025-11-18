@@ -1858,7 +1858,7 @@
         const $count   = $(settings.countSelector);
         fileList = [];
 
-        $input.off('change').on('change', function () {
+        $input.off('change').on('change', async function () {
             const files = Array.from(this.files);
 
             if (fileList.length + files.length > settings.maxCount) {
@@ -1867,7 +1867,7 @@
                 return;
             }
 
-            await Promise.all(files.map(async (file) => {
+            for (const file of files) {
                 if (!settings.validTypes.includes(file.type)) {
                     alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
                     return;
@@ -1878,7 +1878,7 @@
                 }
                 
                 await renderPreview(file, $preview, settings, fileList);
-            });
+            };
 
             updateFileCount($count, fileList.length);
             $input.val('');
