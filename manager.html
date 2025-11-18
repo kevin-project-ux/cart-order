@@ -1880,7 +1880,7 @@
                 await renderPreview(file, $preview, settings, fileList);
             };
 
-            updateFileCount($count, fileList.length);
+            // updateFileCount($count, fileList.length);
             $input.val('');
         });
     }
@@ -1904,6 +1904,8 @@
                 });
 
                 fileList.push({name: file.name, type: file.type, data: watermarkedDataUrl});
+
+                updateFileCount($(settings.countSelector), fileList.length);
 
                 const $wrapper = $('<div>').css({
                     position: 'relative',
