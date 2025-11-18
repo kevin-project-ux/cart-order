@@ -227,7 +227,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbyZCdIh1vYXoWMb67FhsCY7RQzdYmkW7qNzv65_So_uZc1FLFax56ZsTMC3QUw8uBbjRw/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycbwUXe2-ZJ5ilOMJIzfHnzOnkerJlfP0uRKC9WNH6hZHXdZXGHrUS2WMnROhM-Gu2XmhgA/exec`;
     // const gasUrl = `https://script.google.com/macros/s/AKfycbyFaQ5UW0AlvwQnMnQAs9Pn4-52JLpP7uanGBLWeOtoMDMCKdm8-FBTsck13UjvqIO9ug/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
@@ -278,10 +278,12 @@
         const hasLimit = item.num !== 0;
         const reachedMax = hasLimit && currentQty >= item.remain;
 
-        const swiperClass = `item-swiper-${index}`;
-        const slides = item.imgs.map(img => 
-            `<div class="swiper-slide"><img src="${img}" /></div>`
-        ).join("");
+        if( typeof item.imgs!==undefined ){
+          const swiperClass = `item-swiper-${index}`;
+          const slides = item.imgs.map(img => 
+              `<div class="swiper-slide"><img src="${img}" /></div>`
+          ).join("");
+        }
 
         li.innerHTML = `
           <div class="item">
