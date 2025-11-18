@@ -278,8 +278,10 @@
         const hasLimit = item.num !== 0;
         const reachedMax = hasLimit && currentQty >= item.remain;
 
+        const swiperClass = `item-swiper-${index}`;
+
         if( typeof item.imgs!==undefined && debug==='Y' ){
-          const swiperClass = `item-swiper-${index}`;
+          
           var imgs = item.imgs;
           var img_arr = imgs.split('|');
           const slides = img_arr.map(img => 
