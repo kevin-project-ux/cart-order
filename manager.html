@@ -601,7 +601,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxFshrAp9xQ9Py6edumZpa8oyy7BiyrEFGFVqsW30B0x3A5vl2eISgQ-ZVNRSXIsaTpBQ/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbzm0s4mn_2VL3iSBV5bPz5Ne_vS6N177pG6LuCFsQpwsF1-9XHMqzzz3wBmz_6XSb-4pg/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -1830,21 +1830,13 @@
 
                 // 將每個檔案轉換成 Promise
                 const promise = new Promise((resolve, reject) => {
-                    // const reader = new FileReader();
-                    // reader.onload = function (e) {
-                        // const base64Data = e.target.result.split(',')[1];
-                        const payload = { filename: file.name, mimeType: file.type, data: file.data };
-                        resolve(payload);
-                    // };
-                    // reader.onerror = reject;
-                    // reader.readAsDataURL(file);
+                    const payload = { filename: file.name, mimeType: file.type, data: file.data };
+                    resolve(payload);
                 });
 
                 promises.push(promise);
             }
         }
-
-        
 
         // 等待全部讀取完成
         return Promise.all(promises);
@@ -1886,7 +1878,6 @@
                 }
                 
                 await renderPreview(file, $preview, settings, fileList);
-                // fileList.push(file);
             });
 
             updateFileCount($count, fileList.length);
@@ -1912,7 +1903,11 @@
                     opacity: 0.2
                 });
 
-                fileList.push({name: file.name, type: file.type, data: watermarkedDataUrl});
+                var files = {name: file.name, type: file.type, data: watermarkedDataUrl};
+
+                fileList.push(files);
+
+                resolve(files);
 
                 const $wrapper = $('<div>').css({
                     position: 'relative',
