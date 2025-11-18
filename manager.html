@@ -1867,7 +1867,7 @@
                 return;
             }
 
-            for (const file of files) {
+            await Promise.all(files.map(async (file) => {
                 if (!settings.validTypes.includes(file.type)) {
                     alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
                     return;
@@ -1878,7 +1878,7 @@
                 }
                 
                 await renderPreview(file, $preview, settings, fileList);
-            };
+            });
 
             updateFileCount($count, fileList.length);
             $input.val('');
