@@ -279,12 +279,13 @@
         const reachedMax = hasLimit && currentQty >= item.remain;
 
         const swiperClass = `item-swiper-${index}`;
+        let slides;
 
         if( typeof item.imgs!==undefined && debug==='Y' ){
-          
+
           var imgs = item.imgs;
           var img_arr = imgs.split('|');
-          const slides = img_arr.map(img => 
+          slides = img_arr.map(img => 
               `<div class="swiper-slide"><img src="${img}" /></div>`
           ).join("");
         }
