@@ -178,7 +178,7 @@
         padding: 6px 10px;
         background: rgba(0, 0, 0, 0.5); /* 透明黑底 */
         color: white;
-        font-size: 14px;
+        font-size: 11px;
         box-sizing: border-box;
       }
   
@@ -308,7 +308,9 @@
           var imgs = item.imgs;
           var img_arr = imgs.split('|');
           slides = img_arr.map(img => 
-              `<div class="swiper-slide"><img src="${img}" /><div class="slide-caption">${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `剩餘 ${item.remain} 個`}</div></div>`
+              `<div class="swiper-slide"><img src="${img}" />
+                ${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `<div class="slide-caption">剩餘 ${item.remain} 個</div>`}
+              </div>`
           ).join("");
         }
 
@@ -348,10 +350,10 @@
                   el: `.item-swiper-${index} .swiper-pagination`,
                   clickable: true
               },
-              // autoplay: {
-              //     delay: 3000,      // 每張停留 3 秒
-              //     disableOnInteraction: false // 使用者滑動後仍繼續自動播
-              // },
+              autoplay: {
+                  delay: 3000,      // 每張停留 3 秒
+                  disableOnInteraction: false // 使用者滑動後仍繼續自動播
+              },
               loop: true,
           });
         }
