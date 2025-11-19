@@ -320,7 +320,7 @@
         `;
         list.appendChild(li);
 
-        if( debug==='Y' ){
+        if( debug==='Y' && item.imgs!=='' ){
           new Swiper(`.${swiperClass}`, {
               pagination: {
                   el: `.item-swiper-${index} .swiper-pagination`,
