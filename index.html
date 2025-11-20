@@ -324,7 +324,7 @@
             </div>
             <div class="flavors">
               <span>${item.flavor}</span>
-              <span class="stock">${item.num === 0 && debug!='Y' ? '' : item.remain === 0 ? '已售完' : `剩餘 ${item.remain} 個`}</span>
+              <span class="stock">${(item.num === 0 && debug!='Y') ? '' : item.remain === 0 ? '已售完' : `剩餘 ${item.remain} 個`}</span>
             </div>
             <div class="controls">
               <span class="price">$${item.price}</span>
