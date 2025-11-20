@@ -249,7 +249,7 @@
     if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
 
     // 替換為你自己的 GAS Web App URL
-    const gasUrl = `https://script.google.com/macros/s/AKfycbwtU-rpIJazFEAQZxz1xlXy0KYyz8yNjpXfPTxEPFRW-hrJVDghVP27hAJl_bzDT8dBpg/exec`;
+    const gasUrl = `https://script.google.com/macros/s/AKfycby9FDii0ihOn_GKNOtxyxOo1bTvOaEt6X8OEu82dahqYvJUJ0t-mLQ3zUAp1n8onj8bFQ/exec`;
     // const gasUrl = `https://script.google.com/macros/s/AKfycbyFaQ5UW0AlvwQnMnQAs9Pn4-52JLpP7uanGBLWeOtoMDMCKdm8-FBTsck13UjvqIO9ug/exec`;
     const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
 
@@ -308,7 +308,7 @@
           var imgs = item.imgs;
           var img_arr = imgs.split('|');
           slides = img_arr.map(img => 
-              `<div class="swiper-slide"><img src="${img}" />
+              `<div class="swiper-slide"><img src="https://res.cloudinary.com/dwavqm0sh/image/upload/${img}" />
                 ${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `<div class="slide-caption">剩餘 ${item.remain}個</div>`}
               </div>`
           ).join("");
