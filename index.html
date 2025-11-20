@@ -320,8 +320,6 @@
               ${debug==='Y' && item.imgs!=='' ? 
               `<div class="swiper ${swiperClass}">
                 <div class="swiper-wrapper">${slides}</div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
               </div>` : ''}
             </div>
             <div class="flavors">
@@ -347,10 +345,6 @@
 
         if( debug==='Y' && item.imgs!=='' ){
           new Swiper(`.${swiperClass}`, {
-              navigation: {
-                  nextEl: `.${swiperClass} .swiper-button-next`,
-                  prevEl: `.${swiperClass} .swiper-button-prev`
-              },
               autoplay: {
                   delay: 3000,      // 每張停留 3 秒
                   disableOnInteraction: false // 使用者滑動後仍繼續自動播
