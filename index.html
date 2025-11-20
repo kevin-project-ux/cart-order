@@ -309,7 +309,7 @@
           var img_arr = imgs.split('|');
           slides = img_arr.map(img => 
               `<div class="swiper-slide"><img src="${img}" />
-                ${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `<div class="slide-caption">剩餘 ${item.remain} 個</div>`}
+                ${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `<div class="slide-caption">剩餘 ${item.remain}個</div>`}
               </div>`
           ).join("");
         }
@@ -324,7 +324,7 @@
             </div>
             <div class="flavors">
               <span>${item.flavor}</span>
-              <span class="stock"></span>
+              <span class="stock">${item.num === 0 && debug!='Y' ? '' : item.remain === 0 ? '已售完' : `剩餘 ${item.remain} 個`}</span>
             </div>
             <div class="controls">
               <span class="price">$${item.price}</span>
