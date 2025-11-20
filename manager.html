@@ -125,6 +125,10 @@
         font-weight: bold;
         z-index: 1;
     }
+
+    .filepond--credits {
+        display: none !important;
+    }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K7ZW7QSTSY"></script>
@@ -617,7 +621,18 @@
 
     // 轉換所有 class=filepond 的 input
     FilePond.create(document.querySelector('.filepond'), {
-        allowMultiple: true
+        allowMultiple: true,
+
+        // ⭐ 自訂主要顯示文字
+        labelIdle: '<span class="filepond--label-action">選擇檔案</span>',
+
+        // 檔案狀態文字
+        labelFileProcessing: '上傳中…',
+        labelFileProcessingComplete: '上傳完成',
+        labelFileProcessingError: '上傳失敗',
+        labelTapToCancel: '點擊取消',
+        labelTapToUndo: '還原',
+        labelTapToRetry: '重試',
     });
 
     const GAS_URL = 'https://script.google.com/macros/s/AKfycby9FDii0ihOn_GKNOtxyxOo1bTvOaEt6X8OEu82dahqYvJUJ0t-mLQ3zUAp1n8onj8bFQ/exec'; // 改為你的 Apps Script 網址
