@@ -276,7 +276,7 @@
                                 <!-- 圖片 -->
                                 <div class="mb-3">
                                     <label class="form-label">圖片<span class="badge bg-success">Beta</span></label>
-                                    <input type="file" id="fileInput" class="form-control" multiple accept=".jpg, .jpeg, .png" />
+                                    <input type="file" id="fileInput" class="filepond" multiple accept=".jpg, .jpeg, .png" />
                                     <div class="mt-3" id="preview"></div>
                                     <div id="fileCount" style="margin-top:5px; color:#555;"></div>
                                 </div>
@@ -387,9 +387,9 @@
                                 <!-- 圖片 -->
                                 <div class="mb-3">
                                     <label class="form-label">圖片<span class="badge bg-success">Beta</span></label>
-                                    <input type="file" id="editFile" class="form-control" multiple accept=".jpg, .jpeg, .png" />
+                                    <input type="file" id="editFile" class="filepond" multiple accept=".jpg, .jpeg, .png" />
                                     <div class="mt-3" id="editPreview"></div>
-                                    <div id="fileCount" style="margin-top:5px; color:#555;"></div>
+                                    <div id="editFileCount" style="margin-top:5px; color:#555;"></div>
                                 </div>
 
                                 <button class="btn btn-success w-100" id="createOrder" onclick="editForm()">編輯團購</button>
@@ -581,6 +581,7 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
 <script>
 
     new ClipboardJS('.copy_btn');
@@ -609,6 +610,13 @@
     ReadonlyEmbed.blotName = 'readonly';
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
+
+    FilePond.registerPlugin();
+
+    // 轉換所有 class=filepond 的 input
+    FilePond.create(document.querySelector('.filepond'), {
+        allowMultiple: true
+    });
 
     const GAS_URL = 'https://script.google.com/macros/s/AKfycby9FDii0ihOn_GKNOtxyxOo1bTvOaEt6X8OEu82dahqYvJUJ0t-mLQ3zUAp1n8onj8bFQ/exec'; // 改為你的 Apps Script 網址
 
@@ -1776,6 +1784,8 @@
 
         $('#editData').val(JSON.stringify(data));
 
+        fileList = []; // 清空照片
+
         if( flv ){
             var img_str = flv[0].圖片;
             var img_arr = img_str.split('|');
@@ -2041,7 +2051,6 @@
 
     function imgpreview($preview, url, filename){
 
-        fileList = [];
         fileList.push(filename);
 
         const $wrapper = $('<div>').css({
@@ -2079,7 +2088,7 @@
             fileList.splice(index, 1);
             $wrapper.fadeOut(200, () => {
                 $wrapper.remove();
-                updateFileCount($(settings.countSelector), fileList.length);
+                updateFileCount($('#editFileCount'), fileList.length);
             });
         });
 
