@@ -49,7 +49,7 @@
       }
 
       .stock {
-        font-size: 0.6em;
+        font-size: 0.9em;
         color: #888;
         display: inline-block;
       }
@@ -324,7 +324,7 @@
             </div>
             <div class="flavors">
               <span>${item.flavor}</span>
-              ${debug!=='Y' ?
+              ${debug!=='Y' && item.imgs===''  ?
                 `<span class="stock">${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `剩餘 ${item.remain} 個`}</span>`
               : ''}
             </div>
