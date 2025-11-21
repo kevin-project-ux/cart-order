@@ -1776,12 +1776,14 @@
 
         $('#editData').val(JSON.stringify(data));
 
-        fileList = []; // 清空照片
-
         if( flv ){
             var img_str = flv[0].圖片;
             var img_arr = img_str.split('|');
             var img_url = 'https://res.cloudinary.com/dwavqm0sh/image/upload/';
+
+            fileList = []; // 清空暫存照片
+            $('#editPreview').empty(); // 清空預覽圖
+
             if( Array.isArray(img_arr) && img_arr.length>0 ){
                 img_arr.forEach(filename => { imgpreview($('#editPreview'), img_url, filename); });
             }else{
@@ -1789,7 +1791,7 @@
             }
         }
 
-        // console.log(prd);
+        console.log(fileList);
     }
 
     function editForm(){
@@ -1800,6 +1802,7 @@
         const range1 = document.getElementById('editStartDate').value;
         const range2 = document.getElementById('editEndDate').value;
         data.range = range1 + ' 至 ' + range2;
+        data.file  = fileList;
 
         var arr = [];
 
@@ -1903,7 +1906,6 @@
                 await renderPreview(file, $preview, settings, fileList);
             };
 
-            // updateFileCount($count, fileList.length);
             $input.val('');
         });
     }
@@ -2043,7 +2045,7 @@
 
     function imgpreview($preview, url, filename){
 
-        fileList.push(filename);
+        fileList.push({name: filename, type: 'uploaded', data: ''});
 
         const $wrapper = $('<div>').css({
             position: 'relative',
