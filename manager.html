@@ -610,7 +610,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycby9FDii0ihOn_GKNOtxyxOo1bTvOaEt6X8OEu82dahqYvJUJ0t-mLQ3zUAp1n8onj8bFQ/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwcWwOX3Xh5PBRWkV6TlNXSH9Feqqjt6U5tq_iBcZRA7WUGEMzGXq4FoBWnbeTXdtNL/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -1791,7 +1791,7 @@
             }
         }
 
-        console.log(fileList);
+        // console.log(fileList);
     }
 
     function editForm(){
@@ -1802,7 +1802,8 @@
         const range1 = document.getElementById('editStartDate').value;
         const range2 = document.getElementById('editEndDate').value;
         data.range = range1 + ' 至 ' + range2;
-        data.file  = fileList;
+
+        if( debug=='Y' ){ data.file = await uploadImg(); }
 
         var arr = [];
 
