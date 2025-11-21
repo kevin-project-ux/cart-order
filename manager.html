@@ -1803,6 +1803,10 @@
         const range2 = document.getElementById('editEndDate').value;
         data.range = range1 + ' 至 ' + range2;
 
+        // 抓取網址參數
+        const params = new URLSearchParams(window.location.search);
+        const debug  = params.get("debug"); // 抓取debug的值
+
         if( debug=='Y' ){ data.file = await uploadImg(); }
 
         var arr = [];
