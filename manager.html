@@ -1650,7 +1650,7 @@
         const debug  = params.get("debug"); // 抓取debug的值
 
         let file = '';
-        if( debug=='Y' ){ 
+        if( fileList.length>0 ){ 
             file = await uploadImg(); 
         }
 
@@ -1789,6 +1789,8 @@
             }else{
                 imgpreview($('#editPreview'), img_url, img_str);
             }
+
+            updateFileCount($('#editFileCount'), fileList.length);
         }
 
         // console.log(fileList);
@@ -1807,11 +1809,11 @@
         const params = new URLSearchParams(window.location.search);
         const debug  = params.get("debug"); // 抓取debug的值
 
-        if( debug=='Y' ){ data.file = await uploadImg(); }
+        if( fileList.length>0 ){ data.file = await uploadImg(); }
 
         var arr = [];
 
-        if( flvs>1 ){
+        if( flvs.length>1 ){
 
             const flavorRows = document.querySelectorAll('#editMultiFlavor .flavor-row');
             for (const row of flavorRows) {

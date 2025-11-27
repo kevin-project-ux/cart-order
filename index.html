@@ -303,7 +303,7 @@
         const swiperClass = `item-swiper-${index}`;
         let slides;
 
-        if( typeof item.imgs!==undefined && debug==='Y' ){
+        if( typeof item.imgs!==undefined ){
 
           var imgs = item.imgs;
           var img_arr = imgs.split('|');
@@ -317,14 +317,14 @@
         li.innerHTML = `
           <div class="item">
             <div class="img">
-              ${debug==='Y' && item.imgs!=='' ? 
+              ${item.imgs!=='' ? 
               `<div class="swiper ${swiperClass}">
                 <div class="swiper-wrapper">${slides}</div>
               </div>` : ''}
             </div>
             <div class="flavors">
               <span>${item.flavor}</span>
-              ${debug!=='Y' && item.imgs===''  ?
+              ${item.imgs===''  ?
                 `<span class="stock">${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `剩餘 ${item.remain} 個`}</span>`
               : ''}
             </div>
@@ -345,7 +345,7 @@
         `;
         list.appendChild(li);
 
-        if( debug==='Y' && item.imgs!=='' ){
+        if( item.imgs!=='' ){
           new Swiper(`.${swiperClass}`, {
               autoplay: {
                   delay: 3000,      // 每張停留 3 秒
