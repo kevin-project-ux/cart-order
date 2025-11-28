@@ -1104,7 +1104,15 @@
                 container.appendChild(card);
             });
 
-            sumcontent.innerHTML = '<i class="fas fa-calculator"></i> 總數量 x'+tasteCountMap['count'];
+            sumcontent.innerHTML = `
+                <button type="button" class="btn btn-primary position-relative">
+                  '合計' 
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    ${tasteCountMap['count']}
+                    <span class="visually-hidden"></span>
+                  </span>
+                </button>
+            `;;
         }
     }
 
