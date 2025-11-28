@@ -431,6 +431,7 @@
                                     <span id="order_price"></span>
                                 </h5>
                                 <h5 class="mt-1 mb-3 text-center text-success">訂購明細</h5>
+                                <div class="container mt-4" id="sumContainer"></div>
                                 <div class="container mt-4" id="itemContainer"></div>
                                 <div id="orderFun" class="text-center d-none">
                                     <button class="btn btn-success" id="orderStop" data-id="" data-name="" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</button>
@@ -909,7 +910,7 @@
 
     async function getUserOrderData(e){
 
-        const container = $("#itemContainer");
+        const container = $("#itemContainer, #sumContainer");
         container.empty(); // 清空
 
         const id   = e.dataset.id;
@@ -958,7 +959,10 @@
     }
 
     function renderItems(items, data) {
-        const container = document.getElementById("itemContainer");
+        const container  = document.getElementById("itemContainer");
+        const sumcontent = document.getElementById("sumContainer");
+
+        var tasteCountMap = {};
         // console.log(data);
         var id = data.id;
         var type = data.type;
@@ -1002,6 +1006,13 @@
                 const card = document.createElement("div");
                 card.className = "card mb-3";
 
+                flavors.forEach(f => {
+                    if (!tasteCountMap[f.taste]) {
+                        tasteCountMap[f.taste] = 0;
+                    }
+                    tasteCountMap[f.taste] += f.count;
+                });
+
                 const flavorList = flavors.map(f =>
                     // `<li class="list-group-item">${f.taste} - 數量 <span class="badge bg-danger">${f.count}</span></li>`
                     `<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -1036,10 +1047,24 @@
                 `;
                 container.appendChild(card);
             });
+
+            Object.keys(grouped).forEach(key => {
+            })
+
+            var sum_txt = '';
+            Object.entries(tasteCountMap).forEach(([taste, totalCount]) => {
+                sum_txt += `${taste} x${totalCount}`;
+            });
+
+            sumcontent.innerHTML = sum_txt;
+            
         }else{
             items.forEach(item => {
                 const card = document.createElement("div");
                 card.className = "card mb-3";
+
+                if (!tasteCountMap[flavor]) { tasteCountMap[flavor] = 0; }
+
                 if( type=='upd' ){
                     card.innerHTML = `
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -1048,6 +1073,8 @@
                             <a href="#" class="link-danger text-decoration-none" data-type="${type}" data-id="${id}" data-name="${name}" data-user="${item.name}" data-flavor="${flavor}" onclick="delUserOrderConfirm(this)"><i class="far fa-trash-alt"></i></a>
                         </div>
                     `;
+
+                    tasteCountMap[flavor] += item.orders[0].count;
                 }
                 if( type=='view' ){
                     card.innerHTML = `
@@ -1061,9 +1088,17 @@
                             </span>
                         </div>
                     `;
+
+                    tasteCountMap[flavor] += item.數量;
                 }
                 container.appendChild(card);
             });
+
+            Object.entries(tasteCountMap).forEach(([taste, totalCount]) => {
+                sum_txt += `${taste} x${totalCount}`;
+            });
+
+            sumcontent.innerHTML = sum_txt;
         }
     }
 
