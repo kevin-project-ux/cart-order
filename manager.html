@@ -1051,8 +1051,8 @@
             Object.keys(grouped).forEach(key => {
             })
 
-            var sum_txt = '';
-            var color = ['primary', 'success', 'danger', 'secondary', 'warning', 'info', 'light'];
+            var sum_txt = '<div class="d-flex gap-3">';
+            var color = ['primary', 'success', 'secondary', 'warning', 'info', 'light'];
             Object.entries(tasteCountMap).forEach(([taste, totalCount], index) => {
                 sum_txt += `
                 <button type="button" class="btn btn-${color[index]} position-relative">
@@ -1064,6 +1064,7 @@
                 </button>
                 `;
             });
+            sum_txt += '</div>';
 
             sumcontent.innerHTML = sum_txt;
             
@@ -1072,7 +1073,7 @@
                 const card = document.createElement("div");
                 card.className = "card mb-3";
 
-                if (!tasteCountMap[item.name]) { tasteCountMap[item.name] = 0; }
+                if (!tasteCountMap['count']) { tasteCountMap['count'] = 0; }
 
                 if( type=='upd' ){
                     card.innerHTML = `
@@ -1083,7 +1084,7 @@
                         </div>
                     `;
 
-                    tasteCountMap[item.name] += item.orders[0].count;
+                    tasteCountMap['count'] += item.orders[0].count;
                 }
                 if( type=='view' ){
                     card.innerHTML = `
@@ -1098,12 +1099,12 @@
                         </div>
                     `;
 
-                    tasteCountMap[item.name] += item.數量;
+                    tasteCountMap['count'] += item.數量;
                 }
                 container.appendChild(card);
             });
 
-            sumcontent.innerHTML = '<i class="fas fa-calculator"></i> 總數量 x'+tasteCountMap[item.name];
+            sumcontent.innerHTML = '<i class="fas fa-calculator"></i> 總數量 x'+tasteCountMap['count'];
         }
     }
 
