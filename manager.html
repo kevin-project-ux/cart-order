@@ -1056,7 +1056,7 @@
             })
 
             var sum_txt = '<div class="d-flex gap-3">';
-            var color = getRandomUniqueColors(Object.entries(tasteCountMap).length);
+            var color = getRandomUniqueColorClasses(Object.entries(tasteCountMap).length);
             // var color = ['primary', 'secondary', 'warning', 'info', 'purple'];
             Object.entries(tasteCountMap).forEach(([taste, totalCount], index) => {
                 sum_txt += `
@@ -2202,12 +2202,16 @@
         return formatted;
     }
 
-    function getRandomUniqueColors(n) {
-        const shuffled = colorPalette
-            .map((c, i) => ({ color: c, index: i + 1 }))
-            .sort(() => Math.random() - 0.5);
+    function getRandomUniqueColorClasses(n, total = 50) {
+        const arr = Array.from({ length: total }, (_, i) => `color-${i + 1}`);
 
-        return shuffled.slice(0, n).map(item => "color-" + item.index);
+        // 打散 array（Fisher-Yates shuffle）
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+
+        return arr.slice(0, n); // 取前 n 個
     }
 
     //------------------------------------------------------------------------------------------------------//
