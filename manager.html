@@ -1052,12 +1052,9 @@
                 container.appendChild(card);
             });
 
-            Object.keys(grouped).forEach(key => {
-            })
-
             var sum_txt = '<div class="d-flex gap-3">';
             var color = getRandomUniqueColorClasses(Object.entries(tasteCountMap).length);
-            // var color = ['primary', 'secondary', 'warning', 'info', 'purple'];
+
             Object.entries(tasteCountMap).forEach(([taste, totalCount], index) => {
                 sum_txt += `
                 <button type="button" class="btn btn-${color[index]} position-relative">
@@ -1957,10 +1954,12 @@
             for (const file of files) {
                 if (!settings.validTypes.includes(file.type)) {
                     alert(`${file.name} 格式錯誤，只允許 JPG 或 PNG`);
+                    $input.val('');
                     return;
                 }
                 if (file.size > settings.maxSize) {
                     alert(`${file.name} 超過 ${(settings.maxSize / 1024 / 1024).toFixed(1)}MB`);
+                    $input.val('');
                     return;
                 }
                 
@@ -2219,13 +2218,13 @@
     $(document).ready(function () {
         previewFiles('#fileInput', '#preview', {
             maxCount: 3,           // 可自訂
-            maxSize: 1 * 1024 * 1024, // 限制 1MB
+            maxSize: 5 * 1024 * 1024, // 限制 5MB
             previewWidth: 60 // ✅ 改成 60px
         });
 
         previewFiles('#editFile', '#editPreview', {
             maxCount: 3,           // 可自訂
-            maxSize: 1 * 1024 * 1024, // 限制 1MB
+            maxSize: 5 * 1024 * 1024, // 限制 5MB
             previewWidth: 60 // ✅ 改成 60px
         });
     });
