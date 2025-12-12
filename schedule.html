@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>行程</title>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+	<!-- Axios -->
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+	<!-- Vue-Cal -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-cal@4.8.0/dist/vue-cal.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/vue-cal@4.8.0/dist/vue-cal.min.js"></script>
+</head>
+<body>
+
+	<div id="app">
+		<h1>{{ msg }}</h1>
+		<vue-cal
+			style="height: 400px"
+			active-view="month"
+			:selected-date="'2025-01-01'"
+		></vue-cal>
+	</div>
+	
+</body>
+<script>
+
+	Vue.component('vue-cal', VueCal);
+
+	new Vue({
+	  	el: '#app',
+	  	data: {
+	    	msg: 'Hello Vue 2!'
+	  	}
+	})
+</script>
+</html>
