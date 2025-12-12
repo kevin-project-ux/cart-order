@@ -8,7 +8,7 @@
 	<!-- Vue 2 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
-	<!-- Vue-Cal legacy (支援 Vue2 的唯一 CDN 可用版本) -->
+	<!-- Vue-Cal (legacy) -->
 	<link rel="stylesheet" href="https://unpkg.com/vue-cal@legacy/dist/vuecal.css">
 	<script src="https://unpkg.com/vue-cal@legacy/dist/vuecal.js"></script>
 </head>
@@ -17,17 +17,18 @@
 <div id="app">
 	<h1>{{ msg }}</h1>
 
-	<!-- 重要：component 名稱是 vuecal，不是 vue-cal -->
-	<vuecal
+	<!-- 🔥 重要：元件名稱要用 Vuecal（大寫 V） -->
+	<Vuecal
 		style="height: 400px"
 		active-view="month"
 		:selected-date="'2025-01-01'"
-	></vuecal>
+	></Vuecal>
 </div>
 
 <script>
-	// 重要：這裡是 window.vuecal（小寫）
-	Vue.component('vuecal', window.vuecal);
+	// 🔥 重要：註冊方式是 Vuecal → window.Vuecal
+	// legacy build 的全域是「window.Vuecal」（大寫 V）
+	Vue.component('Vuecal', window.Vuecal);
 
 	new Vue({
 		el: '#app',
