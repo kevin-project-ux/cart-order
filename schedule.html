@@ -3,39 +3,41 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Vue Cal Test</title>
+	<title>Vue 2 + FullCalendar</title>
 
-	<!-- Vue 2 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
-	<!-- Vue-Cal (legacy) -->
-	<link rel="stylesheet" href="https://unpkg.com/vue-cal@legacy/dist/vuecal.css">
-	<script src="https://unpkg.com/vue-cal@legacy/dist/vuecal.js"></script>
+	<!-- FullCalendar CSS & JS -->
+	<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 </head>
 <body>
 
 <div id="app">
 	<h1>{{ msg }}</h1>
-
-	<!-- 🔥 重要：元件名稱要用 Vuecal（大寫 V） -->
-	<Vuecal
-		style="height: 400px"
-		active-view="month"
-		:selected-date="'2025-01-01'"
-	></Vuecal>
+	<div id="calendar"></div>
 </div>
 
 <script>
-	// 🔥 重要：註冊方式是 Vuecal → window.Vuecal
-	// legacy build 的全域是「window.Vuecal」（大寫 V）
-	Vue.component('Vuecal', window.Vuecal);
-
-	new Vue({
-		el: '#app',
-		data: {
-			msg: 'Hello Vue 2 + Vue Cal!'
-		}
-	});
+new Vue({
+	el: '#app',
+	data: {
+		msg: 'Hello Vue 2 + FullCalendar!'
+	},
+	mounted() {
+		var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+			initialView: 'dayGridMonth',
+			dateClick: function(info) {
+				alert('Clicked: ' + info.dateStr);
+			},
+			events: [
+				{ title: '事件 A', date: '2025-01-01' },
+				{ title: '事件 B', date: '2025-01-15' }
+			]
+		});
+		calendar.render();
+	}
+});
 </script>
 
 </body>
