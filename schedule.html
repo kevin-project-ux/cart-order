@@ -10,7 +10,14 @@
 	<!-- FullCalendar CSS & JS -->
 	<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
+<style>
+    #calendar { max-width: 900px; margin: 40px auto; }
+</style>
 <body>
 
 <div id="app">
@@ -19,25 +26,81 @@
 </div>
 
 <script>
-new Vue({
-	el: '#app',
-	data: {
-		msg: 'Hello Vue 2 + FullCalendar!'
-	},
-	mounted() {
-		var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-			initialView: 'dayGridMonth',
-			dateClick: function(info) {
-				alert('Clicked: ' + info.dateStr);
+
+	// -----------------------------
+	// 1. Firebase Init
+	// -----------------------------
+	var firebaseConfig = {
+		apiKey: "AIzaSyC8m836pO-wSSshMj3tx_C3FPLCmPF4O6Y",
+        authDomain: "fir-55dbc.firebaseapp.com",
+        databaseURL: "https://fir-55dbc-default-rtdb.firebaseio.com",
+        projectId: "fir-55dbc",
+        storageBucket: "fir-55dbc.appspot.com",
+        messagingSenderId: "545726793239",
+        appId: "1:545726793239:web:94567930a3b2a55d5efe52",
+        measurementId: "G-R5XS993882"
+	};
+
+	firebase.initializeApp(firebaseConfig);
+
+	var db = firebase.database();
+	new Vue({
+		el: '#app',
+		data: {
+			msg: 'Hello Vue 2 + FullCalendar!'
+		},
+		methods: {
+
+			loadEvents() {
+				// 假設你的資料庫路徑是: events/
+				db.ref("users/test").on("value", (snapshot) => {
+				  	const data = snapshot.val() || {};
+
+				  	// 轉換為 FullCalendar 可用格式
+				  	const events = Object.keys(data).map(id => ({
+				    	id: id,
+				    	title: data[id].name,
+				    	start: data[id].start,
+				    	end: data[id].end
+				  	}));
+
+				  	this.renderCalendar(events);
+				});
 			},
-			events: [
-				{ title: '事件 A', date: '2025-01-01' },
-				{ title: '事件 B', date: '2025-01-15' }
-			]
-		});
-		calendar.render();
-	}
-});
+
+			renderCalendar(events) {
+				// 清掉舊日曆（避免重複初始化）
+				let old = document.getElementById("calendar");
+				old.innerHTML = "";
+
+				// FullCalendar 設定
+				let calendar = new FullCalendar.Calendar(old, {
+			  		initialView: "dayGridMonth",
+			  		locale: "zh-tw",
+			  		height: "auto",
+			  		events: events,   // 放入 Firebase 事件
+			  		eventClick(info) {
+			    		alert("你點到事件：" + info.event.title);
+			  		}
+				});
+
+				calendar.render();
+			}
+		},
+		mounted() {
+			var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+				initialView: 'dayGridMonth',
+				dateClick: function(info) {
+					alert('Clicked: ' + info.dateStr);
+				},
+				events: [
+					{ title: '事件 A', date: '2025-01-01' },
+					{ title: '事件 B', date: '2025-01-15' }
+				]
+			});
+			calendar.render();
+		}
+	});
 </script>
 
 </body>
