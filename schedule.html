@@ -2,39 +2,40 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<title>行程</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Vue Cal Test</title>
 
+	<!-- Vue 2 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
-	<!-- Axios -->
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-	<!-- Vue-Cal -->
+	<!-- Vue-Cal legacy (支援 Vue2 的唯一 CDN 可用版本) -->
 	<link rel="stylesheet" href="https://unpkg.com/vue-cal@legacy/dist/vuecal.css">
 	<script src="https://unpkg.com/vue-cal@legacy/dist/vuecal.js"></script>
 </head>
 <body>
 
-	<div id="app">
-		<h1>{{ msg }}</h1>
-		<vue-cal
-			style="height: 400px"
-			active-view="month"
-			:selected-date="'2025-01-01'"
-		></vue-cal>
-	</div>
-	
-</body>
-<script>
+<div id="app">
+	<h1>{{ msg }}</h1>
 
-	Vue.component('vue-cal', vuecal);
+	<!-- 重要：component 名稱是 vuecal，不是 vue-cal -->
+	<vuecal
+		style="height: 400px"
+		active-view="month"
+		:selected-date="'2025-01-01'"
+	></vuecal>
+</div>
+
+<script>
+	// 重要：這裡是 window.vuecal（小寫）
+	Vue.component('vuecal', window.vuecal);
 
 	new Vue({
-	  	el: '#app',
-	  	data: {
-	    	msg: 'Hello Vue 2!'
-	  	}
-	})
+		el: '#app',
+		data: {
+			msg: 'Hello Vue 2 + Vue Cal!'
+		}
+	});
 </script>
+
+</body>
 </html>
