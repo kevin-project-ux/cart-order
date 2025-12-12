@@ -54,14 +54,12 @@
 			loadSchedules() {
         		// ⬇ 取得 users/test/202503_schedules
         		db.ref("users/test/202503_schedules").on("value", (snapshot) => {
-        			console.log(snapshot);
           			const raw = snapshot.val();
 
           			if (!raw) return;
 
 					// 🔥 重要：你的資料是字串 → 轉 JSON
 					let parsed = JSON.parse(raw);
-					console.log(parsed);
 
 					// 取出 data[]
 					let list = parsed.data || [];
@@ -73,6 +71,8 @@
 						start: item.start,
 						end: item.end
 					}));
+
+					console.log(events);
 
 					this.renderCalendar(events);
 				});
