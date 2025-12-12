@@ -88,17 +88,18 @@
 			}
 		},
 		mounted() {
-			var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-				initialView: 'dayGridMonth',
-				dateClick: function(info) {
-					alert('Clicked: ' + info.dateStr);
-				},
-				events: [
-					{ title: '事件 A', date: '2025-01-01' },
-					{ title: '事件 B', date: '2025-01-15' }
-				]
-			});
-			calendar.render();
+			this.loadEvents();
+			// var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+			// 	initialView: 'dayGridMonth',
+			// 	dateClick: function(info) {
+			// 		alert('Clicked: ' + info.dateStr);
+			// 	},
+			// 	events: [
+			// 		{ title: '事件 A', date: '2025-01-01' },
+			// 		{ title: '事件 B', date: '2025-01-15' }
+			// 	]
+			// });
+			// calendar.render();
 		}
 	});
 </script>
