@@ -11,8 +11,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 	<!-- Vue-Cal -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-cal@4.8.0/dist/vue-cal.min.css">
-	<script src="https://unpkg.com/vue-cal@4.8.0/dist/vuecal.umd.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/vue-cal@legacy/dist/vuecal.css">
+	<script src="https://unpkg.com/vue-cal@legacy/dist/vuecal.js"></script>
 </head>
 <body>
 
@@ -28,7 +28,7 @@
 </body>
 <script>
 
-	Vue.component('vue-cal', VueCal);
+	Vue.component('vue-cal', window.vuecal);
 
 	new Vue({
 	  	el: '#app',
