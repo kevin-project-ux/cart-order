@@ -51,36 +51,42 @@
 		},
 		methods: {
 
-			loadEvents() {
-				// 假設你的資料庫路徑是: events/
-				db.ref("users/test").on("value", (snapshot) => {
-				  	const data = snapshot.val() || {};
+			loadSchedules() {
+        		// ⬇ 取得 users/test/202503_schedules
+        		db.ref("users/test/202503_schedules").on("value", (snapshot) => {
+          			const raw = snapshot.val();
 
-				  	// 轉換為 FullCalendar 可用格式
-				  	const events = Object.keys(data).map(id => ({
-				    	id: id,
-				    	title: data[id].name,
-				    	start: data[id].start,
-				    	end: data[id].end
-				  	}));
+          			if (!raw) return;
 
-				  	this.renderCalendar(events);
+					// 🔥 重要：你的資料是字串 → 轉 JSON
+					let parsed = JSON.parse(raw);
+
+					// 取出 data[]
+					let list = parsed.data || [];
+
+					// 轉成 FullCalendar 格式
+					let events = list.map(item => ({
+						id: item.id,
+						title: item.name + "：" + item.content,
+						start: item.start,
+						end: item.end
+					}));
+
+					this.renderCalendar(events);
 				});
 			},
 
 			renderCalendar(events) {
-				// 清掉舊日曆（避免重複初始化）
-				let old = document.getElementById("calendar");
-				old.innerHTML = "";
+				let calEl = document.getElementById("calendar");
+				calEl.innerHTML = ""; // 清除舊日曆
 
-				// FullCalendar 設定
-				let calendar = new FullCalendar.Calendar(old, {
+				let calendar = new FullCalendar.Calendar(calEl, {
 			  		initialView: "dayGridMonth",
 			  		locale: "zh-tw",
+			  		events: events,
 			  		height: "auto",
-			  		events: events,   // 放入 Firebase 事件
 			  		eventClick(info) {
-			    		alert("你點到事件：" + info.event.title);
+			    		alert("事件：" + info.event.title);
 			  		}
 				});
 
