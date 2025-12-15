@@ -75,14 +75,14 @@ body {
 	padding-top: 6px;
 }
 
-.nav-item span {
+.nav-item i {
 	display: block;
 	font-size: 20px;
+	margin-bottom: 2px;
 }
 
-.nav-item.active {
+.nav-item.active i {
 	color: #007bff;
-	font-weight: bold;
 }
 
 .bottom-nav {
