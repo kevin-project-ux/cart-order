@@ -48,3 +48,43 @@
 .btn-color-48 { background-color: #B5838D !important; color: #fff; }
 .btn-color-49 { background-color: #6D6875 !important; color: #fff; }
 .btn-color-50 { background-color: #84A59D !important; color: #fff; }
+
+body {
+	margin: 0;
+	padding-bottom: 70px; /* 預留底部 */
+}
+
+.bottom-nav {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 60px;
+	background: #fff;
+	display: flex;
+	border-top: 1px solid #ddd;
+	z-index: 999;
+}
+
+.nav-item {
+	flex: 1;
+	text-align: center;
+	text-decoration: none;
+	color: #999;
+	font-size: 12px;
+	padding-top: 6px;
+}
+
+.nav-item span {
+	display: block;
+	font-size: 20px;
+}
+
+.nav-item.active {
+	color: #007bff;
+	font-weight: bold;
+}
+
+.bottom-nav {
+ 	padding-bottom: env(safe-area-inset-bottom);
+}
