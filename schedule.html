@@ -33,14 +33,17 @@
 </style>
 <body data-page="schedule">
 
-<div id="app">
-	<h1>{{ msg }}</h1>
-	<div id="calendar"></div>
+	<div id="app">
+		<h1>{{ msg }}</h1>
+		<div id="calendar"></div>
 
-	<!-- 底部導覽載入位置 -->
-    <div id="bottomNav"></div>
-</div>
+		<!-- 底部導覽載入位置 -->
+	    <div id="bottomNav"></div>
+	</div>
+</body>
 <script>
+	var userId = 'test';
+
 	window.onload = async () => {
 
         await liff.init({ liffId: "2007457926-5wAYNP0w" });
@@ -84,7 +87,7 @@
 
 			loadSchedules() {
         		// ⬇ 取得 users/test/202503_schedules
-        		db.ref("users/test/202503_schedules").on("value", (snapshot) => {
+        		db.ref("users/"+userId+"/202503_schedules").on("value", (snapshot) => {
           			const raw = snapshot.val();
 
           			if (!raw) return;
@@ -142,6 +145,4 @@
 		}
 	});
 </script>
-
-</body>
 </html>
