@@ -41,23 +41,6 @@
 	    <div id="bottomNav"></div>
 	</div>
 </body>
-<script>
-	var userId = 'test';
-
-	window.onload = async () => {
-
-        await liff.init({ liffId: "2007457926-5wAYNP0w" });
-
-        if (!liff.isLoggedIn()) {
-            liff.login();
-            return;
-        }
-
-        const profile = await liff.getProfile();
-        console.log(profile.userId);
-        userId = profile.userId;
-    }
-</script>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script>
 
@@ -81,13 +64,14 @@
 	new Vue({
 		el: '#app',
 		data: {
-			msg: ''
+			msg: '',
+			userId: 'test',
 		},
 		methods: {
 
 			loadSchedules() {
         		// ⬇ 取得 users/test/202503_schedules
-        		db.ref("users/"+userId+"/202503_schedules").on("value", (snapshot) => {
+        		db.ref("users/"+this.userId+"/202503_schedules").on("value", (snapshot) => {
           			const raw = snapshot.val();
 
           			if (!raw) return;
@@ -129,19 +113,21 @@
 				calendar.render();
 			}
 		},
-		mounted() {
+		async mounted() {
+
+			await liff.init({ liffId: '2007457926-5wAYNP0w' });
+
+			if (!liff.isLoggedIn()) {
+				liff.login();
+				return;
+			}
+
+			this.profile = await liff.getProfile();
+			this.userId = this.profile.userId;
+
+			console.log('Vue 內 userId:', this.userId);
+
 			this.loadSchedules();
-			// var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-			// 	initialView: 'dayGridMonth',
-			// 	dateClick: function(info) {
-			// 		alert('Clicked: ' + info.dateStr);
-			// 	},
-			// 	events: [
-			// 		{ title: '事件 A', date: '2025-01-01' },
-			// 		{ title: '事件 B', date: '2025-01-15' }
-			// 	]
-			// });
-			// calendar.render();
 		}
 	});
 </script>
