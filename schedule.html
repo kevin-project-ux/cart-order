@@ -24,7 +24,34 @@
 	<h1>{{ msg }}</h1>
 	<div id="calendar"></div>
 </div>
+<script>
+	window.onload = async () => {
 
+        await liff.init({ liffId: "2007457926-5wAYNP0w" });
+
+        if (!liff.isLoggedIn()) {
+            liff.login();
+            return;
+        }
+
+        const profile = await liff.getProfile();
+        console.log(profile.userId);
+        userId = profile.userId;
+
+        // 檢查 LocalStorage 快取
+        if ( !isUserAuthenticated(userId) ) { 
+            authUser(userId); 
+        }else{ 
+            try{
+                mask.style.display = 'flex';
+                await fetchData(); 
+            } finally {
+                mask.style.display = 'none';
+            }
+        }
+        // authUser(userId);
+    }
+</script>
 <script>
 
 	// -----------------------------
