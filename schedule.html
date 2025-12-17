@@ -76,23 +76,23 @@
         		db.ref("users/"+this.userId+"/"+ym+"_schedules").on("value", (snapshot) => {
           			const raw = snapshot.val();
 
-          			if (!raw) return;
+          			let events = [];
 
-					// 🔥 重要：你的資料是字串 → 轉 JSON
-					let parsed = JSON.parse(raw);
+          			if( raw ){
 
-					// 取出 data[]
-					let list = parsed.data || [];
+						let parsed = JSON.parse(raw);
 
-					// 轉成 FullCalendar 格式
-					let events = list.map(item => ({
-						id: item.id,
-						title: item.name + "：" + item.content,
-						start: item.start,
-						end: item.end
-					}));
+						let list = parsed.data || [];
 
-					console.log(events);
+						events = list.map(item => ({
+							id: item.id,
+							title: item.name + "：" + item.content,
+							start: item.start,
+							end: item.end
+						}));
+          			}
+
+					// console.log(events);
 
 					this.renderCalendar(events);
 				});
@@ -137,8 +137,6 @@
 
 			this.profile = await liff.getProfile();
 			this.userId = this.profile.userId;
-
-			console.log('Vue 內 userId:', this.userId);
 
 			this.loadSchedules();
 		}
