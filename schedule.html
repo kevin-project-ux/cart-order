@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Vue 2 + FullCalendar</title>
+	<title>我的行程</title>
 
 	<!-- Custom Style -->
     <link href="style.css" rel="stylesheet" />
@@ -70,8 +70,10 @@
 		methods: {
 
 			loadSchedules() {
+
+				var ym = this.getLastMonth();
         		// ⬇ 取得 users/test/202503_schedules
-        		db.ref("users/"+this.userId+"/202503_schedules").on("value", (snapshot) => {
+        		db.ref("users/"+this.userId+"/"+ym+"_schedules").on("value", (snapshot) => {
           			const raw = snapshot.val();
 
           			if (!raw) return;
@@ -111,7 +113,18 @@
 				});
 
 				calendar.render();
-			}
+			},
+
+			getLastMonth() {
+                const date = new Date(); // 取得當前日期
+                date.setMonth(date.getMonth() - 1); // 設定為上個月
+
+                // 格式化為 YYYYMM
+                const year = date.getFullYear(); // 取得年份
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 取得月份（補0）
+
+                return `${year}${month}`;
+            },
 		},
 		async mounted() {
 
