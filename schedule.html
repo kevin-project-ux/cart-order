@@ -71,9 +71,9 @@
 
 			loadSchedules() {
 
-				var ym = this.getLastMonth();
+				// var ym = this.getLastMonth();
         		// ⬇ 取得 users/test/202503_schedules
-        		db.ref("users/"+this.userId+"/"+ym+"_schedules").on("value", (snapshot) => {
+        		db.ref("users/"+this.userId+"/schedules").on("value", (snapshot) => {
           			const raw = snapshot.val();
 
           			let events = [];
@@ -93,6 +93,8 @@
           			}
 
 					// console.log(events);
+
+					events = this.adjustAllDayEndDates(events);
 
 					this.renderCalendar(events);
 				});
@@ -115,6 +117,22 @@
 				calendar.render();
 			},
 
+			// 自動調整 allDay 事件的 end 日期
+		    adjustAllDayEndDates(events) {
+		      	return events.map(event => {
+			        if (event.end) {
+			          	const endDate = new Date(event.end);
+			          	endDate.setDate(endDate.getDate() + 1); // +1 天
+			          	return {
+			            	...event,
+			            	end: endDate.toISOString().split('T')[0] // YYYY-MM-DD
+			          	};
+			        }
+		        	return event;
+		      	});
+		    },
+
+			//抓上個月(年月)
 			getLastMonth() {
                 const date = new Date(); // 取得當前日期
                 date.setMonth(date.getMonth() - 1); // 設定為上個月
