@@ -1842,18 +1842,20 @@
             var img_arr = img_str.split('|');
             var img_url = 'https://res.cloudinary.com/dwavqm0sh/image/upload/';
 
-            fileList = []; // 清空暫存照片
-            $('#editPreview').empty(); // 清空預覽圖
+            if( img_str ){
 
-            if( Array.isArray(img_arr) && img_arr.length>0 ){
-                img_arr.forEach(filename => { imgpreview($('#editPreview'), img_url, filename); });
-            }else{
-                imgpreview($('#editPreview'), img_url, img_str);
+                fileList = []; // 清空暫存照片
+                $('#editPreview').empty(); // 清空預覽圖
+
+                if( Array.isArray(img_arr) && img_arr.length>0 ){
+                    img_arr.forEach(filename => { imgpreview($('#editPreview'), img_url, filename); });
+                }else{
+                    imgpreview($('#editPreview'), img_url, img_str);
+                }
+
+                updateFileCount($('#editFileCount'), fileList.length);
             }
-
-            updateFileCount($('#editFileCount'), fileList.length);
         }
-
         // console.log(fileList);
     }
 
