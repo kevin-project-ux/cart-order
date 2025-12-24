@@ -130,6 +130,10 @@
         font-weight: bold;
         z-index: 1;
     }
+    button[aria-expanded="true"] span {
+        display: inline-block;
+        transform: rotate(180deg);
+    }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K7ZW7QSTSY"></script>
@@ -295,26 +299,43 @@
                                     <div id="fileCount" style="margin-top:5px; color:#555;"></div>
                                 </div>
 
-                                <!-- 行程 -->
                                 <div class="mb-3">
-                                    <label class="form-label">行程<span class="badge bg-success">Beta</span></label><br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="scheduleType" value="no_setting" checked onchange="toggleSchedule(this.value)">
-                                        <label class="form-check-label">不設定(預設)</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="scheduleType" value="group_time" onchange="toggleSchedule(this.value)">
-                                        <label class="form-check-label">依團購期間</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="scheduleType" value="custom_time" onchange="toggleSchedule(this.value)">
-                                        <label class="form-check-label">自訂時間</label>
-                                    </div>
+                                    <button
+                                      class="btn btn-link p-0 text-decoration-none"
+                                      type="button"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#scheduleSetting"
+                                      aria-expanded="false"
+                                    >
+                                        更多選項
+                                        <span class="ms-1">▾</span>
+                                    </button>
                                 </div>
-                                <div id="cusTime" class="mb-3" style="display: none;">
-                                    <label class="form-label">時間設定<span class="badge bg-success">Beta</span></label>
-                                    <input class="form-control datepickr" id="scheduleStartDate" type="text" placeholder="請選擇行程起始日期" style="margin-top: 0.4rem;">
-                                    <input class="form-control datepickr" id="scheduleEndDate" type="text" placeholder="請選擇行程結束日期" style="margin-top: 0.4rem;">
+
+                                <!-- 行程 -->
+                                <div class="collapse mt-3" id="scheduleSetting">
+                                    <div class="border rounded p-3 bg-light">
+                                        <div class="mb-3">
+                                            <label class="form-label">行程<span class="badge bg-success">Beta</span></label><br>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="scheduleType" value="" checked onchange="toggleSchedule(this.value)">
+                                                <label class="form-check-label">不設定</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="scheduleType" value="group_time" onchange="toggleSchedule(this.value)">
+                                                <label class="form-check-label">依團購期間</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="scheduleType" value="custom_time" onchange="toggleSchedule(this.value)">
+                                                <label class="form-check-label">自訂時間</label>
+                                            </div>
+                                        </div>
+                                        <div id="cusTime" class="mb-3" style="display: none;">
+                                            <label class="form-label">時間設定<span class="badge bg-success">Beta</span></label>
+                                            <input class="form-control datepickr" id="scheduleStartDate" type="text" placeholder="請選擇行程起始日期" style="margin-top: 0.4rem;">
+                                            <input class="form-control datepickr" id="scheduleEndDate" type="text" placeholder="請選擇行程結束日期" style="margin-top: 0.4rem;">
+                                        </div>
+                                    </div>
                                 </div>
               
                                 <!-- <div id="singleFlavor" class="mb-3">
