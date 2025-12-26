@@ -29,8 +29,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 
 	<!-- Firebase -->
-	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+	<!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script> -->
 </head>
 <style>
     #calendar { max-width: 900px; margin: 40px auto; }
@@ -108,20 +108,20 @@
 	// -----------------------------
 	// 1. Firebase Init
 	// -----------------------------
-	var firebaseConfig = {
-		apiKey: "AIzaSyC8m836pO-wSSshMj3tx_C3FPLCmPF4O6Y",
-        authDomain: "fir-55dbc.firebaseapp.com",
-        databaseURL: "https://fir-55dbc-default-rtdb.firebaseio.com",
-        projectId: "fir-55dbc",
-        storageBucket: "fir-55dbc.appspot.com",
-        messagingSenderId: "545726793239",
-        appId: "1:545726793239:web:94567930a3b2a55d5efe52",
-        measurementId: "G-R5XS993882"
-	};
+	// var firebaseConfig = {
+	// 	apiKey: "AIzaSyC8m836pO-wSSshMj3tx_C3FPLCmPF4O6Y",
+ //        authDomain: "fir-55dbc.firebaseapp.com",
+ //        databaseURL: "https://fir-55dbc-default-rtdb.firebaseio.com",
+ //        projectId: "fir-55dbc",
+ //        storageBucket: "fir-55dbc.appspot.com",
+ //        messagingSenderId: "545726793239",
+ //        appId: "1:545726793239:web:94567930a3b2a55d5efe52",
+ //        measurementId: "G-R5XS993882"
+	// };
 
-	firebase.initializeApp(firebaseConfig);
+	// firebase.initializeApp(firebaseConfig);
 
-	var db = firebase.database();
+	// var db = firebase.database();
 	new Vue({
 		el: '#app',
 		data: {
