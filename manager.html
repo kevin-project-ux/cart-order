@@ -331,7 +331,7 @@
                                             </div>
                                         </div>
                                         <div id="cusTime" class="mb-3" style="display: none;">
-                                            <label class="form-label">時間設定<span class="badge bg-success">Beta</span></label>
+                                            <label class="form-label">時間設定</label>
                                             <input class="form-control datepickr" id="scheduleStartDate" type="text" placeholder="請選擇行程起始日期" style="margin-top: 0.4rem;">
                                             <input class="form-control datepickr" id="scheduleEndDate" type="text" placeholder="請選擇行程結束日期" style="margin-top: 0.4rem;">
                                         </div>
@@ -1767,6 +1767,45 @@
     
         const flavorType   = document.querySelector('input[name="flavorType"]:checked').value;
         const scheduleType = document.querySelector('input[name="scheduleType"]:checked').value;
+
+        if( debug=='Y' ){ // 帶入行程新功能
+            if( scheduleType=='group_time' ){ // 依團購期間
+                if( range1=='' || range2=='' ){ Swal.fire('請輸入團購期間!!'); return; }
+
+                // db.ref("users/"+userId+"/schedules").on("value", (snapshot) => {
+                db.ref("users/test/schedules").on("value", (snapshot) => {
+
+                    const raw = snapshot.val();
+
+                    if( raw ){
+
+                        let schedules = JSON.parse(raw);
+
+                        var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
+
+                        var list = {
+                            id: nextId,
+                            name: name,
+                            content: '',
+                            start: range1,
+                            end: range2,
+                        }
+
+                        schedules.data.push(list);
+                        set(ref(db, path+'/schedules'), JSON.stringify(schedules));
+                    }
+                });
+
+            }
+
+            if( scheduleType=='custom_time' ){ // 自訂時間
+
+                const beg = document.getElementById('scheduleStartDate').value;
+                const end = document.getElementById('scheduleEndDate').value;
+
+                if( beg=='' || end=='' ){ Swal.fire('請輸入自訂時間!!'); return; }
+            }
+        }
   
         let flavors = [];
         let price   = [];
