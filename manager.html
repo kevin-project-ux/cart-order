@@ -1772,9 +1772,11 @@
             if( scheduleType=='group_time' ){ // 依團購期間
                 if( range1=='' || range2=='' ){ Swal.fire('請輸入團購期間!!'); return; }
 
-                // db.ref("users/"+userId+"/schedules").on("value", (snapshot) => {
-                db.ref("users/test/schedules").on("value", (snapshot) => {
+                var path = 'users';
 
+                // db.ref("users/"+userId+"/schedules").on("value", (snapshot) => {
+                db.ref(path+"/test/schedules").on("value", (snapshot) => {
+                    console.log(snapshot.val());
                     const raw = snapshot.val();
 
                     if( raw ){
@@ -1789,10 +1791,12 @@
                             content: '',
                             start: range1,
                             end: range2,
-                        }
+                        };
 
                         schedules.data.push(list);
-                        set(ref(db, path+'/schedules'), JSON.stringify(schedules));
+                        set(ref(db, path+'/test/schedules'), JSON.stringify(schedules));
+
+                        console.log(schedules)
                     }
                 });
 
