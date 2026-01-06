@@ -1794,7 +1794,7 @@
                         };
 
                         schedules.data.push(list);
-                        set(ref(db, path+'/test/schedules'), JSON.stringify(schedules));
+                        db.ref(path+'/test/schedules').set(JSON.stringify(schedules));
 
                         console.log(schedules)
                     }
@@ -1809,6 +1809,8 @@
 
                 if( beg=='' || end=='' ){ Swal.fire('請輸入自訂時間!!'); return; }
             }
+
+            return;
         }
   
         let flavors = [];
