@@ -1776,7 +1776,7 @@
                 let schedules;
 
                 // db.ref("users/"+userId+"/schedules").on("value", (snapshot) => {
-                db.ref(path+"/test/schedules").on("value", (snapshot) => {
+                await db.ref(path+"/test/schedules").on("value", (snapshot) => {
                     
                     if (!snapshot.exists()) {
 
