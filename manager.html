@@ -1776,18 +1776,17 @@
                 let schedules;
 
                 // db.ref("users/"+userId+"/schedules").on("value", (snapshot) => {
-                await db.ref(path+"/test/schedules").on("value", (snapshot) => {
+                const data = await db.ref(path+"/test/schedules").once("value")
                     
-                    if (!snapshot.exists()) {
+                if (!data.exists()) {
 
-                        db.ref(path+"/test/sedules").set({data: []});
-                        schedules = JSON.parse('{"data":[]}');
-                    }else{
-                        const raw = snapshot.val();
-                        if( raw ){ schedules = JSON.parse(raw); }
-                    }
+                    db.ref(path+"/test/schedules").set({data: []});
+                    schedules = JSON.parse('{"data":[]}');
+                }else{
+                    const raw = data.val();
+                    if( raw ){ schedules = JSON.parse(raw); }
+                }
                     
-                });
                 console.log(schedules);
 
                 var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
