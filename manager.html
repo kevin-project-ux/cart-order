@@ -1773,32 +1773,36 @@
                 if( range1=='' || range2=='' ){ Swal.fire('請輸入團購期間!!'); return; }
 
                 var path = 'users';
+                let schedules;
 
                 // db.ref("users/"+userId+"/schedules").on("value", (snapshot) => {
                 db.ref(path+"/test/schedules").on("value", (snapshot) => {
-                    console.log(snapshot.val());
-                    const raw = snapshot.val();
+                    
+                    if (!snapshot.exists()) {
 
-                    if( raw ){
-
-                        let schedules = JSON.parse(raw);
-
-                        var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
-
-                        var list = {
-                            id: nextId,
-                            name: name,
-                            content: '',
-                            start: range1,
-                            end: range2,
-                        };
-
-                        schedules.data.push(list);
-                        db.ref(path+'/test/schedules').set(JSON.stringify(schedules));
-
-                        console.log(schedules)
+                        db.ref(path+"/test/sedules").set({data: []});
+                        schedules = {"data":[]};
+                    }else{
+                        const raw = snapshot.val();
+                        if( raw ){ schedules = JSON.parse(raw); }
                     }
+                    
                 });
+
+                var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
+
+                var list = {
+                    id: nextId,
+                    name: name,
+                    content: '',
+                    start: range1,
+                    end: range2,
+                };
+
+                schedules.data.push(list);
+                db.ref(path+'/test/schedules').set(JSON.stringify(schedules));
+
+                console.log(schedules)
 
             }
 
