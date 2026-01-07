@@ -1781,13 +1781,14 @@
                     if (!snapshot.exists()) {
 
                         db.ref(path+"/test/sedules").set({data: []});
-                        schedules = {"data":[]};
+                        schedules = JSON.parse('{"data":[]}');
                     }else{
                         const raw = snapshot.val();
                         if( raw ){ schedules = JSON.parse(raw); }
                     }
                     
                 });
+                console.log(schedules);
 
                 var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
 
@@ -1801,8 +1802,6 @@
 
                 schedules.data.push(list);
                 db.ref(path+'/test/schedules').set(JSON.stringify(schedules));
-
-                console.log(schedules)
 
             }
 
