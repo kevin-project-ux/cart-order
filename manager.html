@@ -1777,12 +1777,14 @@
                 var end   = DateToFirebase(range2);
                 let schedules;
 
-                // const data = await db.ref("users/"+userId+"/schedules").once("value");
-                const data = await db.ref(path+"/test/schedules").once("value");
+                const def = db.ref("users/"+userId+"/schedules");
+                // const def = db.ref("users/test/schedules");
+
+                const data = await def.once("value");
                     
                 if (!data.exists()) {
 
-                    db.ref(path+"/test/schedules").set({data: []});
+                    def.set({data: []});
                     schedules = JSON.parse('{"data":[]}');
                 }else{
                     const raw = data.val();
@@ -1802,7 +1804,7 @@
                 };
 
                 schedules.data.push(list);
-                db.ref(path+'/test/schedules').set(JSON.stringify(schedules));
+                def.set(JSON.stringify(schedules));
 
             }
 
