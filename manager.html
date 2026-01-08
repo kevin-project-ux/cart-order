@@ -1769,51 +1769,28 @@
         const scheduleType = document.querySelector('input[name="scheduleType"]:checked').value;
 
         if( debug=='Y' ){ // 帶入行程新功能
+            var path = 'users';
             if( scheduleType=='group_time' ){ // 依團購期間
                 if( range1=='' || range2=='' ){ Swal.fire('請輸入團購期間!!'); return; }
 
-                var path  = 'users';
-                var start = DateToFirebase(range1);
-                var end   = DateToFirebase(range2);
-                let schedules;
+                var beg = DateToFirebase(range1);
+                var end = DateToFirebase(range2);
 
-                const def = db.ref("users/"+userId+"/schedules");
-                // const def = db.ref("users/test/schedules");
-
-                const data = await def.once("value");
-                    
-                if (!data.exists()) {
-
-                    def.set({data: []});
-                    schedules = JSON.parse('{"data":[]}');
-                }else{
-                    const raw = data.val();
-                    if( raw ){ schedules = JSON.parse(raw); }
-                }
-                    
-                console.log(schedules);
-
-                var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
-
-                var list = {
-                    id: nextId,
-                    name: name,
-                    content: '',
-                    start: start,
-                    end: end,
-                };
-
-                schedules.data.push(list);
-                def.set(JSON.stringify(schedules));
+                schedulesToFirebase( name, beg, end );
 
             }
 
             if( scheduleType=='custom_time' ){ // 自訂時間
 
-                const beg = document.getElementById('scheduleStartDate').value;
-                const end = document.getElementById('scheduleEndDate').value;
+                var beg = document.getElementById('scheduleStartDate').value;
+                var end = document.getElementById('scheduleEndDate').value;
 
                 if( beg=='' || end=='' ){ Swal.fire('請輸入自訂時間!!'); return; }
+
+                beg = DateToFirebase(beg);
+                end = DateToFirebase(end);
+
+                schedulesToFirebase( name, beg, end );
             }
 
             return;
@@ -2324,6 +2301,40 @@
         }
 
         return arr.slice(0, n); // 取前 n 個
+    }
+
+    function schedulesToFirebase( name, start, end ){
+
+        let schedules;
+
+        const def = db.ref("users/"+userId+"/schedules");
+        // const def = db.ref("users/test/schedules");
+
+        const data = await def.once("value");
+            
+        if (!data.exists()) {
+
+            def.set({data: []});
+            schedules = JSON.parse('{"data":[]}');
+        }else{
+            const raw = data.val();
+            if( raw ){ schedules = JSON.parse(raw); }
+        }
+            
+        // console.log(schedules);
+
+        var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
+
+        var list = {
+            id: nextId,
+            name: name,
+            content: '做'+name,
+            start: start,
+            end: end,
+        };
+
+        schedules.data.push(list);
+        def.set(JSON.stringify(schedules));
     }
 
     function DateToFirebase(str, year = new Date().getFullYear()) {
