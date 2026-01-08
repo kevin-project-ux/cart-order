@@ -1772,11 +1772,13 @@
             if( scheduleType=='group_time' ){ // 依團購期間
                 if( range1=='' || range2=='' ){ Swal.fire('請輸入團購期間!!'); return; }
 
-                var path = 'users';
+                var path  = 'users';
+                var start = DateToFirebase(range1);
+                var end   = DateToFirebase(range2);
                 let schedules;
 
-                // db.ref("users/"+userId+"/schedules").on("value", (snapshot) => {
-                const data = await db.ref(path+"/test/schedules").once("value")
+                // const data = await db.ref("users/"+userId+"/schedules").once("value");
+                const data = await db.ref(path+"/test/schedules").once("value");
                     
                 if (!data.exists()) {
 
@@ -1795,8 +1797,8 @@
                     id: nextId,
                     name: name,
                     content: '',
-                    start: range1,
-                    end: range2,
+                    start: start,
+                    end: end,
                 };
 
                 schedules.data.push(list);
@@ -2320,6 +2322,14 @@
         }
 
         return arr.slice(0, n); // 取前 n 個
+    }
+
+    function DateToFirebase(str, year = new Date().getFullYear()) {
+
+        const [md, hi] = str.split(" ");
+        const ymd = year +'-'+md.replace('/', '-');
+
+        return ymd;
     }
 
     //------------------------------------------------------------------------------------------------------//
