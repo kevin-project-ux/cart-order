@@ -106,6 +106,7 @@
 		data: {
 			msg: '',
 			userId: 'test',
+			schedules: {data:[]},
 		},
 		methods: {
 
@@ -154,8 +155,9 @@
 				    dayMaxEvents: true,
 				    dateClick(info) { // 點日期新增
 
-				      	const title = prompt("輸入事件名稱");
+				      	const title = prompt("輸入事件名稱(Ex: 事件名稱:事件內容)");
 				      	if (!title) return;
+				      	if (!/[:：]/.test(title)) { alert('請參照範例格式新增事件!!'); }
 
 				      	calendar.addEvent({
 				        	title,
@@ -163,7 +165,33 @@
 				        	allDay: true
 				      	});
 
+				      	var arr = title.split(/[:：]/);
+
+				      	let schedules;
+
 				      	// TODO: 存 DB
+				      	var path = 'users/'+this.userId;
+				      	get(child(ref(db), this.path+`/schedules`)).then((data) => {
+				      		
+                            if (data.exists()) {
+                                schedules = JSON.parse(data.val());
+                            }else{
+                            	schedules = this.schedules;
+                            }
+
+                            var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
+
+                            var list = {
+                                id: nextId,
+                                name: arr[0],
+                                content: arr[1],
+                                start: info.dateStr,
+                                end: info.dateStr,
+                            };
+                            schedules.data.push(list);
+
+                            set(ref(db, path+'/schedules'), JSON.stringify(schedules));
+                        });
 				    },
 
 				    select(info) { // 拉區間新增
