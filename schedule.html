@@ -169,29 +169,28 @@
 
 				      	let schedules;
 
-				      	// TODO: 存 DB
-				      	var path = 'users/'+this.userId;
-				      	get(child(ref(db), this.path+`/schedules`)).then((data) => {
+				      	// TODO: 存 DB(Firebase database)
+				      	const def  = db.ref('users/'+this.userId+'/schedules');
+				      	const data = await def.once("value");
 				      		
-                            if (data.exists()) {
-                                schedules = JSON.parse(data.val());
-                            }else{
-                            	schedules = this.schedules;
-                            }
+                        if (data.exists()) {
+                            schedules = JSON.parse(data.val());
+                        }else{
+                        	schedules = this.schedules;
+                        }
 
-                            var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
+                        var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
 
-                            var list = {
-                                id: nextId,
-                                name: arr[0],
-                                content: arr[1],
-                                start: info.dateStr,
-                                end: info.dateStr,
-                            };
-                            schedules.data.push(list);
-
-                            set(ref(db, path+'/schedules'), JSON.stringify(schedules));
-                        });
+                        var list = {
+                            id: nextId,
+                            name: arr[0],
+                            content: arr[1],
+                            start: info.dateStr,
+                            end: info.dateStr,
+                        };
+                        
+                        schedules.data.push(list);
+                        def.set(JSON.stringify(schedules));
 				    },
 
 				    select(info) { // 拉區間新增
