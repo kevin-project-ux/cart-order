@@ -189,6 +189,26 @@
 				def.set(JSON.stringify(this.schedules));
 			},
 
+			updEvent(id, title) {
+
+				const def = db.ref('users/' + this.userId + '/schedules');
+
+				var arr = title.split(/[:：]/);
+
+				var schedules = this.schedules;
+
+				var id = Number(id);
+
+				schedules.data.forEach(function (val, i, arr) {
+					if (val.id == id) {
+						arr[i].name = arr[0];
+						arr[i].content = arr[1];
+					}
+				});
+
+				def.set(JSON.stringify(schedules));
+			},
+
 			delEvent(id) {
 
 				const def = db.ref('users/' + this.userId + '/schedules');
@@ -198,7 +218,7 @@
 				var id = Number(id);
 
 				schedules.data = schedules.data.filter(item => item.id !== Number(id));
-				console.log(schedules);
+				// console.log(schedules);
 
 				def.set(JSON.stringify(schedules));
 
@@ -281,10 +301,13 @@
 						} else {
 
 							const newTitle = prompt("修改事件名稱", info.event.title);
+							if (!newTitle) return;
+							if (!/:/.test(newTitle)) { alert('請參照範例格式修改事件!!'); }
 
 							if (newTitle) {
 								info.event.setProp("title", newTitle);
 								// TODO: 更新 DB
+								this.updEvent(info.event.id, newTitle);
 							}
 						}
 					},
