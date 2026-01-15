@@ -141,6 +141,35 @@
 				});
 			},
 
+			async addEvent({ title, start, end, allDay }){
+
+				let schedules;
+
+				var arr = title.split(/[:：]/);
+
+				const def  = db.ref('users/'+this.userId+'/schedules');
+		      	const data = await def.once("value");
+		      		
+                if (data.exists()) {
+                    schedules = JSON.parse(data.val());
+                }else{
+                	schedules = this.schedules;
+                }
+
+                var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
+
+                var list = {
+                    id: nextId,
+                    name: arr[0],
+                    content: arr[1],
+                    start: start,
+                    end: end,
+                };
+
+                schedules.data.push(list);
+                def.set(JSON.stringify(schedules));
+			},
+
 			renderCalendar(events) {
 				let calEl = document.getElementById("calendar");
 				calEl.innerHTML = ""; // 清除舊日曆
@@ -165,37 +194,19 @@
 				        	allDay: true
 				      	});
 
-				      	var arr = title.split(/[:：]/);
-
-				      	let schedules;
-
 				      	// TODO: 存 DB(Firebase database)
-				      	const def  = db.ref('users/'+this.userId+'/schedules');
-				      	const data = await def.once("value");
-				      		
-                        if (data.exists()) {
-                            schedules = JSON.parse(data.val());
-                        }else{
-                        	schedules = this.schedules;
-                        }
-
-                        var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
-
-                        var list = {
-                            id: nextId,
-                            name: arr[0],
-                            content: arr[1],
-                            start: info.dateStr,
-                            end: info.dateStr,
-                        };
-
-                        schedules.data.push(list);
-                        def.set(JSON.stringify(schedules));
+				      	await this.addEvent({
+				      		title: title,
+						    start: info.dateStr,
+						    end: null,
+						    allDay: true
+						});
 				    },
 
-				    select(info) { // 拉區間新增
+				    select: async (info) => { // 拉區間新增
 				      	const title = prompt("輸入事件名稱");
 				      	if (!title) return;
+				      	if (!/[:：]/.test(title)) { alert('請參照範例格式新增事件!!'); }
 
 				      	calendar.addEvent({
 				        	title,
@@ -205,7 +216,14 @@
 				      	});
 
 				      	calendar.unselect();
+
 				      	// TODO: 存 DB
+				      	await this.addEvent({
+				      		title: title,
+						    start: info.dateStr,
+						    end: info.endStr,
+						    allDay: info.allDay
+						});
 				    },
 
 				    eventClick(info) { // 點擊事件（編輯 / 刪除）
