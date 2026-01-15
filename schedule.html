@@ -191,11 +191,13 @@
 
 			delEvent(id) {
 
-				const def = db.ref('users/' + this.userId);
+				const def = db.ref('users/' + this.userId + '/schedules');
 
-				this.schedules.data = this.schedules.data.filter(item => item.id !== id);
+				var schedules = this.schedules;
 
-				def.update({ schedules: JSON.stringify(this.schedules) });
+				schedules.data = schedules.data.filter(item => item.id !== id);
+
+				def.set(JSON.stringify(schedules));
 
 			},
 
@@ -270,7 +272,7 @@
 
 							await this.getFirebaseData();
 
-							// console.log(info);
+							console.log(info.event.id);
 							this.delEvent(info.event.id);
 
 						} else {
