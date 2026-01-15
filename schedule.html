@@ -141,22 +141,24 @@
 				});
 			},
 
-			async addEvent({ title, start, end, allDay }){
+			async getFirebaseData(){
 
 				let schedules;
-
-				var arr = title.split(/[:：]/);
 
 				const def  = db.ref('users/'+this.userId+'/schedules');
 		      	const data = await def.once("value");
 		      		
                 if (data.exists()) {
                     schedules = JSON.parse(data.val());
-                }else{
-                	schedules = this.schedules;
+                    this.schedules = schedules;
                 }
+			},
 
-                var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
+			addEvent({ title, start, end, allDay }){
+
+				var arr = title.split(/[:：]/);
+
+                var nextId = this.schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
 
                 var list = {
                     id: nextId,
@@ -166,8 +168,12 @@
                     end: end,
                 };
 
-                schedules.data.push(list);
-                def.set(JSON.stringify(schedules));
+                this.schedules.data.push(list);
+                def.set(JSON.stringify(this.schedules));
+			},
+
+			delEvent(){
+
 			},
 
 			renderCalendar(events) {
@@ -194,8 +200,10 @@
 				        	allDay: true
 				      	});
 
+				      	await this.getFirebaseData();
+
 				      	// TODO: 存 DB(Firebase database)
-				      	await this.addEvent({
+				      	this.addEvent({
 				      		title: title,
 						    start: info.dateStr,
 						    end: info.dateStr,
@@ -204,9 +212,12 @@
 				    },
 
 				    select: async (info) => { // 拉區間新增
+
 				      	const title = prompt("輸入事件名稱");
 				      	if (!title) return;
 				      	if (!/[:：]/.test(title)) { alert('請參照範例格式新增事件!!'); }
+
+				      	var event {}
 
 				      	calendar.addEvent({
 				        	title,
@@ -217,8 +228,10 @@
 
 				      	calendar.unselect();
 
+				      	await this.getFirebaseData();
+
 				      	// TODO: 存 DB
-				      	await this.addEvent({
+				      	this.addEvent({
 				      		title: title,
 						    start: info.startStr,
 						    end: info.endStr,
@@ -227,11 +240,17 @@
 				    },
 
 				    eventClick(info) { // 點擊事件（編輯 / 刪除）
+
 				      	const action = confirm("按「確定」= 刪除\n按「取消」= 修改標題");
 
 				      	if (action) {
 				        	info.event.remove();
 				        	// TODO: 刪除 DB
+
+				        	await this.getFirebaseData();
+
+				        	console.log(info);
+
 				      	} else {
 
 				        	const newTitle = prompt("修改事件名稱", info.event.title);
