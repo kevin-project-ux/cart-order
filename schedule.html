@@ -195,7 +195,10 @@
 
 				var schedules = this.schedules;
 
-				schedules.data = schedules.data.filter(item => item.id !== id);
+				var id = Number(id);
+
+				schedules.data = schedules.data.filter(item => item.id !== Number(id));
+				console.log(schedules);
 
 				def.set(JSON.stringify(schedules));
 
@@ -272,7 +275,7 @@
 
 							await this.getFirebaseData();
 
-							console.log(info.event.id);
+							// console.log(info.event.id);
 							this.delEvent(info.event.id);
 
 						} else {
