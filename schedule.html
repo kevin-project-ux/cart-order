@@ -191,11 +191,11 @@
 
 			delEvent(id) {
 
-				const def = db.ref('users/' + this.userId + '/schedules');
+				const def = db.ref('users/' + this.userId);
 
 				this.schedules.data = this.schedules.data.filter(item => item.id !== id);
 
-				def.update(JSON.stringify(this.schedules));
+				def.update({ schedules: JSON.stringify(this.schedules) });
 
 			},
 
