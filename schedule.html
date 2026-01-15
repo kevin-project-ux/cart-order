@@ -195,7 +195,7 @@
 
 				this.schedules.data = this.schedules.data.filter(item => item.id !== id);
 
-				def.set(JSON.stringify(this.schedules));
+				def.update({ schedules: JSON.stringify(this.schedules) });
 
 			},
 
