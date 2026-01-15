@@ -153,7 +153,7 @@
 			  		editable: true,     // 允許拖曳 / resize
 				    selectable: true,   // 可拉區間新增
 				    dayMaxEvents: true,
-				    dateClick(info) { // 點日期新增
+				    dateClick: async (info) => { // 點日期新增
 
 				      	const title = prompt("輸入事件名稱(Ex: 事件名稱:事件內容)");
 				      	if (!title) return;
@@ -188,7 +188,7 @@
                             start: info.dateStr,
                             end: info.dateStr,
                         };
-                        
+
                         schedules.data.push(list);
                         def.set(JSON.stringify(schedules));
 				    },
