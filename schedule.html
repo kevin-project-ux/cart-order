@@ -156,6 +156,8 @@
 
 			addEvent({ title, start, end, allDay }){
 
+				const def  = db.ref('users/'+this.userId+'/schedules');
+
 				var arr = title.split(/[:：]/);
 
                 var nextId = this.schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
