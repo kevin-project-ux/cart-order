@@ -334,10 +334,12 @@
 
 						await this.getFirebaseData();
 
+						var endStr = this.normalizeAllDayEnd(info.event.startStr, info.event.endStr, info.event.allDay);
+
 						// API 失敗可回復
 						// info.revert();
 						// TODO: 更新 DB
-						this.dropEvent(info.event.id, info.event.startStr, info.event.endStr);
+						this.dropEvent(info.event.id, info.event.startStr, endStr);
 					},
 
 					eventResize(info) { // 拉長 / 縮短
@@ -371,6 +373,18 @@
 					}
 					return event;
 				});
+			},
+
+			// 全日事件 end - 1 天
+			normalizeAllDayEnd(startStr, endStr, allDay) {
+
+				if (!allDay || !endStr) return endStr;
+
+				const [y, m, d] = endStr.split('-').map(Number);
+				const date = new Date(y, m - 1, d);
+				date.setDate(date.getDate() - 1);
+
+				return date.toISOString().slice(0, 10);
 			},
 
 			//抓上個月(年月)
