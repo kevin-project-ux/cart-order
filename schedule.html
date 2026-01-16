@@ -334,11 +334,10 @@
 
 						await this.getFirebaseData();
 
-						this.dropEvent(info.event.id, info.event.start, info.event.end);
-
 						// API 失敗可回復
 						// info.revert();
 						// TODO: 更新 DB
+						this.dropEvent(info.event.id, info.event.startStr, info.event.endStr);
 					},
 
 					eventResize(info) { // 拉長 / 縮短
