@@ -224,6 +224,24 @@
 
 			},
 
+			dropEvent(id, start, end) {
+
+				const def = db.ref('users/' + this.userId + '/schedules');
+
+				var schedules = this.schedules;
+
+				var id = Number(id);
+
+				schedules.data.forEach(function (val, i, arr) {
+					if (val.id == id) {
+						arr[i].start = start;
+						arr[i].end = end;
+					}
+				});
+
+				def.set(JSON.stringify(schedules));
+			},
+
 			renderCalendar(events) {
 				let calEl = document.getElementById("calendar");
 				calEl.innerHTML = ""; // 清除舊日曆
@@ -289,13 +307,11 @@
 
 						const action = confirm("按「確定」= 刪除\n按「取消」= 修改標題");
 
+						await this.getFirebaseData();
+
 						if (action) {
 							info.event.remove();
 							// TODO: 刪除 DB
-
-							await this.getFirebaseData();
-
-							// console.log(info.event.id);
 							this.delEvent(info.event.id);
 
 						} else {
@@ -312,9 +328,13 @@
 						}
 					},
 
-					eventDrop(info) { // 拖曳事件（改日期）
+					eventDrop: async (info) => { // 拖曳事件（改日期）
 						// info.event.start / info.event.end
 						console.log("拖曳後", info.event);
+
+						await this.getFirebaseData();
+
+						this.dropEvent(info.event.id, info.event.start, info.event.end);
 
 						// API 失敗可回復
 						// info.revert();
