@@ -302,7 +302,7 @@
 
 							const newTitle = prompt("修改事件名稱", info.event.title);
 							if (!newTitle) return;
-							if (!/:/.test(newTitle)) { alert('請參照範例格式修改事件!!'); }
+							if (!/[:：]/.test(newTitle)) { alert('請參照範例格式修改事件!!'); }
 
 							if (newTitle) {
 								info.event.setProp("title", newTitle);
