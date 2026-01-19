@@ -66,7 +66,7 @@ body {
 	z-index: 999;
 }
 
-.nav-item {
+.bottom-nav .nav-item {
 	flex: 1;
 	text-align: center;
 	text-decoration: none;
@@ -75,13 +75,13 @@ body {
 	padding-top: 6px;
 }
 
-.nav-item i {
+.bottom-nav .nav-item i {
 	display: block;
 	font-size: 20px;
 	margin-bottom: 2px;
 }
 
-.nav-item.active i {
+.bottom-nav .nav-item.active i {
 	color: #007bff;
 }
 
