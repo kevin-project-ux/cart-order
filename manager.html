@@ -475,11 +475,14 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="upd-tab" data-bs-toggle="tab" data-bs-target="#upd" type="button" role="tab">管理訂單</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="append-tab" data-bs-toggle="tab" data-bs-target="#append" type="button" role="tab">追加訂單 <span class="badge bg-success">Beta</span></button>
+                        </li>
                     </ul>
           
                     <!-- Tab Content -->
                     <div class="tab-content" id="updTabsContent">
-                        <!-- 新增團購/預購 -->
+                        <!-- 管理訂單 -->
                         <div class="tab-pane fade show active" id="upd" role="tabpanel" aria-labelledby="upd-tab">
                   
                             <div class="p-4 bg-light rounded shadow-sm">
@@ -500,6 +503,53 @@
               
                         <!-- 刪除團購/預購 -->
                         <!-- <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab"></div> -->
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="appendTabsContent">
+                        <!-- 追加訂單 -->
+                        <div class="tab-pane fade" id="append" role="tabpanel" aria-labelledby="append-tab">
+                            <div class="p-4 bg-light rounded shadow-sm">
+                                <h5 class="text-center" id="prd_title"></h5>
+                                <div class="container mt-4 mb-4" id="appendContent">
+                                    <div class="mb-3">
+                                        <input type="hidden" name="prd_id" id="prd_id">
+                                        <input type="hidden" name="prd_name" id="prd_name">
+                                        <input type="hidden" id="prd_type" value="single">
+                                        <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleAgentName()">
+                                            <label class="form-check-label">新名字</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="nameType" value="old" onchange="toggleAgentName()">
+                                            <label class="form-check-label">舊名字</label>
+                                        </div>
+                                    </div>
+
+                                    <div id="agentWrapper">
+                                        <div class="row g-2 mb-2 agent-row">
+                                            <!-- 新名字 -->
+                                            <div class="col-12 d-flex gap-2" id="newName">
+                                                <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
+                                                <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
+                                                <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                                            </div>
+                                            <!-- 舊名字 -->
+                                            <div class="col-12 d-none gap-2" id="oldName">
+                                                <select class="form-select agentNames" name="oldName[]"></select>
+                                                <select class="form-select agentFlavors" name="oldFlavors[]" style="width:45%"></select>
+                                                <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width: 35%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline-primary w-100" id="addName" onclick="addAgent()">
+                                        <i class="fas fa-plus"></i> 新增名字
+                                    </button>
+                                </div>
+                                <button class="btn btn-success w-100" id="agentOrder" onclick="orderAgent()">確認送出</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
