@@ -516,15 +516,8 @@
                                         <input type="hidden" name="prd_id" id="prd_id">
                                         <input type="hidden" name="prd_name" id="prd_name">
                                         <input type="hidden" id="prd_type" value="single">
-                                        <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleAgentName()">
-                                            <label class="form-check-label">新名字</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="nameType" value="old" onchange="toggleAgentName()">
-                                            <label class="form-check-label">舊名字</label>
-                                        </div>
+                                        <label class="form-label"><span class="text-danger">*</span> 追加姓名</label>
+                                        <h5>※因已結單關係，追加訂單如為相同姓名者不做累加</h5>
                                     </div>
 
                                     <div id="agentWrapper">
@@ -534,12 +527,6 @@
                                                 <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
                                                 <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
                                                 <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
-                                            </div>
-                                            <!-- 舊名字 -->
-                                            <div class="col-12 d-none gap-2" id="oldName">
-                                                <select class="form-select agentNames" name="oldName[]"></select>
-                                                <select class="form-select agentFlavors" name="oldFlavors[]" style="width:45%"></select>
-                                                <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width: 35%;">
                                             </div>
                                         </div>
                                     </div>
