@@ -513,28 +513,28 @@
                                 <h5 class="text-center" id="prd_title"></h5>
                                 <div class="container mt-4 mb-4" id="appendContent">
                                     <div class="mb-3">
-                                        <input type="hidden" name="prd_id" id="prd_id">
-                                        <input type="hidden" name="prd_name" id="prd_name">
-                                        <input type="hidden" id="prd_type" value="single">
+                                        <input type="hidden" name="append_prd_id" id="append_prd_id">
+                                        <input type="hidden" name="append_prd_name" id="append_prd_name">
+                                        <input type="hidden" name="append_prd_type" id="append_prd_type" value="single">
                                         <label class="form-label"><span class="text-danger">*</span> 追加姓名</label>
                                         <h5>※因已結單關係，追加訂單如為相同姓名者不做累加</h5>
                                     </div>
 
-                                    <div id="agentWrapper">
-                                        <div class="row g-2 mb-2 agent-row">
+                                    <div id="appendWrapper">
+                                        <div class="row g-2 mb-2 append-row">
                                             <!-- 新名字 -->
-                                            <div class="col-12 d-flex gap-2" id="newName">
-                                                <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
-                                                <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
-                                                <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                                            <div class="col-12 d-flex gap-2" id="appendName">
+                                                <input type="text" class="form-control appendName" name="appendName[]" placeholder="姓名" required>
+                                                <select class="form-select w-100 appendFlavors d-none" name="appendFlavors[]"></select>
+                                                <input type="number" class="form-control" name="appendNums[]" min="1" placeholder="數量">
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-outline-primary w-100" id="addName" onclick="addAgent()">
+                                    <button class="btn btn-outline-primary w-100" id="addAppendName" onclick="addAppend()">
                                         <i class="fas fa-plus"></i> 新增名字
                                     </button>
                                 </div>
-                                <button class="btn btn-success w-100" id="agentOrder" onclick="orderAgent()">確認送出</button>
+                                <button class="btn btn-success w-100" id="appendOrder" onclick="orderAppend()">確認送出</button>
                             </div>
                         </div>
                     </div>
