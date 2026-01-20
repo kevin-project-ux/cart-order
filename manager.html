@@ -2443,7 +2443,7 @@
                 ${ sed=='old' ? '<select class="form-select w-100 agentNames" name="oldName[]" required></select>' : '<input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>' }
                 <select class="form-select agentFlavors ${hide ? 'd-none' : ''}" ${ sed=='old' ? 'name="oldFlavors[]" style="width:45%;"' : 'name="newFlavors[]"' }></select>
                 <input type="number" class="form-control" ${ sed=='old' ? 'name="oldNums[]"' : 'name="newNums[]"' } min="1" placeholder="數量">
-                ${ hide ? '<button class="btn btn-outline-danger" onclick="removeRow(this)"><i class="fas fa-times"></i></button>' : '' }
+                ${ hide ? '<button class="btn btn-outline-danger" onclick="removeRow(this, `append`)"><i class="fas fa-times"></i></button>' : '' }
                 
             </div>
             ${ !hide ? '<div class="swipe-delete d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>' : '' }
