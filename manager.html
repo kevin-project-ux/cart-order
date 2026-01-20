@@ -1015,9 +1015,7 @@
         const type = e.dataset.type;
         const flavor = e.dataset.flavor;
 
-        var $div = $("#appendName");
-
-        if( type=='view' ){ isFlavorType(id, {"prd_type":"#append_prd_type", "select":$div.find("select.appendFlavors")}); }
+        if( type=='view' ){ isFlavorType(id, {"prd_type":"#append_prd_type", "select":$("select.appendFlavors")}); }
 
         const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
     
@@ -2390,22 +2388,22 @@
 
     function isFlavorType(id, opts=false){
 
-        var prd_type = opts['prd_type'];
-        var select   = opts['select'];
+        var $prd_type = opts['prd_type'];
+        var $select   = opts['select'];
 
         if( prd_list ){ 
             var prd = prd_list.find(item => item.ID === Number(id));
             if( prd.售價=='---' ){ //多口味
 
-                $(select).removeClass('d-none').addClass('d-flex');
+                $select.removeClass('d-none').addClass('d-flex');
 
-                $(prd_type).val('multiple');
+                $prd_type.val('multiple');
 
-                setFlavorsOpt(id, select);
+                setFlavorsOpt(id, $select);
             }else{ // 單口味
-                $(select).html(''); 
-                $(select).removeClass('d-flex').addClass('d-none');
-                $(prd_type).val('single');
+                $select.html(''); 
+                $select.removeClass('d-flex').addClass('d-none');
+                $prd_type.val('single');
             }
         }
     }
