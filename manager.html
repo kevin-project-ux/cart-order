@@ -2388,8 +2388,8 @@
 
     function isFlavorType(id, opts=false){
 
-        prd_type = opts['prd_type'];
-        select   = opts['select'];
+        var prd_type = opts['prd_type'];
+        var select   = opts['select'];
 
         if( prd_list ){ 
             var prd = prd_list.find(item => item.ID === Number(id));
