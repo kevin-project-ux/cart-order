@@ -1015,7 +1015,7 @@
         const type = e.dataset.type;
         const flavor = e.dataset.flavor;
 
-        if( type=='view' ){ isFlavorType(id, {"prd_type":$("#append_prd_type"), "select":$("select.appendFlavors")}); }
+        if( type=='view' ){ isFlavorType(Number(id), {"prd_type":$("#append_prd_type"), "select":$("select.appendFlavors")}); }
 
         const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
     
@@ -2392,7 +2392,7 @@
         var $select   = opts['select'];
 
         if( prd_list ){ 
-            var prd = prd_list.find(item => item.ID === Number(id));
+            var prd = prd_list.find(item => item.ID === id);
             if( prd.售價=='---' ){ //多口味
 
                 $select.removeClass('d-none').addClass('d-flex');
