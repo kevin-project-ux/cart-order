@@ -2439,7 +2439,7 @@
         if( prd_type=='multiple' ){ hide = false; } // 多口味
 
         div.innerHTML = `
-            <div class="${ sed=='old' && !hide ? 'swipe-content' : '' } col-12 d-flex gap-2">
+            <div class="${ sed=='old' && !hide ? 'swipe-content' : '' } ${ name=='append' && !hide ? 'swipe-content' : '' } col-12 d-flex gap-2">
                 ${ sed=='old' ? '<select class="form-select w-100 agentNames" name="oldName[]" required></select>' : '<input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>' }
                 <select class="form-select agentFlavors ${hide ? 'd-none' : ''}" ${ sed=='old' ? 'name="oldFlavors[]" style="width:45%;"' : 'name="newFlavors[]"' }></select>
                 <input type="number" class="form-control" ${ sed=='old' ? 'name="oldNums[]"' : 'name="newNums[]"' } min="1" placeholder="數量">
