@@ -1015,6 +1015,8 @@
         const type = e.dataset.type;
         const flavor = e.dataset.flavor;
 
+        if( type=='view' ){ isFlavorType(id, {"prd_type":"#append_prd_type", "select":".appendFlavors"}); }
+
         const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
     
         try {
@@ -1808,7 +1810,7 @@
         const flavorType   = document.querySelector('input[name="flavorType"]:checked').value;
         const scheduleType = document.querySelector('input[name="scheduleType"]:checked').value;
 
-        if( debug=='Y' ){ // 帶入行程新功能
+        // if( debug=='Y' ){ // 帶入行程新功能
             if( scheduleType=='group_time' ){ // 依團購期間
                 if( range1=='' || range2=='' ){ Swal.fire('請輸入團購期間!!'); return; }
 
@@ -1832,8 +1834,8 @@
                 schedulesToFirebase( name, beg, end );
             }
 
-            return;
-        }
+            // return;
+        // }
   
         let flavors = [];
         let price   = [];
@@ -2382,6 +2384,28 @@
         const ymd = year +'-'+md.replace('/', '-');
 
         return ymd;
+    }
+
+    function isFlavorType(id, opts=false){
+
+        prd_type = $opts['prd_type'];
+        select   = $opts['select'];
+
+        if( prd_list ){ 
+            var prd = prd_list.find(item => item.ID === Number(id));
+            if( prd.售價=='---' ){ //多口味
+
+                $(select).removeClass('d-none').addClass('d-flex');
+
+                $(prd_type).val('multiple');
+
+                setFlavorsOpt(id, select);
+            }else{ // 單口味
+                $(select).html(''); 
+                $(select).removeClass('d-flex').addClass('d-none');
+                $(prd_type).val('single');
+            }
+        }
     }
 
     //------------------------------------------------------------------------------------------------------//
