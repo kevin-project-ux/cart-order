@@ -1015,7 +1015,8 @@
         const type = e.dataset.type;
         const flavor = e.dataset.flavor;
 
-        if( type=='view' ){ 
+        if( type=='view' ){
+            resetAgentForm(); 
             $("#append_prd_id").val(id);
             isFlavorType(Number(id), {"prd_type":$("#append_prd_type"), "select":$("select.appendFlavors")}); 
         }
@@ -2414,7 +2415,7 @@
     function addAppend(){
 
         const div = document.createElement('div');
-        div.className = "row g-2 mb-2 agent-row dynamic swipe-item";
+        div.className = "row g-2 mb-2 append-row dynamic swipe-item";
 
         var prd_type = $('#append_prd_type').val();
         var prd_id   = $('#append_prd_id').val();
@@ -2442,7 +2443,7 @@
                 ${ sed=='old' ? '<select class="form-select w-100 agentNames" name="oldName[]" required></select>' : '<input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>' }
                 <select class="form-select agentFlavors ${hide ? 'd-none' : ''}" ${ sed=='old' ? 'name="oldFlavors[]" style="width:45%;"' : 'name="newFlavors[]"' }></select>
                 <input type="number" class="form-control" ${ sed=='old' ? 'name="oldNums[]"' : 'name="newNums[]"' } min="1" placeholder="數量">
-                ${ hide ? '<button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>' : '' }
+                ${ hide ? '<button class="btn btn-outline-danger" onclick="removeRow(this)"><i class="fas fa-times"></i></button>' : '' }
                 
             </div>
             ${ !hide ? '<div class="swipe-delete d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>' : '' }
@@ -2475,6 +2476,10 @@
         }
         if( !hide ){ setFlavorsOpt(Number(prd_id), $(div).find("select")); }
 
+    }
+
+    function removeRow(btn, name){
+        btn.closest('.'+name+'-row').remove();
     }
 
     //------------------------------------------------------------------------------------------------------//
