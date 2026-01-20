@@ -2459,10 +2459,10 @@
         // `;
 
         document.getElementById(name+"Wrapper").appendChild(div);
+
+        if( !hide ){ initSwipeDelete(div); }
         
         if( sed=='old' ){
-
-            if( !hide ){ initSwipeDelete(div); }
 
             $(div).find('select.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
