@@ -1015,7 +1015,10 @@
         const type = e.dataset.type;
         const flavor = e.dataset.flavor;
 
-        if( type=='view' ){ isFlavorType(Number(id), {"prd_type":$("#append_prd_type"), "select":$("select.appendFlavors")}); }
+        if( type=='view' ){ 
+            $("#append_prd_id").val(id);
+            isFlavorType(Number(id), {"prd_type":$("#append_prd_type"), "select":$("select.appendFlavors")}); 
+        }
 
         const data = { type: type, userId: userId, id: id, name: name, flavor: flavor };
     
@@ -2406,6 +2409,72 @@
                 $prd_type.val('single');
             }
         }
+    }
+
+    function addAppend(){
+
+        const div = document.createElement('div');
+        div.className = "row g-2 mb-2 agent-row dynamic swipe-item";
+
+        var prd_type = $('#append_prd_type').val();
+        var prd_id   = $('#append_prd_id').val();
+        const sed    = document.querySelector('input[name="nameType"]:checked').value;
+
+        dynamicRow('append', {"prd_type":prd_type, "prd_id":prd_id});
+    }
+
+    function dynamicRow(name, opts=false){
+
+        var prd_type = opts['prd_type'];
+        var prd_id   = opts['prd_id'];
+
+        let sed = '';
+        if( name=='agent' ){ sed = document.querySelector('input[name="nameType"]:checked').value; }
+
+        const div = document.createElement('div');
+        div.className = "row g-2 mb-2 "+name+"-row dynamic swipe-item";
+
+        var hide = true; // 單口味
+        if( prd_type=='multiple' ){ hide = false; } // 多口味
+
+        div.innerHTML = `
+            <div class="${ sed=='old' && !hide ? 'swipe-content' : '' } col-12 d-flex gap-2">
+                ${ sed=='old' ? '<select class="form-select w-100 agentNames" name="oldName[]" required></select>' : '<input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>' }
+                <select class="form-select agentFlavors ${hide ? 'd-none' : ''}" ${ sed=='old' ? 'name="oldFlavors[]" style="width:45%;"' : 'name="newFlavors[]"' }></select>
+                <input type="number" class="form-control" ${ sed=='old' ? 'name="oldNums[]"' : 'name="newNums[]"' } min="1" placeholder="數量">
+                ${ hide ? '<button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>' : '' }
+                
+            </div>
+            ${ !hide ? '<div class="swipe-delete d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>' : '' }
+        `;
+
+        // div.innerHTML = `
+        //     <div class="col-12 d-flex gap-2">
+        //         <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
+        //         <select class="form-select agentFlavors ${hide ? 'd-none' : ''}" name="newFlavors[]"></select>
+        //         <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+        //         <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
+        //     </div>
+        // `;
+
+        document.getElementById(name+"Wrapper").appendChild(div);
+        
+        if( sed=='old' ){
+
+            if( !hide ){ initSwipeDelete(div); }
+
+            $(div).find('select.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
+
+            $(div).find('select.agentNames').select2({
+                data: oldAgentName,
+                dropdownParent: $('#AgentModal'),
+                placeholder: '請選擇姓名',
+                allowClear: true,
+                width: '100%',
+            });
+        }
+        if( !hide ){ setFlavorsOpt(Number(prd_id), $(div).find("select")); }
+
     }
 
     //------------------------------------------------------------------------------------------------------//
