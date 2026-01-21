@@ -2024,7 +2024,7 @@
 
         // console.log(data);
 
-        postGAS( data );
+        postGAS( data, {'successMsg':'編輯成功', 'errorMsg':'編輯失敗', 'modalHide': $('#editModal')} );
     }
 
     function toggleSchedule(type){
@@ -2290,34 +2290,6 @@
         $count.text(`已選擇 ${num} 張圖片`);
     }
 
-    async function postGAS( data ){
-
-        try {
-            mask.style.display = 'flex';
-            const response = await fetch(GAS_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain' },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-            // console.log(result);
-
-            if (result[0].status == 'success') {
-                $('#editModal').modal('hide');
-                Swal.fire({ icon: 'success', title: '編輯成功' });
-                await fetchData(); // 重新載入品項、口味資料
-            } else {
-                Swal.fire({ icon: 'error', title: '編輯失敗', text: result[0].alert || '請稍後再試' });
-            }
-        } catch (err) {
-            // console.log(err);
-            Swal.fire({ icon: 'error', title: '系統異常' });
-        } finally {
-            mask.style.display = 'none';
-        }
-    }
-
     function formatDate(datetime){
         const date = new Date(datetime);
     
@@ -2449,15 +2421,6 @@
             ${ !hide ? '<div class="swipe-delete d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>' : '' }
         `;
 
-        // div.innerHTML = `
-        //     <div class="col-12 d-flex gap-2">
-        //         <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
-        //         <select class="form-select agentFlavors ${hide ? 'd-none' : ''}" name="newFlavors[]"></select>
-        //         <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
-        //         <button class="btn btn-outline-danger" onclick="removeAgent(this)"><i class="fas fa-times"></i></button>
-        //     </div>
-        // `;
-
         document.getElementById(name+"Wrapper").appendChild(div);
 
         if( !hide ){ initSwipeDelete(div); }
@@ -2480,6 +2443,44 @@
 
     function removeRow(btn, name){
         btn.closest('.'+name+'-row').remove();
+    }
+
+    async function orderAppend(){
+
+        const type = $('#append_prd_type').val();
+
+        var $name = $('input[name="newName[]"]');
+        var $nums = $('input[name="newNums[]"]');
+        var $flvs = $('select[name="newFlavors[]"]');
+
+        let names = $name.map(function () { return $(this).val(); }).get().filter(function (val) { return val !== ""; });
+        let nums  = $nums.map(function () { return $(this).val(); }).get().filter(function (val) { return val !== ""; });
+        let flvs  = $flvs.map(function () { return $(this).val(); }).get().filter(function (val) { return val !== ""; });
+
+        const sort = [];
+        names.forEach(item => { if (!sort.includes(item)) sort.push(item); });
+
+        names = sort.flatMap(o => names.filter(a => a === o));
+
+        const prd = $('#append_prd_name').val();
+
+        let data = { type:'append', userId: userId, apOrders: [] };
+
+        names.forEach((name, i) => {
+
+            if( type=='single' )  { var arr = [{ flavor: '', qty: nums[i] }]; }      // 新名字(單口味)
+            if( type=='multiple' ){ var arr = [{ flavor: flvs[i], qty: nums[i] }]; } // 新名字(多口味)
+
+            var order = {};
+            order['orders'] = arr;
+            order['name']   = name;
+            order['id']     = name;
+            order['item']   = prd;
+
+            data.apOrders.push(order);
+        });
+
+        postGAS( data, {'successMsg':'追加成功', 'errorMsg':'追加失敗', 'modalHide': $('#updModal')} );
     }
 
     //------------------------------------------------------------------------------------------------------//

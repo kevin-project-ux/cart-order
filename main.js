@@ -35,3 +35,35 @@ async function initFirebase() {
     db = firebase.database(); // 全域 db
     // firebaseRefFuncs = firebase.database; // 全域 ref / push / set 等方法
 }
+
+async function postGAS( data, opts={} ){
+
+    var successMsg = opts['successMsg'];
+    var errorMsg   = opts['errorMsg'];
+    var $modalHide = opts['modalHide'] ?? '';
+
+    try {
+        mask.style.display = 'flex';
+        const response = await fetch(GAS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        // console.log(result);
+
+        if (result[0].status == 'success') {
+            if( $modalHide ){ $modalHide.modal('hide'); }
+            Swal.fire({ icon: 'success', title: successMsg });
+            await fetchData(); // 重新載入品項、口味資料
+        } else {
+            Swal.fire({ icon: 'error', title: errorMsg, text: result[0].alert || '請稍後再試' });
+        }
+    } catch (err) {
+        // console.log(err);
+        Swal.fire({ icon: 'error', title: '系統異常' });
+    } finally {
+        mask.style.display = 'none';
+    }
+}
