@@ -1655,9 +1655,11 @@
 
     function orderConfirm(e){
 
-        const id = e.dataset.id;
+        var   id   = e.dataset.id;
         const name = e.dataset.name;
         const type = e.dataset.type;
+
+        if( id=='' ){ id = $('#append_prd_id').val(); }
 
         const data = { type: type, userId: userId, id: id, name: name };
 
@@ -2456,6 +2458,7 @@
 
     async function orderAppend(){
 
+        const id   = $('#append_prd_id').val();
         const type = $('#append_prd_type').val();
         const prd  = $('#append_prd_name').val();
 
@@ -2472,7 +2475,7 @@
 
         names = sort.flatMap(o => names.filter(a => a === o));
 
-        let data = { type:'append', userId: userId, apOrders: [] };
+        let data = { type:'append', userId: userId, id: id, apOrders: [] };
 
         names.forEach((name, i) => {
 
