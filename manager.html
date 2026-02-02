@@ -516,6 +516,8 @@
                                     <div class="alert alert-info" role="alert">
                                         <i class="fas fa-info-circle"></i>
                                         因已結單關係，追加訂單如為相同姓名者不做累加
+                                        <i class="fas fa-info-circle"></i>
+                                        追加後訂單，如需調整只能一併刪除重新填寫追加訂單
                                     </div>
                                     <div class="mb-3">
                                         <input type="hidden" name="append_prd_id" id="append_prd_id">
@@ -709,7 +711,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbycXfQIgOvhbwad392o9EnSNFnKALGAnZNC8b-74Znj5RE6RmqkpeyhLtd3wOOUGaN1qQ/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbx_maotqQ6WJ2yOyhSNthJ-hcdQxPlwVoOawa69mFR_aqkulP291iOlBHiDTXeTjIHzCw/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -2479,8 +2481,8 @@
 
             var order = {};
             order['orders'] = arr;
-            order['name']   = name;
-            order['id']     = name;
+            order['name']   = '(追加)'+name;
+            order['id']     = '(追加)'+name;
             order['item']   = prd;
 
             data.apOrders.push(order);
