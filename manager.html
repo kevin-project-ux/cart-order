@@ -715,7 +715,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxfIsF0s7qXMb6lBal0yerhfoc5Zv68TMYUdt50kUP95f4y6XYupiiaoerCA9mXpLAxIQ/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwve1mOFWSctxOhWhTRmVliT5u-Yeh-tqUPo6kkAfyICRbDzpRmdAG42Ir-xZU30RKtvg/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -1667,7 +1667,8 @@
         const name = e.dataset.name;
         const type = e.dataset.type;
 
-        if( id=='' ){ id = $('#append_prd_id').val(); }
+        if( id=='' )  { id = $('#append_prd_id').val();   }
+        if( name=='' ){ id = $('#append_prd_name').val(); }
 
         const data = { type: type, userId: userId, id: id, name: name };
 
