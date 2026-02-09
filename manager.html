@@ -499,6 +499,9 @@
                                     <button class="btn btn-primary" id="orderShare" data-id="" data-name="" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</button>
                                     <!-- <button href="#" class="btn btn-secondary" data-id="" data-name="" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</button> -->
                                 </div>
+                                <div id="stopOrderFun" class="text-center d-none">
+                                    <button class="btn btn-danger" id="orderDelApd" data-id="" data-name="" data-type="delapd" onclick="orderConfirm(this)"><i class="fas fa-user-times"></i> 移除追加訂單</button>
+                                </div>
                             </div>
                         </div>
               
@@ -510,12 +513,13 @@
                     <div class="tab-content" id="appendTabsContent">
                         <!-- 追加訂單 -->
                         <div class="tab-pane fade" id="append" role="tabpanel" aria-labelledby="append-tab">
-                            <div class="p-4 bg-light rounded shadow-sm">
+                            <div class="p-2 bg-light rounded shadow-sm">
                                 <h5 class="text-center" id="prd_title"></h5>
-                                <div class="container mt-4 mb-4" id="appendContent">
+                                <div class="container mb-4" id="appendContent">
                                     <div class="alert alert-info" role="alert">
                                         <i class="fas fa-info-circle"></i>
-                                        因已結單關係，追加訂單如為相同姓名者不做累加
+                                        因已結單關係，追加訂單如為相同姓名者不做累加計算
+                                        <br>
                                         <i class="fas fa-info-circle"></i>
                                         追加後訂單，如需調整只能一併刪除重新填寫追加訂單
                                     </div>
@@ -711,7 +715,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbx_maotqQ6WJ2yOyhSNthJ-hcdQxPlwVoOawa69mFR_aqkulP291iOlBHiDTXeTjIHzCw/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxfIsF0s7qXMb6lBal0yerhfoc5Zv68TMYUdt50kUP95f4y6XYupiiaoerCA9mXpLAxIQ/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -1079,11 +1083,15 @@
         if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
 
         if( !$('#orderFun').hasClass('d-none') ){ $('#orderFun').addClass('d-none'); }
+        if( !$('#stopOrderFun').hasClass('d-none') ){ $('#stopOrderFun').addClass('d-none'); }
 
         if( type=='upd' ){
             $('#orderFun').removeClass('d-none');
             $('#orderStop').attr({'data-id':id, 'data-name':name});
             $('#orderShare').attr({'data-id':id, 'data-name':name});
+        }
+        if( type=='view' ){
+            if( $('#stopOrderFun').hasClass('d-none') ){ $('#stopOrderFun').removeClass('d-none'); }
         }
 
         if( flavor>1 ){
@@ -1667,6 +1675,7 @@
         if( type=='stop' )  { text = '你確定要延後該品項嗎？'; }
         if( type=='chkout' ){ text = '你確定要結單該品項嗎？'; }
         if( type=='delete' ){ text = '你確定要刪除該品項嗎？'; }
+        if( type=='delapd' ){ text = '你確定要刪除追加品項嗎？'; }
 
         Swal.fire({
             title: text,
@@ -1692,6 +1701,7 @@
         if( data.type=='stop' )  { title = '延後'; text = `品項「${data.name}」已延後！`; }
         if( data.type=='chkout' ){ title = '結單'; text = `品項「${data.name}」`; }
         if( data.type=='delete' ){ title = '刪除'; text = `品項「${data.name}」已刪除！`; }
+        if( data.type=='delapd' ){ title = '刪除'; text = `追加品項「${data.name}」已刪除！`; }
 
         try {
             mask.style.display = 'flex';
@@ -2475,7 +2485,7 @@
 
         names = sort.flatMap(o => names.filter(a => a === o));
 
-        let data = { type:'append', userId: userId, id: id, apOrders: [] };
+        let data = { type:'append', userId: userId, id: id, name:prd, apOrders: [] };
 
         names.forEach((name, i) => {
 
