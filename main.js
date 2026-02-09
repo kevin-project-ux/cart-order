@@ -55,7 +55,7 @@ async function postGAS( data, opts={} ){
 
         if (result[0].status == 'success') {
             if( $modalHide ){ $modalHide.modal('hide'); }
-            Swal.fire({ icon: 'success', title: successMsg });
+            Swal.fire({ icon: 'success', title: successMsg, text: result[0].alert });
             await fetchData(); // 重新載入品項、口味資料
         } else {
             Swal.fire({ icon: 'error', title: errorMsg, text: result[0].alert || '請稍後再試' });
