@@ -1699,10 +1699,10 @@
 
         let title;
         let text;
-        if( data.type=='stop' )  { title = '延後'; text = `品項「${data.name}」已延後！`; }
+        if( data.type=='stop' )  { title = '延後'; text = `品項「${data.name}」`; }
         if( data.type=='chkout' ){ title = '結單'; text = `品項「${data.name}」`; }
-        if( data.type=='delete' ){ title = '刪除'; text = `品項「${data.name}」已刪除！`; }
-        if( data.type=='delapd' ){ title = '刪除'; text = `追加品項「${data.name}」已刪除！`; }
+        if( data.type=='delete' ){ title = '刪除'; text = `品項「${data.name}」`; }
+        if( data.type=='delapd' ){ title = '刪除'; text = `追加訂單「${data.name}」`; }
 
         try {
             mask.style.display = 'flex';
@@ -1716,7 +1716,7 @@
 
             if (result[0].status == 'success') {
                 await fetchData();
-                Swal.fire({ icon: 'success', title: title+'成功', text: text+`${result[0].alert}` });
+                Swal.fire({ icon: 'success', title: title+'成功', text: text+`${result[0].alert}！` });
             } else {
                 Swal.fire({ icon: 'error', title: title+'失敗', text: result[0].alert || '請稍後再試' });
             }
