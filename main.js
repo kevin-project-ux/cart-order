@@ -44,6 +44,8 @@ async function postGAS( data, opts={} ){
     var $reload    = opts['reload'] ?? true;
     var $return    = opts['return'] ?? '';
 
+    let result;
+
     try {
         mask.style.display = 'flex';
         const response = await fetch(GAS_URL, {
@@ -52,7 +54,7 @@ async function postGAS( data, opts={} ){
             body: JSON.stringify(data)
         });
 
-        const result = await response.json();
+        result = await response.json();
         // console.log(result);
 
         if (result[0].status == 'success') {
