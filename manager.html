@@ -2548,7 +2548,7 @@
 
         let data = { type:'aihelp', userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
 
-        var res = await postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return': true} );
+        var res = await postGAS( data, {'successMsg':'', 'errorMsg':'失敗', 'reload': false, 'return': true} );
 
         console.log(res);
         var answer = res[0].text;
