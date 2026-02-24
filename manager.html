@@ -2546,25 +2546,16 @@
             deadline += `${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; 
         }
 
-        // let data = { type:'aihelp', userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
+        let data = { type:'aihelp', userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
 
-        // var answer = await postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return': true} );
-        var answer = `親愛的朋友們~  
-            開團【豆漿】  
-            想吃的人客記得下單喔  
-            價格：50元/瓶(有糖)、50元/瓶(無糖)  
+        var res = await postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return': true} );
 
-            新鮮現磨香濃豆味，早晨一瓶營養又順口～快來一起團購健康早餐飲品吧！  
-            下單後才會開始製作請耐心等待❤️`;
+        var answer = res[0].text;
+        console.log(answer);return false;
 
         quill.setText('');
         answer_flag = 0;
         typeWriter(answer);
-        // const delta = [
-        //     { insert: `${answer}` },
-        // ];
-    
-        // quill.setContents(delta);
     }
 
     function typeWriter(answer, speed = 35) {

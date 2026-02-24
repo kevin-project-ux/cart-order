@@ -67,6 +67,6 @@ async function postGAS( data, opts={} ){
         Swal.fire({ icon: 'error', title: '系統異常' });
     } finally {
         mask.style.display = 'none';
-        if( $return ){ return result[0].text; }
+        if( $return ){ return result; }
     }
 }
