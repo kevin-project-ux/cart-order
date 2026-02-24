@@ -39,11 +39,11 @@ async function initFirebase() {
 
 async function postGAS( data, opts={} ){
 
-    var successMsg = opts['successMsg'];
+    var successMsg = opts['successMsg'] ?? false;
     var errorMsg   = opts['errorMsg'];
     var $modalHide = opts['modalHide'] ?? '';
     var $reload    = opts['reload'] ?? true;
-    var $return    = opts['return'] ?? '';
+    var $return    = opts['return'] ?? false;
 
     try {
         mask.style.display = 'flex';
@@ -54,7 +54,7 @@ async function postGAS( data, opts={} ){
         });
 
         result = await response.json();
-        // console.log(result);
+        console.log('A:'+result);
 
         if (result[0].status == 'success') {
             if( $modalHide ){ $modalHide.modal('hide'); }
@@ -70,4 +70,5 @@ async function postGAS( data, opts={} ){
     } finally {
         mask.style.display = 'none';
     }
+    console.log('B:'+result);
 }
