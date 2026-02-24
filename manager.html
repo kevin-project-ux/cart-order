@@ -729,6 +729,7 @@
     let prd_row;
     let prd_name;
     let prd_id;
+    let answer_flag = 0;
 
     // 檢查快取是否存在 & 有效期內
     function isUserAuthenticated(userId) {
@@ -2557,6 +2558,7 @@
             下單後才會開始製作請耐心等待❤️`;
 
         quill.setText('');
+        answer_flag = 0;
         typeWriter(answer);
         // const delta = [
         //     { insert: `${answer}` },
@@ -2567,14 +2569,12 @@
 
     function typeWriter(answer, speed = 35) {
 
-        var i = 0;
-
-        if (i >= answer.length) return;
+        if (answer_flag >= answer.length) return;
 
         quill.insertText(quill.getLength() - 1, answer[i]);
         quill.setSelection(quill.getLength(), 0);
 
-        i++;
+        answer_flag++;
 
         setTimeout(() => typeWriter(answer, speed), speed);
     }
