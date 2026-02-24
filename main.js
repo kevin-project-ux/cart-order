@@ -42,6 +42,7 @@ async function postGAS( data, opts={} ){
     var errorMsg   = opts['errorMsg'];
     var $modalHide = opts['modalHide'] ?? '';
     var $reload    = opts['reload'] ?? true;
+    var $return    = opts['return'] ?? '';
 
     try {
         mask.style.display = 'flex';
@@ -66,5 +67,6 @@ async function postGAS( data, opts={} ){
         Swal.fire({ icon: 'error', title: '系統異常' });
     } finally {
         mask.style.display = 'none';
+        if( $return ){ return result[0].alert; }
     }
 }

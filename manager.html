@@ -2514,7 +2514,7 @@
         postGAS( data, {'successMsg':'追加成功', 'errorMsg':'追加失敗', 'modalHide': $('#updModal')} );
     }
 
-    function aiOpenCartHelper(){
+    async function aiOpenCartHelper(){
 
         let price    = '';
         let deadline = '';
@@ -2547,14 +2547,29 @@
 
         let data = { type:'aihelp', userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
 
-        var answer = postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return':true} );
+        var answer = await postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return':true} );
 
         quill.setText('');
-        const delta = [
-            { insert: `${answer}` },
-        ];
+        typeWriter(answer);
+        // const delta = [
+        //     { insert: `${answer}` },
+        // ];
     
-        quill.setContents(delta);
+        // quill.setContents(delta);
+    }
+
+    function typeWriter(answer, speed = 35) {
+
+        var i = 0;
+
+        if (i >= answer.length) return;
+
+        quill.insertText(quill.getLength() - 1, answer[i]);
+        quill.setSelection(quill.getLength(), 0);
+
+        i++;
+
+        setTimeout(() => typeWriter(answer, speed), speed);
     }
 
     //------------------------------------------------------------------------------------------------------//
