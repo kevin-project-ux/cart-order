@@ -54,7 +54,7 @@ async function postGAS( data, opts={} ){
         });
 
         result = await response.json();
-        console.log('A:'+result);
+        // console.log(result);
 
         if (result[0].status == 'success') {
             if( $modalHide ){ $modalHide.modal('hide'); }
@@ -70,5 +70,4 @@ async function postGAS( data, opts={} ){
     } finally {
         mask.style.display = 'none';
     }
-    console.log('B:'+result);
 }
