@@ -1,6 +1,7 @@
 
 let db;
 let firebaseRefFuncs;
+let result;
 
 $(function () {
     $('#bottomNav').load('bottom-nav.html', function () {
@@ -44,8 +45,6 @@ async function postGAS( data, opts={} ){
     var $reload    = opts['reload'] ?? true;
     var $return    = opts['return'] ?? '';
 
-    let result;
-
     try {
         mask.style.display = 'flex';
         const response = await fetch(GAS_URL, {
@@ -69,6 +68,7 @@ async function postGAS( data, opts={} ){
         Swal.fire({ icon: 'error', title: '系統異常' });
     } finally {
         mask.style.display = 'none';
-        if( $return ){ return result; }
     }
+
+    if( $return ){ return result; }
 }

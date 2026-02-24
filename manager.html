@@ -2550,8 +2550,8 @@
 
         var res = await postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return': true} );
 
-        var answer = res[0].text;
         console.log(res);
+        var answer = res[0].text;
 
         quill.setText('');
         answer_flag = 0;
