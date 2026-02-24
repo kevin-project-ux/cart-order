@@ -575,8 +575,7 @@
                         <div class="tab-pane fade show active" id="cart" role="tabpanel" aria-labelledby="cart-tab">
                             <div class="p-4 bg-light rounded shadow-sm">
                                 <button class="btn btn-primary" id="aiOpenCartHelper" onclick="aiOpenCartHelper()">
-                                    AI開團助手
-                                    <span class="badge text-bg-danger">Beta</span>
+                                    AI開團助手<span class="badge text-bg-danger">Beta</span>
                                 </button>
                                 <div class="container mt-4 mb-4" id="cartContent"></div>
                                 <button class="btn btn-success w-100" id="createCart" onclick="orderOpen()">開啟團購</button>
@@ -719,7 +718,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbycrq6JLpbmkyP5SAJ_9uENBa6BDavHiiYPCYpWuhVv2hcc_AKs9ZTsazkKmmmUiu58bw/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbx8BaaMPmYubCaaZbtK1vfNpCb0TXG6f_bpGKbo0JnI_2vMlXL8wlYWSBvpybW8L2jerw/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -727,6 +726,9 @@
     let fp;
     let oldAgentName; //代購訂單-下拉選單
     let fileList;
+    let prd_row;
+    let prd_name;
+    let prd_id;
 
     // 檢查快取是否存在 & 有效期內
     function isUserAuthenticated(userId) {
@@ -1240,6 +1242,9 @@
         const name = e.dataset.name;
         const row  = JSON.parse(e.dataset.row);
         // console.log(flv_list);
+
+        prd_name = name;
+        prd_row  = row;
 
         var text = `想吃的人客記得下單喔\n`;
         text += `價格：`; 
@@ -2511,6 +2516,45 @@
 
     function aiOpenCartHelper(){
 
+        let price    = '';
+        let deadline = '';
+
+        var row = prd_row;
+
+        var flvs = flv_list.filter(val => val.品項ID === Number(row.ID));
+        // console.log(flvs);
+        if( flvs.length>0 ){ 
+            flvs.forEach((item,i) => {
+                if( row.售價=='---' ){
+
+                    if( i==0 ){ price += `${item.價格}元/盒`; }else{ price += `、${item.價格}元/盒`; }
+
+                    price += `(${item.口味}`;
+
+                    if( item.限量>0 ){ price += `，限量${item.限量}盒`; }
+
+                    price += `)`;
+                }else{
+                    price += `${row.售價}元/個`;
+                    if( item.限量>0 ){ price += `(限量${item.限量}個)`; }
+                }
+            });
+        }
+    
+        if( row.限時開始!='---' && row.限時結束!='---' && row.限時開始!='' && row.限時結束!='' ){ 
+            deadline += `${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; 
+        }
+
+        let data = { type:'aihelp', userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
+
+        var answer = postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return':true} );
+
+        quill.setText('');
+        const delta = [
+            { insert: `${answer}` },
+        ];
+    
+        quill.setContents(delta);
     }
 
     //------------------------------------------------------------------------------------------------------//
