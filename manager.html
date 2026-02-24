@@ -718,7 +718,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyUFulJebjk3I39FhjGesvBF4fvjNe5_58kip-WHpwK7XaL986jWiz-hqbj4Hb0Zixgbw/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwpCA-uyIUyGAb-wq1B1adtgRR9yyzQKwIPCPVZ7TQQAt8AZ4zrIafQXtzRNOuRDJzVeQ/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -2547,7 +2547,7 @@
 
         let data = { type:'aihelp', userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
 
-        var answer = await postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return':true} );
+        var answer = await postGAS( data, {'successMsg':'成功', 'errorMsg':'失敗', 'reload': false, 'return': true} );
 
         quill.setText('');
         typeWriter(answer);
@@ -2561,8 +2561,6 @@
     function typeWriter(answer, speed = 35) {
 
         var i = 0;
-
-        if (i >= answer.length) return;
 
         quill.insertText(quill.getLength() - 1, answer[i]);
         quill.setSelection(quill.getLength(), 0);
