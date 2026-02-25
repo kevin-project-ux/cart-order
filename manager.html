@@ -2523,36 +2523,45 @@
 
         let price    = '';
         let deadline = '';
+        let data     = {};
 
-        var row = prd_row;
+        if( type=='aiwrite' ) {
 
-        var flvs = flv_list.filter(val => val.品項ID === Number(row.ID));
-        // console.log(flvs);
-        if( flvs.length>0 ){ 
-            flvs.forEach((item,i) => {
-                if( row.售價=='---' ){
+            var row = prd_row;
 
-                    if( i==0 ){ price += `${item.價格}元/盒`; }else{ price += `、${item.價格}元/盒`; }
+            var flvs = flv_list.filter(val => val.品項ID === Number(row.ID));
+            // console.log(flvs);
+            if( flvs.length>0 ){ 
+                flvs.forEach((item,i) => {
+                    if( row.售價=='---' ){
 
-                    price += `(${item.口味}`;
+                        if( i==0 ){ price += `${item.價格}元/盒`; }else{ price += `、${item.價格}元/盒`; }
 
-                    if( item.限量>0 ){ price += `，限量${item.限量}盒`; }
+                        price += `(${item.口味}`;
 
-                    price += `)`;
-                }else{
-                    price += `${row.售價}元/個`;
-                    if( item.限量>0 ){ price += `(限量${item.限量}個)`; }
-                }
-            });
+                        if( item.限量>0 ){ price += `，限量${item.限量}盒`; }
+
+                        price += `)`;
+                    }else{
+                        price += `${row.售價}元/個`;
+                        if( item.限量>0 ){ price += `(限量${item.限量}個)`; }
+                    }
+                });
+            }
+        
+            if( row.限時開始!='---' && row.限時結束!='---' && row.限時開始!='' && row.限時結束!='' ){ 
+                deadline += `${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; 
+            }
+
+            data = { type: type, userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
         }
-    
-        if( row.限時開始!='---' && row.限時結束!='---' && row.限時開始!='' && row.限時結束!='' ){ 
-            deadline += `${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; 
+
+        if( type=='ainame' ) { 
+            if( $("#itemName").val()=='' ){ Swal.fire({ icon: 'error', title: '命名失敗', text: '請輸入品項名稱!' }); return; }
+            prd_name = $("#itemName").val(); 
+
+            data = { type: type, userId: userId, name: prd_name, price: price, deadline: deadline };
         }
-
-        if( type=='ainame' ) { prd_name = $("#itemName").val(); }
-
-        let data = { type: type, userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
 
         var res = await postGAS( data, {'errorMsg':'撰寫失敗，已達每月使用上限!!', 'reload': false, 'return': true} );
 
@@ -2564,11 +2573,11 @@
 
         if( type=='aiwrite' ){ typeWriter(answer); }
         if( type=='ainame' ) { 
-            
+
             var name_arr = answer.split('-');
             var text = '';
             name_arr.forEach((name,i) => {
-                text += '<span class="badge bg-secondary" onclick="chooseName(this)">'+name.trim()+'</span>';
+                text += '<span class="badge bg-secondary" onclick="chooseName('+name+')">'+name.trim()+'</span>';
             });
             $("#aiNameOption").html(text); 
         }
