@@ -218,7 +218,12 @@
                                 <!-- 新品項 -->
                                 <div id="newItem" class="input-group mb-3">
                                     <input type="text" class="form-control" id="itemName" required>
-                                    <span class="input-group-text" onclick="aiHelpFunc('ainame')">AI命名助手</span>
+                                    <span class="input-group-text" onclick="aiHelpFunc('ainame')">
+                                        <i class="fas fa-magic"></i>
+                                    </span>
+                                    <span class="input-group-text" onclick="aiDescripton()">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
                                 </div>
 
                                 <!-- AI命名助手產生名稱 -->
@@ -579,6 +584,7 @@
                         <div class="tab-pane fade show active" id="cart" role="tabpanel" aria-labelledby="cart-tab">
                             <div class="p-4 bg-light rounded shadow-sm">
                                 <button class="btn btn-primary w-100" id="aiOpenCartHelper" onclick="aiHelpFunc('aiwrite')">
+                                    <i class="fas fa-file-signature"></i>
                                     AI文案助手<span class="badge text-bg-danger">Beta</span>
                                 </button>
                                 <div class="container mt-4 mb-4" id="cartContent"></div>
@@ -2600,6 +2606,10 @@
 
     function chooseName(name){
         $("#itemName").val(name); 
+    }
+
+    function aiDescripton(){
+        Swal.fire({ icon: 'info', title: 'AI命名助手', text: '助手將會一次產生三組名稱，產生後點擊該名稱即可套用至品項名稱上!' });
     }
 
     //------------------------------------------------------------------------------------------------------//
