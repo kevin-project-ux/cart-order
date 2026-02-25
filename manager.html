@@ -221,6 +221,9 @@
                                     <span class="input-group-text" onclick="aiHelpFunc('ainame')">AI命名助手</span>
                                 </div>
 
+                                <!-- AI命名助手產生名稱 -->
+                                <div id="aiNameOption" class="mb-3"></div>
+
                                 <!-- 舊品項 -->
                                 <div id="oldItem" class="mb-3" style="display: none;">
                                     <select class="form-select w-100" id="itemNames" onchange="setItemData(this)" required></select>
@@ -2560,7 +2563,15 @@
         answer_flag = 0;
 
         if( type=='aiwrite' ){ typeWriter(answer); }
-        if( type=='ainame' ) { $("#itemName").val(answer); }
+        if( type=='ainame' ) { 
+            
+            var name_arr = answer.split('-');
+            var text = '';
+            name_arr.forEach((name,i) => {
+                text += '<span class="badge bg-secondary" onclick="chooseName(this)">'+name.trim()+'</span>';
+            });
+            $("#aiNameOption").html(text); 
+        }
     }
 
     function typeWriter(answer, speed = 35) {
@@ -2573,6 +2584,10 @@
         answer_flag++;
 
         setTimeout(() => typeWriter(answer, speed), speed);
+    }
+
+    function chooseName(name){
+        $("#itemName").val(name); 
     }
 
     //------------------------------------------------------------------------------------------------------//
