@@ -2547,6 +2547,8 @@
             deadline += `${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; 
         }
 
+        if( type=='ainame' ) { prd_name = $("#itemName").val(); }
+
         let data = { type: type, userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
 
         var res = await postGAS( data, {'errorMsg':'撰寫失敗，已達每月使用上限!!', 'reload': false, 'return': true} );
