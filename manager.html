@@ -218,7 +218,7 @@
                                 <!-- 新品項 -->
                                 <div id="newItem" class="input-group mb-3">
                                     <input type="text" class="form-control" id="itemName" required>
-                                    <span class="input-group-text" onclick="aiHelpFunc('prd_title')">AI命名助手</span>
+                                    <span class="input-group-text" onclick="aiHelpFunc('ainame')">AI命名助手</span>
                                 </div>
 
                                 <!-- 舊品項 -->
@@ -575,7 +575,7 @@
                         <!-- 開啟團購/預購 -->
                         <div class="tab-pane fade show active" id="cart" role="tabpanel" aria-labelledby="cart-tab">
                             <div class="p-4 bg-light rounded shadow-sm">
-                                <button class="btn btn-primary w-100" id="aiOpenCartHelper" onclick="aiHelpFunc('open_cart')">
+                                <button class="btn btn-primary w-100" id="aiOpenCartHelper" onclick="aiHelpFunc('aiwrite')">
                                     AI文案助手<span class="badge text-bg-danger">Beta</span>
                                 </button>
                                 <div class="container mt-4 mb-4" id="cartContent"></div>
@@ -719,7 +719,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwpCA-uyIUyGAb-wq1B1adtgRR9yyzQKwIPCPVZ7TQQAt8AZ4zrIafQXtzRNOuRDJzVeQ/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbz7Gay2X1ZcqQ7PNwfGwc2lLFI9ed6J26i_0bGym9rioi2lDs26XzYB_90T9L2rpqwcsw/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -2556,7 +2556,9 @@
 
         quill.setText('');
         answer_flag = 0;
-        typeWriter(answer);
+
+        if( type=='aiwrite' ){ typeWriter(answer); }
+        if( type=='ainame' ) { $("#itemName").val(answer); }
     }
 
     function typeWriter(answer, speed = 35) {
