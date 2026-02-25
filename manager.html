@@ -2577,7 +2577,7 @@
             var name_arr = answer.split('-');
             var text = '';
             name_arr.forEach((name,i) => {
-                text += '<span class="badge bg-secondary" onclick="chooseName('+name+')">'+name.trim()+'</span>';
+                text += '<span class="badge bg-secondary" onclick="chooseName(\''+name.trim()+'\')">'+name.trim()+'</span>';
             });
             $("#aiNameOption").html(text); 
         }
