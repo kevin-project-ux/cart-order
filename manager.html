@@ -321,7 +321,7 @@
                                 <div class="collapse mt-3" id="moreOptions">
                                     <div class="border rounded p-3 bg-light">
                                         <div class="mb-3">
-                                            <label class="form-label">行程<span class="badge bg-success">Beta</span></label><br>
+                                            <label class="form-label">行程</label><br>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="scheduleType" value="" checked onchange="toggleSchedule(this.value)">
                                                 <label class="form-check-label">不設定</label>
@@ -481,7 +481,7 @@
                             <button class="nav-link active" id="upd-tab" data-bs-toggle="tab" data-bs-target="#upd" type="button" role="tab">管理訂單</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="append-tab" data-bs-toggle="tab" data-bs-target="#append" type="button" role="tab">追加訂單 <span class="badge bg-success">Beta</span></button>
+                            <button class="nav-link" id="append-tab" data-bs-toggle="tab" data-bs-target="#append" type="button" role="tab">追加訂單</button>
                         </li>
                     </ul>
           
@@ -849,7 +849,7 @@
 
                             var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row='${JSON.stringify(row)}' data-type="open" onclick="cartModal(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
                             var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
-                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單 <span class="badge bg-success">Beta</span></a>`;
+                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單</a>`;
                             var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
                             var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
                             var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="AgentModal(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單</a>`;
@@ -1801,6 +1801,9 @@
 
         // 清除預覽圖片、文字
         $("#preview, #fileCount").empty();
+
+        // 清除AI產生label
+        $("#aiNameOption").empty();
 
         // 清除檔案
         fileList = [];
