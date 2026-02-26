@@ -26,6 +26,19 @@
     <!-- Vue 2 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
+<style>
+	#loadingMask {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+</style>
 <body data-page="formula">
 	<div id="app">
 
@@ -55,6 +68,8 @@
 		<!-- 底部導覽載入位置 -->
 		<div id="bottomNav"></div>
 
+		<div id="loadingMask"><div class="spinner"></div></div>
+
 		<!-- 新增配方 Modal -->
 		<div class="modal fade" id="formulaModal" tabindex="-1">
 			<div class="modal-dialog modal-lg">
@@ -71,6 +86,9 @@
 		</div>
 	</div>
 </body>
+<script>
+	const mask = document.getElementById('loadingMask');
+</script>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script>
 
@@ -105,9 +123,10 @@
 						// 	start: item.start,
 						// 	end: item.end
 						// }));
+						mask.style.display = 'flex';
 
 						$('#example').DataTable({
-			                data: parsed,
+			                data: parsed.data,
 			                destroy: true, // 重新載入時清除舊表格
 			                responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
 			                autoWidth: false,      // 關閉自動欄寬
