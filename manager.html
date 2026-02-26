@@ -218,12 +218,12 @@
                                 <!-- 新品項 -->
                                 <div id="newItem" class="input-group mb-3">
                                     <input type="text" class="form-control" id="itemName" required>
-                                    <span class="input-group-text" onclick="aiHelpFunc('ainame')">
+                                    <button class="btn btn-outline-primary" onclick="aiHelpFunc('ainame')">
                                         <i class="fas fa-magic"></i>
-                                    </span>
-                                    <span class="input-group-text" onclick="aiDescripton()">
+                                    </button>
+                                    <button class="btn btn-outline-info" onclick="aiDescripton()">
                                         <i class="fas fa-info-circle"></i>
-                                    </span>
+                                    </button>
                                 </div>
 
                                 <!-- AI命名助手產生名稱 -->
@@ -728,7 +728,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbz7Gay2X1ZcqQ7PNwfGwc2lLFI9ed6J26i_0bGym9rioi2lDs26XzYB_90T9L2rpqwcsw/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbz2lU54sIPuk8AunM_wkoPZM0zXNuLlru5ClSnUJnjVbM1wvRpSQESiN38lqRHId3SWlg/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
