@@ -38,6 +38,10 @@
         align-items: center;
         z-index: 9999;
     }
+
+    .link-warning {
+        color: #cc9900 !important; /* 深一點的黃 */
+    }
 </style>
 <body data-page="formula">
 	<div id="app">
@@ -71,34 +75,46 @@
 		<div id="loadingMask"><div class="spinner"></div></div>
 
 		<!-- Formula Modal -->
-        <div class="modal fade" id="addFormula" tabindex="-1" role="dialog" aria-labelledby="addFormula" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" v-show="!editmode">新增配方</h5>
+		<div class="modal fade" id="addFormula" tabindex="-1">
+	        <div class="modal-dialog modal-lg">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" v-show="!editmode">新增配方</h5>
                         <h5 class="modal-title" v-show="editmode">配方維護</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+	                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+	                </div>
+	                <div class="modal-body">
+	                    <!-- Tabs -->
+	                    <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
+	                        <li class="nav-item" role="presentation">
+	                            <button class="nav-link active" id="cart-tab" data-bs-toggle="tab" data-bs-target="#cart" type="button" role="tab">配方內容</button>
+	                        </li>
+	                    </ul>
+	          
+	                    <!-- Tab Content -->
+	                    <div class="tab-content" id="cartTabsContent">
+	                        <!-- 開啟團購/預購 -->
+	                        <div class="tab-pane fade show active" id="cart" role="tabpanel" aria-labelledby="cart-tab">
+	                            <div class="p-4 bg-light rounded shadow-sm">
+	                            	<form @submit.prevent="editmode ? updateFormula() : createFormula()">
+		                                <div class="form-group row">
+			                                <label class="col-sm-3 col-form-label">配方名稱</label>
+			                                <input v-model="formula_name" type="text" name="name"
+			                                class="form-control col-sm-8" placeholder="請輸出配方名稱">
+			                            </div>
+			                        </form>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                        <button v-show="editmode" type="submit" class="btn btn-success">修改</button>
+                        <button v-show="!editmode" type="submit" class="btn btn-primary">新增</button>
                     </div>
-
-                    <form @submit.prevent="editmode ? updateFormula() : createFormula()">
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">配方名稱</label>
-                                <input v-model="formula_name" type="text" name="name"
-                                class="form-control col-sm-8" placeholder="請輸出配方名稱">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-                            <button v-show="editmode" type="submit" class="btn btn-success">修改</button>
-                            <button v-show="!editmode" type="submit" class="btn btn-primary">新增</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 </body>
 <script>
