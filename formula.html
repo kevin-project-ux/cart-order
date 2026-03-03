@@ -70,20 +70,35 @@
 
 		<div id="loadingMask"><div class="spinner"></div></div>
 
-		<!-- 新增配方 Modal -->
-		<div class="modal fade" id="formulaModal" tabindex="-1">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">新增配方</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-					</div>
-					<div class="modal-body">
+		<!-- Formula Modal -->
+        <div class="modal fade" id="addFormula" tabindex="-1" role="dialog" aria-labelledby="addFormula" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" v-show="!editmode">新增配方</h5>
+                        <h5 class="modal-title" v-show="editmode">配方維護</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-					</div>
-				</div>
-			</div>
-		</div>
+                    <form @submit.prevent="editmode ? update('baking') : create('baking')">
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">配方名稱</label>
+                                <input v-model="formulaform.name" type="text" name="name"
+                                class="form-control col-sm-8" placeholder="請輸出配方名稱">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                            <button v-show="editmode" type="submit" class="btn btn-success">修改</button>
+                            <button v-show="!editmode" type="submit" class="btn btn-primary">新增</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 	</div>
 </body>
 <script>
@@ -95,11 +110,17 @@
 	new Vue({
 		el: '#app',
 		data: {
+			editmode: false,
 			msg: '',
 			userId: 'test',
 			formulas: { data: [] },
 		},
 		methods: {
+
+			addFormulaModal(){
+
+				$("#addFormula").modal('show');
+			},
 
 			loadFormulas() {
 
@@ -162,9 +183,9 @@
 			                        render: function (data, type, row) {
 
 			                        	var enable = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-type="enable" onclick="enableFormula(this)"><i class="fas fa-edit"></i> 啟用配方</a>`;
-			                        	var img  = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" onclick="imgModal(this)"><i class="fas fa-image"></i></a>`;
+			                        	var img  = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" onclick="imgModal(this)"><i class="fas fa-image"></i> 查看配方</a>`;
 			                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯配方</a>`;
-			                            var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
+			                            var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>`;
 			                            // var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
 			                            // var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單</a>`;
 			                            // var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
