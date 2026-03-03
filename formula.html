@@ -86,7 +86,7 @@
                         <div class="modal-body">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">配方名稱</label>
-                                <input v-model="formulaform.name" type="text" name="name"
+                                <input v-model="formula_name" type="text" name="name"
                                 class="form-control col-sm-8" placeholder="請輸出配方名稱">
                             </div>
                         </div>
@@ -113,6 +113,7 @@
 			editmode: false,
 			msg: '',
 			userId: 'test',
+			formula_name: '',
 			formulas: { data: [] },
 		},
 		methods: {
