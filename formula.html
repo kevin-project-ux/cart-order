@@ -93,14 +93,13 @@
 	          
 	                    <!-- Tab Content -->
 	                    <div class="tab-content" id="cartTabsContent">
-	                        <!-- 開啟團購/預購 -->
+	                        <!-- 新增/維護配方 -->
 	                        <div class="tab-pane fade show active" id="cart" role="tabpanel" aria-labelledby="cart-tab">
 	                            <div class="p-4 bg-light rounded shadow-sm">
 	                            	<form @submit.prevent="editmode ? updateFormula() : createFormula()">
 		                                <div class="form-group row">
 			                                <label class="col-sm-3 col-form-label">配方名稱</label>
-			                                <input v-model="formula_name" type="text" name="name"
-			                                class="form-control col-sm-8" placeholder="請輸出配方名稱">
+			                                <input v-model="formula_name" type="text" name="name" class="form-control col-sm-8" placeholder="請輸出配方名稱">
 			                            </div>
 			                        </form>
 	                            </div>
@@ -121,6 +120,7 @@
 	const mask = document.getElementById('loadingMask');
 </script>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
 	new Vue({
@@ -135,6 +135,8 @@
 		methods: {
 
 			addFormulaModal(){
+
+				this.formula_name = '';
 
 				$("#addFormula").modal('show');
 			},
@@ -153,14 +155,6 @@
 						let parsed = JSON.parse(raw);
 						console.log(parsed);
 
-						// let list = parsed.data || [];
-
-						// events = list.map(item => ({
-						// 	id: item.id,
-						// 	title: item.name + "：" + item.content,
-						// 	start: item.start,
-						// 	end: item.end
-						// }));
 						mask.style.display = 'flex';
 
 						$('#example').DataTable({
@@ -250,6 +244,27 @@
 
 			createFormula(){
 
+				var formula  = this.formulas.data.filter(data => data.name === this.formula_name);
+
+				if ( formula.length>0 ) {
+                    Swal.fire({ icon: 'error', title: '新增配方失敗，該配方已存在!!' });
+                }else{
+
+                	const def = db.ref('users/' + this.userId + '/formulas');
+
+					var nextId = this.formulas.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
+
+					var list = {
+                        id: nextId,
+                        name: this.formula_name,
+                        active: false,
+                    }
+
+					this.formulas.data.push(list);
+					def.set(JSON.stringify(this.formulas));
+                }
+
+				
 			},
 
 			updateFormula(){
@@ -270,6 +285,8 @@
 			this.userId  = this.profile.userId;
 
 			this.loadFormulas();
+
+			await this.getFirebaseData();
 		}
 	});
 </script>
