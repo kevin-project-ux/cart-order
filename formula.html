@@ -101,16 +101,15 @@
 			                                <label class="col-sm-3 col-form-label">配方名稱</label>
 			                                <input v-model="formula_name" type="text" name="name" class="form-control col-sm-8" placeholder="請輸出配方名稱">
 			                            </div>
+			                            
+			                            <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+				                        <button v-show="editmode" type="submit" class="btn btn-success">修改</button>
+				                        <button v-show="!editmode" type="submit" class="btn btn-primary">新增</button>
 			                        </form>
 	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
-	                <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-                        <button v-show="editmode" type="submit" class="btn btn-success">修改</button>
-                        <button v-show="!editmode" type="submit" class="btn btn-primary">新增</button>
-                    </div>
 	            </div>
 	        </div>
 	    </div>
@@ -263,8 +262,6 @@
 					this.formulas.data.push(list);
 					def.set(JSON.stringify(this.formulas));
                 }
-
-				
 			},
 
 			updateFormula(){
