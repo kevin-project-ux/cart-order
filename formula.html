@@ -177,11 +177,14 @@
 			                        data: 'active',
 			                        className: 'text-center',
 			                        createdCell: function (td, cellData) {
-			                            if (cellData === true) {
-			                                $(td).addClass('text-success').text('啟用中');
-			                            } else if (cellData === false) {
-			                                $(td).addClass('text-danger').text('已停用');
-			                            }
+			                        	var enable = `
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" ${ cellData===true ? `checked` : '' }>
+											<label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+										</div>`;
+										// $(td).addClass('text-success').text('啟用中');
+										$(td).html(enable);
+			                            
 			                        }
 			                    },
 			                    {
@@ -190,7 +193,7 @@
 			                        className: 'text-center',
 			                        render: function (data, type, row) {
 
-			                        	var enable = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-type="enable" onclick="enableFormula(this)"><i class="fas fa-edit"></i> 啟用配方</a>`;
+			                        	// var enable = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-type="enable" onclick="enableFormula(this)"><i class="fas fa-edit"></i> 啟用配方</a>`;
 			                        	var img  = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" onclick="imgModal(this)"><i class="fas fa-image"></i> 查看配方</a>`;
 			                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯配方</a>`;
 			                            var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>`;
@@ -205,7 +208,6 @@
 			                                        <i class="fas fa-bars"></i>
 			                                    </a>
 			                                    <ul class="dropdown-menu dropdown-menu-end">
-			                                    	<li>${enable}</li>
 			                                        <li>${img}</li>
 			                                        <li>${edit}</li>
 			                                        <li>${del}</li>
