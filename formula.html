@@ -97,14 +97,12 @@
 	                        <div class="tab-pane fade show active" id="cart" role="tabpanel" aria-labelledby="cart-tab">
 	                            <div class="p-4 bg-light rounded shadow-sm">
 	                            	<form @submit.prevent="editmode ? updateFormula() : createFormula()">
-		                                <div class="form-group row">
+		                                <div class="form-group mb-3">
 			                                <label class="col-sm-3 col-form-label">配方名稱</label>
 			                                <input v-model="formula_name" type="text" name="name" class="form-control col-sm-8" placeholder="請輸出配方名稱">
 			                            </div>
-			                            
-			                            <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-				                        <button v-show="editmode" type="submit" class="btn btn-success">修改</button>
-				                        <button v-show="!editmode" type="submit" class="btn btn-primary">新增</button>
+				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">新增</button>
+				                        <button v-show="!editmode" type="submit" class="btn btn-primary w-100">新增</button>
 			                        </form>
 	                            </div>
 	                        </div>
