@@ -59,7 +59,7 @@
 	                    <thead>
 	                        <tr>
 	                            <th>名稱</th>
-	                            <th>狀態</th>
+	                            <th>價格</th>
 	                            <th></th>
 	                        </tr>
 	                    </thead>
@@ -174,16 +174,14 @@
 			                columns: [
 			                    { data: 'name', className: 'truncate' },
 			                    { 
-			                        data: 'active',
+			                        data: 'total_price',
 			                        className: 'text-center',
 			                        createdCell: function (td, cellData) {
-			                        	var enable = `
-										<div class="form-check form-switch d-inline-block">
-											<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" ${ cellData===true ? `checked` : '' }>
-										</div>`;
-										// $(td).addClass('text-success').text('啟用中');
-										$(td).html(enable);
-			                            
+			                        	if( cellData==0 ){
+			                        		$(td).addClass('text-danger').text(cellData);
+			                        	}else{
+			                        		$(td).addClass('text-success').text(cellData);
+			                        	}
 			                        }
 			                    },
 			                    {
@@ -213,10 +211,6 @@
 			                                    </ul>
 			                                </div>
 			                            `;
-			                    
-			                            // var html = row.備註; // 延後中
-			                            // if( row.狀態==='已結單' ){ html = view; }
-			                            // if( row.狀態==='開啟中' ){ html = menu; }
 
 			                            return html;
 			                        }
