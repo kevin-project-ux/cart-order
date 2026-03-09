@@ -178,9 +178,8 @@
 			                        className: 'text-center',
 			                        createdCell: function (td, cellData) {
 			                        	var enable = `
-										<div class="form-check form-switch">
+										<div class="form-check form-switch d-inline-block">
 											<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" ${ cellData===true ? `checked` : '' }>
-											<label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
 										</div>`;
 										// $(td).addClass('text-success').text('啟用中');
 										$(td).html(enable);
