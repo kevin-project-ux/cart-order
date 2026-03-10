@@ -246,10 +246,17 @@
 
 					var nextId = this.formulas.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
 
+					// {"data":[{"id":1,"name":"法國可可裸食燕麥","active":true,"total_weight":513,"total_size":513,"total_price":"92.04","image":"https://i.ibb.co/WvDKxsfB/8bb57377607e.png","expire_date":1745206769}]}
+
 					var list = {
                         id: nextId,
                         name: this.formula_name,
                         active: false,
+                        total_weight: 0,
+                        total_size: 0,
+                        total_price: 0,
+                        image: "",
+                        expire_date: "",
                     }
 
 					this.formulas.data.push(list);
