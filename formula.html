@@ -206,9 +206,9 @@
 			                        render: function (data, type, row) {
 
 			                        	// var enable = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-type="enable" onclick="enableFormula(this)"><i class="fas fa-edit"></i> 啟用配方</a>`;
-			                        	var img  = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" onclick="checkImgModal(this)"><i class="fas fa-image"></i> 查看配方</a>`;
+			                        	var img  = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" onclick="vm.checkImgModal(this)"><i class="fas fa-image"></i> 查看配方</a>`;
 			                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-type="edit" data-name="${row.name}" onclick="vm.updFormulaModal(this)"><i class="fas fa-edit"></i> 編輯配方</a>`;
-			                            var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" onclick="delFormula(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>`;
+			                            var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" onclick="vm.delFormula(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>`;
 			                            // var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
 			                            // var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單</a>`;
 			                            // var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
@@ -249,15 +249,25 @@
 				}
 			},
 
-			createFormula(){
+			checkFormula(){
 
 				var formula  = this.formulas.data.filter(data => data.name === this.formula_name);
 
 				if ( formula.length>0 ) {
                     Swal.fire({ icon: 'error', title: '新增配方失敗，該配方已存在!!' });
-                }else{
+                    return false;
+                }
 
-                	const def = db.ref('users/' + this.userId + '/formulas');
+                return true;
+			},
+
+			createFormula(){
+
+				var chkFormula = this.checkFormula();
+
+				if ( chkFormula ) {
+
+                    const def = db.ref('users/' + this.userId + '/formulas');
 
 					var nextId = this.formulas.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
 
@@ -283,13 +293,31 @@
                 }
 			},
 
-			updateFormula(e){
+			updateFormula(){
 
-				// this.editmode = true;
+				var chkFormula = this.checkFormula();
 
-				// $("#addFormula").modal('show');
+				if ( chkFormula ) {
 
-				// this.formula_name = e.dataset.name;
+                    const def = db.ref('users/' + this.userId + '/formulas');
+
+					// {"data":[{"id":1,"name":"法國可可裸食燕麥","active":true,"total_weight":513,"total_size":513,"total_price":"92.04","image":"https://i.ibb.co/WvDKxsfB/8bb57377607e.png","expire_date":1745206769}]}
+
+					var now_name = this.formula_name;
+
+					var formulas = this.formulas;
+					formulas.data.forEach(function (val, i, arr) {
+						if (val.name == now_name) {
+							arr[i].name = this.formula_name;
+						}
+					});
+
+					def.set(JSON.stringify(formulas));
+
+					Swal.fire({ icon: 'success', title: '更新成功', text: '請於配方列表中查看!' });
+
+					$("#addFormula").modal('hide');
+                }
 			},
 
 			delFormula(){
