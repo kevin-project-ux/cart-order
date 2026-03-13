@@ -121,11 +121,11 @@
 			                                <label class="col-sm-3 col-form-label">材料名稱</label>
 			                                <input v-model="material_name" type="text" name="material_name" class="form-control col-sm-8" placeholder="請輸出材料名稱">
 			                            </div>
-			                            <div id="materialType">
+			                            <div class="mb-3" id="materialType">
 			                            	<!-- <button type="button" class="btn btn-secondary" v-for="material in materials">
 											  	{{ material.name }}
 											</button> -->
-											<span class="badge rounded-pill" :class="matStatus" v-for="material in materials" @click="setMaterial($event)">
+											<span class="badge rounded-pill" :class="matSelected === index ? 'bg-danger':'bg-secondary'" v-for="(material, index) in materials" @click="setMaterial(material, index)" :key="index">
 												{{ material.name }}
 											</span>
 			                            </div>
@@ -158,7 +158,7 @@
 			material_name: '',
 			formulas: { data: [] },
 			materials: [],
-			matStatus:'bg-secondary',
+			matSelected: null,
 		},
 		methods: {
 
@@ -393,9 +393,8 @@
 		        });
 			},
 
-			setMaterial(e){
-				var text = e.target.innerText;
-				this.matStatus = 'bg-danger';
+			setMaterial(text, index){
+				this.matSelected = index;
     			console.log(text);
 			},
 
