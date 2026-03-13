@@ -268,9 +268,11 @@
 				var matstr = '高粉、中粉、低粉、鮮奶、蛋、蛋白、蛋黃、酵母、砂糖、鹽、奶油、糖、糖粉、奶粉、檸檬汁、香草莢、鮮奶油、二砂糖、可可粉、抹茶粉、純糖粉、玉米粉、太白粉、咖啡粉、紅茶粉、杏仁片、巧克力豆、泡打粉、夏威夷豆、碎核桃、棉花糖、蔓越莓乾、水、吉利丁片、蜂蜜、杏仁粉、煉乳、香草精、乳酪、OREO碎塊、榛果醬、沙拉油、蘭姆酒、檸檬皮屑、發酵奶油、無水奶油、鹹蛋黃、馬斯卡彭、冰水、醬油、黑糖、冰糖、八角、甘草、黃耆、葡萄乾、黑芝麻、白芝麻、起司粉、七味粉';
 				var matarr = matstr.split('、');
 
+				var tmpmats = [];
 				matarr.forEach(function (val, i, arr) {
-					this.materials.push({ name:val });
+					tmpmats.push({ name:val });
 				});
+				this.materials = tmpmats;
 				console.log(this.materials);
 			},
 
