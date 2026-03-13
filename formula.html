@@ -125,7 +125,7 @@
 			                            	<!-- <button type="button" class="btn btn-secondary" v-for="material in materials">
 											  	{{ material.name }}
 											</button> -->
-											<span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" v-for="(material, index) in materials" @click="setMaterial(material)" :key="index">
+											<span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" v-for="(material, index) in materials" @click="setMaterial(material)" :key="index" style="font-size: 1rem;margin: 0.3rem;">
 												{{ material.name }}
 											</span>
 			                            </div>
