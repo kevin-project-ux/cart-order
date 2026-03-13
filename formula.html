@@ -122,9 +122,12 @@
 			                                <input v-model="material_name" type="text" name="material_name" class="form-control col-sm-8" placeholder="請輸出材料名稱">
 			                            </div>
 			                            <div id="materialType">
-			                            	<button type="button" class="btn btn-secondary" v-for="material in materials">
+			                            	<!-- <button type="button" class="btn btn-secondary" v-for="material in materials">
 											  	{{ material.name }}
-											</button>
+											</button> -->
+											<span class="badge badge-secondary" v-for="material in materials">
+												{{ material.name }}
+											</span>
 			                            </div>
 				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">儲存</button>
 			                        </form>
