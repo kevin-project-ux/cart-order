@@ -125,7 +125,7 @@
 			                            	<!-- <button type="button" class="btn btn-secondary" v-for="material in materials">
 											  	{{ material.name }}
 											</button> -->
-											<span class="badge rounded-pill text-badge-secondary" v-for="material in materials">
+											<span class="badge rounded-pill" :class="matStatus" v-for="material in materials" @click="setMaterial($event)">
 												{{ material.name }}
 											</span>
 			                            </div>
@@ -158,6 +158,7 @@
 			material_name: '',
 			formulas: { data: [] },
 			materials: [],
+			matStatus:'bg-secondary',
 		},
 		methods: {
 
@@ -390,6 +391,12 @@
 		                console.log('使用者取消');
 		            }
 		        });
+			},
+
+			setMaterial(e){
+				var text = e.target.innerText;
+				this.matStatus = 'bg-danger';
+    			console.log(text);
 			},
 
 		},
