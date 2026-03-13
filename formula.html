@@ -125,7 +125,7 @@
 			                            	<!-- <button type="button" class="btn btn-secondary" v-for="material in materials">
 											  	{{ material.name }}
 											</button> -->
-											<span class="badge badge-secondary" v-for="material in materials">
+											<span class="badge rounded-pill text-badge-secondary" v-for="material in materials">
 												{{ material.name }}
 											</span>
 			                            </div>
@@ -162,6 +162,8 @@
 		methods: {
 
 			addFormulaModal(){
+
+				this.editmode = false;
 
 				this.formula_name = '';
 
