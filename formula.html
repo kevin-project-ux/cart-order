@@ -118,16 +118,14 @@
 	                            <div class="p-4 bg-light rounded shadow-sm">
 	                            	<form @submit.prevent="updateMaterial()">
 		                                <div class="form-group input-group mb-3"> 
-			                                <label class="col-sm-3 col-form-label">材料名稱</label>
-			                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" v-for="(material, index) in materials" @click="setMaterial(material)" :key="index" style="font-size: 1rem;margin: 0.3rem;">
-												{{ material.name }}
-											</span>
-
+		                                	<div v-for="(material, index) in materials" @click="setMaterial(material)" :key="index">
+		                                		<label class="col-sm-3 col-form-label">{{ material.category }}</label>
+				                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;">
+													{{ material.name }}
+												</span>
+		                                	</div>
 			                            </div>
-			                            <div class="mb-3" id="materialType">
-			                            	<!-- <button type="button" class="btn btn-secondary" v-for="material in materials">
-											  	{{ material.name }}
-											</button> -->
+			                            <!-- <div class="mb-3" id="materialType">
 											<label class="col-sm-3 col-form-label">其他材料名稱</label>
 			                                <input v-model="material_name" type="text" name="material_name" class="form-control col-sm-8" placeholder="請輸出材料名稱">
 			                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
@@ -136,18 +134,17 @@
 											    	<li><a class="dropdown-item" href="#">油脂類(柔性材料)</a></li>
 											    	<li><a class="dropdown-item" href="#">糖類(甜味與軟化)</a></li>
 											    	<li><a class="dropdown-item" href="#">乳製品與濕性材料</a></li>
-											    	<li><a class="dropdown-item" href="#">膨大劑</a></li>
-											    	<li><a class="dropdown-item" href="#">發酵類</a></li>
+											    	<li><a class="dropdown-item" href="#">膨大劑與發酵類</a></li>
 											    	<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
 											    	<li><hr class="dropdown-divider"></li>
 											    	<li><a class="dropdown-item" href="#">其他</a></li>
 											  	</ul>
-			                            </div>
-			                            <div class="form-group mb-3">
+			                            </div> -->
+			                            <!-- <div class="form-group mb-3">
 			                                <label class="col-sm-3 col-form-label">已選材料</label>
 			                                <input v-model="sel_material" type="text" name="sel_material" class="form-control col-sm-8" readonly>
-			                                <!-- <button class="btn btn-primary">設定</button> -->
-			                            </div>
+			                                <button class="btn btn-primary">設定</button>
+			                            </div> -->
 				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">儲存</button>
 			                        </form>
 	                            </div>
