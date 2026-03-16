@@ -132,7 +132,7 @@
 		                                	<div v-for="(material, type) in materials" :key="type">
 		                                		<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type] }}</label>
 		                                		<div class="d-flex overflow-auto gap-2">
-					                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;" v-for="data in material">
+					                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(data)" style="font-size: 1rem;margin: 0.3rem;" v-for="data in material">
 														{{ data.name }}
 													</span>
 												</div>
@@ -170,9 +170,9 @@
 	                        <div class="tab-pane fade" id="newmat" role="tabpanel" aria-labelledby="newmat-tab">
 	                            <div class="p-4 bg-light rounded shadow-sm">
 	                            	<form @submit.prevent="updateMaterial()">
-			                            <div class="mb-3" id="materialType">
+			                            <div class="input-group mb-3" id="materialType">
 											<label class="col-sm-3 col-form-label">材料名稱</label>
-			                                <input v-model="material_name" type="text" name="material_name" class="form-control col-sm-8" placeholder="請輸出材料名稱">
+			                                <input v-model="material_name" type="text" name="material_name" class="form-control" placeholder="請輸出材料名稱及選擇材料類別">
 			                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
 										  	<ul class="dropdown-menu dropdown-menu-end">
 										    	<li><a class="dropdown-item" href="#">粉類原料(乾性主體)</a></li>
@@ -473,7 +473,7 @@
 
 			setMaterial(item){
 				item.active = !item.active;
-    			console.log(item.name);
+    			// console.log(item.name);
 			},
 
 		},
