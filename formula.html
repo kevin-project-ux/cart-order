@@ -120,7 +120,7 @@
 		                                <div class="form-group input-group mb-3"> 
 		                                	<div v-for="(material, index) in materials" :key="index">
 		                                		<!-- <label class="col-sm-3 col-form-label">{{ material.category }}</label> -->
-		                                		<label class="col-sm-3 col-form-label" v-if="index===0 || item.category !== materials[index-1].category">
+		                                		<label class="col-sm-3 col-form-label" v-if="index===0 || materials.category !== materials[index-1].category">
 												    {{ material.category }}
 												</label>
 				                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;">
