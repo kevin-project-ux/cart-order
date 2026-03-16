@@ -117,10 +117,10 @@
 	                        <div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="material-tab">
 	                            <div class="p-4 bg-light rounded shadow-sm">
 	                            	<form @submit.prevent="updateMaterial()">
-		                                <div class="form-group input-group mb-3"> 
-		                                	<div v-for="(material, type) in materials">
+		                                <div class="form-group mb-3"> 
+		                                	<div v-for="(material, type) in materials" :key="type">
 		                                		<label class="col-sm-3 col-form-label">{{ type }}</label>
-				                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;" v-for="data in material" :key="index">
+				                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;" v-for="data in material">
 													{{ data.name }}
 												</span>
 		                                	</div>
@@ -294,7 +294,7 @@
 				matarr['dairy']   = ['鮮奶','乳酪','蛋','蛋白','蛋黃','鹹蛋黃','馬斯卡彭','煉乳','檸檬汁','水','冰水','醬油','蜂蜜'];
 				matarr['bulking'] = ['酵母','泡打粉','小蘇打'];
 				matarr['spices']  = ['鹽','香草莢','香草精','巧克力豆','夏威夷豆','碎核桃','蔓越莓乾','葡萄乾','OREO碎塊','杏仁片','棉花糖','吉利丁片','蘭姆酒','檸檬皮屑','八角','甘草','黃耆','黑芝麻','白芝麻'];
-				matarr['other']   = ['其他'];
+				// matarr['other']   = ['其他'];
 
 				var tmpmats = [];
 				for( let type in matarr ){
