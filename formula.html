@@ -117,17 +117,36 @@
 	                        <div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="material-tab">
 	                            <div class="p-4 bg-light rounded shadow-sm">
 	                            	<form @submit.prevent="updateMaterial()">
-		                                <div class="form-group mb-3">
+		                                <div class="form-group input-group mb-3"> 
 			                                <label class="col-sm-3 col-form-label">材料名稱</label>
-			                                <input v-model="material_name" type="text" name="material_name" class="form-control col-sm-8" placeholder="請輸出材料名稱">
+			                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" v-for="(material, index) in materials" @click="setMaterial(material)" :key="index" style="font-size: 1rem;margin: 0.3rem;">
+												{{ material.name }}
+											</span>
+
 			                            </div>
 			                            <div class="mb-3" id="materialType">
 			                            	<!-- <button type="button" class="btn btn-secondary" v-for="material in materials">
 											  	{{ material.name }}
 											</button> -->
-											<span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" v-for="(material, index) in materials" @click="setMaterial(material)" :key="index" style="font-size: 1rem;margin: 0.3rem;">
-												{{ material.name }}
-											</span>
+											<label class="col-sm-3 col-form-label">其他材料名稱</label>
+			                                <input v-model="material_name" type="text" name="material_name" class="form-control col-sm-8" placeholder="請輸出材料名稱">
+			                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+											  	<ul class="dropdown-menu dropdown-menu-end">
+											    	<li><a class="dropdown-item" href="#">粉類原料(乾性主體)</a></li>
+											    	<li><a class="dropdown-item" href="#">油脂類(柔性材料)</a></li>
+											    	<li><a class="dropdown-item" href="#">糖類(甜味與軟化)</a></li>
+											    	<li><a class="dropdown-item" href="#">乳製品與濕性材料</a></li>
+											    	<li><a class="dropdown-item" href="#">膨大劑</a></li>
+											    	<li><a class="dropdown-item" href="#">發酵類</a></li>
+											    	<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
+											    	<li><hr class="dropdown-divider"></li>
+											    	<li><a class="dropdown-item" href="#">其他</a></li>
+											  	</ul>
+			                            </div>
+			                            <div class="form-group mb-3">
+			                                <label class="col-sm-3 col-form-label">已選材料</label>
+			                                <input v-model="sel_material" type="text" name="sel_material" class="form-control col-sm-8" readonly>
+			                                <!-- <button class="btn btn-primary">設定</button> -->
 			                            </div>
 				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">儲存</button>
 			                        </form>
@@ -155,9 +174,10 @@
 			userId: 'test',
 			formula_id: '',
 			formula_name: '',
-			material_name: '',
 			formulas: { data: [] },
+			material_name: '',
 			materials: [],
+			sel_material: [],
 		},
 		methods: {
 
@@ -270,13 +290,21 @@
 
 			loadMaterials(){
 
-				var matstr = '高粉、中粉、低粉、鮮奶、蛋、蛋白、蛋黃、酵母、砂糖、鹽、奶油、糖、糖粉、奶粉、檸檬汁、香草莢、鮮奶油、二砂糖、可可粉、抹茶粉、純糖粉、玉米粉、太白粉、咖啡粉、紅茶粉、杏仁片、巧克力豆、泡打粉、夏威夷豆、碎核桃、棉花糖、蔓越莓乾、水、吉利丁片、蜂蜜、杏仁粉、煉乳、香草精、乳酪、OREO碎塊、榛果醬、沙拉油、蘭姆酒、檸檬皮屑、發酵奶油、無水奶油、鹹蛋黃、馬斯卡彭、冰水、醬油、黑糖、冰糖、八角、甘草、黃耆、葡萄乾、黑芝麻、白芝麻、起司粉、七味粉';
-				var matarr = matstr.split('、');
+				var matarr = [];
+				matarr['powder']  = ['高粉','中粉','低粉','糖粉','純糖粉','玉米粉','太白粉','奶粉','可可粉','抹茶粉','杏仁粉','咖啡粉','紅茶粉','起司粉','七味粉'];
+				matarr['grease']  = ['奶油','鮮奶油','無水奶油','發酵奶油','沙拉油','植物油','榛果醬'];
+				matarr['sugar']   = ['糖','砂糖','黑糖','冰糖','二砂糖'];
+				matarr['dairy']   = ['鮮奶','乳酪','蛋','蛋白','蛋黃','鹹蛋黃','馬斯卡彭','煉乳','檸檬汁','水','冰水','醬油','蜂蜜'];
+				matarr['bulking'] = ['酵母','泡打粉','小蘇打'];
+				matarr['spices']  = ['鹽','香草莢','香草精','巧克力豆','夏威夷豆','碎核桃','蔓越莓乾','葡萄乾','OREO碎塊','杏仁片','棉花糖','吉利丁片','蘭姆酒','檸檬皮屑','八角','甘草','黃耆','黑芝麻','白芝麻'];
+				matarr['other']   = ['其他'];
 
 				var tmpmats = [];
-				matarr.forEach(function (val, i, arr) {
-					tmpmats.push({ name:val, active: false });
-				});
+				for( let type in matarr ){
+				  	matarr[type].forEach(val => {
+				    	tmpmats.push({ name:val, active: false, category:type });
+				  	});
+				}
 				this.materials = tmpmats;
 				console.log(this.materials);
 			},
