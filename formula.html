@@ -118,13 +118,10 @@
 	                            <div class="p-4 bg-light rounded shadow-sm">
 	                            	<form @submit.prevent="updateMaterial()">
 		                                <div class="form-group input-group mb-3"> 
-		                                	<div v-for="(material, index) in materials" :key="index">
-		                                		<!-- <label class="col-sm-3 col-form-label">{{ material.category }}</label> -->
-		                                		<label class="col-sm-3 col-form-label" v-if="index===0 || materials.category !== materials[index-1].category">
-												    {{ material.category }}
-												</label>
-				                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;">
-													{{ material.name }}
+		                                	<div v-for="(material, type) in materials">
+		                                		<label class="col-sm-3 col-form-label">{{ type }}</label>
+				                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;" v-for="data in material" :key="index">
+													{{ data.name }}
 												</span>
 		                                	</div>
 			                            </div>
@@ -301,8 +298,9 @@
 
 				var tmpmats = [];
 				for( let type in matarr ){
+					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
-				    	tmpmats.push({ name:val, active: false, category:type });
+				  		tmpmats[type].push({ name:val, active: false, category:type });
 				  	});
 				}
 				this.materials = tmpmats;
