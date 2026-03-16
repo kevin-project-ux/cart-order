@@ -42,6 +42,14 @@
     .link-warning {
         color: #cc9900 !important; /* 深一點的黃 */
     }
+
+	.scroll-badges::-webkit-scrollbar{
+	  	display:none; /* 隱藏scrollbar (手機更乾淨) */
+	}
+
+	.scroll-badges span{
+		scroll-snap-align:start;
+	}
 </style>
 <body data-page="formula">
 	<div id="app">
@@ -92,6 +100,9 @@
 	                        <li class="nav-item" role="presentation" v-if="editmode">
 	                            <button class="nav-link" id="material-tab" data-bs-toggle="tab" data-bs-target="#material" type="button" role="tab">材料內容</button>
 	                        </li>
+	                        <li class="nav-item" role="presentation" v-if="editmode">
+	                            <button class="nav-link" id="newmat-tab" data-bs-toggle="tab" data-bs-target="#newmat" type="button" role="tab">新建材料</button>
+	                        </li>
 	                    </ul>
 	          
 	                    <!-- Tab Content -->
@@ -119,10 +130,12 @@
 	                            	<form @submit.prevent="updateMaterial()">
 		                                <div class="form-group mb-3"> 
 		                                	<div v-for="(material, type) in materials" :key="type">
-		                                		<label class="col-sm-3 col-form-label">{{ type }}</label>
-				                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;" v-for="data in material">
-													{{ data.name }}
-												</span>
+		                                		<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type] }}</label>
+		                                		<div class="d-flex overflow-auto gap-2">
+					                                <span class="badge rounded-pill" :class="material.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(material)" style="font-size: 1rem;margin: 0.3rem;" v-for="data in material">
+														{{ data.name }}
+													</span>
+												</div>
 		                                	</div>
 			                            </div>
 			                            <!-- <div class="mb-3" id="materialType">
@@ -146,6 +159,38 @@
 			                                <button class="btn btn-primary">設定</button>
 			                            </div> -->
 				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">儲存</button>
+			                        </form>
+	                            </div>
+	                        </div>
+	                    </div>
+
+	                    <!-- Tab Content -->
+	                    <div class="tab-content" id="newmatTabsContent">
+	                        <!-- 新建材料 -->
+	                        <div class="tab-pane fade" id="newmat" role="tabpanel" aria-labelledby="newmat-tab">
+	                            <div class="p-4 bg-light rounded shadow-sm">
+	                            	<form @submit.prevent="updateMaterial()">
+			                            <div class="mb-3" id="materialType">
+											<label class="col-sm-3 col-form-label">材料名稱</label>
+			                                <input v-model="material_name" type="text" name="material_name" class="form-control col-sm-8" placeholder="請輸出材料名稱">
+			                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+										  	<ul class="dropdown-menu dropdown-menu-end">
+										    	<li><a class="dropdown-item" href="#">粉類原料(乾性主體)</a></li>
+										    	<li><a class="dropdown-item" href="#">油脂類(柔性材料)</a></li>
+										    	<li><a class="dropdown-item" href="#">糖類(甜味與軟化)</a></li>
+										    	<li><a class="dropdown-item" href="#">乳製品與濕性材料</a></li>
+										    	<li><a class="dropdown-item" href="#">膨大劑與發酵類</a></li>
+										    	<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
+										    	<li><hr class="dropdown-divider"></li>
+										    	<li><a class="dropdown-item" href="#">其他</a></li>
+										  	</ul>
+			                            </div>
+			                            <!-- <div class="form-group mb-3">
+			                                <label class="col-sm-3 col-form-label">已選材料</label>
+			                                <input v-model="sel_material" type="text" name="sel_material" class="form-control col-sm-8" readonly>
+			                                <button class="btn btn-primary">設定</button>
+			                            </div> -->
+				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">新增</button>
 			                        </form>
 	                            </div>
 	                        </div>
@@ -174,6 +219,7 @@
 			formulas: { data: [] },
 			material_name: '',
 			materials: [],
+			mattype_name:[],
 			sel_material: [],
 		},
 		methods: {
@@ -295,6 +341,13 @@
 				matarr['bulking'] = ['酵母','泡打粉','小蘇打'];
 				matarr['spices']  = ['鹽','香草莢','香草精','巧克力豆','夏威夷豆','碎核桃','蔓越莓乾','葡萄乾','OREO碎塊','杏仁片','棉花糖','吉利丁片','蘭姆酒','檸檬皮屑','八角','甘草','黃耆','黑芝麻','白芝麻'];
 				// matarr['other']   = ['其他'];
+
+				this.mattype_name['powder']  = '粉類原料';
+				this.mattype_name['grease']  = '油脂類';
+				this.mattype_name['sugar']   = '糖類';
+				this.mattype_name['dairy']   = '乳製品與濕性材料';
+				this.mattype_name['bulking'] = '膨大劑與發酵類';
+				this.mattype_name['spices']  = '香料與裝飾';
 
 				var tmpmats = {};
 				for( let type in matarr ){
