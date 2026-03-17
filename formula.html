@@ -88,7 +88,7 @@
 	            <div class="modal-content">
 	                <div class="modal-header">
 	                    <h5 class="modal-title" v-show="!editmode">新增配方</h5>
-                        <h5 class="modal-title" v-show="editmode">維護配方</h5>
+                        <h5 class="modal-title" v-show="editmode">維護配方-{{ formula_name }}</h5>
 	                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	                </div>
 	                <div class="modal-body">
@@ -504,8 +504,8 @@
 
 					var tmpval = {};
 					matarr.forEach(val => {
-						def = db.ref('users/' + this.userId + '/materials/' + val.name);
-						def.set({val});
+						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name);
+						def.set(val);
 					});
 				    console.log("path not exist");
 				}
