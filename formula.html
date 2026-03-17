@@ -504,7 +504,8 @@
 
 					var tmpval = {};
 					matarr.forEach(val => {
-						def.set({val.name:val});
+						var name = val.name;
+						def.set({name:val});
 					});
 				    console.log("path not exist");
 				}
