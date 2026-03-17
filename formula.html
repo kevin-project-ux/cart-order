@@ -361,7 +361,7 @@
 				for( let type in matarr ){
 					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
-				  		tmpmats[type].push({ name:val, active: false, category:type });
+				  		tmpmats[type].push({ name:val, active: false, category:type, price:0 });
 				  	});
 				}
 				this.materials = tmpmats;
