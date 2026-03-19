@@ -261,13 +261,18 @@
 				console.log(this.materials);
 				console.log(this.basic_mat);
 
-				const materials = new Map(
-				  	this.materials.map(item => [item.name, item])
-				);
+				Object.keys(this.basic_mat).forEach(key => {
+				  	if (!this.materials[key]) return;
 
-				this.basic_mat = this.basic_mat.map(b => {
-				  	const match = materials.get(b.name);
-				  	return match ? { ...b, active: match.active } : b;
+				  	// 建 index（加速查找）
+				  	const materials = new Map(
+				    	this.materials[key].map(item => [item.name, item])
+				  	);
+
+				  	this.basic_mat[key] = this.basic_mat[key].map(b => {
+				    	const match = materials.get(b.name);
+				    	return match ? { ...b, active: match.active } : b;
+				  	});
 				});
 
 			},
