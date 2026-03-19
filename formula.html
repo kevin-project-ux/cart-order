@@ -258,6 +258,9 @@
 				this.formula_id   = e.dataset.id;
 				this.formula_name = e.dataset.name;
 
+				console.log(this.materials);
+				console.log(this.basic_mat);
+
 				const materials = new Map(
 				  	this.materials.map(item => [item.name, item])
 				);
@@ -267,8 +270,6 @@
 				  	return match ? { ...b, active: match.active } : b;
 				});
 
-				console.log(this.materials);
-				console.log(this.basic_mat);
 			},
 
 			checkImgModal(){
