@@ -514,7 +514,7 @@
 
 					var tmpval = {};
 					matarr.forEach(val => {
-						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name+'/'+val.name+'/'+val.category);
+						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category);
 						def.set(val);
 					});
 				    // console.log("path not exist");
