@@ -259,7 +259,7 @@
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
 
-				// loadBasicMaterials(this.materials);
+				loadBasicMaterials(this.materials);
 
 			},
 
@@ -351,6 +351,8 @@
 
 			loadBasicMaterials(materials=''){
 
+				this.basic_mat = [];
+
 				var matarr = [];
 				matarr['powder']  = ['高粉','中粉','低粉','糖粉','純糖粉','玉米粉','太白粉','奶粉','可可粉','抹茶粉','杏仁粉','咖啡粉','紅茶粉','起司粉','七味粉'];
 				matarr['grease']  = ['奶油','鮮奶油','無水奶油','發酵奶油','沙拉油','植物油','榛果醬'];
@@ -371,7 +373,11 @@
 				for( let type in matarr ){
 					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
-				  		tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+				  		if( typeof this.materials[type]!==undefined && this.materials[type][val]!==undefined ){
+							tmpmats[type].push({ name:val, active: true, category:type, price:0 });
+						}else{
+							tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+						}
 				  	});
 				}
 				this.basic_mat = tmpmats;
@@ -514,7 +520,7 @@
 
 					var tmpval = {};
 					matarr.forEach(val => {
-						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category);
+						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category+ '/' + val.name);
 						def.set(val);
 					});
 				    // console.log("path not exist");
