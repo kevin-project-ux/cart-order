@@ -253,7 +253,7 @@
 				var def  = db.ref('users/' + this.userId + '/materials');
 				var data = await def.once("value");
 
-				if (data.exists()) { this.materials = JSON.parse(data.val()); }
+				if (data.exists()) { this.materials = data.val(); }
 
 				this.formula_id   = e.dataset.id;
 				this.formula_name = e.dataset.name;
