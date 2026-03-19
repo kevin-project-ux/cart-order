@@ -257,23 +257,9 @@
 
 				this.formula_id   = e.dataset.id;
 				this.formula_name = e.dataset.name;
+				this.sel_material = []; // 重置已選材料
 
-				console.log(this.materials);
-				console.log(this.basic_mat);
-
-				Object.keys(this.basic_mat).forEach(key => {
-				  	if (!this.materials[key]) return;
-
-				  	// 建 index（加速查找）
-				  	const materials = new Map(
-				    	this.materials[key].map(item => [item.name, item])
-				  	);
-
-				  	this.basic_mat[key] = this.basic_mat[key].map(b => {
-				    	const match = materials.get(b.name);
-				    	return match ? { ...b, active: match.active } : b;
-				  	});
-				});
+				// loadBasicMaterials(this.materials);
 
 			},
 
@@ -363,7 +349,7 @@
 				});
 			},
 
-			loadBasicMaterials(){
+			loadBasicMaterials(materials=''){
 
 				var matarr = [];
 				matarr['powder']  = ['高粉','中粉','低粉','糖粉','純糖粉','玉米粉','太白粉','奶粉','可可粉','抹茶粉','杏仁粉','咖啡粉','紅茶粉','起司粉','七味粉'];
@@ -529,7 +515,7 @@
 					var tmpval = {};
 					matarr.forEach(val => {
 						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.name);
-						def.set(val);
+						def.set(val.category:val);
 					});
 				    // console.log("path not exist");
 				}
