@@ -227,7 +227,7 @@
 			formulas: { data: [] },
 			material_name: '',
 			basic_mat: [],
-			materials: [],
+			materials: {},
 			mattype_name:[],
 			sel_material: [],
 		},
@@ -375,8 +375,22 @@
 				for( let type in matarr ){
 					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
-				  		if( this.materials.length>0 && typeof this.materials[type]!==undefined && typeof this.materials[type][val]!==undefined ){
-							tmpmats[type].push({ name:val, active: true, category:type, price:0 });
+				  		if( Object.keys(this.materials).length>0 ){
+				  			Object.keys(this.materials).forEach(key => {
+							  	const types = this.materials[key];
+
+							  	Object.keys(types).forEach(t => {
+							    	const names = types[t];
+
+							    	Object.keys(names).forEach(n => {
+							    		const item = names[n];
+							    		if( t==type && n==val ){
+							    			tmpmats[type].push({ name:val, active: true, category:type, price:0 });
+							    		}
+										console.log(key, t, n, item);
+							    	});
+							  	});
+							});
 						}else{
 							tmpmats[type].push({ name:val, active: false, category:type, price:0 });
 						}
