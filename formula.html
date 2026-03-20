@@ -377,22 +377,29 @@
 				  	matarr[type].forEach(val => {
 				  		if( Object.keys(this.materials).length>0 ){
 				  			Object.keys(this.materials).forEach(key => {
-							  	const types = this.materials[type];
 
-							  	Object.keys(types).forEach(t => {
+				  				if(  typeof this.materials[type]!==undefined  ){
+				  					
+				  					const types = this.materials[type];
 
-							  		if( typeof types[val]!==undefined ){
-							  			const names = types[val];
+								  	Object.keys(types).forEach(t => {
 
-								    	Object.keys(names).forEach(n => {
-								    		const item = names[n];
-								    		tmpmats[type].push({ name:val, active: item.active, category:type, price:0 });
-								    	});
-							  		}else{
-							  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
-							  		}
-							    	
-							  	});
+								  		if( typeof types[val]!==undefined ){
+								  			const names = types[val];
+
+									    	Object.keys(names).forEach(n => {
+									    		const item = names[n];
+									    		tmpmats[type].push({ name:val, active: item.active, category:type, price:0 });
+									    	});
+								  		}else{
+								  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+								  		}
+								    	
+								  	});
+				  				}else{
+						  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+						  		}
+							  	
 							});
 						}else{
 							tmpmats[type].push({ name:val, active: false, category:type, price:0 });
