@@ -369,11 +369,13 @@
 				this.mattype_name['bulking'] = '發酵類';
 				this.mattype_name['spices']  = '香料與裝飾';
 
+				console.log(this.materials);
+
 				var tmpmats = {};
 				for( let type in matarr ){
 					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
-				  		if( this.materials.length>0 && typeof this.materials[type]!==undefined && this.materials[type][val]!==undefined ){
+				  		if( this.materials.length>0 && typeof this.materials[type]!==undefined && typeof this.materials[type][val]!==undefined ){
 							tmpmats[type].push({ name:val, active: true, category:type, price:0 });
 						}else{
 							tmpmats[type].push({ name:val, active: false, category:type, price:0 });
