@@ -259,7 +259,7 @@
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
 
-				loadBasicMaterials(this.materials);
+				loadBasicMaterials();
 
 			},
 
@@ -349,7 +349,7 @@
 				});
 			},
 
-			loadBasicMaterials(materials=''){
+			loadBasicMaterials(){
 
 				this.basic_mat = [];
 
@@ -373,7 +373,7 @@
 				for( let type in matarr ){
 					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
-				  		if( typeof this.materials[type]!==undefined && this.materials[type][val]!==undefined ){
+				  		if( this.materials.length>0 && typeof this.materials[type]!==undefined && this.materials[type][val]!==undefined ){
 							tmpmats[type].push({ name:val, active: true, category:type, price:0 });
 						}else{
 							tmpmats[type].push({ name:val, active: false, category:type, price:0 });
