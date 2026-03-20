@@ -386,6 +386,8 @@
 							    		const item = names[n];
 							    		if( t==type && n==val ){
 							    			tmpmats[type].push({ name:val, active: true, category:type, price:0 });
+							    		}else{
+							    			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
 							    		}
 										console.log(key, t, n, item);
 							    	});
