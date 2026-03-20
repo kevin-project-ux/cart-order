@@ -376,31 +376,32 @@
 					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
 				  		if( Object.keys(this.materials).length>0 ){
-				  			Object.keys(this.materials).forEach(key => {
+				  			console.log(this.materials[type]);
+				  			// Object.keys(this.materials).forEach(key => {
 
-				  				if( this.materials && this.materials[type] ){
+				  			// 	if( this.materials && this.materials[type] ){
 
-				  					const types = this.materials[type];
+				  			// 		const types = this.materials[type];
 
-								  	Object.keys(types).forEach(t => {
+							// 	  	Object.keys(types).forEach(t => {
 
-								  		if( types[val] ){
-								  			const names = types[val];
+							// 	  		if( types[val] ){
+							// 	  			const names = types[val];
 
-									    	Object.keys(names).forEach(n => {
-									    		const item = names[n];
-									    		tmpmats[type].push({ name:val, active: item.active, category:type, price:0 });
-									    	});
-								  		}else{
-								  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
-								  		}
+							// 		    	Object.keys(names).forEach(n => {
+							// 		    		const item = names[n];
+							// 		    		tmpmats[type].push({ name:val, active: item.active, category:type, price:0 });
+							// 		    	});
+							// 	  		}else{
+							// 	  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+							// 	  		}
 								    	
-								  	});
-				  				}else{
-						  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
-						  		}
+							// 	  	});
+				  			// 	}else{
+						  	// 		tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+						  	// 	}
 							  	
-							});
+							// });
 						}else{
 							tmpmats[type].push({ name:val, active: false, category:type, price:0 });
 						}
