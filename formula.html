@@ -378,13 +378,13 @@
 				  		if( Object.keys(this.materials).length>0 ){
 				  			Object.keys(this.materials).forEach(key => {
 
-				  				if(  typeof this.materials[type]!==undefined  ){
-				  					
+				  				if( this.materials && this.materials[type] ){
+
 				  					const types = this.materials[type];
 
 								  	Object.keys(types).forEach(t => {
 
-								  		if( typeof types[val]!==undefined ){
+								  		if( types[val] ){
 								  			const names = types[val];
 
 									    	Object.keys(names).forEach(n => {
