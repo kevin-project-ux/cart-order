@@ -156,9 +156,9 @@
 			                                <input v-model="material_name" type="text" name="material_name" class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
 			                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">類別</button>
 										  	<ul class="dropdown-menu dropdown-menu-end">
-										    	<li><a class="dropdown-item" href="#">粉類原料(乾性主體)</a></li>
-										    	<li><a class="dropdown-item" href="#">油脂類(柔性材料)</a></li>
-										    	<li><a class="dropdown-item" href="#">糖類(甜味與軟化)</a></li>
+										    	<li><a class="dropdown-item" href="#">粉類原料</a></li>
+										    	<li><a class="dropdown-item" href="#">油脂類</a></li>
+										    	<li><a class="dropdown-item" href="#">糖類</a></li>
 										    	<li><a class="dropdown-item" href="#">乳製品與濕性材料</a></li>
 										    	<li><a class="dropdown-item" href="#">發酵類</a></li>
 										    	<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
@@ -369,12 +369,13 @@
 				this.mattype_name['bulking'] = '發酵類';
 				this.mattype_name['spices']  = '香料與裝飾';
 
-				console.log(this.materials);
+				// console.log(this.materials);
 
 				var tmpmats = {};
 				for( let type in matarr ){
 					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
+				  		var item = { name:val, active: false, category:type, price:0 };
 				  		if( Object.keys(this.materials).length>0 ){
 
 				  			Object.keys(this.materials).forEach(key => {
@@ -386,23 +387,23 @@
 				  					const types = prd_name[type];
 
 				  					if( types[val] ){
-				  						const item = types[val];
-				  						tmpmats[type].push({ name:val, active: item.active, category:type, price:0 });
+				  						item.active = types[val].active;
+				  						tmpmats[type].push(item);
+				  						this.sel_material.push(item);
 				  					}else{
-							  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+							  			tmpmats[type].push(item);
 							  		}
 				  				}else{
-						  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+						  			tmpmats[type].push(item);
 						  		}
-							  	
 							});
 						}else{
-							tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+							tmpmats[type].push(item);
 						}
 				  	});
 				}
 				this.basic_mat = tmpmats;
-				console.log(this.basic_mat);
+				// console.log(this.basic_mat);
 			},
 
 			async getFirebaseData() {
