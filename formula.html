@@ -279,7 +279,7 @@
 					if (raw) {
 
 						let parsed = JSON.parse(raw);
-						console.log(parsed);
+						// console.log(parsed);
 
 						mask.style.display = 'flex';
 
@@ -376,32 +376,34 @@
 					tmpmats[type] = [];
 				  	matarr[type].forEach(val => {
 				  		if( Object.keys(this.materials).length>0 ){
-				  			console.log(this.materials[type]);
-				  			// Object.keys(this.materials).forEach(key => {
 
-				  			// 	if( this.materials && this.materials[type] ){
+				  			Object.keys(this.materials).forEach(key => {
 
-				  			// 		const types = this.materials[type];
+				  				const prd_name = this.materials[$key];
 
-							// 	  	Object.keys(types).forEach(t => {
+				  				if( prd_name && prd_name[type] ){
 
-							// 	  		if( types[val] ){
-							// 	  			const names = types[val];
+				  					const types = prd_name[type];
 
-							// 		    	Object.keys(names).forEach(n => {
-							// 		    		const item = names[n];
-							// 		    		tmpmats[type].push({ name:val, active: item.active, category:type, price:0 });
-							// 		    	});
-							// 	  		}else{
-							// 	  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
-							// 	  		}
+								  	Object.keys(types).forEach(t => {
+
+								  		if( types[val] ){
+								  			const names = types[val];
+
+									    	Object.keys(names).forEach(n => {
+									    		const item = names[n];
+									    		tmpmats[type].push({ name:val, active: item.active, category:type, price:0 });
+									    	});
+								  		}else{
+								  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+								  		}
 								    	
-							// 	  	});
-				  			// 	}else{
-						  	// 		tmpmats[type].push({ name:val, active: false, category:type, price:0 });
-						  	// 	}
+								  	});
+				  				}else{
+						  			tmpmats[type].push({ name:val, active: false, category:type, price:0 });
+						  		}
 							  	
-							// });
+							});
 						}else{
 							tmpmats[type].push({ name:val, active: false, category:type, price:0 });
 						}
