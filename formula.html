@@ -566,7 +566,7 @@
 					// console.log(this.materials);
 					Object.keys(this.materials).forEach(prd_name => {
 						this.sel_material.forEach(val => {
-							if (typeof prd_name[val.category][val.name] === undefined) {
+							if (!prd_name || !prd_name[val.category] || !prd_name[val.category][val.name]) {
 								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
 								def.update({ active: false });
 								console.log('already updated1!');
