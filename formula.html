@@ -565,18 +565,16 @@
 				if (Object.keys(this.materials).length > 0) {
 					// console.log(this.materials);
 					Object.keys(this.materials).forEach(prd_name => {
-						prd_name.forEach(types => {
-							this.sel_material.forEach(val => {
-								if (!types[val.category][val.name]) {
-									def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-									def.update({ active: false });
-									console.log('already updated1!');
-								} else {
-									def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-									def.set(val);
-									console.log('already updated2!');
-								}
-							});
+						this.sel_material.forEach(val => {
+							if (!prd_name[val.category][val.name]) {
+								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+								def.update({ active: false });
+								console.log('already updated1!');
+							} else {
+								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+								def.set(val);
+								console.log('already updated2!');
+							}
 						});
 
 					});
