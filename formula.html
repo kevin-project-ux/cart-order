@@ -564,24 +564,22 @@
 
 				if (Object.keys(this.materials).length > 0) {
 					// console.log(this.materials);
-					this.sel_material.forEach(val => {
-						Object.keys(this.materials).forEach(key => {
-
-							const prd_name = this.materials[key];
-
-							if (prd_name && prd_name[val.category]) {
-
-								const types = prd_name[val.category];
-
-								if (!types[val.name]) {
-									db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name).update({ active: false });
+					Object.keys(this.materials).forEach(key => {
+						const prd_name = this.materials[key];
+						prd_name.forEach(types => {
+							this.sel_material.forEach(val => {
+								if (!types[val.category][val.name]) {
+									def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+									def.update({ active: false });
 									console.log('already updated1!');
+								} else {
+									def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+									def.set(val);
+									console.log('already updated2!');
 								}
-							} else {
-								db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name).update({ active: false });
-								console.log('already updated2!')
-							}
+							});
 						});
+
 					});
 				} else {
 
