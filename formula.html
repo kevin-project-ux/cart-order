@@ -567,29 +567,27 @@
 				} else {
 					var sel_material = this.sel_material;
 
-					for (let type in sel_material) {
-						sel_material[type].forEach(val => {
+					sel_material.forEach(val => {
 
-							if (Object.keys(this.materials).length > 0) {
+						if (Object.keys(this.materials).length > 0) {
 
-								Object.keys(this.materials).forEach(key => {
+							Object.keys(this.materials).forEach(key => {
 
-									const prd_name = this.materials[key];
+								const prd_name = this.materials[key];
 
-									if (prd_name && prd_name[type]) {
+								if (prd_name && prd_name[type]) {
 
-										const types = prd_name[type];
+									const types = prd_name[type];
 
-										if (!types[val]) {
-											db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + type + '/' + val).update({ active: false });
-										}
-									} else {
+									if (!types[val]) {
 										db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + type + '/' + val).update({ active: false });
 									}
-								});
-							}
-						});
-					}
+								} else {
+									db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + type + '/' + val).update({ active: false });
+								}
+							});
+						}
+					});
 
 					sel_material.forEach(val => {
 						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
