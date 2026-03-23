@@ -1,192 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>配方/材料</title>
 
 	<!-- Custom Style -->
-    <link href="style.css" rel="stylesheet" />
+	<link href="style.css" rel="stylesheet" />
 
-    <!-- Bootstrap & Font Awesome -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<!-- Bootstrap & Font Awesome -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <!-- Custom Js -->
-    <script src="main.js"></script>
-  
-    <!-- DataTables + Bootstrap 5 -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-  
-    <!-- Vue 2 -->
+	<!-- Custom Js -->
+	<script src="main.js"></script>
+
+	<!-- DataTables + Bootstrap 5 -->
+	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+	<!-- Vue 2 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
 <style>
 	#loadingMask {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.5);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
-
-    .link-warning {
-        color: #cc9900 !important; /* 深一點的黃 */
-    }
-
-	.scroll-badges::-webkit-scrollbar{
-	  	display:none; /* 隱藏scrollbar (手機更乾淨) */
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0.5);
+		display: none;
+		justify-content: center;
+		align-items: center;
+		z-index: 9999;
 	}
 
-	.scroll-badges span{
-		scroll-snap-align:start;
+	.link-warning {
+		color: #cc9900 !important;
+		/* 深一點的黃 */
+	}
+
+	.scroll-badges::-webkit-scrollbar {
+		display: none;
+		/* 隱藏scrollbar (手機更乾淨) */
+	}
+
+	.scroll-badges span {
+		scroll-snap-align: start;
 	}
 </style>
+
 <body data-page="formula">
 	<div id="app">
 
 		<div class="container mt-4">
-        	<div class="card">
-            	<div class="card-header d-flex justify-content-between align-items-center">
-            		<h5 class="mb-0">品項列表</h5>
-            		<a href="#" class="link-primary" @click="addFormulaModal()">
-	                    <i class="fas fa-plus"></i> 新增
-	                </a>
-            	</div>
-            	<div class="card-body">
-            		<table id="example" class="table table-striped table-hover table-bordered w-100">
-	                    <thead>
-	                        <tr>
-	                            <th>名稱</th>
-	                            <th>價格</th>
-	                            <th></th>
-	                        </tr>
-	                    </thead>
-	                    <tbody id="tableBody"></tbody>
-	                </table>
-            	</div>
-            </div>
-        </div>
+			<div class="card">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<h5 class="mb-0">品項列表</h5>
+					<a href="#" class="link-primary" @click="addFormulaModal()">
+						<i class="fas fa-plus"></i> 新增
+					</a>
+				</div>
+				<div class="card-body">
+					<table id="example" class="table table-striped table-hover table-bordered w-100">
+						<thead>
+							<tr>
+								<th>名稱</th>
+								<th>價格</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="tableBody"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 
 		<!-- 底部導覽載入位置 -->
 		<div id="bottomNav"></div>
 
-		<div id="loadingMask"><div class="spinner"></div></div>
+		<div id="loadingMask">
+			<div class="spinner"></div>
+		</div>
 
 		<!-- Formula Modal -->
 		<div class="modal fade" id="addFormula" tabindex="-1">
-	        <div class="modal-dialog modal-lg">
-	            <div class="modal-content">
-	                <div class="modal-header">
-	                    <h5 class="modal-title" v-show="!editmode">新增配方</h5>
-                        <h5 class="modal-title" v-show="editmode">維護配方-{{ formula_name }}</h5>
-	                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-	                </div>
-	                <div class="modal-body">
-	                    <!-- Tabs -->
-	                    <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
-	                        <li class="nav-item" role="presentation">
-	                            <button class="nav-link active" id="formula-tab" data-bs-toggle="tab" data-bs-target="#formula" type="button" role="tab">配方內容</button>
-	                        </li>
-	                        <li class="nav-item" role="presentation" v-if="editmode">
-	                            <button class="nav-link" id="material-tab" data-bs-toggle="tab" data-bs-target="#material" type="button" role="tab">材料內容</button>
-	                        </li>
-	                        <li class="nav-item" role="presentation" v-if="editmode">
-	                            <button class="nav-link" id="newmat-tab" data-bs-toggle="tab" data-bs-target="#newmat" type="button" role="tab">新建材料</button>
-	                        </li>
-	                        <li class="nav-item" role="presentation" v-if="editmode">
-	                            <button class="nav-link" id="matcost-tab" data-bs-toggle="tab" data-bs-target="#matcost" type="button" role="tab">材料成本</button>
-	                        </li>
-	                    </ul>
-	          
-	                    <!-- Tab Content -->
-	                    <div class="tab-content" id="formulaTabsContent">
-	                        <!-- 新增/維護配方 -->
-	                        <div class="tab-pane fade show active" id="formula" role="tabpanel" aria-labelledby="formula-tab">
-	                            <div class="p-4 bg-light rounded shadow-sm">
-	                            	<form @submit.prevent="editmode ? updateFormula() : createFormula()">
-		                                <div class="form-group mb-3">
-			                                <label class="col-sm-3 col-form-label">配方名稱</label>
-			                                <input v-model="formula_name" type="text" name="formula_name" class="form-control col-sm-8" placeholder="請輸出配方名稱">
-			                            </div>
-				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">修改</button>
-				                        <button v-show="!editmode" type="submit" class="btn btn-primary w-100">新增</button>
-			                        </form>
-	                            </div>
-	                        </div>
-	                    </div>
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" v-show="!editmode">新增配方</h5>
+						<h5 class="modal-title" v-show="editmode">維護配方-{{ formula_name }}</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						<!-- Tabs -->
+						<ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="formula-tab" data-bs-toggle="tab"
+									data-bs-target="#formula" type="button" role="tab">配方內容</button>
+							</li>
+							<li class="nav-item" role="presentation" v-if="editmode">
+								<button class="nav-link" id="material-tab" data-bs-toggle="tab"
+									data-bs-target="#material" type="button" role="tab">材料內容</button>
+							</li>
+							<li class="nav-item" role="presentation" v-if="editmode">
+								<button class="nav-link" id="newmat-tab" data-bs-toggle="tab" data-bs-target="#newmat"
+									type="button" role="tab">新建材料</button>
+							</li>
+							<li class="nav-item" role="presentation" v-if="editmode">
+								<button class="nav-link" id="matcost-tab" data-bs-toggle="tab" data-bs-target="#matcost"
+									type="button" role="tab">材料成本</button>
+							</li>
+						</ul>
 
-	                    <!-- Tab Content -->
-	                    <div class="tab-content" id="materialTabsContent">
-	                        <!-- 材料內容 -->
-	                        <div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="material-tab">
-	                            <div class="p-4 bg-light rounded shadow-sm">
-	                                <div class="form-group mb-3"> 
-	                                	<div v-for="(material, type) in basic_mat" :key="type">
-	                                		<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type] }}</label>
-	                                		<div class="d-flex overflow-auto gap-2">
-				                                <span class="badge rounded-pill" :class="data.active ? 'bg-danger':'bg-secondary'" @click="setMaterial(data)" style="font-size: 1rem;margin: 0.3rem;" v-for="data in material">
+						<!-- Tab Content -->
+						<div class="tab-content" id="formulaTabsContent">
+							<!-- 新增/維護配方 -->
+							<div class="tab-pane fade show active" id="formula" role="tabpanel"
+								aria-labelledby="formula-tab">
+								<div class="p-4 bg-light rounded shadow-sm">
+									<form @submit.prevent="editmode ? updateFormula() : createFormula()">
+										<div class="form-group mb-3">
+											<label class="col-sm-3 col-form-label">配方名稱</label>
+											<input v-model="formula_name" type="text" name="formula_name"
+												class="form-control col-sm-8" placeholder="請輸出配方名稱">
+										</div>
+										<button v-show="editmode" type="submit"
+											class="btn btn-success w-100">修改</button>
+										<button v-show="!editmode" type="submit"
+											class="btn btn-primary w-100">新增</button>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<!-- Tab Content -->
+						<div class="tab-content" id="materialTabsContent">
+							<!-- 材料內容 -->
+							<div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="material-tab">
+								<div class="p-4 bg-light rounded shadow-sm">
+									<div class="form-group mb-3">
+										<div v-for="(material, type) in basic_mat" :key="type">
+											<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type]
+												}}</label>
+											<div class="d-flex overflow-auto gap-2">
+												<span class="badge rounded-pill"
+													:class="data.active ? 'bg-danger':'bg-secondary'"
+													@click="setMaterial(data)" style="font-size: 1rem;margin: 0.3rem;"
+													v-for="data in material">
 													{{ data.name }}
 												</span>
 											</div>
-	                                	</div>
-		                            </div>
-			                        <button v-show="editmode" type="button" class="btn btn-success w-100" @click="saveMaterial()">儲存</button>
-	                            </div>
-	                        </div>
-	                    </div>
+										</div>
+									</div>
+									<button v-show="editmode" type="button" class="btn btn-success w-100"
+										@click="saveMaterial()">儲存</button>
+								</div>
+							</div>
+						</div>
 
-	                    <!-- Tab Content -->
-	                    <div class="tab-content" id="newmatTabsContent">
-	                        <!-- 新建材料 -->
-	                        <div class="tab-pane fade" id="newmat" role="tabpanel" aria-labelledby="newmat-tab">
-	                            <div class="p-4 bg-light rounded shadow-sm">
-	                            	<form @submit.prevent="updateMaterial()">
-			                            <div class="input-group mb-3" id="materialType">
+						<!-- Tab Content -->
+						<div class="tab-content" id="newmatTabsContent">
+							<!-- 新建材料 -->
+							<div class="tab-pane fade" id="newmat" role="tabpanel" aria-labelledby="newmat-tab">
+								<div class="p-4 bg-light rounded shadow-sm">
+									<form @submit.prevent="updateMaterial()">
+										<div class="input-group mb-3" id="materialType">
 											<label class="col-sm-3 col-form-label">材料名稱</label>
-			                                <input v-model="material_name" type="text" name="material_name" class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
-			                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">類別</button>
-										  	<ul class="dropdown-menu dropdown-menu-end">
-										    	<li><a class="dropdown-item" href="#">粉類原料</a></li>
-										    	<li><a class="dropdown-item" href="#">油脂類</a></li>
-										    	<li><a class="dropdown-item" href="#">糖類</a></li>
-										    	<li><a class="dropdown-item" href="#">乳製品與濕性材料</a></li>
-										    	<li><a class="dropdown-item" href="#">發酵類</a></li>
-										    	<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
-										    	<li><hr class="dropdown-divider"></li>
-										    	<li><a class="dropdown-item" href="#">其他</a></li>
-										  	</ul>
-			                            </div>
-			                            <!-- <div class="form-group mb-3">
+											<input v-model="material_name" type="text" name="material_name"
+												class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
+											<button class="btn btn-outline-secondary dropdown-toggle" type="button"
+												data-bs-toggle="dropdown" aria-expanded="false">類別</button>
+											<ul class="dropdown-menu dropdown-menu-end">
+												<li><a class="dropdown-item" href="#">粉類原料</a></li>
+												<li><a class="dropdown-item" href="#">油脂類</a></li>
+												<li><a class="dropdown-item" href="#">糖類</a></li>
+												<li><a class="dropdown-item" href="#">乳製品</a></li>
+												<li><a class="dropdown-item" href="#">濕性材料</a></li>
+												<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
+												<li>
+													<hr class="dropdown-divider">
+												</li>
+												<li><a class="dropdown-item" href="#">其他</a></li>
+											</ul>
+										</div>
+										<!-- <div class="form-group mb-3">
 			                                <label class="col-sm-3 col-form-label">已選材料</label>
 			                                <input v-model="sel_material" type="text" name="sel_material" class="form-control col-sm-8" readonly>
 			                                <button class="btn btn-primary">設定</button>
 			                            </div> -->
-				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">新增</button>
-			                        </form>
-	                            </div>
-	                        </div>
-	                    </div>
+										<button v-show="editmode" type="submit"
+											class="btn btn-success w-100">新增</button>
+									</form>
+								</div>
+							</div>
+						</div>
 
-	                    <!-- Tab Content -->
-	                    <div class="tab-content" id="matcostTabsContent">
-	                        <!-- 材料成本 -->
-	                        <div class="tab-pane fade" id="matcost" role="tabpanel" aria-labelledby="matcost-tab">
-	                            <div class="p-4 bg-light rounded shadow-sm">
-	                            	<form @submit.prevent="updateMaterial()">
-			                            <div class="input-group mb-3" id="materialType">
+						<!-- Tab Content -->
+						<div class="tab-content" id="matcostTabsContent">
+							<!-- 材料成本 -->
+							<div class="tab-pane fade" id="matcost" role="tabpanel" aria-labelledby="matcost-tab">
+								<div class="p-4 bg-light rounded shadow-sm">
+									<form @submit.prevent="updateMaterial()">
+										<div class="input-group mb-3" id="materialType">
 											<label class="col-sm-3 col-form-label">材料名稱</label>
-			                                <input v-model="material_name" type="text" name="material_name" class="form-control" readonly>
-			                                <!-- <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">類別</button>
+											<input v-model="material_name" type="text" name="material_name"
+												class="form-control" readonly>
+											<!-- <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">類別</button>
 										  	<ul class="dropdown-menu dropdown-menu-end">
 										    	<li><a class="dropdown-item" href="#">粉類原料(乾性主體)</a></li>
 										    	<li><a class="dropdown-item" href="#">油脂類(柔性材料)</a></li>
@@ -197,16 +223,17 @@
 										    	<li><hr class="dropdown-divider"></li>
 										    	<li><a class="dropdown-item" href="#">其他</a></li>
 										  	</ul> -->
-			                            </div>
-				                        <button v-show="editmode" type="submit" class="btn btn-success w-100">儲存</button>
-			                        </form>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
+										</div>
+										<button v-show="editmode" type="submit"
+											class="btn btn-success w-100">儲存</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script>
@@ -228,12 +255,12 @@
 			material_name: '',
 			basic_mat: [],
 			materials: {},
-			mattype_name:[],
+			mattype_name: [],
 			sel_material: [],
 		},
 		methods: {
 
-			addFormulaModal(){
+			addFormulaModal() {
 
 				this.editmode = false;
 
@@ -242,7 +269,7 @@
 				$("#addFormula").modal('show');
 			},
 
-			async updFormulaModal(e){
+			async updFormulaModal(e) {
 
 				// console.log(e);
 
@@ -250,12 +277,12 @@
 
 				$("#addFormula").modal('show');
 
-				var def  = db.ref('users/' + this.userId + '/materials');
+				var def = db.ref('users/' + this.userId + '/materials');
 				var data = await def.once("value");
 
 				if (data.exists()) { this.materials = data.val(); }
 
-				this.formula_id   = e.dataset.id;
+				this.formula_id = e.dataset.id;
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
 
@@ -263,7 +290,7 @@
 
 			},
 
-			checkImgModal(){
+			checkImgModal() {
 
 			},
 
@@ -284,50 +311,50 @@
 						mask.style.display = 'flex';
 
 						$('#example').DataTable({
-			                data: parsed.data,
-			                destroy: true, // 重新載入時清除舊表格
-			                responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
-			                autoWidth: false,      // 關閉自動欄寬
-			                pageLength: 5,           // 一頁顯示 5 筆
-			                lengthChange: false,     // 不顯示筆數設定下拉選單
-			                searching: false,
-			                ordering: false, // 不啟用欄位排序
-			                language: {
-			                    paginate: { previous: '‹', next: '›' },
-			                    zeroRecords: '目前沒有資料',
-			                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
-			                },
-			                initComplete: function () {
-			                    mask.style.display = 'none';
-			                },
-			                columns: [
-			                    { data: 'name', className: 'truncate' },
-			                    { 
-			                        data: 'total_price',
-			                        className: 'text-center',
-			                        createdCell: function (td, cellData) {
-			                        	if( cellData==0 ){
-			                        		$(td).addClass('text-danger').text(cellData);
-			                        	}else{
-			                        		$(td).addClass('text-success').text(cellData);
-			                        	}
-			                        }
-			                    },
-			                    {
-			                        data: null,
-			                        defaultContent: '',
-			                        className: 'text-center',
-			                        render: function (data, type, row) {
+							data: parsed.data,
+							destroy: true, // 重新載入時清除舊表格
+							responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
+							autoWidth: false,      // 關閉自動欄寬
+							pageLength: 5,           // 一頁顯示 5 筆
+							lengthChange: false,     // 不顯示筆數設定下拉選單
+							searching: false,
+							ordering: false, // 不啟用欄位排序
+							language: {
+								paginate: { previous: '‹', next: '›' },
+								zeroRecords: '目前沒有資料',
+								url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
+							},
+							initComplete: function () {
+								mask.style.display = 'none';
+							},
+							columns: [
+								{ data: 'name', className: 'truncate' },
+								{
+									data: 'total_price',
+									className: 'text-center',
+									createdCell: function (td, cellData) {
+										if (cellData == 0) {
+											$(td).addClass('text-danger').text(cellData);
+										} else {
+											$(td).addClass('text-success').text(cellData);
+										}
+									}
+								},
+								{
+									data: null,
+									defaultContent: '',
+									className: 'text-center',
+									render: function (data, type, row) {
 
-			                        	// var enable = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-type="enable" onclick="enableFormula(this)"><i class="fas fa-edit"></i> 啟用配方</a>`;
-			                        	var img  = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" data-id="${row.id}" onclick="vm.checkImgModal(this)"><i class="fas fa-image"></i> 查看配方</a>`;
-			                            var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-type="edit" data-id="${row.id}" data-name="${row.name}" onclick="vm.updFormulaModal(this)"><i class="fas fa-edit"></i> 編輯配方</a>`;
-			                            var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" data-id="${row.id}" onclick="vm.delFormula(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>`;
-			                            // var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
-			                            // var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
-			                            // <span class="badge bg-success">Beta</span>
+										// var enable = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-type="enable" onclick="enableFormula(this)"><i class="fas fa-edit"></i> 啟用配方</a>`;
+										var img = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" data-id="${row.id}" onclick="vm.checkImgModal(this)"><i class="fas fa-image"></i> 查看配方</a>`;
+										var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-type="edit" data-id="${row.id}" data-name="${row.name}" onclick="vm.updFormulaModal(this)"><i class="fas fa-edit"></i> 編輯配方</a>`;
+										var del = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" data-id="${row.id}" onclick="vm.delFormula(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>`;
+										// var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
+										// var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
+										// <span class="badge bg-success">Beta</span>
 
-			                            var html = `
+										var html = `
 			                                <div class="dropdown">
 			                                    <a href="#" class="link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 			                                        <i class="fas fa-bars"></i>
@@ -340,67 +367,67 @@
 			                                </div>
 			                            `;
 
-			                            return html;
-			                        }
-			                    }
-			                ]
-			            });
+										return html;
+									}
+								}
+							]
+						});
 					}
 				});
 			},
 
-			loadBasicMaterials(){
+			loadBasicMaterials() {
 
 				this.basic_mat = [];
 
 				var matarr = [];
-				matarr['powder']  = ['高粉','中粉','低粉','糖粉','純糖粉','玉米粉','太白粉','奶粉','可可粉','抹茶粉','杏仁粉','咖啡粉','紅茶粉','起司粉','七味粉'];
-				matarr['grease']  = ['奶油','鮮奶油','無水奶油','發酵奶油','沙拉油','植物油','榛果醬'];
-				matarr['sugar']   = ['糖','砂糖','黑糖','冰糖','二砂糖'];
-				matarr['dairy']   = ['鮮奶','乳酪','蛋','蛋白','蛋黃','鹹蛋黃','馬斯卡彭','煉乳','檸檬汁','水','冰水','醬油','蜂蜜'];
-				matarr['bulking'] = ['酵母','泡打粉','小蘇打粉'];
-				matarr['spices']  = ['鹽','香草莢','香草精','巧克力豆','夏威夷豆','碎核桃','蔓越莓乾','葡萄乾','OREO碎塊','杏仁片','棉花糖','吉利丁片','蘭姆酒','檸檬皮屑','八角','甘草','黃耆','黑芝麻','白芝麻'];
+				matarr['powder'] = ['高粉', '中粉', '低粉', '玉米粉', '酵母', '泡打粉', '小蘇打粉', '太白粉', '奶粉', '可可粉', '抹茶粉', '杏仁粉', '咖啡粉', '紅茶粉', '起司粉', '七味粉'];
+				matarr['grease'] = ['奶油', '鮮奶油', '無水奶油', '發酵奶油', '沙拉油', '植物油'];
+				matarr['sugar'] = ['糖', '砂糖', '黑糖', '冰糖', '二砂糖', '糖粉', '純糖粉'];
+				matarr['dairy'] = ['鮮奶', '乳酪', '蛋', '蛋白', '蛋黃', '鹹蛋黃', '煉乳'];
+				matarr['moistur'] = ['馬斯卡彭', '檸檬汁', '水', '冰水', '醬油', '蜂蜜', '榛果醬'];
+				matarr['spices'] = ['鹽', '香草莢', '香草精', '巧克力豆', '夏威夷豆', '碎核桃', '蔓越莓乾', '葡萄乾', 'OREO碎塊', '杏仁片', '棉花糖', '吉利丁片', '蘭姆酒', '檸檬皮屑', '八角', '甘草', '黃耆', '黑芝麻', '白芝麻'];
 				// matarr['other']   = ['其他'];
 
-				this.mattype_name['powder']  = '粉類原料';
-				this.mattype_name['grease']  = '油脂類';
-				this.mattype_name['sugar']   = '糖類';
-				this.mattype_name['dairy']   = '乳製品與濕性材料';
-				this.mattype_name['bulking'] = '發酵類';
-				this.mattype_name['spices']  = '香料與裝飾';
+				this.mattype_name['powder'] = '粉類原料';
+				this.mattype_name['grease'] = '油脂類';
+				this.mattype_name['sugar'] = '糖類';
+				this.mattype_name['dairy'] = '乳製品';
+				this.mattype_name['moistur'] = '濕性材料';
+				this.mattype_name['spices'] = '香料與裝飾';
 
 				// console.log(this.materials);
 
 				var tmpmats = {};
-				for( let type in matarr ){
+				for (let type in matarr) {
 					tmpmats[type] = [];
-				  	matarr[type].forEach(val => {
-				  		var item = { name:val, active: false, category:type, price:0 };
-				  		if( Object.keys(this.materials).length>0 ){
+					matarr[type].forEach(val => {
+						var item = { name: val, active: false, category: type, price: 0 };
+						if (Object.keys(this.materials).length > 0) {
 
-				  			Object.keys(this.materials).forEach(key => {
+							Object.keys(this.materials).forEach(key => {
 
-				  				const prd_name = this.materials[key];
+								const prd_name = this.materials[key];
 
-				  				if( prd_name && prd_name[type] ){
+								if (prd_name && prd_name[type]) {
 
-				  					const types = prd_name[type];
+									const types = prd_name[type];
 
-				  					if( types[val] ){
-				  						item.active = types[val].active;
-				  						tmpmats[type].push(item);
-				  						this.sel_material.push(item);
-				  					}else{
-							  			tmpmats[type].push(item);
-							  		}
-				  				}else{
-						  			tmpmats[type].push(item);
-						  		}
+									if (types[val]) {
+										item.active = types[val].active;
+										tmpmats[type].push(item);
+										this.sel_material.push(item);
+									} else {
+										tmpmats[type].push(item);
+									}
+								} else {
+									tmpmats[type].push(item);
+								}
 							});
-						}else{
+						} else {
 							tmpmats[type].push(item);
 						}
-				  	});
+					});
 				}
 				this.basic_mat = tmpmats;
 				// console.log(this.basic_mat);
@@ -419,40 +446,40 @@
 				}
 			},
 
-			checkFormula(){
+			checkFormula() {
 
-				var formula  = this.formulas.data.filter(data => data.name === this.formula_name);
+				var formula = this.formulas.data.filter(data => data.name === this.formula_name);
 
-				if ( formula.length>0 ) {
-                    Swal.fire({ icon: 'error', title: '新增配方失敗，該配方已存在!!' });
-                    return false;
-                }
+				if (formula.length > 0) {
+					Swal.fire({ icon: 'error', title: '新增配方失敗，該配方已存在!!' });
+					return false;
+				}
 
-                return true;
+				return true;
 			},
 
-			createFormula(){
+			createFormula() {
 
 				var chkFormula = this.checkFormula();
 
-				if ( chkFormula ) {
+				if (chkFormula) {
 
-                    const def = db.ref('users/' + this.userId + '/formulas');
+					const def = db.ref('users/' + this.userId + '/formulas');
 
 					var nextId = this.formulas.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
 
 					// {"data":[{"id":1,"name":"法國可可裸食燕麥","active":true,"total_weight":513,"total_size":513,"total_price":"92.04","image":"https://i.ibb.co/WvDKxsfB/8bb57377607e.png","expire_date":1745206769}]}
 
 					var list = {
-                        id: nextId,
-                        name: this.formula_name,
-                        active: false,
-                        total_weight: 0,
-                        total_size: 0,
-                        total_price: 0,
-                        image: "",
-                        expire_date: "",
-                    }
+						id: nextId,
+						name: this.formula_name,
+						active: false,
+						total_weight: 0,
+						total_size: 0,
+						total_price: 0,
+						image: "",
+						expire_date: "",
+					}
 
 					this.formulas.data.push(list);
 					def.set(JSON.stringify(this.formulas));
@@ -460,21 +487,21 @@
 					Swal.fire({ icon: 'success', title: '新增成功', text: '請於配方列表中查看!' });
 
 					$("#addFormula").modal('hide');
-                }
+				}
 			},
 
-			updateFormula(){
+			updateFormula() {
 
 				var chkFormula = this.checkFormula();
 
-				if ( chkFormula ) {
+				if (chkFormula) {
 
-                    const def = db.ref('users/' + this.userId + '/formulas');
+					const def = db.ref('users/' + this.userId + '/formulas');
 
-                    var fid 	 = this.formula_id;
+					var fid = this.formula_id;
 					var new_name = this.formula_name;
 					var formulas = this.formulas;
-					
+
 					formulas.data.forEach(function (val, i, arr) {
 						if (val.id == fid) {
 							arr[i].name = new_name;
@@ -486,66 +513,92 @@
 					Swal.fire({ icon: 'success', title: '更新成功', text: '請於配方列表中查看!' });
 
 					$("#addFormula").modal('hide');
-                }
+				}
 			},
 
-			delFormula(e){
+			delFormula(e) {
 
 				var id = e.dataset.id;
 
 				Swal.fire({
-		            title: text,
-		            text: '此操作無法復原！',
-		            icon: 'warning',
-		            showCancelButton: true,
-		            confirmButtonText: '確定',
-		            cancelButtonText: '取消'
-		        }).then((result) => {
-		            if (result.isConfirmed) {
+					title: text,
+					text: '此操作無法復原！',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: '確定',
+					cancelButtonText: '取消'
+				}).then((result) => {
+					if (result.isConfirmed) {
 
-		                const def = db.ref('users/' + this.userId + '/formulas');
+						const def = db.ref('users/' + this.userId + '/formulas');
 
 						var formulas = this.formulas;
 
 						formulas.data = formulas.data.filter(item => item.id !== Number(id));
 
 						def.set(JSON.stringify(formulas));
-		            } else if (result.isDismissed) {
-		                // 使用者按下「取消」或點旁邊關閉
-		                console.log('使用者取消');
-		            }
-		        });
+					} else if (result.isDismissed) {
+						// 使用者按下「取消」或點旁邊關閉
+						console.log('使用者取消');
+					}
+				});
 			},
 
-			setMaterial(item){
+			setMaterial(item) {
 				item.active = !item.active;
 
-				if( item.active ){
+				if (item.active) {
 					this.sel_material.push(item);
-				}else{
+				} else {
 					this.sel_material = this.sel_material.filter(m => m.name !== item.name);
 				}
 				console.log(this.sel_material);
 			},
 
-			saveMaterial(){
+			async saveMaterial() {
 
 				//{"data":[{"id":2,"fid":1,"name":"法芙娜可可粉","weight":"15","double":"1","size":"15","capacity":"1公升","cost":"300","price":"4.50"},{"id":3,"fid":1,"name":"12穀物粉","weight":"35","double":"1","size":"35","capacity":"1公升","cost":"150","price":"5.25"},{"id":4,"fid":1,"name":"法國72%巧克力","weight":"55","double":"1","size":"55","capacity":"1公升","cost":"500","price":"27.50"},{"id":5,"fid":1,"name":"玄米油或任何植物油","weight":"20","double":"1","size":"20","capacity":"1公升","cost":"180","price":"3.60"},{"id":6,"fid":1,"name":"糖","weight":"70","double":"1","size":"70","capacity":"1公升","cost":"36","price":"2.52"},{"id":7,"fid":1,"name":"海鹽","weight":"2","double":"1","size":"2","capacity":"1公升","cost":"14","price":"0.03"},{"id":8,"fid":1,"name":"有機豆漿","weight":"76","double":"1","size":"76","capacity":"1公升","cost":"40","price":"3.04"},{"id":9,"fid":1,"name":"烤過杏仁片130度20分","weight":"30","double":"1","size":"30","capacity":"1公升","cost":"380","price":"11.40"},{"id":10,"fid":1,"name":"烤過核桃粒130度20分","weight":"30","double":"1","size":"30","capacity":"1公升","cost":"420","price":"12.60"},{"id":11,"fid":1,"name":"大燕麥片","weight":"180","double":"1","size":"180","capacity":"1公升","cost":"120","price":"21.60"},{"id":12,"fid":2,"name":"豬肉","weight":"1800","double":"1","size":1800,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":13,"fid":2,"name":"鹽","weight":"10","double":"1","size":10,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":14,"fid":2,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":15,"fid":2,"name":"醬油","weight":"80","double":"1","size":80,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":16,"fid":2,"name":"蛋","weight":"2","double":"1","size":2,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":17,"fid":2,"name":"薑末","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":18,"fid":2,"name":"白胡椒粉","weight":"15","double":"1","size":15,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":19,"fid":2,"name":"細砂糖","weight":"70","double":"1","size":70,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":20,"fid":2,"name":"味素","weight":"25","double":"1","size":25,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":21,"fid":2,"name":"太白粉","weight":"15","double":"1","size":15,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":22,"fid":2,"name":"香油","weight":"45","double":"1","size":45,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":23,"fid":3,"name":"豬肉","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":24,"fid":3,"name":"鹽","weight":"9","double":"1","size":9,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":25,"fid":3,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":26,"fid":3,"name":"醬油","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":27,"fid":3,"name":"蛋","weight":"1","double":"1","size":1,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":28,"fid":3,"name":"薑末","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":29,"fid":3,"name":"白胡椒粉","weight":"6","double":"1","size":6,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":30,"fid":3,"name":"細砂糖","weight":"53","double":"1","size":53,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":31,"fid":3,"name":"味素","weight":"15","double":"1","size":15,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":32,"fid":3,"name":"太白粉","weight":"8","double":"1","size":8,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":33,"fid":3,"name":"香油","weight":"45","double":"1","size":45,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":34,"fid":3,"name":"蔥花","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":35,"fid":3,"name":"高麗菜","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":36,"fid":4,"name":"豬肉","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":37,"fid":4,"name":"鹽","weight":"9","double":"1","size":9,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":38,"fid":4,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":39,"fid":4,"name":"醬油","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":40,"fid":4,"name":"蛋","weight":"1","double":"1","size":1,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":41,"fid":4,"name":"薑末","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":42,"fid":4,"name":"白胡椒粉","weight":"6","double":"1","size":6,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":43,"fid":4,"name":"細砂糖","weight":"53","double":"1","size":53,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":44,"fid":4,"name":"味素","weight":"15","double":"1","size":15,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":45,"fid":4,"name":"太白粉","weight":"8","double":"1","size":8,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":46,"fid":4,"name":"香油","weight":"45","double":"1","size":45,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":47,"fid":4,"name":"蔥花","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":48,"fid":4,"name":"韭菜","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":49,"fid":5,"name":"豬肉","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":50,"fid":5,"name":"鹽","weight":"9","double":"1","size":9,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":51,"fid":5,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":52,"fid":5,"name":"薄醬油","weight":"50","double":"1","size":50,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":53,"fid":5,"name":"蛋","weight":"1","double":"1","size":1,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":54,"fid":5,"name":"薑末","weight":"50","double":"1","size":50,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":55,"fid":5,"name":"白胡椒粉","weight":"4","double":"1","size":4,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":56,"fid":5,"name":"細砂糖","weight":"35","double":"1","size":35,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":57,"fid":5,"name":"味素","weight":"10","double":"1","size":10,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":58,"fid":5,"name":"太白粉","weight":"5","double":"1","size":5,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":59,"fid":5,"name":"香油","weight":"30","double":"1","size":30,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":60,"fid":6,"name":"豬肉","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":61,"fid":6,"name":"鹽","weight":"9","double":"1","size":9,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":62,"fid":6,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":63,"fid":6,"name":"薄醬油","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":64,"fid":6,"name":"蛋","weight":"1","double":"1","size":1,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":65,"fid":6,"name":"薑末","weight":"50","double":"1","size":50,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":66,"fid":6,"name":"白胡椒粉","weight":"4","double":"1","size":4,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":67,"fid":6,"name":"細砂糖","weight":"35","double":"1","size":35,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":68,"fid":6,"name":"味素","weight":"10","double":"1","size":10,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":69,"fid":6,"name":"太白粉","weight":"5","double":"1","size":5,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":70,"fid":6,"name":"香油","weight":"30","double":"1","size":30,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":71,"fid":6,"name":"蔥花","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":72,"fid":6,"name":"玉米","weight":"2","double":"1","size":2,"capacity":"","cost":"0","price":"0.00","unit":"罐"}]}
 
 				// var def  = db.ref('users/' + this.userId + '/materials');
 				// var data = await def.once("value");
 
-				if( this.materials.length>0 ) {
-				    console.log(this.materials);
+				if (this.materials.length > 0) {
+					console.log(this.materials);
 				} else {
-					var matarr = this.sel_material;
+					var sel_material = this.sel_material;
 
-					var tmpval = {};
-					matarr.forEach(val => {
-						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category+ '/' + val.name);
+					for (let type in sel_material) {
+						sel_material[type].forEach(val => {
+
+							if (Object.keys(this.materials).length > 0) {
+
+								Object.keys(this.materials).forEach(key => {
+
+									const prd_name = this.materials[key];
+
+									if (prd_name && prd_name[type]) {
+
+										const types = prd_name[type];
+
+										if (!types[val]) {
+											db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + type + '/' + val).update({ active: false });
+										}
+									} else {
+										db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + type + '/' + val).update({ active: false });
+									}
+								});
+							}
+						});
+					}
+
+					sel_material.forEach(val => {
+						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
 						def.set(val);
+						// var data = await def.once("value");
+						// if (data.exists()) { this.materials = data.val(); }
+
 					});
-				    // console.log("path not exist");
+					// console.log("path not exist");
 				}
 
 				// this.sel_material
@@ -563,7 +616,7 @@
 			}
 
 			this.profile = await liff.getProfile();
-			this.userId  = this.profile.userId;
+			this.userId = this.profile.userId;
 
 			this.loadFormulas();
 			this.loadBasicMaterials();
@@ -572,4 +625,5 @@
 		}
 	});
 </script>
+
 </html>
