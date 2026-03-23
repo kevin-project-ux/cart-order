@@ -564,25 +564,26 @@
 
 				if (Object.keys(this.materials).length > 0) {
 					// console.log(this.materials);
-					Object.keys(this.materials).forEach(key => {
+					this.sel_material.forEach(val => {
+						Object.keys(this.materials).forEach(key => {
 
-						const prd_name = this.materials[key];
+							const prd_name = this.materials[key];
 
-						if (prd_name && prd_name[val.category]) {
+							if (prd_name && prd_name[val.category]) {
 
-							const types = prd_name[val.category];
+								const types = prd_name[val.category];
 
-							if (!types[val.name]) {
+								if (!types[val.name]) {
+									db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name).update({ active: false });
+								}
+							} else {
 								db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name).update({ active: false });
 							}
-						} else {
-							db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name).update({ active: false });
-						}
+						});
 					});
 				} else {
-					var sel_material = this.sel_material;
 
-					sel_material.forEach(val => {
+					this.sel_material.forEach(val => {
 						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
 						def.set(val);
 						// var data = await def.once("value");
