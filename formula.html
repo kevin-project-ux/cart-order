@@ -292,11 +292,6 @@
 
 				$("#addFormula").modal('show');
 
-				var def = db.ref('users/' + this.userId + '/materials');
-				var data = await def.once("value");
-
-				if (data.exists()) { this.materials = data.val(); }
-
 				this.formula_id = e.dataset.id;
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
@@ -391,6 +386,14 @@
 						});
 					}
 				});
+			},
+
+			loadMaterials(){
+
+				var def = db.ref('users/' + this.userId + '/materials');
+				var data = await def.once("value");
+
+				if (data.exists()) { this.materials = data.val(); }
 			},
 
 			loadBakingMaterials() {
@@ -674,6 +677,8 @@
 					timerProgressBar: true
 				});
 
+				this.loadMaterials();
+
 				// this.sel_material
 			},
 
@@ -691,6 +696,7 @@
 			this.userId = this.profile.userId;
 
 			this.loadFormulas();
+			this.loadMaterials();
 			// this.loadBasicMaterials();
 
 			await this.getFirebaseData();
