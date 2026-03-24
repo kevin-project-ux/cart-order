@@ -302,6 +302,7 @@
 				this.sel_material = []; // 重置已選材料
 
 				this.loadBakingMaterials();
+				this.loadDumplingMaterials();
 				this.loadCostMaterials();
 
 			},
@@ -454,18 +455,16 @@
 				this.dumpling_mat = [];
 
 				var matarr = [];
-				matarr['meat']      = ['豬絞肉'];
+				matarr['meat']      = ['豬肉'];
 				matarr['fillings']  = ['高麗菜', '韭菜', '蝦仁', '玉米', '剝皮辣椒', '泡菜', '蔥'];
-				matarr['spices']    = ['蔥花', '薑末'];
-				matarr['seasoning'] = ['鹽', '糖', '砂糖', '細砂糖', '醬油','白胡椒粉', '太白粉', '玉米粉', '味素', '香油', '八角', '甘草', '黃耆', '蛋'];
-				matarr['water']     = ['冰水'];
+				matarr['flavor']    = ['蔥花', '薑末'];
+				matarr['seasoning'] = ['鹽', '糖', '砂糖', '細砂糖', '醬油','白胡椒粉', '太白粉', '玉米粉', '味素', '香油', '蛋', '冰水'];
 				// matarr['other']   = ['其他'];
 
-				this.mattype_name['meat']    = '肉類主料';
-				this.mattype_name['grease']  = '蔬菜/餡料';
-				this.mattype_name['powder']  = '辛香提味';
-				this.mattype_name['sugar']   = '調味料';
-				this.mattype_name['dairy']   = '高湯/水分';
+				this.mattype_name['meat']      = '肉類主料';
+				this.mattype_name['fillings']  = '蔬菜/餡料';
+				this.mattype_name['flavor']    = '辛香提味';
+				this.mattype_name['seasoning'] = '調味料';
 
 				// console.log(this.materials);
 
@@ -501,7 +500,7 @@
 					});
 				}
 				this.dumpling_mat = tmpmats;
-				// console.log(this.baking_mat);
+				console.log(this.dumpling_mat);
 			},
 
 			loadCostMaterials() {
