@@ -648,13 +648,13 @@
 						this.sel_material.forEach(val => {
 							if (!prd_name && !prd_name[val.category] && !prd_name[val.category][val.name]) {
 								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-								def.set(val);
-								console.log('already set!');
+								def.remove();
+								console.log('already remove!');
 							} else {
 								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
 								// def.update({ active: false });
-								def.remove();
-								console.log('already remove!');
+								def.set(val);
+								console.log('already set!');
 							}
 						});
 					});
