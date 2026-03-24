@@ -649,7 +649,8 @@
 								console.log('already updated2!');
 							} else {
 								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-								def.update({ active: false });
+								// def.update({ active: false });
+								def.delete();
 								console.log('already updated1!');
 							}
 						});
