@@ -646,17 +646,15 @@
 					// console.log(this.materials);
 					Object.keys(this.materials).forEach(prd_name => {
 						this.sel_material.forEach(val => {
-							if (!prd_name || !prd_name[val.category] || !prd_name[val.category][val.name]) {
-								if( val.active ){
-									def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-									def.set(val);
-									console.log('already set!');
-								}else{
-									def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-									// def.update({ active: false });
-									def.remove();
-									console.log('already remove!');
-								}
+							if (!prd_name && !prd_name[val.category] && !prd_name[val.category][val.name]) {
+								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+								def.set(val);
+								console.log('already set!');
+							} else {
+								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+								// def.update({ active: false });
+								def.remove();
+								console.log('already remove!');
 							}
 						});
 					});
