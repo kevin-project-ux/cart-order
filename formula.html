@@ -648,13 +648,12 @@
 						this.sel_material.forEach(val => {
 							if (!prd_name || !prd_name[val.category] || !prd_name[val.category][val.name]) {
 								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-								// def.set(val);
-								def.remove();
+								def.set(val);
 								console.log('already updated2!');
 							} else {
 								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
 								// def.update({ active: false });
-								// def.delete();
+								def.remove();
 								console.log('already updated1!');
 							}
 						});
@@ -679,8 +678,6 @@
 				});
 
 				this.loadMaterials();
-
-				// this.sel_material
 			},
 
 		},
