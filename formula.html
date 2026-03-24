@@ -110,10 +110,6 @@
 									data-bs-target="#material" type="button" role="tab">材料內容</button>
 							</li>
 							<li class="nav-item" role="presentation" v-if="editmode">
-								<button class="nav-link" id="newmat-tab" data-bs-toggle="tab" data-bs-target="#newmat"
-									type="button" role="tab">新建材料</button>
-							</li>
-							<li class="nav-item" role="presentation" v-if="editmode">
 								<button class="nav-link" id="matcost-tab" data-bs-toggle="tab" data-bs-target="#matcost"
 									type="button" role="tab">材料成本</button>
 							</li>
@@ -146,16 +142,70 @@
 							<div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="material-tab">
 								<div class="p-4 bg-light rounded shadow-sm">
 									<div class="form-group mb-3">
-										<div v-for="(material, type) in basic_mat" :key="type">
-											<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type]
-												}}</label>
-											<div class="d-flex overflow-auto gap-2">
-												<span class="badge rounded-pill"
-													:class="data.active ? 'bg-danger':'bg-secondary'"
-													@click="setMaterial(data)" style="font-size: 1rem;margin: 0.3rem;"
-													v-for="data in material">
-													{{ data.name }}
-												</span>
+										<form @submit.prevent="addMaterial()">
+											<div class="input-group mb-3" id="materialType">
+												<label class="col-sm-3 col-form-label">材料名稱</label>
+												<input v-model="material_name" type="text" name="material_name"
+													class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
+												<button class="btn btn-outline-secondary dropdown-toggle" type="button"
+													data-bs-toggle="dropdown" aria-expanded="false">類別</button>
+												<ul class="dropdown-menu dropdown-menu-end">
+													<li><a class="dropdown-item" href="#">粉類原料</a></li>
+													<li><a class="dropdown-item" href="#">油脂類</a></li>
+													<li><a class="dropdown-item" href="#">糖類</a></li>
+													<li><a class="dropdown-item" href="#">乳製品</a></li>
+													<li><a class="dropdown-item" href="#">濕性材料</a></li>
+													<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
+													<li>
+														<hr class="dropdown-divider">
+													</li>
+													<li><a class="dropdown-item" href="#">其他</a></li>
+												</ul>
+											</div>
+											<button v-show="editmode" type="submit"
+												class="btn btn-success w-100">新增</button>
+										</form>
+									</div>
+									<div class="seg-wrap mb-3">
+										<button class="seg-btn btn btn-outline-primary"
+											:class="{active: subTab === 'Bakings'}"
+											@click="subTab = 'Bakings'">烘焙</button>
+										<button class="seg-btn btn btn-outline-success"
+											:class="{active: subTab === 'Dumplings'}"
+											@click="subTab = 'Dumplings'">水餃</button>
+									</div>
+
+									<div v-if="subTab === 'Bakings'" class="mb-3">
+										<div class="form-group mb-3">
+											<div v-for="(material, type) in baking_mat" :key="type">
+												<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type]
+													}}</label>
+												<div class="d-flex overflow-auto gap-2">
+													<span class="badge rounded-pill"
+														:class="data.active ? 'bg-danger':'bg-secondary'"
+														@click="setMaterial(data)"
+														style="font-size: 1rem;margin: 0.3rem;"
+														v-for="data in material">
+														{{ data.name }}
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div v-if="subTab === 'Dumplings'" class="mb-3">
+										<div class="form-group mb-3">
+											<div v-for="(material, type) in dumpling_mat" :key="type">
+												<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type]
+													}}</label>
+												<div class="d-flex overflow-auto gap-2">
+													<span class="badge rounded-pill"
+														:class="data.active ? 'bg-danger':'bg-secondary'"
+														@click="setMaterial(data)"
+														style="font-size: 1rem;margin: 0.3rem;"
+														v-for="data in material">
+														{{ data.name }}
+													</span>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -166,48 +216,11 @@
 						</div>
 
 						<!-- Tab Content -->
-						<div class="tab-content" id="newmatTabsContent">
-							<!-- 新建材料 -->
-							<div class="tab-pane fade" id="newmat" role="tabpanel" aria-labelledby="newmat-tab">
-								<div class="p-4 bg-light rounded shadow-sm">
-									<form @submit.prevent="updateMaterial()">
-										<div class="input-group mb-3" id="materialType">
-											<label class="col-sm-3 col-form-label">材料名稱</label>
-											<input v-model="material_name" type="text" name="material_name"
-												class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
-											<button class="btn btn-outline-secondary dropdown-toggle" type="button"
-												data-bs-toggle="dropdown" aria-expanded="false">類別</button>
-											<ul class="dropdown-menu dropdown-menu-end">
-												<li><a class="dropdown-item" href="#">粉類原料</a></li>
-												<li><a class="dropdown-item" href="#">油脂類</a></li>
-												<li><a class="dropdown-item" href="#">糖類</a></li>
-												<li><a class="dropdown-item" href="#">乳製品</a></li>
-												<li><a class="dropdown-item" href="#">濕性材料</a></li>
-												<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
-												<li>
-													<hr class="dropdown-divider">
-												</li>
-												<li><a class="dropdown-item" href="#">其他</a></li>
-											</ul>
-										</div>
-										<!-- <div class="form-group mb-3">
-			                                <label class="col-sm-3 col-form-label">已選材料</label>
-			                                <input v-model="sel_material" type="text" name="sel_material" class="form-control col-sm-8" readonly>
-			                                <button class="btn btn-primary">設定</button>
-			                            </div> -->
-										<button v-show="editmode" type="submit"
-											class="btn btn-success w-100">新增</button>
-									</form>
-								</div>
-							</div>
-						</div>
-
-						<!-- Tab Content -->
 						<div class="tab-content" id="matcostTabsContent">
 							<!-- 材料成本 -->
 							<div class="tab-pane fade" id="matcost" role="tabpanel" aria-labelledby="matcost-tab">
 								<div class="p-4 bg-light rounded shadow-sm">
-									<form @submit.prevent="updateMaterial()">
+									<form @submit.prevent="addMaterialCost()">
 										<div class="input-group mb-3" id="materialType">
 											<label class="col-sm-3 col-form-label">材料名稱</label>
 											<input v-model="material_name" type="text" name="material_name"
@@ -249,11 +262,13 @@
 			editmode: false,
 			msg: '',
 			userId: 'test',
+			subTab: 'Bakings',
 			formula_id: '',
 			formula_name: '',
 			formulas: { data: [] },
 			material_name: '',
-			basic_mat: [],
+			baking_mat: [],
+			dumpling_mat: [],
 			materials: {},
 			mattype_name: [],
 			sel_material: [],
@@ -286,7 +301,8 @@
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
 
-				this.loadBasicMaterials();
+				this.loadBakingMaterials();
+				this.loadCostMaterials();
 
 			},
 
@@ -376,25 +392,25 @@
 				});
 			},
 
-			loadBasicMaterials() {
+			loadBakingMaterials() {
 
-				this.basic_mat = [];
+				this.baking_mat = [];
 
 				var matarr = [];
-				matarr['powder'] = ['高粉', '中粉', '低粉', '玉米粉', '酵母', '泡打粉', '小蘇打粉', '太白粉', '奶粉', '可可粉', '抹茶粉', '杏仁粉', '咖啡粉', '紅茶粉', '起司粉', '七味粉'];
-				matarr['grease'] = ['奶油', '鮮奶油', '無水奶油', '發酵奶油', '沙拉油', '植物油'];
-				matarr['sugar'] = ['糖', '砂糖', '黑糖', '冰糖', '二砂糖', '糖粉', '純糖粉'];
-				matarr['dairy'] = ['鮮奶', '乳酪', '蛋', '蛋白', '蛋黃', '鹹蛋黃', '煉乳'];
+				matarr['powder']  = ['高粉', '中粉', '低粉', '玉米粉', '酵母', '泡打粉', '小蘇打粉', '太白粉', '奶粉', '可可粉', '抹茶粉', '杏仁粉', '咖啡粉', '紅茶粉', '起司粉', '七味粉'];
+				matarr['grease']  = ['奶油', '鮮奶油', '無水奶油', '發酵奶油', '沙拉油', '植物油'];
+				matarr['sugar']   = ['糖', '砂糖', '黑糖', '冰糖', '二砂糖', '糖粉', '純糖粉'];
+				matarr['dairy']   = ['鮮奶', '乳酪', '蛋', '蛋白', '蛋黃', '鹹蛋黃', '煉乳'];
 				matarr['moistur'] = ['馬斯卡彭', '檸檬汁', '水', '冰水', '醬油', '蜂蜜', '榛果醬'];
-				matarr['spices'] = ['鹽', '香草莢', '香草精', '巧克力豆', '夏威夷豆', '碎核桃', '蔓越莓乾', '葡萄乾', 'OREO碎塊', '杏仁片', '棉花糖', '吉利丁片', '蘭姆酒', '檸檬皮屑', '八角', '甘草', '黃耆', '黑芝麻', '白芝麻'];
+				matarr['spices']  = ['鹽', '香草莢', '香草精', '巧克力豆', '夏威夷豆', '碎核桃', '蔓越莓乾', '葡萄乾', 'OREO碎塊', '杏仁片', '棉花糖', '吉利丁片', '蘭姆酒', '檸檬皮屑', '八角', '甘草', '黃耆', '黑芝麻', '白芝麻'];
 				// matarr['other']   = ['其他'];
 
-				this.mattype_name['powder'] = '粉類原料';
-				this.mattype_name['grease'] = '油脂類';
-				this.mattype_name['sugar'] = '糖類';
-				this.mattype_name['dairy'] = '乳製品';
+				this.mattype_name['powder']  = '粉類原料';
+				this.mattype_name['grease']  = '油脂類';
+				this.mattype_name['sugar']   = '糖類';
+				this.mattype_name['dairy']   = '乳製品';
 				this.mattype_name['moistur'] = '濕性材料';
-				this.mattype_name['spices'] = '香料與裝飾';
+				this.mattype_name['spices']  = '香料與裝飾';
 
 				// console.log(this.materials);
 
@@ -429,8 +445,69 @@
 						}
 					});
 				}
-				this.basic_mat = tmpmats;
-				// console.log(this.basic_mat);
+				this.baking_mat = tmpmats;
+				// console.log(this.baking_mat);
+			},
+
+			loadDumplingMaterials(){
+
+				this.dumpling_mat = [];
+
+				var matarr = [];
+				matarr['meat']      = ['豬絞肉'];
+				matarr['fillings']  = ['高麗菜', '韭菜', '蝦仁', '玉米', '剝皮辣椒', '泡菜', '蔥'];
+				matarr['spices']    = ['蔥花', '薑末'];
+				matarr['seasoning'] = ['鹽', '糖', '砂糖', '細砂糖', '醬油','白胡椒粉', '太白粉', '玉米粉', '味素', '香油', '八角', '甘草', '黃耆', '蛋'];
+				matarr['water']     = ['冰水'];
+				// matarr['other']   = ['其他'];
+
+				this.mattype_name['meat']    = '肉類主料';
+				this.mattype_name['grease']  = '蔬菜/餡料';
+				this.mattype_name['powder']  = '辛香提味';
+				this.mattype_name['sugar']   = '調味料';
+				this.mattype_name['dairy']   = '高湯/水分';
+
+				// console.log(this.materials);
+
+				var tmpmats = {};
+				for (let type in matarr) {
+					tmpmats[type] = [];
+					matarr[type].forEach(val => {
+						var item = { name: val, active: false, category: type, price: 0 };
+						if (Object.keys(this.materials).length > 0) {
+
+							Object.keys(this.materials).forEach(key => {
+
+								const prd_name = this.materials[key];
+
+								if (prd_name && prd_name[type]) {
+
+									const types = prd_name[type];
+
+									if (types[val]) {
+										item.active = types[val].active;
+										tmpmats[type].push(item);
+										this.sel_material.push(item);
+									} else {
+										tmpmats[type].push(item);
+									}
+								} else {
+									tmpmats[type].push(item);
+								}
+							});
+						} else {
+							tmpmats[type].push(item);
+						}
+					});
+				}
+				this.dumpling_mat = tmpmats;
+				// console.log(this.baking_mat);
+			},
+
+			loadCostMaterials() {
+
+
+
 			},
 
 			async getFirebaseData() {
@@ -555,12 +632,13 @@
 				console.log(this.sel_material);
 			},
 
+			addMaterial() {
+
+			},
+
 			async saveMaterial() {
 
 				//{"data":[{"id":2,"fid":1,"name":"法芙娜可可粉","weight":"15","double":"1","size":"15","capacity":"1公升","cost":"300","price":"4.50"},{"id":3,"fid":1,"name":"12穀物粉","weight":"35","double":"1","size":"35","capacity":"1公升","cost":"150","price":"5.25"},{"id":4,"fid":1,"name":"法國72%巧克力","weight":"55","double":"1","size":"55","capacity":"1公升","cost":"500","price":"27.50"},{"id":5,"fid":1,"name":"玄米油或任何植物油","weight":"20","double":"1","size":"20","capacity":"1公升","cost":"180","price":"3.60"},{"id":6,"fid":1,"name":"糖","weight":"70","double":"1","size":"70","capacity":"1公升","cost":"36","price":"2.52"},{"id":7,"fid":1,"name":"海鹽","weight":"2","double":"1","size":"2","capacity":"1公升","cost":"14","price":"0.03"},{"id":8,"fid":1,"name":"有機豆漿","weight":"76","double":"1","size":"76","capacity":"1公升","cost":"40","price":"3.04"},{"id":9,"fid":1,"name":"烤過杏仁片130度20分","weight":"30","double":"1","size":"30","capacity":"1公升","cost":"380","price":"11.40"},{"id":10,"fid":1,"name":"烤過核桃粒130度20分","weight":"30","double":"1","size":"30","capacity":"1公升","cost":"420","price":"12.60"},{"id":11,"fid":1,"name":"大燕麥片","weight":"180","double":"1","size":"180","capacity":"1公升","cost":"120","price":"21.60"},{"id":12,"fid":2,"name":"豬肉","weight":"1800","double":"1","size":1800,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":13,"fid":2,"name":"鹽","weight":"10","double":"1","size":10,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":14,"fid":2,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":15,"fid":2,"name":"醬油","weight":"80","double":"1","size":80,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":16,"fid":2,"name":"蛋","weight":"2","double":"1","size":2,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":17,"fid":2,"name":"薑末","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":18,"fid":2,"name":"白胡椒粉","weight":"15","double":"1","size":15,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":19,"fid":2,"name":"細砂糖","weight":"70","double":"1","size":70,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":20,"fid":2,"name":"味素","weight":"25","double":"1","size":25,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":21,"fid":2,"name":"太白粉","weight":"15","double":"1","size":15,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":22,"fid":2,"name":"香油","weight":"45","double":"1","size":45,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":23,"fid":3,"name":"豬肉","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":24,"fid":3,"name":"鹽","weight":"9","double":"1","size":9,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":25,"fid":3,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":26,"fid":3,"name":"醬油","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":27,"fid":3,"name":"蛋","weight":"1","double":"1","size":1,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":28,"fid":3,"name":"薑末","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":29,"fid":3,"name":"白胡椒粉","weight":"6","double":"1","size":6,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":30,"fid":3,"name":"細砂糖","weight":"53","double":"1","size":53,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":31,"fid":3,"name":"味素","weight":"15","double":"1","size":15,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":32,"fid":3,"name":"太白粉","weight":"8","double":"1","size":8,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":33,"fid":3,"name":"香油","weight":"45","double":"1","size":45,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":34,"fid":3,"name":"蔥花","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":35,"fid":3,"name":"高麗菜","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":36,"fid":4,"name":"豬肉","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":37,"fid":4,"name":"鹽","weight":"9","double":"1","size":9,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":38,"fid":4,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":39,"fid":4,"name":"醬油","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":40,"fid":4,"name":"蛋","weight":"1","double":"1","size":1,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":41,"fid":4,"name":"薑末","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":42,"fid":4,"name":"白胡椒粉","weight":"6","double":"1","size":6,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":43,"fid":4,"name":"細砂糖","weight":"53","double":"1","size":53,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":44,"fid":4,"name":"味素","weight":"15","double":"1","size":15,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":45,"fid":4,"name":"太白粉","weight":"8","double":"1","size":8,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":46,"fid":4,"name":"香油","weight":"45","double":"1","size":45,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":47,"fid":4,"name":"蔥花","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":48,"fid":4,"name":"韭菜","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":49,"fid":5,"name":"豬肉","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":50,"fid":5,"name":"鹽","weight":"9","double":"1","size":9,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":51,"fid":5,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":52,"fid":5,"name":"薄醬油","weight":"50","double":"1","size":50,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":53,"fid":5,"name":"蛋","weight":"1","double":"1","size":1,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":54,"fid":5,"name":"薑末","weight":"50","double":"1","size":50,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":55,"fid":5,"name":"白胡椒粉","weight":"4","double":"1","size":4,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":56,"fid":5,"name":"細砂糖","weight":"35","double":"1","size":35,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":57,"fid":5,"name":"味素","weight":"10","double":"1","size":10,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":58,"fid":5,"name":"太白粉","weight":"5","double":"1","size":5,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":59,"fid":5,"name":"香油","weight":"30","double":"1","size":30,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":60,"fid":6,"name":"豬肉","weight":"1500","double":"1","size":1500,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":61,"fid":6,"name":"鹽","weight":"9","double":"1","size":9,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":62,"fid":6,"name":"冰水","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":63,"fid":6,"name":"薄醬油","weight":"75","double":"1","size":75,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":64,"fid":6,"name":"蛋","weight":"1","double":"1","size":1,"capacity":"","cost":"0","price":"0.00","unit":"顆"},{"id":65,"fid":6,"name":"薑末","weight":"50","double":"1","size":50,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":66,"fid":6,"name":"白胡椒粉","weight":"4","double":"1","size":4,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":67,"fid":6,"name":"細砂糖","weight":"35","double":"1","size":35,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":68,"fid":6,"name":"味素","weight":"10","double":"1","size":10,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":69,"fid":6,"name":"太白粉","weight":"5","double":"1","size":5,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":70,"fid":6,"name":"香油","weight":"30","double":"1","size":30,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":71,"fid":6,"name":"蔥花","weight":"150","double":"1","size":150,"capacity":"","cost":"0","price":"0.00","unit":"公克"},{"id":72,"fid":6,"name":"玉米","weight":"2","double":"1","size":2,"capacity":"","cost":"0","price":"0.00","unit":"罐"}]}
-
-				// var def  = db.ref('users/' + this.userId + '/materials');
-				// var data = await def.once("value");
 
 				if (Object.keys(this.materials).length > 0) {
 					// console.log(this.materials);
@@ -576,22 +654,27 @@
 								console.log('already updated1!');
 							}
 						});
-
 					});
 				} else {
 
 					this.sel_material.forEach(val => {
 						def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
 						def.set(val);
-						// var data = await def.once("value");
-						// if (data.exists()) { this.materials = data.val(); }
-
 					});
 					// console.log("path not exist");
 				}
 
-				// this.sel_material
+				Swal.fire({
+					toast: true,
+					position: 'top-end', // 右上角
+					icon: 'success',
+					title: '儲存成功',
+					showConfirmButton: false,
+					timer: 2000,
+					timerProgressBar: true
+				});
 
+				// this.sel_material
 			},
 
 		},
@@ -608,7 +691,7 @@
 			this.userId = this.profile.userId;
 
 			this.loadFormulas();
-			this.loadBasicMaterials();
+			// this.loadBasicMaterials();
 
 			await this.getFirebaseData();
 		}
