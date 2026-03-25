@@ -657,7 +657,7 @@
 							const exists = this.sel_material.find(val=> val.category==types && val.name==prd_name );
 
 							if( !exists ){
-								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + types + '/' + prd_name);
 								def.remove();
 								console.log('already remove!');
 							}
