@@ -653,7 +653,9 @@
 					});
 
 					Object.keys(this.materials).forEach(prd_name => {
+						console.log(prd_name);
 						Object.keys(this.materials[prd_name]).forEach(types => {
+							console.log(types);
 							const exists = this.sel_material.find(val=> val.category==types && val.name==prd_name );
 
 							if( !exists ){
