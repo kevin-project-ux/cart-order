@@ -150,12 +150,12 @@
 												<button class="btn btn-outline-secondary dropdown-toggle" type="button"
 													data-bs-toggle="dropdown" aria-expanded="false">類別</button>
 												<ul class="dropdown-menu dropdown-menu-end">
-													<li><a class="dropdown-item" @click="setCategory()" href="#">粉類原料</a></li>
-													<li><a class="dropdown-item" @click="setCategory()" href="#">油脂類</a></li>
-													<li><a class="dropdown-item" @click="setCategory()" href="#">糖類</a></li>
-													<li><a class="dropdown-item" @click="setCategory()" href="#">乳製品</a></li>
-													<li><a class="dropdown-item" @click="setCategory()" href="#">濕性材料</a></li>
-													<li><a class="dropdown-item" @click="setCategory()" href="#">香料與裝飾</a></li>
+													<li><a class="dropdown-item" @click="setCategory(this)" href="#">粉類原料</a></li>
+													<li><a class="dropdown-item" @click="setCategory(this)" href="#">油脂類</a></li>
+													<li><a class="dropdown-item" @click="setCategory(this)" href="#">糖類</a></li>
+													<li><a class="dropdown-item" @click="setCategory(this)" href="#">乳製品</a></li>
+													<li><a class="dropdown-item" @click="setCategory(this)" href="#">濕性材料</a></li>
+													<li><a class="dropdown-item" @click="setCategory(this)" href="#">香料與裝飾</a></li>
 													<!-- <li>
 														<hr class="dropdown-divider">
 													</li>
@@ -166,13 +166,17 @@
 												class="btn btn-success w-100">新增</button>
 										</form>
 									</div>
-									<div class="row seg-wrap mb-3">
-										<button class="col-6 seg-btn btn btn-outline-primary"
+									<div class="row g-2 seg-wrap mb-3">
+										<div class="col-6">
+											<button class="seg-btn btn btn-outline-primary"
 											:class="{active: subTab === 'Bakings'}"
 											@click="subTab = 'Bakings'">烘焙</button>
-										<button class="col-6 seg-btn btn btn-outline-primary"
+										</div>
+										<div class="col-6">
+											<button class="seg-btn btn btn-outline-primary"
 											:class="{active: subTab === 'Dumplings'}"
 											@click="subTab = 'Dumplings'">水餃</button>
+										</div>
 									</div>
 
 									<div v-if="subTab === 'Bakings'" class="mb-3">
