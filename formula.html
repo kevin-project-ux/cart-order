@@ -150,19 +150,38 @@
 												<button class="btn btn-outline-secondary dropdown-toggle" type="button"
 													data-bs-toggle="dropdown" aria-expanded="false">{{ '類別' || sel_type }}</button>
 												<ul class="dropdown-menu dropdown-menu-end">
-													<li><a class="dropdown-item" data-type="powder" @click.prevent="setCategory(this)" href="#">粉類原料</a></li>
-													<li><a class="dropdown-item" data-type="grease" @click.prevent="setCategory(this)" href="#">油脂類</a></li>
-													<li><a class="dropdown-item" data-type="sugar" @click.prevent="setCategory(this)" href="#">糖類</a></li>
-													<li><a class="dropdown-item" data-type="dairy" @click.prevent="setCategory(this)" href="#">乳製品</a></li>
-													<li><a class="dropdown-item" data-type="moistur" @click.prevent="setCategory(this)" href="#">濕性材料</a></li>
-													<li><a class="dropdown-item" data-type="spices" @click.prevent="setCategory(this)" href="#">香料與裝飾</a></li>
-													<li><a class="dropdown-item" data-type="meat" @click.prevent="setCategory(this)" href="#">肉類主料</a></li>
-													<li><a class="dropdown-item" data-type="fillings" @click.prevent="setCategory(this)" href="#">蔬菜/餡料</a></li>
-													<li><a class="dropdown-item" data-type="flavor" @click.prevent="setCategory(this)" href="#">辛香提味</a></li>
-													<li><a class="dropdown-item" data-type="seasoning" @click.prevent="setCategory(this)" href="#">調味料</a></li>
-													<!-- <li>
-														<hr class="dropdown-divider">
+													<li>
+														<a class="dropdown-item" data-type="powder" @click.prevent="setCategory($event)" href="#">粉類原料</a>
 													</li>
+													<li>
+														<a class="dropdown-item" data-type="grease" @click.prevent="setCategory($event)" href="#">油脂類</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="sugar" @click.prevent="setCategory($event)" href="#">糖類</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="dairy" @click.prevent="setCategory($event)" href="#">乳製品</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="moistur" @click.prevent="setCategory($event)" href="#">濕性材料</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="spices" @click.prevent="setCategory($event)" href="#">香料與裝飾</a>
+													</li>
+													<li><hr class="dropdown-divider"></li>
+													<li>
+														<a class="dropdown-item" data-type="meat" @click.prevent="setCategory($event)" href="#">肉類主料</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="fillings" @click.prevent="setCategory($event)" href="#">蔬菜/餡料</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="flavor" @click.prevent="setCategory($event)" href="#">辛香提味</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="seasoning" @click.prevent="setCategory($event)" href="#">調味料</a>
+													</li>
+													<!-- <li><hr class="dropdown-divider"></li>
 													<li><a class="dropdown-item" href="#">其他</a></li> -->
 												</ul>
 											</div>
