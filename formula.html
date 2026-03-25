@@ -653,31 +653,31 @@
 					});
 
 					Object.keys(this.materials).forEach(prd_name => {
-						console.log(prd_name);
-						Object.keys(this.materials[prd_name]).forEach(types => {
-							console.log(types);
-							const exists = this.sel_material.find(val=> val.category==types && val.name==prd_name );
+						Object.keys(this.materials[prd_name]).forEach(type => {
+							Object.keys(this.materials[prd_name][type]).forEach(name => {
+								const exists = this.sel_material.find(val=> val.category==type && val.name==name );
 
-							if( !exists ){
-								def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + types + '/' + prd_name);
-								def.remove();
-								console.log('already remove!');
-							}
-							// this.sel_material.forEach(val => {
-							// 	if (!prd_name && !prd_name[val.category] && !prd_name[val.category][val.name]) {
-							// 		def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-							// 		def.remove();
-							// 		console.log('already remove!');
-							// 	} else {
-							// 		def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
-							// 		// def.update({ active: false });
-							// 		def.set(val);
-							// 		console.log('already set!');
-							// 	}
-							// });
+								if( !exists ){
+									def = db.ref('users/' +this.userId+ '/materials/' +this.formula_name+ '/' +type+ '/' + name);
+									def.remove();
+									console.log('already remove!');
+								}
+							});
 						});
-						
 					});
+
+					// this.sel_material.forEach(val => {
+					// 	if (!prd_name && !prd_name[val.category] && !prd_name[val.category][val.name]) {
+					// 		def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+					// 		def.remove();
+					// 		console.log('already remove!');
+					// 	} else {
+					// 		def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+					// 		// def.update({ active: false });
+					// 		def.set(val);
+					// 		console.log('already set!');
+					// 	}
+					// });
 				} else {
 
 					this.sel_material.forEach(val => {
