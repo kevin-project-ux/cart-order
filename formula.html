@@ -664,8 +664,8 @@
 
 			setCategory(e){
 
-				var type = e.dataset.type;
-				this.sel_type = e.target.innerText;
+				var type = e.currentTarget.dataset.type;
+				this.sel_type = e.currentTarget.target.innerText;
 				console.log(type);
 				console.log(this.sel_type);
 			},
