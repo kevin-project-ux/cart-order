@@ -148,7 +148,7 @@
 												<input v-model="material_name" type="text" name="material_name"
 													class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
 												<button class="btn btn-outline-secondary dropdown-toggle" type="button"
-													data-bs-toggle="dropdown" aria-expanded="false">{{ 類別 || sel_type }}</button>
+													data-bs-toggle="dropdown" aria-expanded="false">{{ '類別' || sel_type }}</button>
 												<ul class="dropdown-menu dropdown-menu-end">
 													<li><a class="dropdown-item" data-type="powder" @click.prevent="setCategory(this)" href="#">粉類原料</a></li>
 													<li><a class="dropdown-item" data-type="grease" @click.prevent="setCategory(this)" href="#">油脂類</a></li>
