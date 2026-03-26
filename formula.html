@@ -148,7 +148,7 @@
 												<input v-model="material_name" type="text" name="material_name"
 													class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
 												<button class="btn btn-outline-secondary dropdown-toggle" type="button"
-													data-bs-toggle="dropdown" aria-expanded="false">{{ '類別' || sel_type }}</button>
+													data-bs-toggle="dropdown" aria-expanded="false">{{ 'sel_type || 類別' }}</button>
 												<ul class="dropdown-menu dropdown-menu-end">
 													<li>
 														<a class="dropdown-item" data-type="powder" @click.prevent="setCategory($event)" href="#">粉類原料</a>
@@ -236,8 +236,7 @@
 											</div>
 										</div>
 									</div>
-									<button v-show="editmode" type="button" class="btn btn-success w-100"
-										@click="saveMaterial()">儲存</button>
+									<button v-show="editmode" type="button" class="btn btn-success w-100" @click="saveMaterial()">儲存</button>
 								</div>
 							</div>
 						</div>
@@ -248,19 +247,17 @@
 							<div class="tab-pane fade" id="matcost" role="tabpanel" aria-labelledby="matcost-tab">
 								<div class="p-4 bg-light rounded shadow-sm">
 									<form @submit.prevent="addMaterialCost()">
-										<!-- <div class="input-group mb-3" v-for="(material, type) in baking_mat" :key="type"> -->
-											<!-- <label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type] }}</label>
+										<div class="input-group mb-3" v-for="(material, type) in sel_material" :key="type">
+											<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type] }}</label>
 											<div class="d-flex overflow-auto gap-2">
 												<input type="number" class="form-control"
-													:class="data.active ? 'bg-danger':'bg-secondary'"
-													style="font-size: 1rem;margin: 0.3rem;"
-													v-for="data in material">
-													{{ data.price || '0' }}
+													:class="material.active ? 'bg-danger':'bg-secondary'"
+													style="font-size: 1rem;margin: 0.3rem;">
+													{{ material.price || '0' }}
 												</span>
-											</div> -->
-										<!-- </div> -->
-										<button v-show="editmode" type="submit"
-											class="btn btn-success w-100">儲存</button>
+											</div>
+										</div>
+										<button v-show="editmode" type="submit"	class="btn btn-success w-100">儲存</button>
 									</form>
 								</div>
 							</div>
