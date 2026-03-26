@@ -248,21 +248,16 @@
 							<div class="tab-pane fade" id="matcost" role="tabpanel" aria-labelledby="matcost-tab">
 								<div class="p-4 bg-light rounded shadow-sm">
 									<form @submit.prevent="addMaterialCost()">
-										<div class="input-group mb-3" id="materialType">
-											<label class="col-sm-3 col-form-label">材料名稱</label>
-											<input v-model="material_name" type="text" name="material_name"
-												class="form-control" readonly>
-											<!-- <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">類別</button>
-										  	<ul class="dropdown-menu dropdown-menu-end">
-										    	<li><a class="dropdown-item" href="#">粉類原料(乾性主體)</a></li>
-										    	<li><a class="dropdown-item" href="#">油脂類(柔性材料)</a></li>
-										    	<li><a class="dropdown-item" href="#">糖類(甜味與軟化)</a></li>
-										    	<li><a class="dropdown-item" href="#">乳製品與濕性材料</a></li>
-										    	<li><a class="dropdown-item" href="#">發酵類</a></li>
-										    	<li><a class="dropdown-item" href="#">香料與裝飾</a></li>
-										    	<li><hr class="dropdown-divider"></li>
-										    	<li><a class="dropdown-item" href="#">其他</a></li>
-										  	</ul> -->
+										<div class="input-group mb-3" v-for="(material, type) in baking_mat" :key="type">
+											<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type] }}</label>
+											<div class="d-flex overflow-auto gap-2">
+												<input type="number" class="form-control"
+													:class="data.active ? 'bg-danger':'bg-secondary'"
+													style="font-size: 1rem;margin: 0.3rem;"
+													v-for="data in material">
+													{{ data.price }}
+												</span>
+											</div>
 										</div>
 										<button v-show="editmode" type="submit"
 											class="btn btn-success w-100">儲存</button>
@@ -294,12 +289,14 @@
 			formula_name: '',
 			formulas: { data: [] },
 			material_name: '',
+			basic_mat: [],
 			baking_mat: [],
 			dumpling_mat: [],
 			materials: {},
 			mattype_name: [],
 			sel_material: [],
 			sel_type: '',
+			cost_mat: [],
 		},
 		methods: {
 
@@ -320,7 +317,7 @@
 
 				$("#addFormula").modal('show');
 
-				this.formula_id = e.dataset.id;
+				this.formula_id   = e.dataset.id;
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
 
@@ -450,7 +447,8 @@
 				for (let type in matarr) {
 					tmpmats[type] = [];
 					matarr[type].forEach(val => {
-						var item = { name: val, active: false, category: type, price: 0 };
+						
+						var item = { name:val, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'' };
 						if (Object.keys(this.materials).length > 0) {
 
 							Object.keys(this.materials).forEach(key => {
@@ -503,7 +501,7 @@
 				for (let type in matarr) {
 					tmpmats[type] = [];
 					matarr[type].forEach(val => {
-						var item = { name: val, active: false, category: type, price: 0 };
+						var item = { name:val, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'' };
 						if (Object.keys(this.materials).length > 0) {
 
 							Object.keys(this.materials).forEach(key => {
@@ -665,13 +663,20 @@
 			setCategory(e){
 
 				var type = e.currentTarget.dataset.type;
-				this.sel_type = e.currentTarget.target.innerText;
-				console.log(type);
-				console.log(this.sel_type);
+				this.sel_type = e.currentTarget.innerText;
 			},
 
 			addMaterial() {
 
+				if( this.sel_type=='' || this.material_name=='' ){ 
+					Swal.fire({ icon: 'error', title: '新增材料失敗，請輸入材料名稱及選擇材料類別!!' });
+					return false; 
+				}
+				
+				def = db.ref('users/' +this.userId+ '/materials/basic/' +this.material_name);
+				def.set({'name':this.material_name, 'category':this.sel_type, 'active':true});
+
+				this.basic_mat.push({'name':this.material_name, 'category':this.sel_type, 'active':true});
 			},
 
 			async saveMaterial() {
