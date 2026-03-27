@@ -148,7 +148,7 @@
 												<input v-model="material_name" type="text" name="material_name"
 													class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
 												<button class="btn btn-outline-secondary dropdown-toggle" type="button"
-													data-bs-toggle="dropdown" aria-expanded="false">{{ sel_type || '類別' }}</button>
+													data-bs-toggle="dropdown" aria-expanded="false">{{ type_txt || '類別' }}</button>
 												<ul class="dropdown-menu dropdown-menu-end">
 													<li>
 														<a class="dropdown-item" data-type="powder" @click.prevent="setCategory($event)" href="#">粉類原料</a>
@@ -289,6 +289,7 @@
 			mattype_name: [],
 			sel_material: [],
 			sel_type: '',
+			type_txt: '',
 		},
 		methods: {
 
@@ -679,8 +680,8 @@
 
 			setCategory(e){
 
-				var type = e.currentTarget.dataset.type;
-				this.sel_type = e.currentTarget.innerText;
+				this.sel_type = e.currentTarget.dataset.type;
+				this.type_txt = e.currentTarget.innerText;
 			},
 
 			addMaterial() {
