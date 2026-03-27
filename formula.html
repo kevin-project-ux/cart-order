@@ -484,7 +484,7 @@
 					});
 				}
 
-				console.log(this.baking_mat);
+				// console.log(this.baking_mat);
 
 				if (Object.keys(this.baking_mat).length > 0) {
 					var tmpbasic = this.baking_mat;
@@ -546,8 +546,18 @@
 						}
 					});
 				}
+
+				if (Object.keys(this.dumpling_mat).length > 0) {
+					var tmpbasic = this.dumpling_mat;
+					Object.keys(tmpbasic).forEach(type => {
+						Object.keys(tmpbasic[type]).forEach(name => {
+							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'' };
+							tmpmats[type].push(item);
+						});
+					});
+				}
 				this.dumpling_mat = tmpmats;
-				console.log(this.dumpling_mat);
+				// console.log(this.dumpling_mat);
 			},
 
 			loadCostMaterials() {
@@ -712,6 +722,8 @@
 				});
 
 				this.loadMaterials();
+				this.loadBakingMaterials();
+				this.loadDumplingMaterials();
 			},
 
 			async saveMaterial() {
