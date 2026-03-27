@@ -417,7 +417,7 @@
 
 				if (data.exists()) { this.materials = data.val(); }
 
-				var def  = db.ref('users/' + this.userId + '/matbasic/baking');
+				var def  = db.ref('users/' + this.userId + '/matbasic');
 				var data = await def.once("value");
 
 				if (data.exists()) { 
