@@ -231,6 +231,7 @@
 														style="font-size: 1rem;margin: 0.3rem;"
 														v-for="data in material">
 														{{ data.name }}
+														<i v-if="data.is_basic=='Y'" class="bi bi-x-circle-fill position-absolute top-0 start-100 translate-middle text-white" style="cursor:pointer;" @click="removeItem(data)"></i>
 													</span>
 												</div>
 											</div>
@@ -490,7 +491,7 @@
 					var tmpbasic = this.baking_mat;
 					Object.keys(tmpbasic).forEach(type => {
 						Object.keys(tmpbasic[type]).forEach(name => {
-							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'' };
+							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'', is_basic: 'Y' };
 							tmpmats[type].push(item);
 						});
 					});
@@ -551,7 +552,7 @@
 					var tmpbasic = this.dumpling_mat;
 					Object.keys(tmpbasic).forEach(type => {
 						Object.keys(tmpbasic[type]).forEach(name => {
-							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'' };
+							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'', is_basic: 'Y' };
 							tmpmats[type].push(item);
 						});
 					});
