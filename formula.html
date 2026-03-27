@@ -248,9 +248,9 @@
 								<div class="p-4 bg-light rounded shadow-sm">
 									<form @submit.prevent="addMaterialCost()">
 										<div class="input-group mb-3" v-for="(material, type) in sel_material" :key="type">
-											<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type] }}</label>
+											<label class="col-sm-3 col-form-label fw-bold">{{ material.name }}</label>
 											<div class="d-flex overflow-auto gap-2">
-												<input type="number" v-model="material.price" class="form-control" :class="material.price ? 'bg-danger':'bg-secondary'" style="font-size: 1rem;margin: 0.3rem;">
+												<input type="number" v-model="material.price" class="form-control" style="font-size: 1rem;margin: 0.3rem;">
 											</div>
 										</div>
 										<button v-show="editmode" type="submit"	class="btn btn-success w-100">儲存</button>
@@ -407,17 +407,31 @@
 
 			async loadMaterials(){
 
-				var def = db.ref('users/' + this.userId + '/materials');
+				this.baking_mat   = [];
+				this.dumpling_mat = [];
+
+				var def  = db.ref('users/' + this.userId + '/materials');
 				var data = await def.once("value");
 
 				if (data.exists()) { this.materials = data.val(); }
+
+				var def  = db.ref('users/' + this.userId + '/matbasic/baking');
+				var data = await def.once("value");
+
+				if (data.exists()) { 
+
+					var matbasic = data.val();
+					Object.keys(matbasic).forEach(key => {
+						if( key=='baking' )  { this.baking_mat   = matbasic[key]; }
+						if( key=='dumpling' ){ this.dumpling_mat = matbasic[key]; }
+					});
+				}
 			},
 
 			loadBakingMaterials() {
 
-				this.baking_mat = [];
-
 				var matarr = [];
+
 				matarr['powder']  = ['高粉', '中粉', '低粉', '玉米粉', '酵母', '泡打粉', '小蘇打粉', '太白粉', '奶粉', '可可粉', '抹茶粉', '杏仁粉', '咖啡粉', '紅茶粉', '起司粉', '七味粉'];
 				matarr['grease']  = ['奶油', '鮮奶油', '無水奶油', '發酵奶油', '沙拉油', '植物油'];
 				matarr['sugar']   = ['糖', '砂糖', '黑糖', '冰糖', '二砂糖', '糖粉', '純糖粉'];
@@ -467,13 +481,24 @@
 						}
 					});
 				}
-				this.baking_mat = tmpmats;
+
+				if (Object.keys(this.baking_mat).length > 0) {
+					var tmpbasic = this.baking_mat;
+					Object.keys(tmpbasic).forEach(type => {
+						Object.keys(tmpbasic[type]).forEach(name => {
+							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'' };
+							tmpmats[type].push(item);
+						});
+					});
+				}else{
+					this.baking_mat = tmpmats;
+				}
+
+				// this.baking_mat = tmpmats;
 				// console.log(this.baking_mat);
 			},
 
 			loadDumplingMaterials(){
-
-				this.dumpling_mat = [];
 
 				var matarr = [];
 				matarr['meat']      = ['豬肉'];
@@ -660,12 +685,17 @@
 
 			addMaterial() {
 
+				this.basic_mat = [];
+
 				if( this.sel_type=='' || this.material_name=='' ){ 
 					Swal.fire({ icon: 'error', title: '新增材料失敗，請輸入材料名稱及選擇材料類別!!' });
 					return false; 
 				}
+
+				var type = 'baking';
+				if( ['meat', 'fillings', 'flavor', 'seasoning'].includes(this.sel_type) ){ type = 'dumpling'; }
 				
-				def = db.ref('users/' +this.userId+ '/materials/basic/' +this.material_name);
+				def = db.ref('users/' +this.userId+ '/matbasic/' +type+'/'+this.sel_type+'/'+this.material_name);
 				def.set({'name':this.material_name, 'category':this.sel_type, 'active':true});
 
 				this.basic_mat.push({'name':this.material_name, 'category':this.sel_type, 'active':true});
