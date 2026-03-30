@@ -55,23 +55,32 @@
 		scroll-snap-align: start;
 	}
 
+	.badge-wrapper {
+		position: relative;
+		display: inline-block;
+	}
+
+	.badge {
+		font-size: 1rem;
+		padding: 0.4rem 1.2rem 0.4rem 0.8rem;
+		position: relative;
+		overflow: visible;
+		white-space: nowrap;
+	}
+
 	/* X 按鈕 */
 	.remove-icon {
 		position: absolute;
-		top: -5px;
-		right: -5px;
+		top: -6px;
+		right: -6px;
 		font-size: 0.7rem;
-		background: white;
+		background: #fff;
 		border-radius: 50%;
-		padding: 2px 4px;
+		padding: 2px 5px;
 		cursor: pointer;
 		color: #333;
-		box-shadow: 0 0 2px rgba(0,0,0,0.3);
-	}
-
-	/* hover 效果 */
-	.remove-icon:hover {
-		color: red;
+		box-shadow: 0 0 3px rgba(0,0,0,0.4);
+		z-index: 5;
 	}
 </style>
 
@@ -227,14 +236,15 @@
 												<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type]
 													}}</label>
 												<div class="d-flex overflow-auto gap-2">
-													<span class="badge rounded-pill"
-														:class="data.active ? 'bg-danger':'bg-secondary'"
-														@click="setMaterial(data)"
-														style="font-size: 1rem;margin: 0.3rem;"
-														v-for="data in material">
-														{{ data.name }}
-														<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeItem(data)"></i>
-													</span>
+													<div class="badge-wrapper" v-for="data in material">
+														<span class="badge rounded-pill"
+															:class="data.active ? 'bg-danger':'bg-secondary'"
+															@click="setMaterial(data)"
+															style="font-size: 1rem;margin: 0.3rem;">
+															{{ data.name }}
+															<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeItem(data)"></i>
+														</span>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -245,14 +255,15 @@
 												<label class="col-sm-3 col-form-label fw-bold">{{ mattype_name[type]
 													}}</label>
 												<div class="d-flex overflow-auto gap-2">
-													<span class="badge rounded-pill"
-														:class="data.active ? 'bg-danger':'bg-secondary'"
-														@click="setMaterial(data)"
-														style="font-size: 1rem;margin: 0.3rem;"
-														v-for="data in material">
-														{{ data.name }}
-														<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeItem(data)"></i>
-													</span>
+													<div class="badge-wrapper" v-for="data in material">
+														<span class="badge rounded-pill"
+															:class="data.active ? 'bg-danger':'bg-secondary'"
+															@click="setMaterial(data)"
+															style="font-size: 1rem;margin: 0.3rem;">
+															{{ data.name }}
+															<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeItem(data)"></i>
+														</span>
+													</div>
 												</div>
 											</div>
 										</div>
