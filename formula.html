@@ -449,6 +449,10 @@
 				var data = await def.once("value");
 
 				if (data.exists()) { this.materials = data.val(); }
+				
+			},
+
+			async loadCustomMaterials(){
 
 				var def  = db.ref('users/' + this.userId + '/matbasic');
 				var data = await def.once("value");
@@ -749,9 +753,10 @@
 					timerProgressBar: true
 				});
 
-				await this.loadMaterials();
-				this.loadBakingMaterials();
-				this.loadDumplingMaterials();
+				await this.loadCustomMaterials();
+
+				if( type=='baking' )  { this.loadBakingMaterials();   }
+				if( type=='dumpling' ){ this.loadDumplingMaterials(); }
 			},
 
 			async removeMaterial(data){
@@ -769,9 +774,10 @@
 					timerProgressBar: true
 				});
 
-				await this.loadMaterials();
-				this.loadBakingMaterials();
-				this.loadDumplingMaterials();
+				await this.loadCustomMaterials();
+
+				if( data.mattype=='baking' )  { this.loadBakingMaterials();   }
+				if( data.mattype=='dumpling' ){ this.loadDumplingMaterials(); }
 			},
 
 			async saveMaterial() {
