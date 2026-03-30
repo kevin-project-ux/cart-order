@@ -242,7 +242,7 @@
 															@click="setMaterial(data)"
 															style="font-size: 1rem;margin: 0.3rem;">
 															{{ data.name }}
-															<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeItem(data)"></i>
+															<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeMaterial(data)"></i>
 														</span>
 													</div>
 												</div>
@@ -261,7 +261,7 @@
 															@click="setMaterial(data)"
 															style="font-size: 1rem;margin: 0.3rem;">
 															{{ data.name }}
-															<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeItem(data)"></i>
+															<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeMaterial(data)"></i>
 														</span>
 													</div>
 												</div>
@@ -522,13 +522,13 @@
 					var tmpbasic = this.baking_basic;
 					Object.keys(tmpbasic).forEach(type => {
 						Object.keys(tmpbasic[type]).forEach(name => {
-							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'', is_basic: 'Y' };
+							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'', is_basic: 'Y', mattype: 'baking' };
 							tmpmats[type].push(item);
 						});
 					});
 				}
 				this.baking_mat = tmpmats;
-				console.log(this.baking_mat);
+				// console.log(this.baking_mat);
 			},
 
 			loadDumplingMaterials(){
@@ -583,7 +583,7 @@
 					var tmpbasic = this.dumpling_basic;
 					Object.keys(tmpbasic).forEach(type => {
 						Object.keys(tmpbasic[type]).forEach(name => {
-							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'', is_basic: 'Y' };
+							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'', is_basic: 'Y', mattype: 'dumpling' };
 							tmpmats[type].push(item);
 						});
 					});
@@ -753,6 +753,26 @@
 				this.loadBakingMaterials();
 				this.loadDumplingMaterials();
 			},
+
+			removeMaterial(data){
+
+				def = db.ref('users/' +this.userId+ '/matbasic/' +data.mattype+'/'+data.category+'/'+name);
+				def.remove();
+
+				Swal.fire({
+					toast: true,
+					position: 'top-end', // 右上角
+					icon: 'success',
+					title: '移除成功',
+					showConfirmButton: false,
+					timer: 2000,
+					timerProgressBar: true
+				});
+
+				await this.loadMaterials();
+				this.loadBakingMaterials();
+				this.loadDumplingMaterials();
+			}
 
 			async saveMaterial() {
 
