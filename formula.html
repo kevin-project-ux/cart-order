@@ -754,7 +754,7 @@
 				this.loadDumplingMaterials();
 			},
 
-			removeMaterial(data){
+			async removeMaterial(data){
 
 				def = db.ref('users/' +this.userId+ '/matbasic/' +data.mattype+'/'+data.category+'/'+name);
 				def.remove();
