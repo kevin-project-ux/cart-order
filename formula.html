@@ -337,14 +337,14 @@
 
 			updFormulaModal(e) {
 
-				// console.log(e);
+				console.log(e);
 
 				this.editmode = true;
 
 				$("#addFormula").modal('show');
 
-				this.formula_id   = e.dataset.id;
-				this.formula_name = e.dataset.name;
+				this.formula_id   = $(e).data('id');
+				this.formula_name = $(e).data('name');
 				this.sel_material = []; // 重置已選材料
 
 				console.log(this.formula_name);
