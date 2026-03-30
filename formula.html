@@ -165,7 +165,7 @@
 						</div>
 
 						<!-- Tab Content -->
-						<div class="tab-content" id="materialTabsContent">
+						<div v-show="editmode" class="tab-content" id="materialTabsContent">
 							<!-- 材料內容 -->
 							<div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="material-tab">
 								<div class="p-4 bg-light rounded shadow-sm">
@@ -274,7 +274,7 @@
 						</div>
 
 						<!-- Tab Content -->
-						<div class="tab-content" id="matcostTabsContent">
+						<div v-show="editmode" class="tab-content" id="matcostTabsContent">
 							<!-- 材料成本 -->
 							<div class="tab-pane fade" id="matcost" role="tabpanel" aria-labelledby="matcost-tab">
 								<div class="p-4 bg-light rounded shadow-sm">
