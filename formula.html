@@ -289,6 +289,8 @@
 			materials: {},
 			mattype_name: [],
 			sel_material: [],
+			baking_basic: [],
+			dumpling_basic: [],
 			sel_type: '',
 			type_txt: '',
 		},
@@ -422,11 +424,10 @@
 				var data = await def.once("value");
 
 				if (data.exists()) { 
-
 					var matbasic = data.val();
 					Object.keys(matbasic).forEach(key => {
-						if( key=='baking' )  { this.baking_mat   = matbasic[key]; }
-						if( key=='dumpling' ){ this.dumpling_mat = matbasic[key]; }
+						if( key=='baking' )  { this.baking_basic   = matbasic[key]; }
+						if( key=='dumpling' ){ this.dumpling_basic = matbasic[key]; }
 					});
 				}
 			},
@@ -487,8 +488,8 @@
 
 				// console.log(this.baking_mat);
 
-				if (Object.keys(this.baking_mat).length > 0) {
-					var tmpbasic = this.baking_mat;
+				if (Object.keys(this.baking_basic).length > 0) {
+					var tmpbasic = this.baking_basic;
 					Object.keys(tmpbasic).forEach(type => {
 						Object.keys(tmpbasic[type]).forEach(name => {
 							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'', is_basic: 'Y' };
@@ -497,7 +498,7 @@
 					});
 				}
 				this.baking_mat = tmpmats;
-				// console.log(this.baking_mat);
+				console.log(this.baking_mat);
 			},
 
 			loadDumplingMaterials(){
@@ -548,8 +549,8 @@
 					});
 				}
 
-				if (Object.keys(this.dumpling_mat).length > 0) {
-					var tmpbasic = this.dumpling_mat;
+				if (Object.keys(this.dumpling_basic).length > 0) {
+					var tmpbasic = this.dumpling_basic;
 					Object.keys(tmpbasic).forEach(type => {
 						Object.keys(tmpbasic[type]).forEach(name => {
 							var item = { name:name, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'', is_basic: 'Y' };
