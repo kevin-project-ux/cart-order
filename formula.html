@@ -54,6 +54,25 @@
 	.scroll-badges span {
 		scroll-snap-align: start;
 	}
+
+	/* X 按鈕 */
+	.remove-icon {
+		position: absolute;
+		top: -5px;
+		right: -5px;
+		font-size: 0.7rem;
+		background: white;
+		border-radius: 50%;
+		padding: 2px 4px;
+		cursor: pointer;
+		color: #333;
+		box-shadow: 0 0 2px rgba(0,0,0,0.3);
+	}
+
+	/* hover 效果 */
+	.remove-icon:hover {
+		color: red;
+	}
 </style>
 
 <body data-page="formula">
@@ -214,7 +233,7 @@
 														style="font-size: 1rem;margin: 0.3rem;"
 														v-for="data in material">
 														{{ data.name }}
-														<i v-if="data.is_basic=='Y'" class="bi bi-x-circle-fill position-absolute top-0 start-100 translate-middle text-white" style="cursor:pointer;" @click="removeItem(data)"></i>
+														<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeItem(data)"></i>
 													</span>
 												</div>
 											</div>
@@ -232,7 +251,7 @@
 														style="font-size: 1rem;margin: 0.3rem;"
 														v-for="data in material">
 														{{ data.name }}
-														<i v-if="data.is_basic=='Y'" class="bi bi-x-circle-fill position-absolute top-0 start-100 translate-middle text-white" style="cursor:pointer;" @click="removeItem(data)"></i>
+														<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeItem(data)"></i>
 													</span>
 												</div>
 											</div>
