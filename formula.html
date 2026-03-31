@@ -337,7 +337,7 @@
 
 			updFormulaModal(e) {
 
-				console.log(e);
+				// console.log(e);
 
 				this.editmode = true;
 
@@ -362,8 +362,6 @@
 
 			loadFormulas() {
 
-				// var ym = this.getLastMonth();
-				// ⬇ 取得 users/test/202503_schedules
 				db.ref("users/" + this.userId + "/formulas").on("value", (snapshot) => {
 					const raw = snapshot.val();
 
@@ -831,7 +829,7 @@
 			// 綁事件（重點）
 		    bindEvents() {
 		      	$('#example').on('click', '.edit_material', (e) => {
-		        	this.updFormulaModal(e.currentTarget);
+		        	vm.updFormulaModal(e.currentTarget);
 		      	})
 		    },
 
