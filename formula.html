@@ -831,7 +831,7 @@
 			// 綁事件（重點）
 		    bindEvents() {
 		      	$('#example').on('click', '.edit_material', (e) => {
-		        	this.updFormulaModal(e);
+		        	this.updFormulaModal(e.currentTarget);
 		      	})
 		    },
 
