@@ -558,7 +558,7 @@
 
 							Object.keys(this.materials).forEach(key => {
 
-								const prd_name = this.materials[key];
+								const prd_name = this.materials[this.formula_name];
 
 								if (prd_name && prd_name[type]) {
 
@@ -829,7 +829,7 @@
 			// 綁事件（重點）
 		    bindEvents() {
 		      	$('#example').on('click', '.edit_material', (e) => {
-		        	vm.updFormulaModal(e.currentTarget);
+		        	this.updFormulaModal(e.currentTarget);
 		      	})
 		    },
 
