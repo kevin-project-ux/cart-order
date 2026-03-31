@@ -347,9 +347,6 @@
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
 
-				console.log(this.formula_name);
-				console.log(this.sel_material);
-
 				this.loadBakingMaterials();
 				this.loadDumplingMaterials();
 				this.loadCostMaterials();
@@ -496,22 +493,25 @@
 						var item = { name:val, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'' };
 						if (Object.keys(this.materials).length > 0) {
 
-							const prd_name = this.materials[this.formula_name];
+							Object.keys(this.materials[this.formula_name]).forEach(type => {
 
-							if (prd_name && prd_name[type]) {
+								const prd_name = this.materials[this.formula_name];
 
-								const types = prd_name[type];
+								if (prd_name && prd_name[type]) {
 
-								if (types[val]) {
-									item.active = types[val].active;
-									tmpmats[type].push(item);
-									this.sel_material.push(item);
+									const types = prd_name[type];
+
+									if (types[val]) {
+										item.active = types[val].active;
+										tmpmats[type].push(item);
+										this.sel_material.push(item);
+									} else {
+										tmpmats[type].push(item);
+									}
 								} else {
 									tmpmats[type].push(item);
 								}
-							} else {
-								tmpmats[type].push(item);
-							}
+							});
 						} else {
 							tmpmats[type].push(item);
 						}
@@ -556,7 +556,7 @@
 						var item = { name:val, active:false, category:type, weight:0, double:1, size:0, cost:0,price:0, unit:'' };
 						if (Object.keys(this.materials).length > 0) {
 
-							Object.keys(this.materials).forEach(key => {
+							Object.keys(this.materials[this.formula_name]).forEach(type => {
 
 								const prd_name = this.materials[this.formula_name];
 
