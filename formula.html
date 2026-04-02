@@ -212,18 +212,18 @@
 													<!-- <li><hr class="dropdown-divider"></li>
 													<li><a class="dropdown-item" href="#">其他</a></li> -->
 												</ul>
-												<button v-show="editmode" type="submit" class="btn btn-primary w-100">新增</button>
 											</div>
+											<button v-show="editmode" type="submit" class="btn btn-success w-100">新增</button>
 										</form>
 									</div>
 									<div class="row g-2 seg-wrap mb-3">
 										<div class="col-6">
-											<button class="w-100 seg-btn btn btn-outline-info"
+											<button class="w-100 seg-btn btn btn-outline-primary"
 											:class="{active: subTab === 'Bakings'}"
 											@click="subTab = 'Bakings'">烘焙</button>
 										</div>
 										<div class="col-6">
-											<button class="w-100 seg-btn btn btn-outline-info"
+											<button class="w-100 seg-btn btn btn-outline-primary"
 											:class="{active: subTab === 'Dumplings'}"
 											@click="subTab = 'Dumplings'">水餃</button>
 										</div>
