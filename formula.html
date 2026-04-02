@@ -68,19 +68,27 @@
 		white-space: nowrap;
 	}
 
-	/* X 按鈕 */
-	.remove-icon {
-		position: absolute;
-		top: -6px;
-		right: -6px;
-		font-size: 0.7rem;
+	/* 讓 X 變好點 */
+	.remove-btn {
+		border: none;
 		background: #fff;
+		margin-left: -10px; /* 稍微貼近 badge */
 		border-radius: 50%;
-		padding: 2px 5px;
+		width: 28px;
+		height: 28px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		cursor: pointer;
-		color: #333;
-		box-shadow: 0 0 3px rgba(0,0,0,0.4);
-		z-index: 5;
+		box-shadow: 0 0 3px rgba(0,0,0,0.3);
+	}
+
+	.remove-btn i {
+		font-size: 12px;
+	}
+
+	.remove-btn:active {
+		background: #f8d7da;
 	}
 </style>
 
@@ -243,7 +251,9 @@
 															style="font-size: 1rem;margin: 0.3rem;">
 															{{ data.name }}
 														</span>
-														<i v-if="data.is_basic=='Y'"class="fa-solid fa-xmark remove-icon" @click="removeMaterial(data)"></i>
+														<button v-if="data.is_basic=='Y'" class="remove-btn" @click.stop="removeMaterial(data)">
+														    <i class="fa-solid fa-xmark"></i>
+														</button>
 													</div>
 												</div>
 											</div>
@@ -262,7 +272,9 @@
 															style="font-size: 1rem;margin: 0.3rem;">
 															{{ data.name }}
 														</span>
-														<i v-if="data.is_basic=='Y'" class="fa-solid fa-xmark remove-icon" @click="removeMaterial(data)"></i>
+														<button v-if="data.is_basic=='Y'" class="remove-btn" @click.stop="removeMaterial(data)">
+														    <i class="fa-solid fa-xmark"></i>
+														</button>
 													</div>
 												</div>
 											</div>
