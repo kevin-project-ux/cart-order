@@ -509,6 +509,8 @@
 									} else {
 										tmpmats[type].push(item);
 									}
+								} else {
+									tmpmats[type].push(item);
 								}
 							});
 						} else {
@@ -557,7 +559,7 @@
 
 							var prd_name = this.materials[this.formula_name];
 
-							Object.keys(prd_name).forEach(key => {
+							// Object.keys(prd_name).forEach(key => {
 
 								if (prd_name[type]) {
 
@@ -570,8 +572,10 @@
 									} else {
 										tmpmats[type].push(item);
 									}
+								} else {
+									tmpmats[type].push(item);
 								}
-							});
+							// });
 						} else {
 							tmpmats[type].push(item);
 						}
