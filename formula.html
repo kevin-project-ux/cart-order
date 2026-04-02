@@ -173,64 +173,64 @@
 										<form @submit.prevent="addMaterial()">
 											<div class="input-group mb-3" id="materialType">
 												<label class="col-sm-3 col-form-label">材料名稱</label>
-												<div class="d-flex overflow-auto gap-2">
-													<input v-model="material_name" type="text" name="material_name"
-														class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
-													<button class="btn btn-outline-secondary dropdown-toggle" type="button"
-														data-bs-toggle="dropdown" aria-expanded="false">{{ type_txt || '類別' }}</button>
-													<ul class="dropdown-menu dropdown-menu-end">
-														<li>
-															<a class="dropdown-item" data-type="powder" @click.prevent="setCategory($event)" href="#">粉類原料</a>
-														</li>
-														<li>
-															<a class="dropdown-item" data-type="grease" @click.prevent="setCategory($event)" href="#">油脂類</a>
-														</li>
-														<li>
-															<a class="dropdown-item" data-type="sugar" @click.prevent="setCategory($event)" href="#">糖類</a>
-														</li>
-														<li>
-															<a class="dropdown-item" data-type="dairy" @click.prevent="setCategory($event)" href="#">乳製品</a>
-														</li>
-														<li>
-															<a class="dropdown-item" data-type="moistur" @click.prevent="setCategory($event)" href="#">濕性材料</a>
-														</li>
-														<li>
-															<a class="dropdown-item" data-type="spices" @click.prevent="setCategory($event)" href="#">香料與裝飾</a>
-														</li>
-														<li><hr class="dropdown-divider"></li>
-														<li>
-															<a class="dropdown-item" data-type="meat" @click.prevent="setCategory($event)" href="#">肉類主料</a>
-														</li>
-														<li>
-															<a class="dropdown-item" data-type="fillings" @click.prevent="setCategory($event)" href="#">蔬菜/餡料</a>
-														</li>
-														<li>
-															<a class="dropdown-item" data-type="flavor" @click.prevent="setCategory($event)" href="#">辛香提味</a>
-														</li>
-														<li>
-															<a class="dropdown-item" data-type="seasoning" @click.prevent="setCategory($event)" href="#">調味料</a>
-														</li>
-														<!-- <li><hr class="dropdown-divider"></li>
-														<li><a class="dropdown-item" href="#">其他</a></li> -->
-													</ul>
-													<button v-show="editmode" type="submit" class="btn btn-success w-100">新增</button>
-												</div>
+												<input v-model="material_name" type="text" name="material_name"
+													class="form-control" placeholder="請輸入材料名稱及選擇材料類別">
+												<button class="btn btn-outline-secondary dropdown-toggle" type="button"
+													data-bs-toggle="dropdown" aria-expanded="false">{{ type_txt || '類別' }}</button>
+												<ul class="dropdown-menu dropdown-menu-end">
+													<li>
+														<a class="dropdown-item" data-type="powder" @click.prevent="setCategory($event)" href="#">粉類原料</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="grease" @click.prevent="setCategory($event)" href="#">油脂類</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="sugar" @click.prevent="setCategory($event)" href="#">糖類</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="dairy" @click.prevent="setCategory($event)" href="#">乳製品</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="moistur" @click.prevent="setCategory($event)" href="#">濕性材料</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="spices" @click.prevent="setCategory($event)" href="#">香料與裝飾</a>
+													</li>
+													<li><hr class="dropdown-divider"></li>
+													<li>
+														<a class="dropdown-item" data-type="meat" @click.prevent="setCategory($event)" href="#">肉類主料</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="fillings" @click.prevent="setCategory($event)" href="#">蔬菜/餡料</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="flavor" @click.prevent="setCategory($event)" href="#">辛香提味</a>
+													</li>
+													<li>
+														<a class="dropdown-item" data-type="seasoning" @click.prevent="setCategory($event)" href="#">調味料</a>
+													</li>
+													<!-- <li><hr class="dropdown-divider"></li>
+													<li><a class="dropdown-item" href="#">其他</a></li> -->
+												</ul>
+												<button v-show="editmode" type="submit" class="btn btn-primary w-100">新增</button>
 											</div>
 										</form>
 									</div>
 									<div class="row g-2 seg-wrap mb-3">
 										<div class="col-6">
-											<button class="w-100 seg-btn btn btn-outline-primary"
+											<button class="w-100 seg-btn btn btn-outline-info"
 											:class="{active: subTab === 'Bakings'}"
 											@click="subTab = 'Bakings'">烘焙</button>
 										</div>
 										<div class="col-6">
-											<button class="w-100 seg-btn btn btn-outline-primary"
+											<button class="w-100 seg-btn btn btn-outline-info"
 											:class="{active: subTab === 'Dumplings'}"
 											@click="subTab = 'Dumplings'">水餃</button>
 										</div>
+									</div>
+									<div class="row g-2 seg-wrap mb-3">
 										<div class="col-12">
-											<button class="btn btn-success" @click="mat_editmode = !mat_editmode">
+											<button class="w-100 btn btn-success" @click="mat_editmode = !mat_editmode">
 												<i :class="mat_editmode ? 'fa-solid fa-check' : 'fa-solid fa-pen'"></i>
 												{{ mat_editmode ? '完成' : '編輯' }}
 											</button>
@@ -249,8 +249,8 @@
 															@click="!mat_editmode && setMaterial(data)"
 															style="font-size: 1rem;margin: 0.3rem;">
 															{{ data.name }}
+															<i v-if="mat_editmode && data.is_basic=='Y'" class="fa-solid fa-xmark remove-icon" @click="removeMaterial(data)"></i>
 														</span>
-														<i v-if="mat_editmode && data.is_basic=='Y'" class="fa-solid fa-xmark remove-icon" @click="removeMaterial(data)"></i>
 													</div>
 												</div>
 											</div>
@@ -268,8 +268,8 @@
 															@click="!mat_editmode && setMaterial(data)"
 															style="font-size: 1rem;margin: 0.3rem;">
 															{{ data.name }}
+															<i v-if="mat_editmode && data.is_basic=='Y'" class="fa-solid fa-xmark remove-icon" @click="removeMaterial(data)"></i>
 														</span>
-														<i v-if="mat_editmode && data.is_basic=='Y'" class="fa-solid fa-xmark remove-icon" @click="removeMaterial(data)"></i>
 													</div>
 												</div>
 											</div>
