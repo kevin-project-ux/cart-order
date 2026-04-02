@@ -504,7 +504,7 @@
 
 							var prd_name = this.materials[this.formula_name];
 
-							if (prd_name[type]) {
+							if ( typeof prd_name[type] != 'undefined' ) {
 
 								const types = prd_name[type];
 
@@ -564,7 +564,7 @@
 
 							var prd_name = this.materials[this.formula_name];
 
-							if (prd_name[type]) {
+							if ( typeof prd_name[type] != 'undefined' ) {
 
 								const types = prd_name[type];
 
