@@ -707,6 +707,9 @@
 			},
 
 			setMaterial(item) {
+
+				if (e.target.closest('.remove-icon')){ return; }
+
 				item.active = !item.active;
 
 				if (item.active) {
