@@ -496,23 +496,20 @@
 
 							var prd_name = this.materials[this.formula_name];
 
-							Object.keys(prd_name).forEach(key => {
+							if (prd_name[type]) {
 
-								if (prd_name[type]) {
+								const types = prd_name[type];
 
-									const types = prd_name[type];
-
-									if (types[val]) {
-										item.active = types[val].active;
-										tmpmats[type].push(item);
-										this.sel_material.push(item);
-									} else {
-										tmpmats[type].push(item);
-									}
+								if (types[val]) {
+									item.active = types[val].active;
+									tmpmats[type].push(item);
+									this.sel_material.push(item);
 								} else {
 									tmpmats[type].push(item);
 								}
-							});
+							} else {
+								tmpmats[type].push(item);
+							}
 						} else {
 							tmpmats[type].push(item);
 						}
@@ -559,23 +556,20 @@
 
 							var prd_name = this.materials[this.formula_name];
 
-							// Object.keys(prd_name).forEach(key => {
+							if (prd_name[type]) {
 
-								if (prd_name[type]) {
+								const types = prd_name[type];
 
-									const types = prd_name[type];
-
-									if (types[val]) {
-										item.active = types[val].active;
-										tmpmats[type].push(item);
-										this.sel_material.push(item);
-									} else {
-										tmpmats[type].push(item);
-									}
+								if (types[val]) {
+									item.active = types[val].active;
+									tmpmats[type].push(item);
+									this.sel_material.push(item);
 								} else {
 									tmpmats[type].push(item);
 								}
-							// });
+							} else {
+								tmpmats[type].push(item);
+							}
 						} else {
 							tmpmats[type].push(item);
 						}
