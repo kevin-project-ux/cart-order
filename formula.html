@@ -851,19 +851,17 @@
 			// this.loadBasicMaterials();
 
 			await this.getFirebaseData();
-
-			const vm = this;
 		}
 	});
 </script>
 <script>
 	$('#example').on('click', '.updFormula', function () {
-	  // const id = $(this).data('id')
+	  	// const id = $(this).data('id')
 
-	  // 呼叫 Vue 方法
-	  vm.updFormulaModal($(this));
-	  // vm.checkImgModal($(this));
-	  // vm.delFormula($(this));
+	  	// 呼叫 Vue 方法
+	  	this.updFormulaModal($(this));
+	  	// vm.checkImgModal($(this));
+	  	// vm.delFormula($(this));
 	})
 	
 </script>
