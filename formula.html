@@ -103,6 +103,28 @@
 								<th>價格</th>
 								<th></th>
 							</tr>
+							<tr v-for="data in material.data">
+								<td>{{ data.name }}</td>
+								<td>{{ data.total_price }}</td>
+								<td>
+									<div class="dropdown">
+	                                    <a href="#" class="link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+	                                        <i class="fas fa-bars"></i>
+	                                    </a>
+	                                    <ul class="dropdown-menu dropdown-menu-end">
+	                                        <li>
+	                                        	<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" :data-id="data.id" @click="checkImgModal(this)"><i class="fas fa-image"></i> 查看配方</a>
+	                                        </li>
+	                                        <li>
+		                                        <a href="#" class="dropdown-item link-success text-decoration-none" data-type="edit" :data-id="data.id" :data-name="data.name" @click="updFormulaModal(this)"><i class="fas fa-edit"></i> 編輯配方</a>
+		                                    </li>
+	                                        <li>
+		                                        <a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" :data-id="data.id" @click="delFormula(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>
+		                                    </li>
+	                                    </ul>
+	                                </div>
+								</td>
+							</tr>
 						</thead>
 						<tbody id="tableBody"></tbody>
 					</table>
@@ -317,6 +339,7 @@
 			msg: '',
 			userId: 'test',
 			subTab: 'Bakings',
+			material: {},
 			formula_id: '',
 			formula_name: '',
 			formulas: { data: [] },
@@ -345,8 +368,6 @@
 
 			updFormulaModal(e) {
 
-				console.log(this.sel_material);
-
 				this.editmode = true;
 
 				$("#addFormula").modal('show');
@@ -355,7 +376,7 @@
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
 
-				// console.log(this.formula_name);
+				console.log(this.formula_name);
 				console.log(this.sel_material);
 
 				this.loadBakingMaterials();
@@ -377,13 +398,13 @@
 
 					if (raw) {
 
-						let parsed = JSON.parse(raw);
+						this.material = JSON.parse(raw);
 						// console.log(parsed);
 
 						mask.style.display = 'flex';
 
 						$('#example').DataTable({
-							data: parsed.data,
+							// data: parsed.data,
 							destroy: true, // 重新載入時清除舊表格
 							responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
 							autoWidth: false,      // 關閉自動欄寬
@@ -399,50 +420,50 @@
 							initComplete: function () {
 								mask.style.display = 'none';
 							},
-							columns: [
-								{ data: 'name', className: 'truncate' },
-								{
-									data: 'total_price',
-									className: 'text-center',
-									createdCell: function (td, cellData) {
-										if (cellData == 0) {
-											$(td).addClass('text-danger').text(cellData);
-										} else {
-											$(td).addClass('text-success').text(cellData);
-										}
-									}
-								},
-								{
-									data: null,
-									defaultContent: '',
-									className: 'text-center',
-									render: function (data, type, row) {
+							// columns: [
+							// 	{ data: 'name', className: 'truncate' },
+							// 	{
+							// 		data: 'total_price',
+							// 		className: 'text-center',
+							// 		createdCell: function (td, cellData) {
+							// 			if (cellData == 0) {
+							// 				$(td).addClass('text-danger').text(cellData);
+							// 			} else {
+							// 				$(td).addClass('text-success').text(cellData);
+							// 			}
+							// 		}
+							// 	},
+							// 	{
+							// 		data: null,
+							// 		defaultContent: '',
+							// 		className: 'text-center',
+							// 		render: function (data, type, row) {
 
-										// var enable = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-type="enable" onclick="enableFormula(this)"><i class="fas fa-edit"></i> 啟用配方</a>`;
-										var img = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" data-id="${row.id}" onclick="vm.checkImgModal(this)"><i class="fas fa-image"></i> 查看配方</a>`;
-										var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-type="edit" data-id="${row.id}" data-name="${row.name}" onclick="vm.updFormulaModal(this)"><i class="fas fa-edit"></i> 編輯配方</a>`;
-										var del = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" data-id="${row.id}" onclick="vm.delFormula(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>`;
-										// var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
-										// var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
-										// <span class="badge bg-success">Beta</span>
+							// 			// var enable = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-type="enable" onclick="enableFormula(this)"><i class="fas fa-edit"></i> 啟用配方</a>`;
+							// 			var img = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-type="img" data-id="${row.id}" onclick="vm.checkImgModal(this)"><i class="fas fa-image"></i> 查看配方</a>`;
+							// 			var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-type="edit" data-id="${row.id}" data-name="${row.name}" onclick="vm.updFormulaModal(this)"><i class="fas fa-edit"></i> 編輯配方</a>`;
+							// 			var del = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-type="delete" data-id="${row.id}" onclick="vm.delFormula(this)"><i class="far fa-trash-alt"></i> 刪除配方</a>`;
+							// 			// var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
+							// 			// var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
+							// 			// <span class="badge bg-success">Beta</span>
 
-										var html = `
-			                                <div class="dropdown">
-			                                    <a href="#" class="link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-			                                        <i class="fas fa-bars"></i>
-			                                    </a>
-			                                    <ul class="dropdown-menu dropdown-menu-end">
-			                                        <li>${img}</li>
-			                                        <li>${edit}</li>
-			                                        <li>${del}</li>
-			                                    </ul>
-			                                </div>
-			                            `;
+							// 			var html = `
+			                //                 <div class="dropdown">
+			                //                     <a href="#" class="link-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			                //                         <i class="fas fa-bars"></i>
+			                //                     </a>
+			                //                     <ul class="dropdown-menu dropdown-menu-end">
+			                //                         <li>${img}</li>
+			                //                         <li>${edit}</li>
+			                //                         <li>${del}</li>
+			                //                     </ul>
+			                //                 </div>
+			                //             `;
 
-										return html;
-									}
-								}
-							]
+							// 			return html;
+							// 		}
+							// 	}
+							// ]
 						});
 					}
 				});
