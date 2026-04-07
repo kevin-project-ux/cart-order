@@ -103,6 +103,8 @@
 								<th>價格</th>
 								<th></th>
 							</tr>
+						</thead>
+						<tbody id="tableBody">
 							<tr v-for="data in formulas.data">
 								<td>{{ data.name }}</td>
 								<td :class="data.total_price ? 'text-success' : 'text-danger'">{{ data.total_price }}</td>
@@ -126,8 +128,7 @@
 									
 								</td>
 							</tr>
-						</thead>
-						<tbody id="tableBody"></tbody>
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -678,8 +679,6 @@
 							},
 						});
 					});
-
-					console.log($('#example').length);
 				}
 			},
 
