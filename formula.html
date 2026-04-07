@@ -333,7 +333,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
-	var vm = new Vue({
+	new Vue({
 		el: '#app',
 		data: {
 			editmode: false,
@@ -382,7 +382,6 @@
 				this.loadBakingMaterials();
 				this.loadDumplingMaterials();
 				this.loadCostMaterials();
-
 			},
 
 			checkImgModal() {
