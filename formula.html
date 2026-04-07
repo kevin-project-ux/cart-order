@@ -345,6 +345,8 @@
 
 			updFormulaModal(e) {
 
+				console.log(this.sel_material);
+
 				this.editmode = true;
 
 				$("#addFormula").modal('show');
@@ -353,7 +355,7 @@
 				this.formula_name = e.dataset.name;
 				this.sel_material = []; // 重置已選材料
 
-				console.log(this.formula_name);
+				// console.log(this.formula_name);
 				console.log(this.sel_material);
 
 				this.loadBakingMaterials();
