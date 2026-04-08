@@ -315,6 +315,7 @@
 												<label class="col-sm-3 col-form-label fw-bold">
 													{{ material.name }}
 													<div class="dropdown">
+														<span class="badge text-bg-secondary">單價：{{ material.price }}</span>
 				                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ material.unit || '單位' }}</button>
 				                                        <ul class="dropdown-menu">
 				                                        	<li><a class="dropdown-item" href="#" @click="setUnit()">公克</a></li>
@@ -337,14 +338,12 @@
 												<label class="col-sm-3 col-form-label fw-bold">倍數</label>
 												<label class="col-sm-3 col-form-label fw-bold">實際操作份量</label>
 												<label class="col-sm-3 col-form-label fw-bold">進貨價格</label>
-												<label class="col-sm-3 col-form-label fw-bold">單價</label>
 											</div>
 											<div class="d-flex overflow-auto gap-2">
 												<input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="計量">
 												<input type="number" v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="倍數">
 												<input type="number" v-model="material.size" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="實際操作份量">
 												<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="進貨價格">
-												<input type="number" v-model="material.price" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="單價">
 											</div>
 										</div>
 										<button v-show="editmode" type="submit"	class="btn btn-success w-100">儲存</button>
