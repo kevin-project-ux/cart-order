@@ -312,26 +312,24 @@
 									<form @submit.prevent="addMaterialCost()">
 										<div class="input-group mb-3" v-for="(material, type) in sel_material" :key="type">
 											<div class="d-flex align-items-center gap-2">
-												<label class="col-12 col-form-label fw-bold">
-													{{ material.name }}
-													<div class="dropdown d-inline-block">
-														<span class="badge text-bg-success">單價：{{ material.price }}</span>
-				                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ material.unit || '單位' }}</button>
-				                                        <ul class="dropdown-menu">
-				                                        	<li><a class="dropdown-item" href="#" @click="setUnit()">公克</a></li>
-				                                            <li><a class="dropdown-item" href="#" @click="setUnit()">公升</a></li>
-				                                            <li><a class="dropdown-item" href="#" @click="setUnit()">個</a></li>
-				                                            <li><a class="dropdown-item" href="#" @click="setUnit()">顆</a></li>  
-				                                            <li><hr class="dropdown-divider"></li>
-				                                            <li><a class="dropdown-item" href="#">
-				                                                <div class="d-flex gap-2">
-				                                                    <input type="text" v-model="material.unit" class="form-control" placeholder="請輸入單位">
-				                                                    <button class="btn btn-success" type="button" v-on:click="setUnit"><i class="fas fa-check"></i></button>
-				                                                </div>
-				                                            </a></li>
-				                                        </ul>
-				                                    </div>
-												</label>
+												<span class="col-12 col-form-label fw-bold">{{ material.name }}</span>
+												<div class="dropdown me-2">
+			                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ material.unit || '單位' }}</button>
+			                                        <ul class="dropdown-menu">
+			                                        	<li><a class="dropdown-item" href="#" @click="setUnit()">公克</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit()">公升</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit()">個</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit()">顆</a></li>  
+			                                            <li><hr class="dropdown-divider"></li>
+			                                            <li><a class="dropdown-item" href="#">
+			                                                <div class="d-flex gap-2">
+			                                                    <input type="text" v-model="material.unit" class="form-control" placeholder="請輸入單位">
+			                                                    <button class="btn btn-success" type="button" v-on:click="setUnit"><i class="fas fa-check"></i></button>
+			                                                </div>
+			                                            </a></li>
+			                                        </ul>
+			                                    </div>
+			                                    <span class="badge text-bg-success">單價：{{ material.price }}</span>
 											</div>
 											<div class="d-flex overflow-auto gap-2">
 												<ol class="list-group list-group-horizontal">
