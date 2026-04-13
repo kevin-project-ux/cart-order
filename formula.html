@@ -843,6 +843,8 @@
 				const double = this.material.double;
 				const weight = this.material.weight;
 
+				if( dounble=='' || weight=='' ){ return false; }
+
 				if ( isNaN(double) || isNaN(weight) ) {
                     Swal.fire({
                         icon: "error",
@@ -894,8 +896,6 @@
 		},
 		watch: {
             'material.size': function(newVal, oldVal) { this.countPrice(); }
-            'material.double': function(newVal, oldVal) { if( this.material.weight!='' ){ this.countSize(); } }
-            'material.weight': function(newVal, oldVal) { if( this.material.double!='' ){ this.countSize(); } }
         },
 	});
 </script>
