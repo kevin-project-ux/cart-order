@@ -334,34 +334,30 @@
 											<div class="d-flex overflow-auto gap-2">
 												<ol class="list-group list-group-horizontal">
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
-												  		<span class="badge text-bg-primary rounded-pill">計量</span>
+												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">計量</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="計量">
+												      		<input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" placeholder="計量">
 												    	</div>
 												  	</li>
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
-												  		<span class="badge text-bg-primary rounded-pill">倍數</span>
+												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">倍數</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="倍數">
+												      		<input type="number" v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" placeholder="倍數">
 												    	</div>
 												  	</li>
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
-												  		<span class="badge text-bg-primary rounded-pill">實際操作份量</span>
+												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">實際操作份量</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.size" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="實際操作份量">
+												      		<input type="number" v-model="material.size" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" placeholder="實際操作份量">
 												    	</div>
 												  	</li>
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
-												  		<span class="badge text-bg-primary rounded-pill">進貨價格</span>
+												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">進貨價格</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="進貨價格">
+												      		<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" placeholder="進貨價格">
 												    	</div>
 												  	</li>
 												</ol>
-												<!-- <input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="計量">
-												<input type="number" v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="倍數">
-												<input type="number" v-model="material.size" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="實際操作份量">
-												<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;" placeholder="進貨價格"> -->
 											</div>
 										</div>
 										<button v-show="editmode" type="submit"	class="btn btn-success w-100">儲存</button>
