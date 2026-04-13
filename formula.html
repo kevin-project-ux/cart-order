@@ -316,19 +316,20 @@
 												<div class="dropdown me-2">
 			                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ material.unit || '單位' }}</button>
 			                                        <ul class="dropdown-menu">
-			                                        	<li><a class="dropdown-item" href="#" @click="setUnit()">公克</a></li>
-			                                            <li><a class="dropdown-item" href="#" @click="setUnit()">公升</a></li>
-			                                            <li><a class="dropdown-item" href="#" @click="setUnit()">個</a></li>
-			                                            <li><a class="dropdown-item" href="#" @click="setUnit()">顆</a></li>  
+			                                        	<li><a class="dropdown-item" href="#" @click="setUnit($event)">公克</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event)">公升</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event)">個</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event)">顆</a></li>  
 			                                            <li><hr class="dropdown-divider"></li>
 			                                            <li><a class="dropdown-item" href="#">
 			                                                <div class="d-flex gap-2">
 			                                                    <input type="text" v-model="material.unit" class="form-control" placeholder="請輸入單位">
-			                                                    <button class="btn btn-success" type="button" v-on:click="setUnit"><i class="fas fa-check"></i></button>
+			                                                    <button class="btn btn-success" type="button" v-on:click="setUnit($event)"><i class="fas fa-check"></i></button>
 			                                                </div>
 			                                            </a></li>
 			                                        </ul>
 			                                    </div>
+			                                    <span class="badge text-bg-danger">實際操作份量：{{ material.size }}</span>
 			                                    <span class="badge text-bg-success">單價：{{ material.price }}</span>
 											</div>
 											<div class="d-flex overflow-auto gap-2">
@@ -346,15 +347,9 @@
 												    	</div>
 												  	</li>
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
-												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">實際操作份量</span>
-												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.size" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" placeholder="實際操作份量">
-												    	</div>
-												  	</li>
-												  	<li class="list-group-item d-flex justify-content-between align-items-center">
 												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">進貨價格</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" placeholder="進貨價格">
+												      		<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countPrice()" placeholder="進貨價格">
 												    	</div>
 												  	</li>
 												</ol>
@@ -839,9 +834,43 @@
 				this.loadDumplingMaterials();
 			},
 
-			setUnit(){
-
+			setUnit(e){
+				this.material.unit = e.currentTarget.innerText;
 			},
+
+			countSize(){
+
+				const double = this.material.double;
+				const weight = this.material.weight;
+
+				if ( isNaN(double) || isNaN(weight) ) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "輸入計量及倍數需為數值!",
+                        text: "請重新輸入!!",
+                    });
+                }else{
+                    var size = double * weight;
+                    this.material.size = size.toFixed(2);
+                }
+            },
+
+			countPrice(){
+
+                const cost = Number(this.material.cost);
+                const size = Number(this.material.size);
+
+                if ( isNaN(cost) || isNaN(size) ) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "輸入進貨價格及實際操作份量需為數值!",
+                        text: "請重新輸入!!",
+                    });
+                }else{
+                    var price = cost / 1000 * size;
+                    this.material.price = price.toFixed(2);
+                }
+            },
 
 		},
 		async mounted() {
@@ -862,7 +891,12 @@
 			// this.loadBasicMaterials();
 
 			
-		}
+		},
+		watch: {
+            'material.size': function(newVal, oldVal) { this.countPrice(); }
+            'material.double': function(newVal, oldVal) { if( this.material.weight!='' ){ this.countSize(); } }
+            'material.weight': function(newVal, oldVal) { if( this.material.double!='' ){ this.countSize(); } }
+        },
 	});
 </script>
 </html>
