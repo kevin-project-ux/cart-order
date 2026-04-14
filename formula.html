@@ -329,11 +329,11 @@
 			                                            </a></li>
 			                                        </ul>
 			                                    </div>
-			                                    <div>
+			                                    <div class="text-center">
 			                                    	<div class="text-muted small">實際操作份量</div>
   													<span class="fw-bold text-center badge bg-danger text-light border">{{ material.size }}</span>
 			                                    </div>
-			                                    <div>
+			                                    <div class="text-center">
 			                                    	<div class="text-muted small">單價</div>
   													<span class="fw-bold text-center badge bg-success text-light border">{{ material.price }}</span>
 			                                    </div>
@@ -345,13 +345,13 @@
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
 												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">計量</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" placeholder="計量">
+												      		<input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countSize()" placeholder="計量">
 												    	</div>
 												  	</li>
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
 												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">倍數</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" placeholder="倍數">
+												      		<input type="number" v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countSize()" placeholder="倍數">
 												    	</div>
 												  	</li>
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
