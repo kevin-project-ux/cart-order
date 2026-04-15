@@ -329,43 +329,40 @@
 			                                            </a></li>
 			                                        </ul>
 			                                    </div>
-			                                    <div class="text-center">
+			                                    <div class="text-center mb-1">
 			                                    	<div class="text-muted text-secondary small">實際操作份量</div>
   													<span class="fw-bold text-center badge bg-danger text-light border">{{ material.size }}</span>
 			                                    </div>
-			                                    <div class="text-center">
+			                                    <div class="text-center mb-1">
 			                                    	<div class="text-muted text-secondary small">
 			                                    		<i class="fas fa-dollar-sign me-1"></i>單價(元)
 			                                    	</div>
   													<span class="fw-bold text-center badge bg-success text-light border">{{ material.price }}</span>
 			                                    </div>
 											</div>
-											<div class="d-flex overflow-auto gap-2">
-												<ol class="list-group list-group-horizontal">
-												  	<li class="list-group-item d-flex justify-content-between align-items-center">
-												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">計量</span>
-												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countSize(type)" placeholder="計量">
-												    	</div>
-												  	</li>
-												  	<li class="list-group-item d-flex justify-content-between align-items-center">
-												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">倍數</span>
-												    	<div class="ms-2 me-auto">
-												      		<select v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 50px;" @change="countSize(type)">
-												      			<option value="" disabled>請選擇倍數</option>
-												      			<option value="1">x1</option>
-												      			<option value="2">x2</option>
-												      			<option value="3">x3</option>
-												      		</select>
-												    	</div>
-												  	</li>
-												  	<li class="list-group-item d-flex justify-content-between align-items-center">
-												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">進貨價格</span>
-												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countPrice(type)" placeholder="進貨價格">
-												    	</div>
-												  	</li>
-												</ol>
+											<div class="row g-2">
+  												<div class="col-md">
+													<div class="form-floating mb-3">
+													  	<input type="email" v-model="material.weight" class="form-control" @change="countSize(type)" placeholder="計量">
+													  	<label for="floatingInput">計量</label>
+													</div>
+												</div>
+												<div class="col-md">
+													<div class="form-floating mb-3">
+														<select v-model="material.double" class="form-control" @change="countSize(type)">
+											      			<option value="" disabled>請選擇倍數</option>
+											      			<option value="1">x1</option>
+											      			<option value="2">x2</option>
+											      			<option value="3">x3</option>
+											      		</select>
+													</div>
+												</div>
+												<div class="col-md">
+													<div class="form-floating mb-3">
+													  	<input type="number" v-model="material.cost" class="form-control" @change="countPrice(type)" placeholder="進貨價格">
+													  	<label for="floatingInput">進貨價格</label>
+													</div>
+												</div>
 											</div>
 										</div>
 										<button v-show="editmode" type="submit"	class="btn btn-success w-100">儲存</button>
