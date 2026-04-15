@@ -309,7 +309,7 @@
 							<!-- 材料成本 -->
 							<div class="tab-pane fade" id="matcost" role="tabpanel" aria-labelledby="matcost-tab">
 								<div class="p-4 bg-light rounded shadow-sm">
-									<form @submit.prevent="addMaterialCost()">
+									<form @submit.prevent="saveMaterialCost()">
 										<div class="input-group mb-3" v-for="(material, type) in sel_material" :key="type">
 											<div class="d-flex align-items-center gap-2">
 												<span class="col-form-label fw-bold">{{ material.name }}</span>
@@ -334,9 +334,7 @@
   													<span class="fw-bold text-center badge bg-danger text-light border">{{ material.size }}</span>
 			                                    </div>
 			                                    <div class="text-center mb-1">
-			                                    	<div class="text-muted text-secondary small">
-			                                    		<i class="fas fa-dollar-sign me-1"></i>單價(元)
-			                                    	</div>
+			                                    	<div class="text-muted text-secondary small">單價(元)</div>
   													<span class="fw-bold text-center badge bg-success text-light border">{{ material.price }}</span>
 			                                    </div>
 											</div>
@@ -878,6 +876,11 @@
                     this.sel_material[type].price = price.toFixed(2);
                 }
             },
+
+            saveMaterialCost(){
+
+            	console.log(this.sel_material);
+            }
 
 		},
 		async mounted() {
