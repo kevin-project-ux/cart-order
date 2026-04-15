@@ -316,25 +316,29 @@
 												<div class="dropdown me-2">
 			                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ material.unit || '單位' }}</button>
 			                                        <ul class="dropdown-menu">
-			                                        	<li><a class="dropdown-item" href="#" @click="setUnit($event)">公克</a></li>
-			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event)">公升</a></li>
-			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event)">個</a></li>
-			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event)">顆</a></li>  
+			                                        	<li><a class="dropdown-item" href="#" @click="setUnit($event, type)">公克</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event, type)">公升</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event, type)">個</a></li>
+			                                            <li><a class="dropdown-item" href="#" @click="setUnit($event, type)">顆</a></li>  
 			                                            <li><hr class="dropdown-divider"></li>
 			                                            <li><a class="dropdown-item" href="#">
 			                                                <div class="d-flex gap-2">
 			                                                    <input type="text" v-model="material.unit" class="form-control" placeholder="請輸入單位">
-			                                                    <button class="btn btn-success" type="button" v-on:click="setUnit($event)"><i class="fas fa-check"></i></button>
+			                                                    <button class="btn btn-success" type="button" v-on:click="setUnit($event, type)"><i class="fas fa-check"></i></button>
 			                                                </div>
 			                                            </a></li>
 			                                        </ul>
 			                                    </div>
+											</div>
+											<div class="d-flex align-items-center gap-2">
 			                                    <div class="text-center">
-			                                    	<div class="text-muted small">實際操作份量</div>
+			                                    	<div class="text-muted text-secondary small">實際操作份量</div>
   													<span class="fw-bold text-center badge bg-danger text-light border">{{ material.size }}</span>
 			                                    </div>
 			                                    <div class="text-center">
-			                                    	<div class="text-muted small">單價</div>
+			                                    	<div class="text-muted text-secondary small">
+			                                    		<i class="fas fa-dollar-sign me-1"></i>單價(元)
+			                                    	</div>
   													<span class="fw-bold text-center badge bg-success text-light border">{{ material.price }}</span>
 			                                    </div>
 											</div>
@@ -840,17 +844,14 @@
 				this.loadDumplingMaterials();
 			},
 
-			setUnit(e){
-				this.material.unit = e.currentTarget.innerText;
+			setUnit(e, type){
+				this.sel_material[type].unit = e.currentTarget.innerText;
 			},
 
 			countSize(type){
 
 				const double = this.sel_material[type].double;
 				const weight = this.sel_material[type].weight;
-
-				console.log(double);
-				console.log(weight);
 
 				if( double=='' || weight=='' ){ return false; }
 
