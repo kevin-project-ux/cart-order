@@ -337,27 +337,25 @@
 			                                    	<div class="text-muted small">單價</div>
   													<span class="fw-bold text-center badge bg-success text-light border">{{ material.price }}</span>
 			                                    </div>
-			                                    <!-- <span class="badge text-bg-danger">實際操作份量：{{ material.size }}</span> -->
-			                                    <!-- <span class="badge text-bg-success">單價：{{ material.price }}</span> -->
 											</div>
 											<div class="d-flex overflow-auto gap-2">
 												<ol class="list-group list-group-horizontal">
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
 												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">計量</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countSize()" placeholder="計量">
+												      		<input type="number" v-model="material.weight" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countSize(type)" placeholder="計量">
 												    	</div>
 												  	</li>
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
 												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">倍數</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countSize()" placeholder="倍數">
+												      		<input type="number" v-model="material.double" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countSize(type)" placeholder="倍數">
 												    	</div>
 												  	</li>
 												  	<li class="list-group-item d-flex justify-content-between align-items-center">
 												  		<span class="badge text-bg-primary rounded-pill px-2 py-1">進貨價格</span>
 												    	<div class="ms-2 me-auto">
-												      		<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countPrice()" placeholder="進貨價格">
+												      		<input type="number" v-model="material.cost" class="form-control" style="font-size: 1rem;margin: 0.3rem;width: 75px;" @change="countPrice(type)" placeholder="進貨價格">
 												    	</div>
 												  	</li>
 												</ol>
@@ -398,9 +396,6 @@
 			materials: {},
 			mattype_name: [],
 			sel_material: [],
-			material: [
-				{ name:'', active:false, category:'', weight:0, double:1, size:0, cost:0,price:0, unit:'' }
-			],
 			baking_basic: [],
 			dumpling_basic: [],
 			sel_type: '',
@@ -849,10 +844,10 @@
 				this.material.unit = e.currentTarget.innerText;
 			},
 
-			countSize(){
+			countSize(type){
 
-				const double = this.material.double;
-				const weight = this.material.weight;
+				const double = this.sel_material[type].double;
+				const weight = this.sel_material[type].weight;
 
 				console.log(double);
 				console.log(weight);
@@ -871,10 +866,10 @@
                 }
             },
 
-			countPrice(){
+			countPrice(type){
 
-                const cost = Number(this.material.cost);
-                const size = Number(this.material.size);
+                const cost = Number(this.sel_material[type].cost);
+                const size = Number(this.sel_material[type].size);
 
                 if ( isNaN(cost) || isNaN(size) ) {
                     Swal.fire({
