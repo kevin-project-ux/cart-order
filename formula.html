@@ -862,7 +862,7 @@
                     });
                 }else{
                     var size = double * weight;
-                    this.material.size = size.toFixed(2);
+                    this.sel_material[type].size = size.toFixed(2);
                 }
             },
 
@@ -879,7 +879,7 @@
                     });
                 }else{
                     var price = cost / 1000 * size;
-                    this.material.price = price.toFixed(2);
+                    this.sel_material[type].price = price.toFixed(2);
                 }
             },
 
