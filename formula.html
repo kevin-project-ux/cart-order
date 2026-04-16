@@ -855,8 +855,7 @@
                         text: "請重新輸入!!",
                     });
                 }else{
-                    var size = double * weight;
-                    this.sel_material[type].size = size.toFixed(2);
+                    this.sel_material[type].size = double * weight;
                 }
             },
 
@@ -879,7 +878,12 @@
 
             saveMaterialCost(){
 
-            	console.log(this.sel_material);
+            	// console.log(this.sel_material);
+            	/// 更新firebase data
+            	this.sel_material.forEach(val => {
+					def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
+					def.set(val);
+				});
             }
 
 		},
