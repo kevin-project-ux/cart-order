@@ -419,8 +419,8 @@
 				this.formula_name = data.name;
 				this.sel_material = []; // 重置已選材料
 
-				console.log(this.formula_name);
-				console.log(this.sel_material);
+				// console.log(this.formula_name);
+				// console.log(this.sel_material);
 
 				this.loadBakingMaterials();
 				this.loadDumplingMaterials();
@@ -530,8 +530,8 @@
 
 								if (types[val]) {
 									item.active = types[val].active;
-									tmpmats[type].push(item);
-									this.sel_material.push(item);
+									tmpmats[type].push(types[val]);
+									this.sel_material.push(types[val]);
 								} else {
 									tmpmats[type].push(item);
 								}
@@ -590,8 +590,8 @@
 
 								if (types[val]) {
 									item.active = types[val].active;
-									tmpmats[type].push(item);
-									this.sel_material.push(item);
+									tmpmats[type].push(types[val]);
+									this.sel_material.push(types[val]);
 								} else {
 									tmpmats[type].push(item);
 								}
@@ -883,6 +883,16 @@
             	this.sel_material.forEach(val => {
 					def = db.ref('users/' + this.userId + '/materials/' + this.formula_name + '/' + val.category + '/' + val.name);
 					def.set(val);
+				});
+
+				Swal.fire({
+					toast: true,
+					position: 'top-end', // 右上角
+					icon: 'success',
+					title: '儲存成功',
+					showConfirmButton: false,
+					timer: 2000,
+					timerProgressBar: true
 				});
             }
 
