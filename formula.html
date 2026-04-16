@@ -338,6 +338,16 @@
   													<span class="fw-bold text-center badge bg-success text-light border">{{ material.price }}</span>
 			                                    </div>
 											</div>
+											<div>
+												<div class="text-center mb-1">
+			                                    	<div class="text-muted text-secondary small">實際操作份量</div>
+  													<span class="fw-bold text-center badge bg-danger text-light border">{{ material.size }}</span>
+			                                    </div>
+			                                    <div class="text-center mb-1">
+			                                    	<div class="text-muted text-secondary small">單價(元)</div>
+  													<span class="fw-bold text-center badge bg-success text-light border">{{ material.price }}</span>
+			                                    </div>
+											</div>
 											<div class="d-flex overflow-auto gap-2">
 												<div class="form-floating">
 												  	<input type="number" v-model="material.weight" :id="'weight-'+type" class="form-control" @change="countSize(type)" placeholder="計量">
