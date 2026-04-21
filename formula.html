@@ -865,9 +865,9 @@
 
 			countPrice(type, unit){
 
-                const cost   = Number(this.sel_material[type].cost);
+                let cost     = Number(this.sel_material[type].cost);
                 const size   = Number(this.sel_material[type].size);
-                const weight = Number(this.sel_material[type].size);
+                const weight = Number(this.sel_material[type].weight);
 
                 if ( isNaN(cost) || isNaN(size) ) {
                     Swal.fire({
@@ -876,9 +876,9 @@
                         text: "請重新輸入!!",
                     });
                 }else{
-                	var new_cost = cost;
-                	if( unit=='公斤' || unit=='公升' ){ new_cost = cost / 1000; }
-                	if( size!=weight ){ var price = new_cost / weight * size; }
+                	var price = cost;
+                	if( unit=='公斤' || unit=='公升' ){ cost = cost / 1000; }
+                	if( size!=weight ){ price = cost / weight * size; }
                     this.sel_material[type].price = price.toFixed(2);
                 }
             },
