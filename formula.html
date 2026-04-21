@@ -342,18 +342,6 @@
 													</ul>
 												</div>
 											</div>
-											<!-- <div class="w-100">
-												<ul class="list-group list-group-horizontal mt-1 mb-1 w-100">
-												  	<li class="list-group-item text-center w-50" style="background-color: #ccc;">
-													  	<div class="text-muted small">實際操作份量</div>
-													  	<span class="fw-bold text-center text-danger badge border">{{ material.size }}</span>
-													</li>
-												  	<li class="list-group-item text-center w-50" style="background-color: #ccc;">
-												  		<div class="text-muted small">單價(元)</div>
-												  		<span class="fw-bold text-center text-primary badge border">{{ material.price }}</span>
-												  	</li>
-												</ul>
-											</div> -->
 											<div class="d-flex overflow-auto gap-2">
 												<div class="form-floating">
 												  	<input type="number" v-model="material.weight" :id="'weight-'+type" class="form-control" @change="countSize(type)" placeholder="計量">
@@ -373,6 +361,24 @@
 												  	<label :for="'cost-'+type">進貨價格</label>
 												</div>
 											</div>
+										</div>
+										<hr>
+										<div class="d-flex gap-2">
+										  	<div class="flex-fill d-flex flex-column align-items-center p-2 bg-light rounded">
+										    	<div class="fs-5"><i class="fas fa-balance-scale"></i></div>
+										    	<div class="small text-muted">總重</div>
+										    	<div class="fw-bold">{{ total_weight }}</div>
+										  	</div>
+										  	<div class="flex-fill d-flex flex-column align-items-center p-2 bg-light rounded">
+										    	<div class="fs-5"><i class="fas fa-weight"></i></div>
+										    	<div class="small text-muted">實際份量</div>
+										    	<div class="fw-bold">{{ total_size }}</div>
+										  	</div>
+										  	<div class="flex-fill d-flex flex-column align-items-center p-2 bg-light rounded">
+										    	<div class="fs-5"><i class="fas fa-dollar-sign"></i></div>
+										    	<div class="small text-muted">實際金額</div>
+										    	<div class="fw-bold">{{ total_price }}</div>
+										  	</div>
 										</div>
 										<button v-show="editmode" type="submit"	class="btn btn-success w-100">儲存</button>
 									</form>
@@ -413,6 +419,9 @@
 			dumpling_basic: [],
 			sel_type: '',
 			type_txt: '',
+			total_weight: 0,
+			total_size: 0,
+			total_price: 0,
 		},
 		methods: {
 
@@ -635,8 +644,11 @@
 
 			loadCostMaterials() {
 
-
-
+				this.sel_material.forEach(val => {
+                	this.total_weight = val.weight;
+                	this.total_size   = val.size;
+                	this.total_price  = val.price;
+                });
 			},
 
 			checkFormula() {
@@ -872,6 +884,8 @@
                     });
                 }else{
                     this.sel_material[type].size = double * weight;
+
+                    this.loadCostMaterials();
                 }
             },
 
@@ -892,6 +906,8 @@
                 	if( unit=='公斤' || unit=='公升' ){ cost = cost / 1000; }
                 	if( size!=weight ){ price = cost / weight * size; }
                     this.sel_material[type].price = price.toFixed(2);
+
+                    this.loadCostMaterials();
                 }
             },
 
