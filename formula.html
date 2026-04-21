@@ -645,10 +645,21 @@
 			loadCostMaterials() {
 
 				this.sel_material.forEach(val => {
-                	this.total_weight += val.weight;
+                	this.total_weight += Number(val.weight);
                 	this.total_size   += val.size;
                 	this.total_price  += val.price;
                 });
+
+                var formulas = this.formulas;
+				formulas.data.forEach(function (val, i, arr) {
+					if (val.id == this.formula_id) {
+						arr[i].total_weight = this.total_weight;
+						arr[i].total_size   = this.total_size;
+						arr[i].total_price  = this.total_price;
+					}
+				});
+
+				def.set(JSON.stringify(formulas));
 			},
 
 			checkFormula() {
