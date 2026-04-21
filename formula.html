@@ -649,17 +649,6 @@
                 	this.total_size   += val.size;
                 	this.total_price  += val.price;
                 });
-
-                var formulas = this.formulas;
-				formulas.data.forEach(function (val, i, arr) {
-					if (val.id == this.formula_id) {
-						arr[i].total_weight = this.total_weight;
-						arr[i].total_size   = this.total_size;
-						arr[i].total_price  = this.total_price;
-					}
-				});
-
-				def.set(JSON.stringify(formulas));
 			},
 
 			checkFormula() {
@@ -942,6 +931,18 @@
 					timer: 2000,
 					timerProgressBar: true
 				});
+
+				var def = db.ref('users/' + this.userId + '/formulas');
+				var formulas = this.formulas;
+				formulas.data.forEach(function (val, i, arr) {
+					if (val.id == this.formula_id) {
+						arr[i].total_weight = this.total_weight;
+						arr[i].total_size   = this.total_size;
+						arr[i].total_price  = this.total_price;
+					}
+				});
+
+				def.set(JSON.stringify(formulas));
             }
 
 		},
