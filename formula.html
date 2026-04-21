@@ -357,7 +357,7 @@
 										      		<label :for="'double-'+type">倍數</label>
 												</div>
 												<div class="form-floating">
-												  	<input type="number" v-model="material.cost" :id="'cost-'+type" class="form-control" @change="countPrice(type)" placeholder="進貨價格">
+												  	<input type="number" v-model="material.cost" :id="'cost-'+type" class="form-control" @change="countPrice(type, material.unit)" placeholder="進貨價格">
 												  	<label :for="'cost-'+type">進貨價格</label>
 												</div>
 											</div>
@@ -863,10 +863,11 @@
                 }
             },
 
-			countPrice(type){
+			countPrice(type, unit){
 
-                const cost = Number(this.sel_material[type].cost);
-                const size = Number(this.sel_material[type].size);
+                const cost   = Number(this.sel_material[type].cost);
+                const size   = Number(this.sel_material[type].size);
+                const weight = Number(this.sel_material[type].size);
 
                 if ( isNaN(cost) || isNaN(size) ) {
                     Swal.fire({
@@ -875,7 +876,9 @@
                         text: "請重新輸入!!",
                     });
                 }else{
-                    var price = cost / 1000 * size;
+                	var new_cost = cost;
+                	if( unit=='公斤' || unit=='公升' ){ new_cost = cost / 1000; }
+                	if( size!=weight ){ var price = new_cost / weight * size; }
                     this.sel_material[type].price = price.toFixed(2);
                 }
             },
