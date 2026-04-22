@@ -443,9 +443,9 @@
 				this.formula_id   = data.id;
 				this.formula_name = data.name;
 				this.sel_material = []; // 重置已選材料
-
-				// console.log(this.formula_name);
-				// console.log(this.sel_material);
+				this.total_weight = 0;
+				this.total_size   = 0;
+				this.total_price  = 0;
 
 				this.loadBakingMaterials();
 				this.loadDumplingMaterials();
@@ -933,15 +933,15 @@
 				});
 
 				var def = db.ref('users/' + this.userId + '/formulas');
-				var formulas = this.formulas;
+				var formula_id = this.formula_id;
+				var formulas   = this.formulas;
 				formulas.data.forEach(function (val, i, arr) {
-					if (val.id == this.formula_id) {
+					if (val.id == formula_id) {
 						arr[i].total_weight = this.total_weight;
 						arr[i].total_size   = this.total_size;
 						arr[i].total_price  = this.total_price;
 					}
 				});
-				console.log(this.formula_id);
 				console.log(this.formulas);
 
 				def.set(JSON.stringify(formulas));
