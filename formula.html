@@ -947,7 +947,19 @@
 				});
 
 				def.set(JSON.stringify(formulas));
-            }
+            },
+
+            loadCopyFormulas(){
+
+            	var def  = db.ref('users');
+            	var data = await def.once("value");
+
+				if (data.exists()) { 
+					var users = data.val();
+					console.log(users);
+				}
+
+            },
 
 		},
 		async mounted() {
@@ -965,7 +977,7 @@
 			this.loadFormulas();
 			this.loadMaterials();
 			this.loadCustomMaterials();
-			// this.loadBasicMaterials();
+			this.loadCopyFormulas();
 
 			
 		},
