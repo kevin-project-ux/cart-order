@@ -949,7 +949,7 @@
 				def.set(JSON.stringify(formulas));
             },
 
-            loadCopyFormulas(){
+            async loadCopyFormulas(){
 
             	var def  = db.ref('users');
             	var data = await def.once("value");
