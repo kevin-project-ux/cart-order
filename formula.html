@@ -933,16 +933,18 @@
 				});
 
 				var def = db.ref('users/' + this.userId + '/formulas');
-				var formula_id = this.formula_id;
-				var formulas   = this.formulas;
+				var formula_id   = this.formula_id;
+				var formulas     = this.formulas;
+				var total_weight = this.total_weight;
+				var total_size   = this.total_size;
+				var total_price  = this.total_price;
 				formulas.data.forEach(function (val, i, arr) {
 					if (val.id == formula_id) {
-						arr[i].total_weight = this.total_weight;
-						arr[i].total_size   = this.total_size;
-						arr[i].total_price  = this.total_price;
+						arr[i].total_weight = total_weight;
+						arr[i].total_size   = total_size;
+						arr[i].total_price  = total_price;
 					}
 				});
-				console.log(this.formulas);
 
 				def.set(JSON.stringify(formulas));
             }
