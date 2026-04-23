@@ -951,12 +951,13 @@
 
             async loadCopyFormulas(){
 
-            	var def  = db.ref('users');
+            	var def  = db.ref('users/' + this.userId + '/materials');
             	var data = await def.once("value");
 
 				if (data.exists()) { 
-					var users = data.val();
-					console.log(users);
+
+					def = db.ref('users/test/materials');
+					def.set(data.val());
 				}
 
             },
