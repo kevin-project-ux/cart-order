@@ -949,18 +949,18 @@
 				def.set(JSON.stringify(formulas));
             },
 
-            async loadCopyFormulas(){
+            // async loadCopyFormulas(){
 
-            	var def  = db.ref('users/' + this.userId + '/formulas');
-            	var data = await def.once("value");
+            // 	var def  = db.ref('users/' + this.userId + '/formulas');
+            // 	var data = await def.once("value");
 
-				if (data.exists()) { 
+			// 	if (data.exists()) { 
 
-					def = db.ref('users/Udc4e91a5c6b6015329ff5246a33f93d3/formulas');
-					def.set(data.val());
-				}
+			// 		def = db.ref('users/Udc4e91a5c6b6015329ff5246a33f93d3/formulas');
+			// 		def.set(data.val());
+			// 	}
 
-            },
+            // },
 
 		},
 		async mounted() {
@@ -978,7 +978,7 @@
 			this.loadFormulas();
 			this.loadMaterials();
 			this.loadCustomMaterials();
-			this.loadCopyFormulas();
+			// this.loadCopyFormulas();
 
 			
 		},
