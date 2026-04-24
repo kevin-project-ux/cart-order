@@ -679,6 +679,10 @@
 
 			loadCostMaterials() {
 
+				this.total_weight = 0;
+				this.total_size   = 0;
+				this.total_price  = 0;
+
 				this.sel_material.forEach(val => {
                 	this.total_weight += Number(val.weight);
                 	this.total_size   += val.size;
