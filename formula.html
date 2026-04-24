@@ -181,6 +181,8 @@
 										</div>
 										<button v-show="editmode" type="submit"
 											class="btn btn-success w-100">修改</button>
+										<button v-show="editmode" type="button"
+											class="btn btn-primary w-100" @click="makeFormula()">製作圖</button>
 										<button v-show="!editmode" type="submit"
 											class="btn btn-primary w-100">新增</button>
 									</form>
@@ -389,6 +391,38 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Formula Image Modal -->
+		<div class="modal fade" id="imageFormula" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" v-show="!editmode">查看配方</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						<!-- Tabs -->
+						<ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="image-tab" data-bs-toggle="tab"
+									data-bs-target="#image" type="button" role="tab">配方圖片</button>
+							</li>
+						</ul>
+
+						<!-- Tab Content -->
+						<div class="tab-content" id="formulaTabsContent">
+							<!-- 配方圖片 -->
+							<div class="tab-pane fade show active" id="image" role="tabpanel"
+								aria-labelledby="image-tab">
+								<div class="p-4 bg-light rounded shadow-sm">
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script>
@@ -452,8 +486,9 @@
 				this.loadCostMaterials();
 			},
 
-			checkImgModal() {
+			checkImgModal( data ) {
 
+				$("#imageFormula").modal('show');
 			},
 
 			async loadFormulas() {
@@ -907,7 +942,7 @@
                 	var price = cost;
                 	if( unit=='公斤' || unit=='公升' ){ cost = cost / 1000; }
                 	if( size!=weight ){ price = cost / weight * size; }
-                    this.sel_material[type].price = price.toFixed(2);
+                    this.sel_material[type].price = price;
 
                     this.loadCostMaterials();
                 }
@@ -947,6 +982,10 @@
 				});
 
 				def.set(JSON.stringify(formulas));
+            },
+
+            makeFormula(){
+
             },
 
             // async loadCopyFormulas(){
