@@ -134,6 +134,16 @@
         display: inline-block;
         transform: rotate(180deg);
     }
+    .input-group .select2-container {
+        flex: 1 1 auto;
+        width: 1% !important;
+    }
+
+    .input-group .select2-selection {
+        height: 38px !important;
+        display: flex !important;
+        align-items: center;
+    }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K7ZW7QSTSY"></script>
@@ -174,6 +184,10 @@
                 </table>
             </div>
         </div>
+    </div>
+
+    <div class="container mt-4">
+        <div id="chart"></div>
     </div>
 
     <!-- 底部導覽載入位置 -->
@@ -692,7 +706,7 @@
                                 <div class="container mt-4 mb-4" id="searchContent">
                                     <label class="form-label"><span class="text-danger">*</span> 品項</label>
                                     <div class="input-group mb-3">
-                                        <select class="form-select w-100" id="search_prd" required></select>
+                                        <select class="form-select" id="search_prd" required></select>
                                         <button class="btn btn-outline-primary" onclick="reloadSearchPrd()">
                                             <i class="fas fa-sync-alt"></i>
                                         </button>
@@ -2714,8 +2728,43 @@
         var flv_list = JSON.parse(localStorage.getItem('flv_list'));
 
         var sel_prdname = $('#search_prd').val();
-        console.log(sel_prdname);
+        // console.log(sel_prdname);
 
+        const categories = prd_list.map(i => i.開啟時間);
+
+        const series = [{
+          name: '金額',
+          data: prd_list.map(i => i.訂單金額總計)
+        }];
+
+
+        //繪製圖表
+        //1.歷史品項少於3筆內(包含3筆)不顯示圖表，只顯示表格
+        //2.歷史品項圖表類型，單口味顯示折線圖，多口味則顯示多個折線圖或加上柱狀圖等其他圖表類型
+        //3.目前顯示主要於品項名稱、金額總計、開團時間(其餘各口味總計等其他後面再調整)
+        const options = {
+            chart: {
+                type: 'line',
+                height: 300,
+                toolbar: { show: false }
+            },
+            series: series,
+            xaxis: {
+                categories: categories
+            },
+            stroke: {
+                curve: 'smooth', // 🔥 平滑線（很好看）
+                width: 3
+            },
+            markers: { size: 4 },
+            colors: ['#0d6efd'], // Bootstrap primary
+            dataLabels: { enabled: false },
+            grid: { borderColor: '#f1f1f1' }
+        };
+
+        const chart = new ApexCharts(document.querySelector("#chart"), options);
+
+        chart.render()
     }
 
     //------------------------------------------------------------------------------------------------------//
