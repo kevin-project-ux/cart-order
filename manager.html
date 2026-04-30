@@ -690,9 +690,12 @@
                             <div class="p-4 bg-light rounded shadow-sm">
                                 <!-- <h5 class="text-center"></h5> -->
                                 <div class="container mt-4 mb-4" id="searchContent">
-                                    <div class="mb-3">
-                                        <label class="form-label"><span class="text-danger">*</span> 品項</label>
+                                    <label class="form-label"><span class="text-danger">*</span> 品項</label>
+                                    <div class="input-group mb-3">
                                         <select class="form-select w-100" id="search_prd" required></select>
+                                        <button class="btn btn-outline-primary" onclick="reloadSearchPrd()">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <button class="btn btn-success w-100" id="searchOrder" onclick="orderSearch()">查詢</button>
@@ -954,8 +957,8 @@
 
     function toggleItem() {
         const selected = document.querySelector('input[name="itemType"]:checked').value;
-        document.getElementById("newItem").style.display = selected === "new" ? "block" : "none";
-        document.getElementById("oldItem").style.display = selected === "old" ? "block" : "none";
+        document.getElementById("newItem").style.display = selected === "new" ? "inline-flex" : "none";
+        document.getElementById("oldItem").style.display = selected === "old" ? "inline-flex" : "none";
 
         if( selected=='old' ){
             // console.log(data);
@@ -2661,39 +2664,57 @@
 
         data = { type: 'search', userId: userId, name: prd_name };
 
-        var res = await postGAS( data, {'errorMsg':'查詢失敗，該品項尚未存在!!', 'reload': false, 'return': true} );
+        if( localStorage.getItem('prd_list')===null && localStorage.getItem('flv_list')===null ){
 
-        if( res[0].status=='success' ){
+            var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有品項存在!!', 'reload': false, 'return': true} );
 
-            var prd_data = res[0].data;
+            if( res[0].status=='success' ){
 
-            prd_list = prd_data['品項列表'];
-            flv_list = prd_data['口味列表'];
+                var prd_data = res[0].data;
 
-            var prdname_arr = [...new Set(prd_list.map(item => item.名稱))];
+                prd_list = prd_data['品項列表'];
+                flv_list = prd_data['口味列表'];
 
-            $('#search_prd').empty(); // 清空原有內容（若有）
+                localStorage.setItem('prd_list', JSON.stringify(prd_list));
+                localStorage.setItem('flv_list', JSON.stringify(flv_list));
 
-            $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
-      
-            // 將 oldName 陣列加入 select 中
-            prdname_arr.forEach(name => {
-                $('#search_prd').append(`<option value="${name}">${name}</option>`);
-            });
-    
-            // 初始化 Select2
-            $('#search_prd').select2({
-                dropdownParent: $('#searchModal'),
-                placeholder: '請選擇品項',
-                allowClear: true,
-                width: 'resolve'
-            });
+                var prdname_arr = [...new Set(prd_list.map(item => item.名稱))];
+
+                $('#search_prd').empty(); // 清空原有內容（若有）
+
+                $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
+          
+                // 將 oldName 陣列加入 select 中
+                prdname_arr.forEach(name => {
+                    $('#search_prd').append(`<option value="${name}">${name}</option>`);
+                });
+        
+                // 初始化 Select2
+                $('#search_prd').select2({
+                    dropdownParent: $('#searchModal'),
+                    placeholder: '請選擇品項',
+                    allowClear: true,
+                    width: 'resolve'
+                });
+            }
         }
+    }
+
+    function reloadSearchPrd(){
+
+        window.localStorage.removeItem('prd_list');
+        window.localStorage.removeItem('flv_list');
+
+        searchModal();
     }
 
     function orderSearch(){
 
+        var prd_list = JSON.parse(localStorage.getItem('prd_list'));
+        var flv_list = JSON.parse(localStorage.getItem('flv_list'));
 
+        var sel_prdname = $('#search_prd').val();
+        console.log(sel_prdname);
 
     }
 
