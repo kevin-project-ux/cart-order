@@ -2664,8 +2664,30 @@
         var res = await postGAS( data, {'errorMsg':'查詢失敗，該品項尚未存在!!', 'reload': false, 'return': true} );
 
         if( res[0].status=='success' ){
+
             var prd_data = res[0].data;
-            console.log(prd_data);
+
+            prd_list = prd_data['品項列表'];
+            flv_list = prd_data['口味列表'];
+
+            var prdname_arr = [...new Set(prd_list.map(item => item.名稱))];
+
+            $('#search_prd').empty(); // 清空原有內容（若有）
+
+            $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
+      
+            // 將 oldName 陣列加入 select 中
+            prdname_arr.forEach(name => {
+                $('#search_prd').append(`<option value="${name}">${name}</option>`);
+            });
+    
+            // 初始化 Select2
+            $('#search_prd').select2({
+                dropdownParent: $('#searchModal'),
+                placeholder: '請選擇品項',
+                allowClear: true,
+                width: 'resolve'
+            });
         }
     }
 
