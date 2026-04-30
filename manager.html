@@ -666,6 +666,43 @@
             </div>
         </div>
     </div>
+
+    <!-- 查詢歷史訂單 Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">歷史訂單</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab">訂單查詢</button>
+                        </li>
+                    </ul>
+          
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="searchTabsContent">
+                        <!-- 訂單查詢 -->
+                        <div class="tab-pane fade show active" id="search" role="tabpanel" aria-labelledby="search-tab">
+                            <div class="p-4 bg-light rounded shadow-sm">
+                                <!-- <h5 class="text-center"></h5> -->
+                                <div class="container mt-4 mb-4" id="searchContent">
+                                    <div class="mb-3">
+                                        <label class="form-label"><span class="text-danger">*</span> 品項</label>
+                                        <select class="form-select w-100" id="search_prd" required></select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-success w-100" id="searchOrder" onclick="orderSearch()">查詢</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     const mask = document.getElementById('loadingMask');
@@ -702,6 +739,7 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 
     new ClipboardJS('.copy_btn');
@@ -731,7 +769,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwtGtwZ46LX-LbnUjYJkR1mmq8ykhOMW_6ynZkWCXrTEcgGxwePFp780dv3nxvjQhXT4w/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbw6iRZKpnpq_dCME9bvodOGPGYKzlusEVvSUIX71CH_y3rxaB3lHovm_9ZGo4Jmn2Ql/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -2615,8 +2653,26 @@
         Swal.fire({ icon: 'info', title: 'AI命名助手', text: '助手將會一次產生三組名稱，產生後點擊該名稱即可套用至品項名稱上!' });
     }
 
-    function searchModal(){
-        console.log('test');
+    async function searchModal(){
+
+        $("#searchModal").modal('show');
+
+        var data = {};
+
+        data = { type: 'search', userId: userId, name: prd_name };
+
+        var res = await postGAS( data, {'errorMsg':'查詢失敗，該品項尚未存在!!', 'reload': false, 'return': true} );
+
+        if( res[0].status=='success' ){
+            var prd_data = res[0].data;
+            console.log(prd_data);
+        }
+    }
+
+    function orderSearch(){
+
+
+
     }
 
     //------------------------------------------------------------------------------------------------------//
