@@ -2758,7 +2758,12 @@
             },
             xaxis: {
                 categories: categories,
-                title: { text: '開團時間' }
+                title: { text: '開團時間' },
+                labels: {
+                    formatter: function (val) {
+                        return val.slice(5); // 只顯示 MM/DD
+                    }
+                }
             },
             yaxis: {
                 title: {
@@ -2782,11 +2787,17 @@
             grid: { borderColor: '#f1f1f1' }
         };
 
-        const chart = new ApexCharts(document.querySelector("#chart"), options);
-
-        chart.render();
+        renderChart(options);
 
         $("#searchModal").modal('hide');
+    }
+
+    function renderChart(options) {
+
+        if (chart) { chart.destroy(); }
+
+        chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
     }
 
     //------------------------------------------------------------------------------------------------------//
