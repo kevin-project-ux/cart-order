@@ -138,10 +138,9 @@
         flex: 1 1 auto;
         width: 1% !important;
     }
-
     .input-group .select2-selection {
         height: 38px !important;
-        display: flex !important;
+        /* display: flex !important; */
         align-items: center;
     }
 </style>
@@ -2729,6 +2728,8 @@
 
         var sel_prdname = $('#search_prd').val();
         // console.log(sel_prdname);
+
+        prd_list = prd_list.filter(prd => prd.名稱===sel_prdname );
 
         const categories = prd_list.map(i => i.開啟時間);
 

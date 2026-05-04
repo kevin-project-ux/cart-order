@@ -213,7 +213,7 @@
 									</form>
 									<hr>
 									<button v-show="editmode" type="button" class="btn btn-primary w-100 mb-3" @click="makeFormula()">製作圖</button>
-									<div class="preview-box">
+									<div v-show="editmode" class="preview-box">
 									  	<!-- 浮水印 logo -->
 									  	<img src="logo.png" class="watermark">
 
