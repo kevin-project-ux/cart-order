@@ -2733,7 +2733,7 @@
 
         prd_list = prd_list.filter(prd => prd.名稱===sel_prdname );
 
-        const categories = prd_list.map(i => new Date(i.開啟時間).toISOString().slice(0, 10));
+        const categories = prd_list.map(i => new Date(i.開啟時間).toISOString().slice(0, 10).replace(/-/g, '/'));
 
         const series = [{
           name: '金額',
@@ -2752,12 +2752,17 @@
                 toolbar: { show: false }
             },
             series: series,
+            title: {
+                text: '金額 (元)',
+                align: 'left' // 或 center
+            },
             xaxis: {
-                categories: categories
+                categories: categories,
+                title: { text: '開團時間' }
             },
             yaxis: {
                 title: {
-                    text: '金額 (元)' 
+                    text: '' 
                 }
             },
             tooltip: {
