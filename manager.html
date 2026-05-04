@@ -2685,32 +2685,34 @@
 
                 var prd_data = res[0].data;
 
-                prd_list = prd_data['品項列表'];
-                flv_list = prd_data['口味列表'];
+                search_prdlist = prd_data['品項列表'];
+                search_flvlist = prd_data['口味列表'];
 
                 localStorage.setItem('prd_list', JSON.stringify(prd_list));
                 localStorage.setItem('flv_list', JSON.stringify(flv_list));
-
-                var prdname_arr = [...new Set(prd_list.map(item => item.名稱))];
-
-                $('#search_prd').empty(); // 清空原有內容（若有）
-
-                $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
-          
-                // 將 oldName 陣列加入 select 中
-                prdname_arr.forEach(name => {
-                    $('#search_prd').append(`<option value="${name}">${name}</option>`);
-                });
-        
-                // 初始化 Select2
-                $('#search_prd').select2({
-                    dropdownParent: $('#searchModal'),
-                    placeholder: '請選擇品項',
-                    allowClear: true,
-                    width: 'resolve'
-                });
             }
+        }else{
+            search_prdlist = JSON.parse(localStorage.getItem('prd_list'));
         }
+
+        var prdname_arr = [...new Set(search_prdlist.map(item => item.名稱))];
+
+        $('#search_prd').empty(); // 清空原有內容（若有）
+
+        $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
+  
+        // 將 oldName 陣列加入 select 中
+        prdname_arr.forEach(name => {
+            $('#search_prd').append(`<option value="${name}">${name}</option>`);
+        });
+
+        // 初始化 Select2
+        $('#search_prd').select2({
+            dropdownParent: $('#searchModal'),
+            placeholder: '請選擇品項',
+            allowClear: true,
+            width: 'resolve'
+        });
     }
 
     function reloadSearchPrd(){
@@ -2731,7 +2733,7 @@
 
         prd_list = prd_list.filter(prd => prd.名稱===sel_prdname );
 
-        const categories = prd_list.map(i => i.開啟時間);
+        const categories = prd_list.map(i => new Date(i.開啟時間).toISOString().slice(0, 10));
 
         const series = [{
           name: '金額',
@@ -2753,8 +2755,20 @@
             xaxis: {
                 categories: categories
             },
+            yaxis: {
+                title: {
+                    text: '金額 (元)' 
+                }
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return 'NT$ ' + val.toLocaleString();
+                    }
+                }
+            },
             stroke: {
-                curve: 'smooth', // 🔥 平滑線（很好看）
+                curve: 'smooth', // 平滑線（很好看）
                 width: 3
             },
             markers: { size: 4 },
@@ -2765,7 +2779,9 @@
 
         const chart = new ApexCharts(document.querySelector("#chart"), options);
 
-        chart.render()
+        chart.render();
+
+        $("#searchModal").modal('hide');
     }
 
     //------------------------------------------------------------------------------------------------------//
