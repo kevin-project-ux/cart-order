@@ -797,6 +797,7 @@
     let prd_name;
     let prd_id;
     let answer_flag = 0;
+    let chart;
 
     // 檢查快取是否存在 & 有效期內
     function isUserAuthenticated(userId) {
@@ -2792,7 +2793,7 @@
         $("#searchModal").modal('hide');
     }
 
-    function renderChart(options) {
+    function renderChart(options){
 
         if (chart) { chart.destroy(); }
 
