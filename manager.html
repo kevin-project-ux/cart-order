@@ -2734,18 +2734,22 @@
 
         prd_list = prd_list.filter(prd => prd.名稱===sel_prdname );
 
-        const categories = prd_list.map(i => new Date(i.開啟時間).toISOString().slice(0, 10).replace(/-/g, '/'));
+        if( prd_list.length<=3 ){
+
+        }
+
+        //繪製圖表
+        //1.歷史品項少於3筆內(包含3筆)不顯示圖表，只顯示表格
+        //2.歷史品項圖表類型，單口味顯示折線圖，多口味則顯示多個折線圖或加上柱狀圖等其他圖表類型
+        //3.目前顯示主要於品項名稱、金額總計、開團時間(其餘各口味總計等其他後面再調整)
+
+        const categories = prd_list.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
 
         const series = [{
           name: '金額',
           data: prd_list.map(i => i.訂單金額總計)
         }];
 
-
-        //繪製圖表
-        //1.歷史品項少於3筆內(包含3筆)不顯示圖表，只顯示表格
-        //2.歷史品項圖表類型，單口味顯示折線圖，多口味則顯示多個折線圖或加上柱狀圖等其他圖表類型
-        //3.目前顯示主要於品項名稱、金額總計、開團時間(其餘各口味總計等其他後面再調整)
         const options = {
             chart: {
                 type: 'line',
@@ -2759,12 +2763,12 @@
             },
             xaxis: {
                 categories: categories,
-                title: { text: '開團時間' },
-                labels: {
-                    formatter: function (val) {
-                        return val.slice(5); // 只顯示 MM/DD
-                    }
-                }
+                title: { text: '開團時間' }
+                // labels: {
+                //     formatter: function (val) {
+                //         return val.slice(5); // 只顯示 MM/DD
+                //     }
+                // }
             },
             yaxis: {
                 title: {
