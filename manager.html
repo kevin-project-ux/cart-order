@@ -896,7 +896,7 @@
                 language: {
                     paginate: { previous: '‹', next: '›' },
                     zeroRecords: '目前沒有資料',
-                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
+                    url: 'https://www.haolongbin9.site/zh-HANT.json'
                 },
                 initComplete: function () {
                     mask.style.display = 'none';
@@ -2701,8 +2701,8 @@
                 search_prdlist = prd_data['品項列表'];
                 search_flvlist = prd_data['口味列表'];
 
-                localStorage.setItem('prd_list', JSON.stringify(prd_list));
-                localStorage.setItem('flv_list', JSON.stringify(flv_list));
+                localStorage.setItem('prd_list', JSON.stringify(search_prdlist));
+                localStorage.setItem('flv_list', JSON.stringify(search_flvlist));
             }
         }else{
             search_prdlist = JSON.parse(localStorage.getItem('prd_list'));
@@ -2738,20 +2738,20 @@
 
     function orderSearch(){
 
-        var prd_list = JSON.parse(localStorage.getItem('prd_list'));
-        var flv_list = JSON.parse(localStorage.getItem('flv_list'));
+        var search_prdlist = JSON.parse(localStorage.getItem('prd_list'));
+        var search_flvlist = JSON.parse(localStorage.getItem('flv_list'));
 
         var sel_prdname = $('#search_prd').val();
         // console.log(sel_prdname);
 
-        prd_list = prd_list.filter(prd => prd.名稱===sel_prdname );
+        search_prdlist = search_prdlist.filter(prd => prd.名稱===sel_prdname );
 
-        if( prd_list.length<=3 ){
+        if( search_prdlist.length<=3 ){
             $('#prd_table').show();
             $('#chart').hide();
 
             $('#history_order').DataTable({
-                data: prd_list,
+                data: search_prdlist,
                 destroy: true, // 重新載入時清除舊表格
                 responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
                 autoWidth: false,      // 關閉自動欄寬
@@ -2762,7 +2762,7 @@
                 language: {
                     paginate: { previous: '‹', next: '›' },
                     zeroRecords: '目前沒有資料',
-                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/zh-HANT.json'
+                    url: 'https://www.haolongbin9.site/zh-HANT.json'
                 },
                 initComplete: function () {
                     mask.style.display = 'none';
@@ -2776,7 +2776,7 @@
                         title: '總金額',
                         render: function (data, type, row) {
 
-                            var html = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
+                            var html = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
 
                             return html;
                         }
@@ -2828,11 +2828,11 @@
                 xaxis: {
                     categories: categories,
                     title: { text: '開團時間' },
-                    labels: {
-                        formatter: function (val) {
-                            return val.slice(5); // 只顯示 MM/DD
-                        }
-                    }
+                    // labels: {
+                    //     formatter: function (val) {
+                    //         return val.slice(5); // 只顯示 MM/DD
+                    //     }
+                    // }
                 },
                 yaxis: {
                     title: {
