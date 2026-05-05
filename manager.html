@@ -2789,13 +2789,27 @@
         //1.歷史品項少於3筆內(包含3筆)不顯示圖表，只顯示表格
         //2.歷史品項圖表類型，單口味顯示折線圖，多口味則顯示多個折線圖或加上柱狀圖等其他圖表類型
         //3.目前顯示主要於品項名稱、金額總計、開團時間(其餘各口味總計等其他後面再調整)
+        //4.單口味圖表目前顯示兩條折線，分別為售價與總金額
+        //5.多口味圖表目前只顯示總金額(待討論需不需要售價)
 
         const categories = prd_list.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
 
-        const series = [{
-          name: '金額',
-          data: prd_list.map(i => i.訂單金額總計)
-        }];
+        const hasMulti = prd_list.some(i => i.售價 === '---');
+
+        if( !hasMulti ){
+            const series = [{
+              name: '金額',
+              data: prd_list.map(i => i.訂單金額總計)
+            },{
+              name: '售價',
+              data: prd_list.map(i => i.售價)
+            }];
+        }else{
+            const series = [{
+              name: '金額',
+              data: prd_list.map(i => i.訂單金額總計)
+            }];
+        }
 
         const options = {
             chart: {
@@ -2805,9 +2819,10 @@
             },
             series: series,
             title: {
-                text: '金額 (元)',
-                align: 'left' // 或 center
+                text: sel_prdname,
+                align: 'center'
             },
+            // subtitle: { text: '' },
             xaxis: {
                 categories: categories,
                 title: { text: '開團時間' },
@@ -2819,7 +2834,7 @@
             },
             yaxis: {
                 title: {
-                    text: '' 
+                    text: '金額 (元)' 
                 }
             },
             tooltip: {
