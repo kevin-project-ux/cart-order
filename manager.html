@@ -192,8 +192,8 @@
                 <thead>
                     <tr>
                         <th>名稱</th>
-                        <th>開團時間</th>
                         <th>總金額</th>
+                        <th>開團時間</th>
                     </tr>
                 </thead>
                 <tbody id="history_tableBody"></tbody>
@@ -2769,11 +2769,18 @@
                 },
                 columns: [
                     { data: '名稱', className: 'truncate' },
-                    { data: '開啟時間', className: 'text-center', title: '開團時間' },
-                    {
-                        data: '訂單金額總計',
+                    { data: '訂單金額總計', className: 'text-center', title: '總金額' },
+                    { 
+                        data: '開啟時間',
                         className: 'text-center',
-                        title: '總金額',
+                        title: '開團時間',
+                        render: function (data) {
+                            return new Date(data).toISOString().slice(5, 10).replace(/-/g, '/');
+                        }
+                    },
+                    {
+                        data: null,
+                        className: 'text-center',
                         render: function (data, type, row) {
 
                             var html = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
