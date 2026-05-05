@@ -2698,17 +2698,17 @@
 
                 var prd_data = res[0].data;
 
-                search_prdlist = prd_data['品項列表'];
-                search_flvlist = prd_data['口味列表'];
+                search_prd = prd_data['品項列表'];
+                search_flv = prd_data['口味列表'];
 
-                localStorage.setItem('prd_list', JSON.stringify(search_prdlist));
-                localStorage.setItem('flv_list', JSON.stringify(search_flvlist));
+                localStorage.setItem('prd_list', JSON.stringify(search_prd));
+                localStorage.setItem('flv_list', JSON.stringify(search_flv));
             }
         }else{
-            search_prdlist = JSON.parse(localStorage.getItem('prd_list'));
+            search_prd = JSON.parse(localStorage.getItem('prd_list'));
         }
 
-        var prdname_arr = [...new Set(search_prdlist.map(item => item.名稱))];
+        var prdname_arr = [...new Set(search_prd.map(item => item.名稱))];
 
         $('#search_prd').empty(); // 清空原有內容（若有）
 
@@ -2738,24 +2738,24 @@
 
     function orderSearch(){
 
-        var search_prdlist = JSON.parse(localStorage.getItem('prd_list'));
-        var search_flvlist = JSON.parse(localStorage.getItem('flv_list'));
+        var search_prd = JSON.parse(localStorage.getItem('prd_list'));
+        var search_flv = JSON.parse(localStorage.getItem('flv_list'));
 
         var sel_prdname = $('#search_prd').val();
         // console.log(sel_prdname);
 
-        search_prdlist = search_prdlist.filter(prd => prd.名稱===sel_prdname );
+        search_prd = search_prd.filter(prd => prd.名稱===sel_prdname );
 
-        if( search_prdlist.length<=3 ){
+        if( search_prd.length<=3 ){
             $('#prd_table').show();
             $('#chart').hide();
 
             $('#history_order').DataTable({
-                data: search_prdlist,
+                data: search_prd,
                 destroy: true, // 重新載入時清除舊表格
                 responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
                 autoWidth: false,      // 關閉自動欄寬
-                pageLength: 5,           // 一頁顯示 5 筆
+                paging: false,
                 lengthChange: false,     // 不顯示筆數設定下拉選單
                 searching: false,
                 ordering: false, // 不啟用欄位排序
@@ -2799,24 +2799,24 @@
             //4.單口味圖表目前顯示兩條折線，分別為售價與總金額
             //5.多口味圖表目前只顯示總金額(待討論需不需要售價)
 
-            const categories = prd_list.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
+            const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
 
-            const hasMulti = prd_list.some(i => i.售價 === '---');
+            const hasMulti = search_prd.some(i => i.售價 === '---');
 
             let series = [];
 
             if( !hasMulti ){
                 series = [{
                   name: '金額',
-                  data: prd_list.map(i => i.訂單金額總計)
+                  data: search_prd.map(i => i.訂單金額總計)
                 },{
                   name: '售價',
-                  data: prd_list.map(i => i.售價)
+                  data: search_prd.map(i => i.售價)
                 }];
             }else{
                 series = [{
                   name: '金額',
-                  data: prd_list.map(i => i.訂單金額總計)
+                  data: search_prd.map(i => i.訂單金額總計)
                 }];
             }
 
