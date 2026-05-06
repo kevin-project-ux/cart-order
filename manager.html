@@ -2750,7 +2750,6 @@
         var search_flv = JSON.parse(localStorage.getItem('flv_list'));
 
         var sel_prdname = $('#search_prd').val();
-        // console.log(sel_prdname);
 
         search_prd = search_prd.filter(prd => prd.名稱===sel_prdname );
 
@@ -2831,16 +2830,18 @@
 
                 search_flv = search_flv.filter(flv => flv.品項 === sel_prdname);
 
-                let flvs = [];
+                let flvs = {};
 
                 search_flv.forEach(flv => {
                     
-                    if( typeof flvs[flv.口味] !=='undefined' ){
+                    if( flvs[flv.口味] ){
                         flvs[flv.口味].push(flv.價格);
                     }else{
                         flvs[flv.口味] = [flv.價格];
                     }
                 });
+
+                console.log(flvs);
 
                 flvs.forEach((val,flv)=>{
                     series.push({ name: flv, data: val }); /// 多口味柱狀圖
