@@ -2754,7 +2754,7 @@
 
         search_prd = search_prd.filter(prd => prd.名稱===sel_prdname );
 
-        if( search_prd.length<=3 ){
+        if( search_prd.length<=1 ){
             $('#prd_table').show();
             $('#chart').hide();
 
@@ -2848,6 +2848,7 @@
 
                 type = 'bar';
             }
+            console.log(series);
 
             const options = {
                 chart: {
