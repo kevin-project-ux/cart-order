@@ -1116,8 +1116,9 @@
         const name = e.dataset.name;
         const type = e.dataset.type;
         const flavor = e.dataset.flavor;
+        const search = e.dataset.search;
 
-        if( type=='view' ){
+        if( type=='view' && search=='' ){ //// 加上排除search!=Y
             resetAgentForm(); 
             $("#append_prd_id").val(id);
             $("#append_prd_name").val(name);
@@ -2790,7 +2791,9 @@
                         className: 'text-center',
                         render: function (data, type, row) {
 
-                            var html = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-search="Y" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
+                            var flavor = (row.售價 === '---' ? 2 : 1);
+
+                            var html = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-search="Y" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
 
                             return html;
                         }
