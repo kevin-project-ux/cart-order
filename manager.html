@@ -2814,7 +2814,7 @@
 
             const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
 
-            const ids = search_prd.map(i => i.名稱 === prd_name);
+            const ids = search_prd.filter(i => i.名稱 === 'test').map(i => i.ID);
             console.log(ids);
 
             const hasMulti = search_prd.some(i => i.售價 === '---');
