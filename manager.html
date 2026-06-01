@@ -2815,7 +2815,6 @@
             const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
 
             const ids = search_prd.filter(i => i.名稱 === sel_prdname).map(i => i.ID);
-            console.log(ids);
 
             if( ids.length==0 ){ return false; }
 
@@ -2824,7 +2823,7 @@
             let series = [];
             let type   = 'line';
 
-            data = { type: 'chart', userId: userId, name: prd_name, ids: ids };
+            data = { type: 'chart', userId: userId, name: sel_prdname, ids: ids };
 
             var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該品項存在!!', 'reload': false, 'return': true} );
             console.log(res);
