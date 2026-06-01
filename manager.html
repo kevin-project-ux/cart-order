@@ -805,7 +805,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbx49TaWm2vW1V2gCektP4vYgpj2J_VZFiI041bWG2kz8ml70JEwDAH06x9kKcfQxeVnWQ/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxIbUYiCdbf-91WHCPsCTwTj9rjMS63mnIV6UrI9T1jnFAEc893dK06nh2FRB4QJqCucw/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -2754,7 +2754,7 @@
 
         search_prd = search_prd.filter(prd => prd.名稱===sel_prdname );
 
-        if( search_prd.length<=1 ){
+        if( search_prd.length<=3 ){
             $('#prd_table').show();
             $('#chart').hide();
 
@@ -2814,10 +2814,18 @@
 
             const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
 
+            const ids = search_prd.map(i => i.名稱 === prd_name);
+            console.log(ids);
+
             const hasMulti = search_prd.some(i => i.售價 === '---');
 
             let series = [];
             let type   = 'line';
+
+            data = { type: 'chart', userId: userId, name: prd_name, ids: ids };
+
+            var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該品項存在!!', 'reload': false, 'return': true} );
+            console.log(res);
 
             if( !hasMulti ){
                 series = [{
@@ -2850,7 +2858,7 @@
                     series.push({ name: flv, data: flvs[flv] }); // 多口味柱狀圖
                 });
             }
-            console.log(series);
+            // console.log(series);
 
             const options = {
                 chart: {
