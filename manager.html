@@ -805,7 +805,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxIbUYiCdbf-91WHCPsCTwTj9rjMS63mnIV6UrI9T1jnFAEc893dK06nh2FRB4QJqCucw/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxE6fT9F5H177hxPGnfbAWJqInsmirXuJC2T8RWgYK4m-YRJb6onYZPMAbHEGEOf1a70A/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -2828,6 +2828,11 @@
             var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該品項存在!!', 'reload': false, 'return': true} );
             console.log(res);
 
+            if( res.status!='success' ){ return false; }
+
+            var orders  = res.data[sel_prdname];
+            var flvdata = res.data.flv;
+
             if( !hasMulti ){
                 series = [{
                   name: '金額',
@@ -2842,24 +2847,45 @@
 
                 type = 'bar';
 
-                search_flv = search_flv.filter(flv => flv.品項 === sel_prdname);
-
                 let flvs = {};
 
-                search_flv.forEach(flv => {
+                // orders = orders.filter(val => val.品項 === sel_prdname);
+                Object.keys(orders).forEach(id => { ////
+                    flvs[id] = [];
+                    flvdata[id].forEach(arr => {
+                        flvs[id].push({'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0});
+                        // series.push({ name: flv, data: orders[id] }); // 多口味柱狀圖
+                    });
                     
-                    if( flvs[flv.口味] ){
-                        flvs[flv.口味].push(flv.價格);
-                    }else{
-                        flvs[flv.口味] = [flv.價格];
-                    }
+                    orders[id].forEach(ord => {
+                        if( flvs[id]['name']==ord.口味 ){
+                            flvs[id]['nums'] += ord.數量;
+                            flvs[id]['total'] += ord.數量 * flvs[id]['price'];
+                        }
+                    });
+                    // Object.keys(flvdata).forEach(flv => {
+                    //     series.push({ name: flv, data: orders[id] }); // 多口味柱狀圖
+                    // });
                 });
 
-                Object.keys(flvs).forEach(flv => {
-                    series.push({ name: flv, data: flvs[flv] }); // 多口味柱狀圖
+                // let flvs = {};
+
+                // orders.forEach(flv => {
+                    
+                //     if( flvs[flv.口味] ){
+                //         flvs[flv.口味].push(flv.價格);
+                //     }else{
+                //         flvs[flv.口味] = [flv.價格];
+                //     }
+                // });
+
+                Object.keys(flvs).forEach(id => {
+                    flvs[id].forEach(arr => {
+                        series.push({ name: arr.name, data: arr.total }); // 多口味柱狀圖
+                    });
                 });
             }
-            // console.log(series);
+            console.log(series);
 
             const options = {
                 chart: {
