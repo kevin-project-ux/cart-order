@@ -2828,10 +2828,10 @@
             var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該品項存在!!', 'reload': false, 'return': true} );
             console.log(res);
 
-            if( res.status!='success' ){ return false; }
+            if( res[0].status!='success' ){ return false; }
 
-            var orders  = res.data[sel_prdname];
-            var flvdata = res.data.flv;
+            var orders  = res[0].data[sel_prdname];
+            var flvdata = res[0].data.flv;
 
             if( !hasMulti ){
                 series = [{
