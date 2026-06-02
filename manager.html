@@ -2858,7 +2858,7 @@
                     
                     orders[id].forEach(ord => {
                         flvs[id][ord.口味]['nums']  += Number(ord.數量);
-                        flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id]['price']);
+                        flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id][ord.口味]['price']);
                     });
                 });
                 console.log(flvs);
