@@ -2853,11 +2853,7 @@
                 Object.keys(orders).forEach(id => { ////
                     flvs[id] = {};
                     flvdata[id].forEach(arr => {
-                        if( flvs[id][arr[2]] ){
-                            flvs[id][arr[2]].push({'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0});
-                        }else{
-                            flvs[id][arr[2]] = [];
-                        }
+                        flvs[id][arr[2]] = [{'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0}];
                         // series.push({ name: flv, data: orders[id] }); // 多口味柱狀圖
                     });
                     
