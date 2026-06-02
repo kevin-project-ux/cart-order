@@ -2886,12 +2886,12 @@
                     Object.keys(group).forEach(f => flavors.add(f));
                 });
 
-                var ids = Object.keys(flvs);
+                var idarr = Object.keys(flvs);
 
                 series = Array.from(flavors).map(flavor => {
                     return {
                         name: flavor,
-                        data: ids.map(id => {
+                        data: idarr.map(id => {
                             return flvs[id][flavor]?.total || 0;
                         })
                     };
