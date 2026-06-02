@@ -2886,8 +2886,8 @@
 
                 series = Object.keys(flvs).map(id => ({
                     name: id,
-                    data: id_key.map(cat =>
-                        obj[id][cat]?.val || 0
+                    data: id_key.map(flv =>
+                        flvs[id][flv]?.val || 0
                     )
                 }));
 
