@@ -2889,8 +2889,11 @@
                 // });
 
                 Object.keys(flvs).forEach(id => {
-                    flvs[id].forEach(arr => {
-                        series.push({ name: arr.name, data: arr.total }); // 多口味柱狀圖
+                    Object.keys(flvs[id]).forEach(flv => {
+                        flvs[id][flv].forEach(arr => {
+                            series.push({ name: flv, data: arr.total }); // 多口味柱狀圖
+                        });
+                        
                     });
                 });
             }
