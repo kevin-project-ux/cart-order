@@ -2858,10 +2858,8 @@
                     });
                     
                     orders[id].forEach(ord => {
-                        if( flvs[id]['name']==ord.口味 ){
-                            flvs[id]['nums'] += ord.數量;
-                            flvs[id]['total'] += ord.數量 * flvs[id]['price'];
-                        }
+                        flvs[id][ord.口味]['nums']  += ord.數量;
+                        flvs[id][ord.口味]['total'] += ord.數量 * flvs[id]['price'];
                     });
                     // Object.keys(flvdata).forEach(flv => {
                     //     series.push({ name: flv, data: orders[id] }); // 多口味柱狀圖
