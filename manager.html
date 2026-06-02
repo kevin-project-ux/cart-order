@@ -2853,17 +2853,13 @@
                 Object.keys(orders).forEach(id => { ////
                     flvs[id] = {};
                     flvdata[id].forEach(arr => {
-                        flvs[id][arr[2]] = [{'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0}];
-                        // series.push({ name: flv, data: orders[id] }); // 多口味柱狀圖
+                        flvs[id][arr[2]] = {'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0};
                     });
                     
                     orders[id].forEach(ord => {
                         flvs[id][ord.口味]['nums']  += Number(ord.數量);
                         flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id]['price']);
                     });
-                    // Object.keys(flvdata).forEach(flv => {
-                    //     series.push({ name: flv, data: orders[id] }); // 多口味柱狀圖
-                    // });
                 });
                 console.log(flvs);
 
@@ -2884,10 +2880,7 @@
 
                 Object.keys(flvs).forEach(id => {
                     Object.keys(flvs[id]).forEach(flv => {
-                        flvs[id][flv].forEach(arr => {
-                            series.push({ name: flv, data: arr.total }); // 多口味柱狀圖
-                        });
-                        
+                        series.push({ name: flv, data: flvs[id][flv]['total'] }); // 多口味柱狀圖
                     });
                 });
             }
