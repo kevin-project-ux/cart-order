@@ -2880,16 +2880,22 @@
                 //     series.push({ name: flv, data: flvs[flv] }); // 多口味柱狀圖
                 // });
 
-                var id_key = [...new Set(
-                    Object.values(flvs).flatMap(item => Object.keys(item))
-                )];
+                var flavors = new Set();
 
-                series = Object.keys(flvs).map(id => ({
-                    name: id,
-                    data: id_key.map(flv =>
-                        flvs[id][flv]?.val || 0
-                    )
-                }));
+                Object.values(flvs).forEach(group => {
+                    Object.keys(group).forEach(f => flavors.add(f));
+                });
+
+                var ids = Object.keys(flvs);
+
+                series = Array.from(flavors).map(flavor => {
+                    return {
+                        name: flavor,
+                        data: ids.map(id => {
+                            return flvs[id][flavor]?.total || 0;
+                        })
+                    };
+                });
 
                 // Object.keys(flvs).forEach(id => {
                 //     Object.keys(flvs[id]).forEach(flv => {
