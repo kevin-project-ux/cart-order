@@ -2854,7 +2854,7 @@
                     flvs[id] = {};
                     flvdata[id].forEach(arr => {
                         if( flvs[id][arr[2]] ){
-                            flvs[id].push({'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0});
+                            flvs[id][arr[2]].push({'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0});
                         }else{
                             flvs[id][arr[2]] = [];
                         }
