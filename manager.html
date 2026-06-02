@@ -2851,9 +2851,13 @@
 
                 // orders = orders.filter(val => val.品項 === sel_prdname);
                 Object.keys(orders).forEach(id => { ////
-                    flvs[id] = [];
+                    flvs[id] = {};
                     flvdata[id].forEach(arr => {
-                        flvs[id].push({'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0});
+                        if( flvs[id][arr[2]] ){
+                            flvs[id].push({'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0});
+                        }else{
+                            flvs[id][arr[2]] = [];
+                        }
                         // series.push({ name: flv, data: orders[id] }); // 多口味柱狀圖
                     });
                     
@@ -2867,6 +2871,7 @@
                     //     series.push({ name: flv, data: orders[id] }); // 多口味柱狀圖
                     // });
                 });
+                console.log(flvs);
 
                 // let flvs = {};
 
@@ -2877,6 +2882,10 @@
                 //     }else{
                 //         flvs[flv.口味] = [flv.價格];
                 //     }
+                // });
+
+                // Object.keys(flvs).forEach(flv => {
+                //     series.push({ name: flv, data: flvs[flv] }); // 多口味柱狀圖
                 // });
 
                 Object.keys(flvs).forEach(id => {
