@@ -2860,6 +2860,8 @@
                         flvs[id][ord.口味]['nums']  += Number(ord.數量);
                         flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id][ord.口味]['price']);
                     });
+
+
                 });
                 console.log(flvs);
 
@@ -2878,11 +2880,22 @@
                 //     series.push({ name: flv, data: flvs[flv] }); // 多口味柱狀圖
                 // });
 
-                Object.keys(flvs).forEach(id => {
-                    Object.keys(flvs[id]).forEach(flv => {
-                        series.push({ name: flv, data: flvs[id][flv]['total'] }); // 多口味柱狀圖
-                    });
-                });
+                var id_key = [...new Set(
+                    Object.values(flvs).flatMap(item => Object.keys(item))
+                )];
+
+                series = Object.keys(flvs).map(id => ({
+                    name: id,
+                    data: id_key.map(cat =>
+                        obj[id][cat]?.val || 0
+                    )
+                }));
+
+                // Object.keys(flvs).forEach(id => {
+                //     Object.keys(flvs[id]).forEach(flv => {
+                //         series.push({ name: flv, data: flvs[id][flv]['total'] }); // 多口味柱狀圖
+                //     });
+                // });
             }
             console.log(series);
 
