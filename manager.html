@@ -714,6 +714,9 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab">訂單查詢</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="emp-tab" data-bs-toggle="tab" data-bs-target="#emp" type="button" role="tab">人員購買紀錄</button>
+                        </li>
                     </ul>
           
                     <!-- Tab Content -->
@@ -726,12 +729,32 @@
                                     <label class="form-label"><span class="text-danger">*</span> 品項</label>
                                     <div class="input-group mb-3">
                                         <select class="form-select" id="search_prd" required></select>
-                                        <button class="btn btn-outline-primary" onclick="reloadSearchPrd()">
+                                        <button class="btn btn-outline-primary" onclick="reloadSearch()">
                                             <i class="fas fa-sync-alt"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <button class="btn btn-success w-100" id="searchOrder" onclick="orderSearch()">查詢</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="empTabsContent">
+                        <!-- 人員購買紀錄 -->
+                        <div class="tab-pane fade" id="emp" role="tabpanel" aria-labelledby="emp-tab">
+                            <div class="p-2 bg-light rounded shadow-sm">
+                                <h5 class="text-center" id="prd_title"></h5>
+                                <div class="container mb-4" id="empContent">
+                                    <label class="form-label"><span class="text-danger">*</span> 人員</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-select" id="search_emp" required></select>
+                                        <button class="btn btn-outline-primary" onclick="reloadSearch()">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button class="btn btn-success w-100" id="appendOrder" onclick="orderEmp()">確認送出</button>
                             </div>
                         </div>
                     </div>
@@ -2695,11 +2718,13 @@
 
         $("#searchModal").modal('show');
 
-        var data = {};
+        var data = { type: 'search', userId: userId };
 
-        data = { type: 'search', userId: userId, name: prd_name };
+        var search_prd = JSON.parse(localStorage.getItem('prd_list') || '[]'); //品項列表
+        var search_flv = JSON.parse(localStorage.getItem('flv_list') || '[]'); //口味列表
+        var search_emp = JSON.parse(localStorage.getItem('emp_list') || '[]'); //人員列表
 
-        if( localStorage.getItem('prd_list')===null && localStorage.getItem('flv_list')===null ){
+        if( search_prd.length === 0 && search_flv.length === 0 && search_emp.length === 0 ){ //抓品項及人員
 
             var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有品項存在!!', 'reload': false, 'return': true} );
 
@@ -2709,24 +2734,22 @@
 
                 search_prd = prd_data['品項列表'];
                 search_flv = prd_data['口味列表'];
+                search_emp = prd_data['人員列表'];
 
                 localStorage.setItem('prd_list', JSON.stringify(search_prd));
                 localStorage.setItem('flv_list', JSON.stringify(search_flv));
+                localStorage.setItem('emp_list', JSON.stringify(search_emp));
             }
-        }else{
-            search_prd = JSON.parse(localStorage.getItem('prd_list'));
         }
 
         var prdname_arr = [...new Set(search_prd.map(item => item.名稱))];
+        var empname_arr = [...new Set(search_emp.map(item => item.姓名))];
 
         $('#search_prd').empty(); // 清空原有內容（若有）
-
         $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
   
-        // 將 oldName 陣列加入 select 中
-        prdname_arr.forEach(name => {
-            $('#search_prd').append(`<option value="${name}">${name}</option>`);
-        });
+        // 將 prdName 陣列加入 select 中
+        prdname_arr.forEach(name => { $('#search_prd').append(`<option value="${name}">${name}</option>`); });
 
         // 初始化 Select2
         $('#search_prd').select2({
@@ -2735,13 +2758,28 @@
             allowClear: true,
             width: 'resolve'
         });
+
+        $('#search_emp').empty(); // 清空原有內容（若有）
+        $('#search_emp').append('<option value="" selected disabled hidden>請選擇人員</option>');
+  
+        // 將 empName 陣列加入 select 中
+        empname_arr.forEach(name => { $('#search_emp').append(`<option value="${name}">${name}</option>`); });
+
+        // 初始化 Select2
+        $('#search_emp').select2({
+            dropdownParent: $('#searchModal'),
+            placeholder: '請選擇人員',
+            allowClear: true,
+            width: 'resolve'
+        });
     }
 
-    function reloadSearchPrd(){
+    function reloadSearch(){
 
         window.localStorage.removeItem('prd_list');
         window.localStorage.removeItem('flv_list');
-
+        window.localStorage.removeItem('emp_list');
+        
         searchModal();
     }
 
@@ -2754,7 +2792,7 @@
 
         search_prd = search_prd.filter(prd => prd.名稱===sel_prdname );
 
-        if( search_prd.length<=3 ){
+        if( search_prd.length<3 ){
             $('#prd_table').show();
             $('#chart').hide();
 
@@ -2849,7 +2887,6 @@
 
                 let flvs = {};
 
-                // orders = orders.filter(val => val.品項 === sel_prdname);
                 Object.keys(orders).forEach(id => { ////
                     flvs[id] = {};
                     flvdata[id].forEach(arr => {
@@ -2863,22 +2900,7 @@
 
 
                 });
-                console.log(flvs);
-
-                // let flvs = {};
-
-                // orders.forEach(flv => {
-                    
-                //     if( flvs[flv.口味] ){
-                //         flvs[flv.口味].push(flv.價格);
-                //     }else{
-                //         flvs[flv.口味] = [flv.價格];
-                //     }
-                // });
-
-                // Object.keys(flvs).forEach(flv => {
-                //     series.push({ name: flv, data: flvs[flv] }); // 多口味柱狀圖
-                // });
+                // console.log(flvs);
 
                 var flavors = new Set();
 
@@ -2896,14 +2918,8 @@
                         })
                     };
                 });
-
-                // Object.keys(flvs).forEach(id => {
-                //     Object.keys(flvs[id]).forEach(flv => {
-                //         series.push({ name: flv, data: flvs[id][flv]['total'] }); // 多口味柱狀圖
-                //     });
-                // });
             }
-            console.log(series);
+            // console.log(series);
 
             const options = {
                 chart: {
