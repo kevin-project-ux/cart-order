@@ -999,12 +999,14 @@
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            flatpickr(".search_pickr", {
-                enableTime: false,
-                dateFormat: "Y/m/d",
-                locale: "zh",
-                maxDate: "today" // ✅ 限制今天以後不能選
-            });
+            // flatpickr(".search_pickr", {
+            //     enableTime: false,
+            //     dateFormat: "Y/m/d",
+            //     locale: "zh",
+            //     maxDate: "today" // ✅ 限制今天以後不能選
+            // });
+
+            initDateRangePicker('#prdStartDate','#prdEndDate');
 
             // if ($('#startDate').val() || $('#editStartDate').val()) { fp1.clear(); }
             // if ($('#endDate').val() || $('#editEndDate').val()) { fp2.clear(); }
@@ -2795,8 +2797,6 @@
 
     async function orderSearch(){
 
-        initDateRangePicker('prdStartDate','prdEndDate');
-
         var search_prd = JSON.parse(localStorage.getItem('prd_list'));
         var search_flv = JSON.parse(localStorage.getItem('flv_list'));
 
@@ -3217,7 +3217,10 @@
         let startDate = null;
 
         const startPicker = flatpickr(startSelector, {
+            enableTime: false,
             dateFormat: "Y/m/d",
+            locale: "zh",
+            maxDate: "today" // ✅ 限制今天以後不能選
             onChange: function(selectedDates) {
                 startDate = selectedDates[0];
 
