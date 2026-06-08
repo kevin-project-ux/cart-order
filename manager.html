@@ -831,7 +831,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbynM0nzIJis6ULEo0PBBl_u02dMhXMrD3LUIf4uYejjKZdx2g3STQpEj3BKNsboiaatXA/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyxpgTOqS4-umvpHsE_81gneb2aKe5zdaOKiZ6nRKpTQlyPadCqFGkjgrnp6VYVV3HJQA/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -999,14 +999,7 @@
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            // flatpickr(".search_pickr", {
-            //     enableTime: false,
-            //     dateFormat: "Y/m/d",
-            //     locale: "zh",
-            //     maxDate: "today" // ✅ 限制今天以後不能選
-            // });
-
-            initDateRangePicker('#prdStartDate','#prdEndDate');
+            initDateRangePicker('#prdStartDate','#prdEndDate'); //人員購買紀錄(限制範圍3個月)
 
             // if ($('#startDate').val() || $('#editStartDate').val()) { fp1.clear(); }
             // if ($('#endDate').val() || $('#editEndDate').val()) { fp2.clear(); }
@@ -3004,204 +2997,135 @@
 
     async function orderEmp(){
 
+        var search_prd = JSON.parse(localStorage.getItem('prd_list'));
+        var search_flv = JSON.parse(localStorage.getItem('flv_list'));
         var search_emp = JSON.parse(localStorage.getItem('emp_list'));
 
-        var  sel_empname= $('#search_emp').val();
+        var sel_empname   = $('#search_emp').val();
+        var prd_startdate = $('#prdStartDate').val();
+        var prd_enddate   = $('#prdEndDate').val();
 
         search_emp = search_emp.filter(emp => emp.姓名===sel_empname );
 
-        if( search_emp.length<3 ){
-            $('#prd_table').show();
-            $('#chart').hide();
+        // const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
 
-            $('#history_order').DataTable({
-                data: search_prd,
-                destroy: true, // 重新載入時清除舊表格
-                responsive: true,      // 如果你有使用 Bootstrap 等 RWD 框架
-                autoWidth: false,      // 關閉自動欄寬
-                paging: false,
-                lengthChange: false,     // 不顯示筆數設定下拉選單
-                searching: false,
-                ordering: false, // 不啟用欄位排序
-                language: {
-                    paginate: { previous: '‹', next: '›' },
-                    zeroRecords: '目前沒有資料',
-                    url: 'https://www.haolongbin9.site/zh-HANT.json'
-                },
-                initComplete: function () {
-                    mask.style.display = 'none';
-                },
-                columns: [
-                    { data: '名稱', className: 'truncate' },
-                    { data: '訂單金額總計', className: 'text-center', title: '總金額' },
-                    { 
-                        data: '開啟時間',
-                        className: 'text-center',
-                        title: '開團時間',
-                        render: function (data) {
-                            return new Date(data).toISOString().slice(5, 10).replace(/-/g, '/');
-                        }
-                    },
-                    {
-                        data: null,
-                        className: 'text-center',
-                        render: function (data, type, row) {
+        // const ids = search_prd.filter(i => i.名稱 === sel_prdname).map(i => i.ID);
 
-                            var flavor = (row.售價 === '---' ? 2 : 1);
+        // if( ids.length==0 ){ return false; }
 
-                            var html = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-search="Y" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
+        // const hasMulti = search_prd.some(i => i.售價 === '---');
 
-                            return html;
-                        }
-                    }
-                ]
+        let series = [];
+        let flvs   = {};
+        let type   = 'bar';
+
+        data = { type: 'chart', userId: userId, name: sel_prdname, ids: ids };
+
+        var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該人員存在!!', 'reload': false, 'return': true} );
+        console.log(res);return false;
+
+        if( res[0].status!='success' ){ return false; }
+
+        var orders  = res[0].data[sel_prdname];
+        var flvdata = res[0].data.flv;
+
+        Object.keys(orders).forEach(id => { ////
+            flvs[id] = {};
+            flvdata[id].forEach(arr => {
+                flvs[id][arr[2]] = {'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0};
             });
-        }else{
-
-            //繪製圖表規則
-            //1.歷史品項少於3筆內(包含3筆)不顯示圖表，只顯示表格
-            //2.歷史品項圖表類型，單口味顯示折線圖，多口味則顯示多個折線圖或加上柱狀圖等其他圖表類型
-            //3.目前顯示主要於品項名稱、金額總計、開團時間(其餘各口味總計等其他後面再調整)
-            //4.單口味圖表目前顯示兩條折線，分別為售價與總金額
-            //5.多口味圖表目前只顯示總金額(待討論需不需要售價)
-
-            $('#prd_table').hide();
-            $('#chart').show();
-
-            const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
-
-            const ids = search_prd.filter(i => i.名稱 === sel_prdname).map(i => i.ID);
-
-            if( ids.length==0 ){ return false; }
-
-            const hasMulti = search_prd.some(i => i.售價 === '---');
-
-            let series = [];
-            let type   = 'line';
-
-            data = { type: 'chart', userId: userId, name: sel_prdname, ids: ids };
-
-            var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該品項存在!!', 'reload': false, 'return': true} );
-            console.log(res);
-
-            if( res[0].status!='success' ){ return false; }
-
-            var orders  = res[0].data[sel_prdname];
-            var flvdata = res[0].data.flv;
-
-            if( !hasMulti ){
-                series = [{
-                  name: '金額',
-                  data: search_prd.map(i => i.訂單金額總計)
-                },{
-                  name: '售價',
-                  data: search_prd.map(i => i.售價)
-                }];
-            }else{
-
-                // var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
-
-                type = 'bar';
-
-                let flvs = {};
-
-                Object.keys(orders).forEach(id => { ////
-                    flvs[id] = {};
-                    flvdata[id].forEach(arr => {
-                        flvs[id][arr[2]] = {'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0};
-                    });
-                    
-                    orders[id].forEach(ord => {
-                        flvs[id][ord.口味]['nums']  += Number(ord.數量);
-                        flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id][ord.口味]['price']);
-                    });
+            
+            orders[id].forEach(ord => {
+                flvs[id][ord.口味]['nums']  += Number(ord.數量);
+                flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id][ord.口味]['price']);
+            });
 
 
-                });
-                // console.log(flvs);
+        });
+        // console.log(flvs);
 
-                var flavors = new Set();
+        var flavors = new Set();
 
-                Object.values(flvs).forEach(group => {
-                    Object.keys(group).forEach(f => flavors.add(f));
-                });
+        Object.values(flvs).forEach(group => {
+            Object.keys(group).forEach(f => flavors.add(f));
+        });
 
-                var idarr = Object.keys(flvs);
+        var idarr = Object.keys(flvs);
 
-                series = Array.from(flavors).map(flavor => {
-                    return {
-                        name: flavor,
-                        data: idarr.map(id => {
-                            return flvs[id][flavor]?.total || 0;
-                        })
-                    };
-                });
-            }
-            // console.log(series);
-
-            const options = {
-                chart: {
-                    type: type,
-                    height: 300,
-                    toolbar: { show: false }
-                },
-                series: series,
-                title: {
-                    text: sel_prdname,
-                    align: 'center'
-                },
-                // subtitle: { text: '' },
-                xaxis: {
-                    categories: categories,
-                    title: { text: '開團時間' },
-                    // labels: {
-                    //     formatter: function (val) {
-                    //         return val.slice(5); // 只顯示 MM/DD
-                    //     }
-                    // }
-                },
-                yaxis: {
-                    title: {
-                        text: '金額 (元)' 
-                    }
-                },
-                tooltip: {
-                    y: {
-                        formatter: function (val) {
-                            return 'NT$ ' + val.toLocaleString();
-                        }
-                    }
-                },
-                stroke: {
-                    curve: 'smooth', // 平滑線（很好看）
-                    width: 3
-                },
-                markers: { size: 4 },
-                // colors: ['#0d6efd'], // Bootstrap primary
-                dataLabels: { enabled: false },
-                grid: { borderColor: '#f1f1f1' },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '70%'
-                    }
-                },
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            height: 450
-                        },
-                        plotOptions: {
-                            bar: {
-                                columnWidth: '90%'
-                            }
-                        }
-                    }
-                }]
+        series = Array.from(flavors).map(flavor => {
+            return {
+                name: flavor,
+                data: idarr.map(id => {
+                    return flvs[id][flavor]?.total || 0;
+                })
             };
+        });
+        // console.log(series);
 
-            renderChart(options);
-        }
+        const options = {
+            chart: {
+                type: type,
+                height: 300,
+                toolbar: { show: false }
+            },
+            series: series,
+            title: {
+                text: sel_prdname,
+                align: 'center'
+            },
+            // subtitle: { text: '' },
+            xaxis: {
+                categories: categories,
+                title: { text: '開團時間' },
+                // labels: {
+                //     formatter: function (val) {
+                //         return val.slice(5); // 只顯示 MM/DD
+                //     }
+                // }
+            },
+            yaxis: {
+                title: {
+                    text: '金額 (元)' 
+                }
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return 'NT$ ' + val.toLocaleString();
+                    }
+                }
+            },
+            stroke: {
+                curve: 'smooth', // 平滑線（很好看）
+                width: 3
+            },
+            markers: { size: 4 },
+            // colors: ['#0d6efd'], // Bootstrap primary
+            dataLabels: { enabled: false },
+            grid: { borderColor: '#f1f1f1' },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    columnWidth: '70%'
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        height: 450
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '90%'
+                        }
+                    }
+                }
+            }]
+        };
+
+        renderChart(options);
+
         $("#searchModal").modal('hide');
     }
 
@@ -3235,7 +3159,10 @@
         });
 
       const endPicker = flatpickr(endSelector, {
-            dateFormat: "Y/m/d"
+            enableTime: false,
+            dateFormat: "Y/m/d",
+            locale: "zh",
+            maxDate: "today" // ✅ 限制今天以後不能選
       });
 
       return { startPicker, endPicker };
