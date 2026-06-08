@@ -3007,14 +3007,6 @@
 
         search_emp = search_emp.filter(emp => emp.姓名===sel_empname );
 
-        // const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
-
-        // const ids = search_prd.filter(i => i.名稱 === sel_prdname).map(i => i.ID);
-
-        // if( ids.length==0 ){ return false; }
-
-        // const hasMulti = search_prd.some(i => i.售價 === '---');
-
         let series = [];
         let flvs   = {};
         let type   = 'bar';
@@ -3022,45 +3014,23 @@
         data = { type: 'chart', userId: userId, emp: sel_empname };
 
         var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該人員存在!!', 'reload': false, 'return': true} );
-        console.log(res);return false;
 
         if( res[0].status!='success' ){ return false; }
 
-        var orders  = res[0].data[sel_prdname];
-        var flvdata = res[0].data.flv;
+        var result = res[0].data;
 
-        Object.keys(orders).forEach(id => { ////
-            flvs[id] = {};
-            flvdata[id].forEach(arr => {
-                flvs[id][arr[2]] = {'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0};
-            });
-            
-            orders[id].forEach(ord => {
-                flvs[id][ord.口味]['nums']  += Number(ord.數量);
-                flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id][ord.口味]['price']);
-            });
+        const categories = result.map(r => r.item);
 
-
-        });
-        // console.log(flvs);
-
-        var flavors = new Set();
-
-        Object.values(flvs).forEach(group => {
-            Object.keys(group).forEach(f => flavors.add(f));
-        });
-
-        var idarr = Object.keys(flvs);
-
-        series = Array.from(flavors).map(flavor => {
-            return {
-                name: flavor,
-                data: idarr.map(id => {
-                    return flvs[id][flavor]?.total || 0;
-                })
-            };
-        });
-        // console.log(series);
+        const series = [
+            {
+                name: '數量',
+                data: result.map(r => r.nums)
+            },
+            {
+                name: '金額',
+                data: result.map(r => r.price)
+            }
+        ];
 
         const options = {
             chart: {
@@ -3076,7 +3046,7 @@
             // subtitle: { text: '' },
             xaxis: {
                 categories: categories,
-                title: { text: '開團時間' },
+                // title: { text: '開團時間' },
                 // labels: {
                 //     formatter: function (val) {
                 //         return val.slice(5); // 只顯示 MM/DD
@@ -3084,15 +3054,15 @@
                 // }
             },
             yaxis: {
-                title: {
-                    text: '金額 (元)' 
-                }
+                // title: {
+                //     text: '金額 (元)' 
+                // }
             },
             tooltip: {
                 y: {
-                    formatter: function (val) {
-                        return 'NT$ ' + val.toLocaleString();
-                    }
+                    // formatter: function (val) {
+                    //     return 'NT$ ' + val.toLocaleString();
+                    // }
                 }
             },
             stroke: {
