@@ -3019,7 +3019,7 @@
         let flvs   = {};
         let type   = 'bar';
 
-        data = { type: 'chart', userId: userId, name: sel_prdname, ids: ids };
+        data = { type: 'chart', userId: userId, emp: sel_empname };
 
         var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該人員存在!!', 'reload': false, 'return': true} );
         console.log(res);return false;
