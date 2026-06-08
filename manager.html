@@ -831,7 +831,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyxpgTOqS4-umvpHsE_81gneb2aKe5zdaOKiZ6nRKpTQlyPadCqFGkjgrnp6VYVV3HJQA/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyjim8HeDVSlLl1wQPn4K1BlDPXZun-SU1KsYzC7TI85A4iucIpQYkLwNR7JvHVPWJbTA/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -3008,8 +3008,6 @@
         search_emp = search_emp.filter(emp => emp.姓名===sel_empname );
 
         let series = [];
-        let flvs   = {};
-        let type   = 'bar';
 
         data = { type: 'chart', userId: userId, emp: sel_empname };
 
@@ -3022,19 +3020,13 @@
         const categories = result.map(r => r.item);
 
         const series = [
-            {
-                name: '數量',
-                data: result.map(r => r.nums)
-            },
-            {
-                name: '金額',
-                data: result.map(r => r.price)
-            }
+            { name: '數量', data: result.map(r => r.nums)  },
+            { name: '金額', data: result.map(r => r.price) }
         ];
 
         const options = {
             chart: {
-                type: type,
+                type: 'bar',
                 height: 300,
                 toolbar: { show: false }
             },
