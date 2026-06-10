@@ -2803,7 +2803,7 @@
 
         var range_prd = search_prd.filter(prd => {
             const date = prd.開啟時間.substring(0, 10).replace(/-/g, '/');
-            return date >= prd_startdate && date <= prd_enddate;
+            return date >= prd_startdate && date <= prd_enddate && prd.名稱 === sel_prdname;
         });
 
         const sheetNames = range_prd.map(prd => `${prd.ID}-${prd.名稱}` );
