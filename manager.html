@@ -3006,7 +3006,7 @@
         var prd_enddate   = $('#prdEndDate').val();
 
         var range_prd = search_prd.filter(prd => {
-            const date = prd.開啟時間.substring(0, 10);
+            const date = prd.開啟時間.substring(0, 10).replace(/-/g, '/');
             return date >= prd_startdate && date <= prd_enddate;
         });
         console.log(range_prd);return;
