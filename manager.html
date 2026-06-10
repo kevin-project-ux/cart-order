@@ -831,7 +831,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyjim8HeDVSlLl1wQPn4K1BlDPXZun-SU1KsYzC7TI85A4iucIpQYkLwNR7JvHVPWJbTA/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyhzhOlcjNvvI8t_29Tqxc8pxC24J4YMjnet5NIR6X0sqTVwCfUTAYbRBvD-q17gGOkng/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -3009,9 +3009,10 @@
             const date = prd.開啟時間.substring(0, 10).replace(/-/g, '/');
             return date >= prd_startdate && date <= prd_enddate;
         });
-        console.log(range_prd);return;
 
-        data = { type: 'chart', userId: userId, emp: sel_empname };
+        const sheetNames = range_prd.map(prd => `${prd.ID}-${prd.名稱}` );
+
+        data = { type: 'chart', userId: userId, emp: sel_empname, sheets: sheetNames };
 
         var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該人員存在!!', 'reload': false, 'return': true} );
 
