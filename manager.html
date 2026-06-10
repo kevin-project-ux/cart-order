@@ -3005,6 +3005,9 @@
         var prd_startdate = $('#prdStartDate').val();
         var prd_enddate   = $('#prdEndDate').val();
 
+        var range_prd = search_prd.filter(prd => prd.開團時間>=prd_startdate && prd.開團時間<=prd_enddate );
+        console.log(range_prd);return;
+
         data = { type: 'chart', userId: userId, emp: sel_empname };
 
         var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該人員存在!!', 'reload': false, 'return': true} );
@@ -3016,7 +3019,7 @@
         const categories = result.map(r => r.item);
 
         const series = [
-            { name: '數量', data: result.map(r => r.nums)  },
+            // { name: '數量', data: result.map(r => r.nums)  },
             { name: '金額', data: result.map(r => r.price) }
         ];
 
@@ -3048,8 +3051,18 @@
             },
             tooltip: {
                 y: {
-                    // formatter: function (val) {
-                    //     return 'NT$ ' + val.toLocaleString();
+                    // formatter: function (val, { seriesIndex, dataPointIndex, w }) { ////詳細數量跟金額 還有後端要回傳總金額及數量
+
+                    //     const item = w.globals.labels[dataPointIndex];
+
+                    //     const nums  = w.globals.series[0][dataPointIndex];
+                    //     const price = w.globals.series[1] ? w.globals.series[1][dataPointIndex] : null;
+
+                    //     return `
+                    //         ${val}<br/>
+                    //         數量：${nums}<br/>
+                    //         金額：${price}
+                    //     `;
                     // }
                 }
             },
