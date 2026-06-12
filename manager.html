@@ -3202,13 +3202,15 @@
             }
         });
 
-      const endPicker = flatpickr(endSelector, {
+        const today = new Date();
+
+        const endPicker = flatpickr(endSelector, {
             enableTime: false,
             dateFormat: "Y/m/d",
-            defaultDate: new Date(),
+            defaultDate: today,
             locale: "zh",
-            maxDate: "today" // ✅ 限制今天以後不能選
-      });
+            maxDate: today // ✅ 限制今天以後不能選
+        });
 
       return { startPicker, endPicker };
     }
