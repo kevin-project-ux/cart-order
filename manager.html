@@ -2767,14 +2767,13 @@
 
         $('#search_prd').empty(); // 清空原有內容（若有）
         $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
-
-        // search_prd = search_prd.filter(prd => prd.名稱===sel_prdname ); 
   
         // 將 prdName 陣列加入 select 中
-        prdname_arr.forEach(name => { $('#search_prd').append(`<option value="${name}">${name}</option>`); });
+        // prdname_arr.forEach(name => { $('#search_prd').append(`<option value="${name}">${name}</option>`); });
 
         // 初始化 Select2
         $('#search_prd').select2({
+            data: prdname_arr
             dropdownParent: $('#searchModal'),
             placeholder: '請選擇品項',
             allowClear: true,
