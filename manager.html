@@ -2751,11 +2751,24 @@
             }
         }
 
-        var prdname_arr = [...new Set(search_prd.map(item => item.名稱))];
-        var empname_arr = [...new Set(search_emp.map(item => item.姓名))];
+        // var prdname_arr = [...new Set(search_prd.map(item => item.名稱))];
+        const count = search_prd.reduce((acc, item) => {
+            const name = item.名稱;
+            acc[name] = (acc[name] || 0) + 1;
+            return acc;
+        }, {});
+
+
+        const prdname_arr = Object.keys(count).map(name => ({
+            id: name,
+            text: `${name} (開團 ${count[name]} 次)`
+        }));
+        
 
         $('#search_prd').empty(); // 清空原有內容（若有）
         $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
+
+        // search_prd = search_prd.filter(prd => prd.名稱===sel_prdname ); 
   
         // 將 prdName 陣列加入 select 中
         prdname_arr.forEach(name => { $('#search_prd').append(`<option value="${name}">${name}</option>`); });
@@ -2767,6 +2780,8 @@
             allowClear: true,
             width: 'resolve'
         });
+
+        var empname_arr = [...new Set(search_emp.map(item => item.姓名))];
 
         $('#search_emp').empty(); // 清空原有內容（若有）
         $('#search_emp').append('<option value="" selected disabled hidden>請選擇人員</option>');
