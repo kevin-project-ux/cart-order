@@ -3170,6 +3170,14 @@
             maxSize: 5 * 1024 * 1024, // 限制 5MB
             previewWidth: 60 // ✅ 改成 60px
         });
+
+        $('#search_prd').on('change', function () {
+            console.log($(this).val());
+        });
+
+        $('#search_prd').on('select2:select', function (e) {
+            console.log('選到:', e.params.data);
+        });
     });
 </script>
 </html>
