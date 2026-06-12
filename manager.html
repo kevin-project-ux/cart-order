@@ -1002,8 +1002,8 @@
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            initDateRangePicker('#prdStartDate','#prdEndDate'); //人員購買紀錄(限制範圍3個月)
-            initDateRangePicker('#ordStartDate','#ordEndDate', 6); //人員購買紀錄(限制範圍3個月)
+            initDateRangePicker('#prdStartDate','#prdEndDate'); //人員購買紀錄(預設日期為近3個月，限制範圍3個月)
+            initDateRangePicker('#ordStartDate','#ordEndDate', 6); //人員購買紀錄(預設日期為近6個月，限制範圍6個月)
 
             // if ($('#startDate').val() || $('#editStartDate').val()) { fp1.clear(); }
             // if ($('#endDate').val() || $('#editEndDate').val()) { fp2.clear(); }
@@ -3106,7 +3106,7 @@
                 text: sel_empname,
                 align: 'center'
             },
-            // subtitle: { text: '' },
+            subtitle: { text: prd_startdate + ' ~ ' + prd_enddate },
             xaxis: {
                 categories: categories,
                 // title: { text: '開團時間' },
@@ -3186,6 +3186,7 @@
         const startPicker = flatpickr(startSelector, {
             enableTime: false,
             dateFormat: "Y/m/d",
+            defaultDate: new Date(new Date().setMonth(new Date().getMonth() - maxMonth)),
             locale: "zh",
             maxDate: "today", // ✅ 限制今天以後不能選
             onChange: function(selectedDates) {
@@ -3204,6 +3205,7 @@
       const endPicker = flatpickr(endSelector, {
             enableTime: false,
             dateFormat: "Y/m/d",
+            defaultDate: new Date(),
             locale: "zh",
             maxDate: "today" // ✅ 限制今天以後不能選
       });
