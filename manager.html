@@ -734,8 +734,8 @@
                                         </button>
                                     </div>
                                     <label class="form-label"><span class="text-danger">*</span> 日期範圍</label>
-                                    <input class="form-control search_pickr" id="ordStartDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
-                                    <input class="form-control search_pickr" id="ordEndDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control search_pickr ordDate d-none" id="ordStartDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control search_pickr ordDate d-none" id="ordEndDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
                                 </div>
                                 <button class="btn btn-success w-100" id="searchOrder" onclick="orderSearch()">查詢</button>
                             </div>
@@ -2759,7 +2759,7 @@
         }, {});
 
         const prdname_arr = Object.keys(count).map(name => ({ 
-            id: name, text: `${name} (${count[name]})`, count: count[name] 
+            id: name, text: name, count: count[name] 
         }));
 
         $('#search_prd').empty(); // 清空原有內容（若有）
@@ -2779,7 +2779,7 @@
 
                 if (!item.id) return item.text;
 
-                const icon = item.count <= 3 ? "📄" : "📊";
+                const icon = item.count < 3 ? '<i class="fas fa-table"></i>' : '<i class="fas fa-chart-bar"></i>';
 
                 return $(`
                     <div style="
@@ -3215,12 +3215,11 @@
             previewWidth: 60 // ✅ 改成 60px
         });
 
-        $('#search_prd').on('change', function () {
-            console.log($(this).val());
-        });
-
         $('#search_prd').on('select2:select', function (e) {
-            console.log('選到:', e.params.data);
+            console.log(e.params.data);
+            var data = e.params.data;
+            $('.ordDate').css('display', 'none');
+            if( data.count>=3 ){ $('.ordDate').css('display', ''); } //顯示日期範圍(圖表)
         });
     });
 </script>
