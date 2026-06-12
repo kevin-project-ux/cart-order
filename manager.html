@@ -2758,12 +2758,9 @@
             return acc;
         }, {});
 
-
-        const prdname_arr = Object.keys(count).map(name => ({
-            id: name,
-            text: `${name} (開團 ${count[name]} 次)`
+        const prdname_arr = Object.keys(count).map(name => ({ 
+            id: name, text: `${name} (${count[name]})`, count: count[name] 
         }));
-        
 
         $('#search_prd').empty(); // 清空原有內容（若有）
         $('#search_prd').append('<option value="" selected disabled hidden>請選擇品項</option>');
@@ -2777,7 +2774,40 @@
             dropdownParent: $('#searchModal'),
             placeholder: '請選擇品項',
             allowClear: true,
-            width: 'resolve'
+            width: 'resolve',
+            templateResult: function(item) {
+
+                if (!item.id) return item.text;
+
+                const icon = item.count <= 3 ? "📄" : "📊";
+
+                return $(`
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        width:100%;
+                    ">
+                        
+                        <!-- 左邊：名稱 + icon -->
+                        <div>
+                            ${icon} ${item.text}
+                        </div>
+
+                        <!-- 右邊：count -->
+                        <div style="
+                            min-width:50px;
+                            text-align:right;
+                            font-variant-numeric: tabular-nums;
+                            opacity:0.8;
+                            font-size:13px;
+                        ">
+                            ${item.count}
+                        </div>
+
+                    </div>
+                `);
+            }
         });
 
         var empname_arr = [...new Set(search_emp.map(item => item.姓名))];
