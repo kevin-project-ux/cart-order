@@ -733,7 +733,7 @@
                                             <i class="fas fa-sync-alt"></i>
                                         </button>
                                     </div>
-                                    <label class="form-label"><span class="text-danger">*</span> 日期範圍</label>
+                                    <label class="form-label ordDate"><span class="text-danger">*</span> 日期範圍</label>
                                     <input class="form-control search_pickr ordDate d-none" id="ordStartDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
                                     <input class="form-control search_pickr ordDate d-none" id="ordEndDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
                                 </div>
@@ -2779,7 +2779,7 @@
 
                 if (!item.id) return item.text;
 
-                const icon = item.count < 3 ? '<i class="fas fa-table text-primary"></i>' : '<i class="fas fa-chart-bar text-success"></i>';
+                const icon = item.count < 3 ? '<i class="fas fa-table text-primary"></i>' : '<i class="far fa-chart-bar text-success"></i>';
 
                 return $(`
                     <div style="
@@ -2937,8 +2937,6 @@
                   data: search_prd.map(i => i.售價)
                 }];
             }else{
-
-                // var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
 
                 type = 'bar';
 
@@ -3195,7 +3193,7 @@
       return { startPicker, endPicker };
     }
 
-    function shorten(text, len = 7) {
+    function shorten(text, len = 6) {
         return text.length > len
             ? text.substring(0, len) + '...'
             : text;
