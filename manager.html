@@ -2805,7 +2805,7 @@
 
         const empname_arr = [...new Set(search_emp.map(item => item.姓名))].map(name => ({
             id: name,
-            text: `<i class="fas fa-user"></i> ${name}`
+            text: name
         }));
 
         $('#search_emp').empty(); // 清空原有內容（若有）
@@ -2817,7 +2817,35 @@
             dropdownParent: $('#searchModal'),
             placeholder: '請選擇人員',
             allowClear: true,
-            width: 'resolve'
+            width: 'resolve',
+            templateResult: function(item) {
+
+                if (!item.id) return item.text;
+
+                const icon = '<i class="fas fa-user"></i> ';
+
+                return $(`
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        width:100%;
+                    ">
+                        <div>
+                            ${icon} ${shorten(item.text)}
+                        </div>
+                        <div style="
+                            min-width:50px;
+                            text-align:right;
+                            font-variant-numeric: tabular-nums;
+                            opacity:0.8;
+                            font-size:13px;
+                        ">
+                            ${item.count}
+                        </div>
+                    </div>
+                `);
+            }
         });
     }
 
