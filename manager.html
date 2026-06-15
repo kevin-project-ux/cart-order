@@ -834,7 +834,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwFcdPc-l3P2fyePUAAnPumCeB4mxFQkxsv_SUR3FOhCmlWFWIHynWM31DHha1N391YKw/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwO3Qj8aBIcC1_RJu_4SASFhU5vE6lGmykH6iUsWTozhiz_s9hILaNtpeXRgmYjTmCbig/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -3106,7 +3106,7 @@
                 text: sel_empname,
                 align: 'center'
             },
-            subtitle: { text: prd_startdate + ' ~ ' + prd_enddate },
+            subtitle: { text: prd_startdate + ' ~ ' + prd_enddate, align: 'center' },
             xaxis: {
                 categories: categories,
                 // title: { text: '開團時間' },
