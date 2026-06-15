@@ -759,6 +759,7 @@
                                     <label class="form-label"><span class="text-danger">*</span> 日期範圍</label>
                                     <input class="form-control search_pickr" id="prdStartDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
                                     <input class="form-control search_pickr" id="prdEndDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
+                                    <div id="dateHint" style="font-size:12px;color:#999">查詢區間最多 3 個月</div>
                                 </div>
                                 <button class="btn btn-success w-100" id="appendOrder" onclick="orderEmp()">確認送出</button>
                             </div>
@@ -3182,6 +3183,7 @@
 
     function initDateRangePicker(startSelector, endSelector, maxMonth = 3) {
         let startDate = null;
+        let endDate   = null;
 
         const startPicker = flatpickr(startSelector, {
             enableTime: false,
@@ -3191,11 +3193,27 @@
             maxDate: "today", // ✅ 限制今天以後不能選
             onChange: function(selectedDates) {
                 startDate = selectedDates[0];
+                endDate   = endPicker.selectedDates[0];
 
-                if (!startDate) return;
+                if ( !endDate || !startDate ) return;
 
                 let maxEnd = new Date(startDate);
                 maxEnd.setMonth(maxEnd.getMonth() + maxMonth);
+
+                if (endDate && endDate > maxEnd) {
+
+                    endPicker.setDate(maxEnd);
+
+                    Swal.fire({
+                        toast: true,
+                        position: "top-end",
+                        icon: "warning",
+                        title: `區間最多只能選 ${maxMonth} 個月，已自動調整結束日期`,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+
+                }
 
                 endPicker.set("minDate", startDate);
                 endPicker.set("maxDate", maxEnd);
