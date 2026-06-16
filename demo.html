@@ -186,7 +186,7 @@ button {
 </div>
 
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
 /* ===== MOCK DATA ===== */
@@ -299,7 +299,13 @@ function renderCart(){
 
 function checkout(){
 
-    alert("模擬結帳成功（未寫入系統）");
+    // alert("模擬結帳成功（未寫入系統）");
+    Swal.fire({
+        icon: 'success',
+        title: '結帳成功',
+        text: '模擬結帳完成',
+        confirmButtonText: '確定'
+    });
     cart = [];
     renderCart();
 }
