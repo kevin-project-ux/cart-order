@@ -4,111 +4,97 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Demo - 烘焙團購系統</title>
-
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<title>烘焙系統 Demo</title>
 
 <style>
 
 body {
-    margin: 0;
-    font-family: "Noto Sans TC", sans-serif;
-    background: #f7f7f7;
-    color: #333;
+    margin:0;
+    font-family:"Noto Sans TC", sans-serif;
+    background:#f6f6f6;
+    color:#333;
 }
 
 /* header */
 .header {
-    background: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 8px #ddd;
+    background:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 8px #ddd;
 }
 
 .badge {
-    background: #ff8c42;
-    color: white;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
+    background:#ff8c42;
+    color:white;
+    padding:4px 10px;
+    border-radius:12px;
+    font-size:12px;
 }
 
-/* layout */
+/* tabs */
+.tabs {
+    display:flex;
+    background:white;
+    padding:10px;
+    gap:10px;
+    box-shadow:0 2px 6px #eee;
+}
+
+.tab {
+    padding:8px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    background:#eee;
+    font-size:14px;
+}
+
+.tab.active {
+    background:#111;
+    color:white;
+}
+
+/* container */
 .container {
-    padding: 20px;
+    padding:15px;
 }
 
-/* filter bar */
-.filter {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+/* card */
+.card {
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:10px;
+    box-shadow:0 2px 6px #eee;
+}
+
+/* input */
+input, button, select {
+    padding:8px;
+    margin:5px 0;
 }
 
 button {
-    border: none;
-    padding: 8px 14px;
-    border-radius: 20px;
-    cursor: pointer;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
 }
 
 .btn {
-    background: #eee;
+    background:#111;
+    color:white;
 }
 
-.btn.active {
-    background: #111;
-    color: white;
+.btn-orange {
+    background:#ff8c42;
+    color:white;
 }
 
-/* table */
-table {
-    width: 100%;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px #ddd;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background: #fafafa;
-}
-
-.back-btn {
-    text-decoration: none;
-    color: #333;
-    background: #f2f2f2;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.back-btn:hover {
-    background: #ddd;
-}
-
-/* chart */
-#chart {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #ddd;
-}
-
-/* mobile */
-@media(max-width:600px){
-    th, td {
-        font-size: 13px;
-    }
+.item {
+    display:flex;
+    justify-content:space-between;
+    margin:5px 0;
 }
 
 </style>
@@ -118,108 +104,184 @@ th {
 <body>
 
 <div class="header">
-    <a class="back-btn" href="javascript:history.back()">
-        ← 返回
-    </a>
-    <div>🍞 烘焙團購 Demo</div>
-    <div class="badge">Demo Mode</div>
+    <div>🍞 烘焙系統 Demo</div>
+    <div class="badge">Sandbox Mode</div>
+</div>
+
+<!-- tabs -->
+<div class="tabs">
+    <div class="tab active" onclick="switchTab('admin')">⚙️ 管理者</div>
+    <div class="tab" onclick="switchTab('user')">🛒 下單</div>
 </div>
 
 <div class="container">
 
-    <!-- filter -->
-    <div class="filter">
-        <button class="btn active" onclick="switchView('table')">
-            📄 Table
+<!-- ADMIN -->
+<div id="adminPage">
+
+    <div class="card">
+        <h3>新增團購</h3>
+
+        <input id="prdName" placeholder="商品名稱">
+        <input id="prdPrice" placeholder="價格">
+
+        <button class="btn-orange" onclick="addProduct()">
+            新增
         </button>
+    </div>
 
-        <button class="btn" onclick="switchView('chart')">
-            📊 Chart
+    <div class="card">
+        <h3>商品列表</h3>
+        <div id="productList"></div>
+    </div>
+
+</div>
+
+<!-- USER -->
+<div id="userPage" style="display:none;">
+
+    <div class="card">
+        <h3>模擬下單</h3>
+
+        <select id="selectProduct"></select>
+        <input id="qty" type="number" value="1">
+
+        <button class="btn" onclick="addOrder()">
+            加入購物車
         </button>
     </div>
 
-    <!-- table -->
-    <div id="tableView">
-        <table>
-            <tr>
-                <th>品項</th>
-                <th>數量</th>
-                <th>金額</th>
-            </tr>
+    <div class="card">
+        <h3>購物車</h3>
+        <div id="cartList"></div>
 
-            <tr>
-                <td>🍞 奶油餐包</td>
-                <td>12</td>
-                <td>600</td>
-            </tr>
-
-            <tr>
-                <td>🧁 可可蛋糕</td>
-                <td>8</td>
-                <td>640</td>
-            </tr>
-
-            <tr>
-                <td>🥐 可頌</td>
-                <td>5</td>
-                <td>250</td>
-            </tr>
-        </table>
+        <button class="btn-orange" onclick="checkout()">
+            模擬結帳
+        </button>
     </div>
 
-    <!-- chart -->
-    <div id="chartView" style="display:none;">
-        <div id="chart"></div>
-    </div>
+</div>
 
 </div>
 
 <script>
 
-const data = {
-    categories: ["奶油餐包", "可可蛋糕", "可頌"],
-    qty: [12, 8, 5],
-    amount: [600, 640, 250]
-};
+/* ===== MOCK DB (記憶體) ===== */
+let products = [
+    { name:"奶油餐包", price:50 },
+    { name:"可可蛋糕", price:80 }
+];
 
-// chart
-const chart = new ApexCharts(document.querySelector("#chart"), {
-    chart: {
-        type: "bar"
-    },
-    series: [
-        {
-            name: "數量",
-            data: data.qty
-        },
-        {
-            name: "金額",
-            data: data.amount
-        }
-    ],
-    xaxis: {
-        categories: data.categories
-    }
-});
+let cart = [];
 
-chart.render();
+/* ===== INIT ===== */
+renderProducts();
+renderSelect();
 
-// switch view
-function switchView(type){
+/* ===== TAB ===== */
+function switchTab(tab){
 
-    document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
 
-    if(type === "table"){
-        document.getElementById("tableView").style.display = "block";
-        document.getElementById("chartView").style.display = "none";
-        event.target.classList.add("active");
+    if(tab === "admin"){
+        document.getElementById("adminPage").style.display = "block";
+        document.getElementById("userPage").style.display = "none";
+        document.querySelectorAll(".tab")[0].classList.add("active");
     }
 
-    if(type === "chart"){
-        document.getElementById("tableView").style.display = "none";
-        document.getElementById("chartView").style.display = "block";
-        event.target.classList.add("active");
+    if(tab === "user"){
+        document.getElementById("adminPage").style.display = "none";
+        document.getElementById("userPage").style.display = "block";
+        document.querySelectorAll(".tab")[1].classList.add("active");
     }
+
+}
+
+/* ===== ADMIN ===== */
+function addProduct(){
+
+    const name = document.getElementById("prdName").value;
+    const price = document.getElementById("prdPrice").value;
+
+    if(!name || !price) return;
+
+    products.push({name, price});
+
+    renderProducts();
+    renderSelect();
+
+}
+
+function renderProducts(){
+
+    let html = "";
+
+    products.forEach((p,i)=>{
+        html += `
+        <div class="item">
+            <div>${p.name}</div>
+            <div>$${p.price}</div>
+        </div>`;
+    });
+
+    document.getElementById("productList").innerHTML = html;
+
+}
+
+/* ===== USER ===== */
+function renderSelect(){
+
+    let select = document.getElementById("selectProduct");
+
+    select.innerHTML = "";
+
+    products.forEach((p,i)=>{
+        select.innerHTML += `<option value="${i}">${p.name}</option>`;
+    });
+
+}
+
+function addOrder(){
+
+    const idx = document.getElementById("selectProduct").value;
+    const qty = parseInt(document.getElementById("qty").value);
+
+    const p = products[idx];
+
+    cart.push({
+        name: p.name,
+        qty,
+        total: p.price * qty
+    });
+
+    renderCart();
+
+}
+
+function renderCart(){
+
+    let html = "";
+
+    cart.forEach(c=>{
+        html += `
+        <div class="item">
+            <div>${c.name} x ${c.qty}</div>
+            <div>$${c.total}</div>
+        </div>`;
+    });
+
+    document.getElementById("cartList").innerHTML = html;
+
+}
+
+function checkout(){
+
+    alert("Demo 結帳成功（未寫入系統）");
+
+    cart = [];
+
+    renderCart();
+
 }
 
 </script>
