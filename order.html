@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>購物車</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 1em;
+        background-color: #f9f9f9;
+        font-size: 20px;
+      }
+
+      h2 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 1em;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+      }
+
+      li {
+        background: #ffffff;
+        padding: 1em;
+        margin-bottom: 1em;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 24px;
+      }
+
+      .flavors {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+      }
+
+      .stock {
+        font-size: 0.9em;
+        color: #888;
+        display: inline-block;
+      }
+
+      .controls {
+        display: flex;
+        flex-direction: column; /* 主方向變為垂直 */
+        align-items: center;
+      }
+
+      .controls .price {
+        font-weight: bold;
+        color: red;
+        min-width: 70px;
+      }
+
+      .controls-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .controls button {
+        all: unset; /* 清除瀏覽器預設樣式 */
+        font-size: 28px;
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        border: none;
+        background-color: #e0e0e0;
+        text-align: center;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center; /* 讓 + / - 垂直水平置中 */
+      }
+
+      .controls input {
+        width: 64px;
+        text-align: center;
+        font-size: 24px;
+        padding: 0.2em;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      .total {
+        margin: 16px 0;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: right;
+        color: red;
+      }
+
+      button.submit {
+        display: block;
+        width: 100%;
+        padding: 1em;
+        font-size: 24px;
+        font-weight: bold;
+        background-color: #06c755;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        margin-top: 1em;
+      }
+
+      button i {
+        font-size: 24px;
+      }
+
+      .limit-msg {
+        color: red;
+        font-size: 1rem;
+      }
+
+      #loadingMask {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+  
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      [class*="item-swiper-"] {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      [class*="item-swiper-"] img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .swiper-slide {
+        position: relative; /* 讓 caption 能絕對定位 */
+      }
+
+      .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .slide-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 6px 10px;
+        background: rgba(0, 0, 0, 0.5); /* 透明黑底 */
+        color: white;
+        font-size: 11px;
+        box-sizing: border-box;
+      }
+  
+      @keyframes spin {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  </head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GZKFJKF9H4"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-GZKFJKF9H4');
+  </script>
+  <script>
+    window.onload = async () => {
+      await liff.init({ liffId: "2007457926-DVgm8yJO" });
+
+      if (!liff.isLoggedIn()) {
+        // liff.login();
+        const redirectUri = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(name)}`;
+        liff.login({
+          redirectUri:redirectUri,
+          state: name,
+        });
+        return;
+      }
+
+      const profile = await liff.getProfile();
+      // console.log("✅ userId:", profile.userId);
+      userId = profile.userId;
+      userName = profile.displayName;
+      document.getElementById("sendOrder").disabled = false;
+
+      fetchCart(); // 取得cart資料
+    }
+  </script>
+  <body>
+    <h2 id="title">Loading...</h2>
+    <ul id="cartList">載入中...</ul>
+    <div id="cartTotal" class="total" style="display:none">總金額 <span id="totalAmount">0</span> 元</div>
+    <button class="submit" id="sendOrder" onclick="submitCart()" disabled style="display:none">✅ 確認送出</button>
+    <div id="loadingMask"><div class="spinner"></div></div>
+  </body>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    let userId = '';
+    let userName = '';
+    let data = '';
+    let cart = [];
+    let quantities = [];
+
+    const mask = document.getElementById('loadingMask');
+    const result = document.getElementById('result');
+
+    // 抓取網址參數
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name"); // 抓取name的值
+
+    if( name=='' ){ throw new Error("🚫 終止執行：條件不符合"); }
+
+    // 替換為你自己的 GAS Web App URL
+    const gasUrl = `https://script.google.com/macros/s/AKfycby9FDii0ihOn_GKNOtxyxOo1bTvOaEt6X8OEu82dahqYvJUJ0t-mLQ3zUAp1n8onj8bFQ/exec`;
+    // const gasUrl = `https://script.google.com/macros/s/AKfycbyFaQ5UW0AlvwQnMnQAs9Pn4-52JLpP7uanGBLWeOtoMDMCKdm8-FBTsck13UjvqIO9ug/exec`;
+    const getUrl = `${gasUrl}?name=${encodeURIComponent(name)}`;
+
+    async function fetchCart() {
+      try {
+        mask.style.display = 'flex';
+        const res = await fetch(getUrl);
+        cart = await res.json();
+
+        if( typeof cart[0].status !== 'undefined' ){
+          Swal.fire({
+            icon: 'warning',
+            title: '查無該品項',
+            text: '該品項已到期或已提前關閉！',
+            confirmButtonText: '知道了'
+          });
+          document.getElementById("title").innerText = '';
+          document.getElementById("cartList").innerText = '';
+          return; // 停止往下
+        }
+
+        document.getElementById("title").innerText = name;
+        // cart = JSON.parse(data);
+        quantities = cart.map(() => 0); // 預設全部為 0
+        // console.log("✅ 拿到 cart 資料：", cart);
+        renderCart(); // 呼叫你自己的渲染函式
+
+        document.getElementById('sendOrder').style.display = 'block';
+        document.getElementById('cartTotal').style.display = 'block';
+      } catch (err) {
+        console.error("❌ 無法取得 cart 資料", err);
+      } finally {
+        mask.style.display = 'none';
+      }
+    }
+
+    function renderCart() {
+
+      // 抓取網址測試參數
+      const params = new URLSearchParams(window.location.search);
+      const debug  = params.get("debug"); // 抓取debug的值
+      
+      const list = document.getElementById("cartList");
+      list.innerHTML = '';
+      cart.forEach((item, index) => {
+        const li = document.createElement("li");
+        const currentQty = quantities[index];
+        const hasLimit = item.num !== 0;
+        const reachedMax = hasLimit && currentQty >= item.remain;
+
+        const swiperClass = `item-swiper-${index}`;
+        let slides;
+
+        if( typeof item.imgs!==undefined ){
+
+          var imgs = item.imgs;
+          var img_arr = imgs.split('|');
+          slides = img_arr.map(img => 
+              `<div class="swiper-slide"><img src="https://res.cloudinary.com/dwavqm0sh/image/upload/${img}" />
+                ${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `<div class="slide-caption">剩餘 ${item.remain}個</div>`}
+              </div>`
+          ).join("");
+        }
+
+        li.innerHTML = `
+          <div class="item">
+            <div class="img">
+              ${item.imgs!=='' ? 
+              `<div class="swiper ${swiperClass}">
+                <div class="swiper-wrapper">${slides}</div>
+              </div>` : ''}
+            </div>
+            <div class="flavors">
+              <span>${item.flavor}</span>
+              ${item.imgs===''  ?
+                `<span class="stock">${item.num === 0 ? '' : item.remain === 0 ? '已售完' : `剩餘 ${item.remain} 個`}</span>`
+              : ''}
+            </div>
+            <div class="controls">
+              <span class="price">$${item.price}</span>
+              <div class="controls-row">
+                <button onclick="changeQty(${index}, -1)" ${item.remain === 0 && item.num !== 0 ? 'disabled' : ''}>
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input type="number" min="0" ${hasLimit ? `max="${item.remain}"` : ''} value="${currentQty}" onchange="updateQty(${index}, this.value)" ${item.remain === 0 && item.num !== 0 ? 'disabled' : ''}  oninput="validateMax(this)">
+                <button onclick="changeQty(${index}, 1)" ${reachedMax ? 'disabled' : ''}>
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              ${reachedMax ? `<div class="limit-msg">已達數量上限</div>` : ''}
+            </div>
+          </div>
+        `;
+        list.appendChild(li);
+
+        if( item.imgs!=='' ){
+          new Swiper(`.${swiperClass}`, {
+              autoplay: {
+                  delay: 3000,      // 每張停留 3 秒
+                  disableOnInteraction: false // 使用者滑動後仍繼續自動播
+              },
+              loop: true,
+          });
+        }
+      });
+
+      updateTotal(); // 計算總金額
+    }
+
+    function validateMax(input) {
+      const max = parseInt(input.max);
+      if (parseInt(input.value) > max) {
+        input.value = max;
+      }
+    }
+
+    function changeQty(index, delta) {
+      quantities[index] = Math.max(0, quantities[index] + delta);
+      renderCart();
+    }
+
+    function updateQty(index, value) {
+      const num = parseInt(value, 10);
+      quantities[index] = isNaN(num) || num < 0 ? 0 : num;
+      renderCart();
+    }
+
+    function updateTotal() {
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += (item.price || 0) * (quantities[index] || 0);
+      });
+      document.getElementById('totalAmount').textContent = total;
+    }
+
+    function showOrderSummary(){
+      // 組成品項清單
+      let html = `<table style="width:100%; text-align:left;">`;
+      html += `<tr><th>品項</th><th>數量</th><th>小計</th></tr>`;
+    
+      let total = 0;
+    
+      cart.forEach((item, index) => {
+        const qty = quantities[index];
+        if (qty > 0) {
+          const subtotal = item.price * qty;
+          total += subtotal;
+          html += `
+            <tr>
+              <td>${item.flavor && item.flavor !== name ? `${name} - ${item.flavor}` : name}</td>
+              <td>${qty}</td>
+              <td>$${subtotal}</td>
+            </tr>
+          `;
+        }
+      });
+    
+      html += `</table><hr><strong>總金額：$${total}</strong>`;
+
+      return html;
+    }
+
+    async function submitCart() {
+
+      if (!userId) {
+        alert("⚠️ 尚未取得 userId");
+        return;
+      }
+
+      const inputs = document.querySelectorAll('#cartList input[type="number"]');
+  
+      // 判斷是否所有數量為 0 或空
+      const allZero = Array.from(inputs).every(input => Number(input.value) === 0 || input.value === "");
+    
+      if (allZero) {
+        Swal.fire({
+          icon: 'warning',
+          title: '無法送出',
+          text: '請至少選擇一項數量再送出！',
+          confirmButtonText: '知道了'
+        });
+        return; // 停止送出
+      }
+      
+      mask.style.display = 'flex';
+
+      const arr = cart.map((item, index) => ({
+        flavor: item.flavor,
+        qty: quantities[index]
+      }));
+
+      const order = {};
+      order['orders'] = arr;
+      order['name']   = userName;
+      order['id']     = userId;
+      order['item']   = name;
+
+      await fetch(gasUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(order)
+      })
+      .then(response => response.json())
+      .then(result => {
+        // console.log("✅ 成功送出：", result);
+        // alert("✅ 訂單已送出！");
+        if( result[0].status=='success' ){
+          var html = showOrderSummary();
+          // 顯示 SweetAlert
+          Swal.fire({
+            title: '訂單明細',
+            html: html,
+            icon: 'success',
+            footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
+          });
+          
+          document.querySelectorAll('#cartList input[type="number"]').forEach(input => {
+            input.value = 0;
+          });
+          quantities = quantities.map(() => 0); // 清空 quantities 陣列（若有）
+          fetchCart(); // 重新抓取品項數量並重新渲染購物車
+        }else{
+          // console.log(result);
+          Swal.fire({
+            title: '訂購失敗',
+            html: result[0].alert,
+            icon: 'error',
+            footer: '<small>如有其他任何問題，可詢問熊幸福小小烘焙哦~</small>'
+          });
+        }
+      })
+      .catch(error => {
+        // console.error("❌ 發生錯誤：", error);
+        Swal.fire({
+          title: '系統異常',
+          icon: 'error'
+        });
+      })
+      .finally(() => {
+        mask.style.display = 'none';
+      });
+    }
+
+    // renderCart();
+  </script>
+</html>
