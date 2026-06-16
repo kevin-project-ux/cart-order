@@ -6,397 +6,467 @@
 
 <title>烘焙系統 Demo</title>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-
-body {
+body{
     margin:0;
-    font-family:"Noto Sans TC", sans-serif;
+    font-family:"Noto Sans TC",sans-serif;
     background:#f6f6f6;
     color:#333;
 }
-
-/* header */
-.header {
+.header{
     background:white;
-    padding:15px;
-    padding-left: 70px;
+    padding:15px 20px 15px 70px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     box-shadow:0 2px 8px #ddd;
 }
-
-.badge {
+.badge{
     background:#ff8c42;
     color:white;
-    padding:4px 10px;
-    border-radius:12px;
+    padding:5px 10px;
+    border-radius:20px;
     font-size:12px;
 }
-
-/* tabs */
-.tabs {
+.float-back{
+    position:fixed;
+    top:15px;
+    left:15px;
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#111;
+    color:white;
+    border-radius:50%;
+    text-decoration:none;
+    z-index:999;
+}
+.tabs{
+    background:white;
     display:flex;
     gap:10px;
     padding:10px;
-    background:white;
-    box-shadow:0 2px 5px #eee;
-    flex-wrap:wrap;
-}
-
-.tab {
-    padding:8px 14px;
-    border-radius:20px;
-    background:#eee;
-    cursor:pointer;
-    font-size:14px;
-}
-
-.tab.active {
-    background:#111;
-    color:white;
-}
-
-/* container */
-.container {
-    padding:15px;
-}
-
-/* card */
-.card {
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:10px;
     box-shadow:0 2px 6px #eee;
 }
-
-/* input */
-input, select {
-    padding:8px;
-    margin:5px 0;
-    width:100%;
-}
-
-/* button */
-button {
-    border:none;
-    padding:8px 12px;
-    border-radius:8px;
+.tab{
+    background:#eee;
+    padding:8px 15px;
+    border-radius:20px;
     cursor:pointer;
-    margin-top:5px;
 }
-
-.btn {
+.tab.active{
     background:#111;
     color:white;
 }
-
-.btn-orange {
+.container{
+    padding:15px;
+}
+.card{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    box-shadow:0 2px 8px #eee;
+}
+input,select{
+    width:100%;
+    padding:8px;
+    margin:5px 0;
+}
+button{
+    border:0;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.btn{
+    background:#111;
+    color:white;
+}
+.btn-orange{
     background:#ff8c42;
     color:white;
 }
-
-.btn-red {
+.btn-red{
     background:#e74c3c;
     color:white;
 }
-
-/* item */
-.item {
+.item{
     display:flex;
     justify-content:space-between;
-    padding:6px 0;
+    align-items:center;
+    padding:10px 0;
     border-bottom:1px solid #eee;
 }
-
-.small {
-    font-size:12px;
+.small{
     color:#888;
+    font-size:13px;
 }
-
-.float-back {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #111;
-    color: white;
-    border-radius: 50%;
-    text-decoration: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    z-index: 999;
-    transition: 0.2s;
-}
-
-.float-back:hover {
-    transform: scale(1.08);
-    background: #333;
-}
-
 @media(max-width:600px){
-    .float-back {
-        top: 10px;
-        left: 10px;
+    .header{
+        flex-direction:column;
+        gap:10px;
+    }
+    .tabs{
+        flex-wrap:wrap;
     }
 }
-
 </style>
-
 </head>
 
 <body>
 
+<a class="float-back" href="index.html">
+<i class="fa-solid fa-arrow-left"></i>
+</a>
+
 <div class="header">
-    <div>🍞 烘焙系統 Demo</div>
-    <div class="badge">Sandbox Mode</div>
+<div>🍞 烘焙系統 Demo</div>
+<div class="badge">Sandbox Mode</div>
 </div>
 
-<!-- tabs -->
 <div class="tabs">
-    <div class="tab active" onclick="switchTab('admin')">⚙️ 管理者</div>
-    <div class="tab" onclick="switchTab('user')">🛒 下單</div>
-    <div class="tab" onclick="switchTab('manage')">🧾 維護</div>
+<div class="tab active" onclick="switchTab('admin')">⚙️ 管理者</div>
+<div class="tab" onclick="switchTab('user')">🛒 下單</div>
+<div class="tab" onclick="switchTab('order')">📦 訂單紀錄</div>
 </div>
 
 <div class="container">
 
-    <!-- ================= ADMIN ================= -->
-    <div id="adminPage">
+<div id="adminPage">
 
-        <div class="card">
-            <h3>新增團購商品</h3>
+<div class="card">
+<h3>新增團購</h3>
 
-            <input id="prdName" placeholder="商品名稱">
-            <input id="prdPrice" placeholder="價格">
+<input id="prdName" placeholder="商品名稱">
+<input id="prdPrice" placeholder="價格">
 
-            <button class="btn-orange" onclick="addProduct()">新增</button>
-        </div>
-
-        <div class="card">
-            <h3>商品列表</h3>
-            <div id="productList"></div>
-        </div>
-
-    </div>
-
-    <!-- ================= USER ================= -->
-    <div id="userPage" style="display:none;">
-
-        <div class="card">
-            <h3>模擬下單</h3>
-
-            <select id="selectProduct"></select>
-            <input id="qty" type="number" value="1">
-
-            <button class="btn" onclick="addOrder()">加入購物車</button>
-        </div>
-
-        <div class="card">
-            <h3>購物車</h3>
-            <div id="cartList"></div>
-
-            <button class="btn-orange" onclick="checkout()">模擬結帳</button>
-        </div>
-
-    </div>
-
-    <!-- ================= MANAGE ================= -->
-    <div id="managePage" style="display:none;">
-
-        <div class="card">
-            <h3>團購維護</h3>
-            <div class="small">可刪除商品 / 結束團購（Demo）</div>
-            <div id="manageList"></div>
-        </div>
-
-    </div>
+<button class="btn-orange" onclick="addProduct()">
+新增團購
+</button>
 
 </div>
 
-<a class="float-back" href="index.html"><i class="fas fa-arrow-left"></i></a>
+<div class="card">
+<h3>商品管理</h3>
+<div id="productList"></div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</div>
+
+
+<div id="userPage" style="display:none;">
+
+<div class="card">
+<h3>🛒 商品下單</h3>
+
+<select id="selectProduct"></select>
+
+<input id="qty" type="number" value="1">
+
+<button class="btn" onclick="addCart()">
+加入購物車
+</button>
+
+</div>
+
+
+<div class="card">
+<h3>購物車</h3>
+
+<div id="cartList"></div>
+
+<button class="btn-orange" onclick="checkout()">
+模擬結帳
+</button>
+
+</div>
+
+</div>
+
+
+<div id="orderPage" style="display:none;">
+
+<div class="card">
+
+<h3>📦 下單紀錄</h3>
+
+<div id="orderList"></div>
+
+</div>
+
+</div>
+
+</div>
 <script>
-
-/* ===== MOCK DATA ===== */
-let products = [
-    { id:1, name:"奶油餐包", price:50, active:true },
-    { id:2, name:"可可蛋糕", price:80, active:true }
+let products=[
+    {id:1,name:"奶油餐包",price:50,active:true},
+    {id:2,name:"可可蛋糕",price:80,active:true}
 ];
 
-let cart = [];
-let pid = 3;
+let cart=[];
+let orders=[];
+let id=3;
 
-/* ===== INIT ===== */
 renderAll();
 
-/* ===== TAB ===== */
-function switchTab(tab){
+function switchTab(type){
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
 
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    adminPage.style.display="none";
+    userPage.style.display="none";
+    orderPage.style.display="none";
 
-    document.getElementById("adminPage").style.display = "none";
-    document.getElementById("userPage").style.display = "none";
-    document.getElementById("managePage").style.display = "none";
-
-    if(tab === "admin"){
-        document.getElementById("adminPage").style.display = "block";
+    if(type==="admin"){
+        adminPage.style.display="block";
     }
 
-    if(tab === "user"){
-        document.getElementById("userPage").style.display = "block";
+    if(type==="user"){
+        userPage.style.display="block";
     }
 
-    if(tab === "manage"){
-        document.getElementById("managePage").style.display = "block";
-        renderManage();
+    if(type==="order"){
+        orderPage.style.display="block";
+        renderOrders();
     }
 
     event.target.classList.add("active");
 }
 
-/* ===== ADMIN ===== */
 function addProduct(){
+    let name=document.getElementById("prdName").value;
+    let price=document.getElementById("prdPrice").value;
 
-    const name = document.getElementById("prdName").value;
-    const price = document.getElementById("prdPrice").value;
-
-    if(!name || !price) return;
+    if(!name||!price)return;
 
     products.push({
-        id: pid++,
-        name,
-        price,
+        id:id++,
+        name:name,
+        price:Number(price),
         active:true
     });
+
+    document.getElementById("prdName").value="";
+    document.getElementById("prdPrice").value="";
 
     renderAll();
 }
 
 function renderProducts(){
-
-    let html = "";
-
-    products.forEach(p=>{
-        html += `
-        <div class="item">
-            <div>${p.name}</div>
-            <div>$${p.price}</div>
-        </div>`;
-    });
-
-    document.getElementById("productList").innerHTML = html;
-}
-
-/* ===== USER ===== */
-function renderSelect(){
-
-    let sel = document.getElementById("selectProduct");
-    sel.innerHTML = "";
-
-    products.filter(p=>p.active).forEach(p=>{
-        sel.innerHTML += `<option value="${p.id}">${p.name}</option>`;
-    });
-}
-
-function addOrder(){
-
-    const id = document.getElementById("selectProduct").value;
-    const qty = parseInt(document.getElementById("qty").value);
-
-    const p = products.find(x=>x.id == id);
-
-    cart.push({
-        name:p.name,
-        qty,
-        total:p.price * qty
-    });
-
-    renderCart();
-}
-
-function renderCart(){
-
-    let html = "";
-
-    cart.forEach(c=>{
-        html += `<div class="item">${c.name} x${c.qty} <b>$${c.total}</b></div>`;
-    });
-
-    document.getElementById("cartList").innerHTML = html;
-}
-
-function checkout(){
-
-    Swal.fire({
-        icon: 'success',
-        title: '結帳成功',
-        text: '模擬結帳完成',
-        confirmButtonText: '確定'
-    });
-
-    cart = [];
-    renderCart();
-}
-
-/* ===== MANAGE ===== */
-function renderManage(){
-
-    let html = "";
+    let html="";
 
     products.forEach(p=>{
-
-        html += `
+        html+=`
         <div class="item">
             <div>
-                ${p.name}
-                <div class="small">狀態：${p.active ? "進行中" : "已結束"}</div>
+                <b>${p.name}</b>
+                <div class="small">
+                    ${p.active?"🟢 開放中":"🔴 已停用"}
+                </div>
             </div>
 
             <div>
-                <button class="btn" onclick="toggle(${p.id})">
-                    ${p.active ? "結束" : "啟用"}
+                <button class="btn" onclick="toggleProduct(${p.id})">
+                    ${p.active?"停用":"啟用"}
                 </button>
 
-                <button class="btn-red" onclick="removeProduct(${p.id})">
+                <button class="btn-red" onclick="deleteProduct(${p.id})">
                     刪除
                 </button>
             </div>
         </div>`;
     });
 
-    document.getElementById("manageList").innerHTML = html;
+    document.getElementById("productList").innerHTML=html;
 }
 
-function toggle(id){
+function toggleProduct(id){
+    let p=products.find(x=>x.id==id);
 
-    const p = products.find(x=>x.id==id);
-    p.active = !p.active;
+    if(p){
+        p.active=!p.active;
+    }
 
     renderAll();
 }
 
-function removeProduct(id){
+function deleteProduct(id){
 
-    products = products.filter(x=>x.id!=id);
+    Swal.fire({
+        title:"刪除團購？",
+        text:"刪除後 Demo 商品會消失",
+        icon:"warning",
+        showCancelButton:true,
+        confirmButtonText:"刪除",
+        cancelButtonText:"取消"
+    }).then(result=>{
 
-    renderAll();
+        if(result.isConfirmed){
+
+            products=products.filter(x=>x.id!=id);
+
+            renderAll();
+
+            Swal.fire({
+                icon:"success",
+                title:"已刪除",
+                timer:1000,
+                showConfirmButton:false
+            });
+        }
+    });
 }
 
-/* ===== RENDER ALL ===== */
+function renderSelect(){
+
+    let select=document.getElementById("selectProduct");
+
+    select.innerHTML="";
+
+    products.filter(x=>x.active).forEach(p=>{
+
+        select.innerHTML+=`
+        <option value="${p.id}">
+            ${p.name}
+        </option>`;
+
+    });
+}
+
+function addCart(){
+
+    let id=document.getElementById("selectProduct").value;
+
+    let qty=parseInt(
+        document.getElementById("qty").value
+    );
+
+    let product=products.find(x=>x.id==id);
+
+    if(!product)return;
+
+    cart.push({
+        name:product.name,
+        qty:qty,
+        total:product.price*qty
+    });
+
+    renderCart();
+
+}
+
+function renderCart(){
+
+    let html="";
+
+    cart.forEach(item=>{
+
+        html+=`
+        <div class="item">
+            <div>
+                ${item.name} x ${item.qty}
+            </div>
+
+            <b>
+                $${item.total}
+            </b>
+        </div>`;
+
+    });
+
+    document.getElementById("cartList").innerHTML=
+        html||"<div class='small'>購物車空白</div>";
+}
+
+function checkout(){
+
+    if(cart.length===0){
+
+        Swal.fire({
+            icon:"warning",
+            title:"購物車是空的"
+        });
+
+        return;
+    }
+
+    let order={
+        time:new Date().toLocaleString(),
+        items:[...cart],
+        total:cart.reduce((sum,item)=>sum+item.total,0)
+    };
+
+    orders.push(order);
+
+    cart=[];
+
+    renderCart();
+    renderOrders();
+
+    Swal.fire({
+        icon:"success",
+        title:"模擬結帳成功",
+        text:"Demo 模式，未寫入 Google Sheet"
+    });
+}
+
+function renderOrders(){
+
+    let html="";
+
+    orders.forEach((order,index)=>{
+
+        html+=`
+        <div class="card">
+
+            <div>
+                <b>訂單 ${index+1}</b>
+            </div>
+
+            <div class="small">
+                ${order.time}
+            </div>
+
+            <hr>
+
+            ${
+                order.items.map(item=>`
+                <div class="item">
+                    <span>
+                        ${item.name} x ${item.qty}
+                    </span>
+                    <b>
+                        $${item.total}
+                    </b>
+                </div>
+                `).join("")
+            }
+
+            <br>
+
+            <b>
+                總金額：$${order.total}
+            </b>
+
+        </div>`;
+
+    });
+
+    document.getElementById("orderList").innerHTML=
+        html||"<div class='small'>尚無訂單</div>";
+}
+
 function renderAll(){
     renderProducts();
     renderSelect();
-    renderManage();
+    renderCart();
+    renderOrders();
 }
-
 </script>
 
 </body>
