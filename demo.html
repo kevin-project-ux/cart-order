@@ -6,6 +6,8 @@
 
 <title>烘焙系統 Demo</title>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 
 body {
@@ -114,6 +116,36 @@ button {
     color:#888;
 }
 
+.float-back {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    color: white;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 999;
+    transition: 0.2s;
+}
+
+.float-back:hover {
+    transform: scale(1.08);
+    background: #333;
+}
+
+@media(max-width:600px){
+    .float-back {
+        top: 10px;
+        left: 10px;
+    }
+}
+
 </style>
 
 </head>
@@ -134,58 +166,61 @@ button {
 
 <div class="container">
 
-<!-- ================= ADMIN ================= -->
-<div id="adminPage">
+    <!-- ================= ADMIN ================= -->
+    <div id="adminPage">
 
-    <div class="card">
-        <h3>新增團購商品</h3>
+        <div class="card">
+            <h3>新增團購商品</h3>
 
-        <input id="prdName" placeholder="商品名稱">
-        <input id="prdPrice" placeholder="價格">
+            <input id="prdName" placeholder="商品名稱">
+            <input id="prdPrice" placeholder="價格">
 
-        <button class="btn-orange" onclick="addProduct()">新增</button>
+            <button class="btn-orange" onclick="addProduct()">新增</button>
+        </div>
+
+        <div class="card">
+            <h3>商品列表</h3>
+            <div id="productList"></div>
+        </div>
+
     </div>
 
-    <div class="card">
-        <h3>商品列表</h3>
-        <div id="productList"></div>
+    <!-- ================= USER ================= -->
+    <div id="userPage" style="display:none;">
+
+        <div class="card">
+            <h3>模擬下單</h3>
+
+            <select id="selectProduct"></select>
+            <input id="qty" type="number" value="1">
+
+            <button class="btn" onclick="addOrder()">加入購物車</button>
+        </div>
+
+        <div class="card">
+            <h3>購物車</h3>
+            <div id="cartList"></div>
+
+            <button class="btn-orange" onclick="checkout()">模擬結帳</button>
+        </div>
+
+    </div>
+
+    <!-- ================= MANAGE ================= -->
+    <div id="managePage" style="display:none;">
+
+        <div class="card">
+            <h3>團購維護</h3>
+            <div class="small">可刪除商品 / 結束團購（Demo）</div>
+            <div id="manageList"></div>
+        </div>
+
     </div>
 
 </div>
 
-<!-- ================= USER ================= -->
-<div id="userPage" style="display:none;">
+<a class="float-back" href="index.html"><i class="fas fa-arrow-left"></i></a>
 
-    <div class="card">
-        <h3>模擬下單</h3>
-
-        <select id="selectProduct"></select>
-        <input id="qty" type="number" value="1">
-
-        <button class="btn" onclick="addOrder()">加入購物車</button>
-    </div>
-
-    <div class="card">
-        <h3>購物車</h3>
-        <div id="cartList"></div>
-
-        <button class="btn-orange" onclick="checkout()">模擬結帳</button>
-    </div>
-
-</div>
-
-<!-- ================= MANAGE ================= -->
-<div id="managePage" style="display:none;">
-
-    <div class="card">
-        <h3>團購維護</h3>
-        <div class="small">可刪除商品 / 結束團購（Demo）</div>
-        <div id="manageList"></div>
-    </div>
-
-</div>
-
-</div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
@@ -299,13 +334,13 @@ function renderCart(){
 
 function checkout(){
 
-    // alert("模擬結帳成功（未寫入系統）");
     Swal.fire({
         icon: 'success',
         title: '結帳成功',
         text: '模擬結帳完成',
         confirmButtonText: '確定'
     });
+
     cart = [];
     renderCart();
 }
