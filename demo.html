@@ -36,17 +36,18 @@ body {
 /* tabs */
 .tabs {
     display:flex;
-    background:white;
-    padding:10px;
     gap:10px;
-    box-shadow:0 2px 6px #eee;
+    padding:10px;
+    background:white;
+    box-shadow:0 2px 5px #eee;
+    flex-wrap:wrap;
 }
 
 .tab {
     padding:8px 14px;
     border-radius:20px;
-    cursor:pointer;
     background:#eee;
+    cursor:pointer;
     font-size:14px;
 }
 
@@ -70,15 +71,19 @@ body {
 }
 
 /* input */
-input, button, select {
+input, select {
     padding:8px;
     margin:5px 0;
+    width:100%;
 }
 
+/* button */
 button {
     border:none;
+    padding:8px 12px;
     border-radius:8px;
     cursor:pointer;
+    margin-top:5px;
 }
 
 .btn {
@@ -91,10 +96,22 @@ button {
     color:white;
 }
 
+.btn-red {
+    background:#e74c3c;
+    color:white;
+}
+
+/* item */
 .item {
     display:flex;
     justify-content:space-between;
-    margin:5px 0;
+    padding:6px 0;
+    border-bottom:1px solid #eee;
+}
+
+.small {
+    font-size:12px;
+    color:#888;
 }
 
 </style>
@@ -112,22 +129,21 @@ button {
 <div class="tabs">
     <div class="tab active" onclick="switchTab('admin')">⚙️ 管理者</div>
     <div class="tab" onclick="switchTab('user')">🛒 下單</div>
+    <div class="tab" onclick="switchTab('manage')">🧾 維護</div>
 </div>
 
 <div class="container">
 
-<!-- ADMIN -->
+<!-- ================= ADMIN ================= -->
 <div id="adminPage">
 
     <div class="card">
-        <h3>新增團購</h3>
+        <h3>新增團購商品</h3>
 
         <input id="prdName" placeholder="商品名稱">
         <input id="prdPrice" placeholder="價格">
 
-        <button class="btn-orange" onclick="addProduct()">
-            新增
-        </button>
+        <button class="btn-orange" onclick="addProduct()">新增</button>
     </div>
 
     <div class="card">
@@ -137,7 +153,7 @@ button {
 
 </div>
 
-<!-- USER -->
+<!-- ================= USER ================= -->
 <div id="userPage" style="display:none;">
 
     <div class="card">
@@ -146,18 +162,25 @@ button {
         <select id="selectProduct"></select>
         <input id="qty" type="number" value="1">
 
-        <button class="btn" onclick="addOrder()">
-            加入購物車
-        </button>
+        <button class="btn" onclick="addOrder()">加入購物車</button>
     </div>
 
     <div class="card">
         <h3>購物車</h3>
         <div id="cartList"></div>
 
-        <button class="btn-orange" onclick="checkout()">
-            模擬結帳
-        </button>
+        <button class="btn-orange" onclick="checkout()">模擬結帳</button>
+    </div>
+
+</div>
+
+<!-- ================= MANAGE ================= -->
+<div id="managePage" style="display:none;">
+
+    <div class="card">
+        <h3>團購維護</h3>
+        <div class="small">可刪除商品 / 結束團購（Demo）</div>
+        <div id="manageList"></div>
     </div>
 
 </div>
@@ -166,35 +189,41 @@ button {
 
 <script>
 
-/* ===== MOCK DB (記憶體) ===== */
+/* ===== MOCK DATA ===== */
 let products = [
-    { name:"奶油餐包", price:50 },
-    { name:"可可蛋糕", price:80 }
+    { id:1, name:"奶油餐包", price:50, active:true },
+    { id:2, name:"可可蛋糕", price:80, active:true }
 ];
 
 let cart = [];
+let pid = 3;
 
 /* ===== INIT ===== */
-renderProducts();
-renderSelect();
+renderAll();
 
 /* ===== TAB ===== */
 function switchTab(tab){
 
     document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
 
+    document.getElementById("adminPage").style.display = "none";
+    document.getElementById("userPage").style.display = "none";
+    document.getElementById("managePage").style.display = "none";
+
     if(tab === "admin"){
         document.getElementById("adminPage").style.display = "block";
-        document.getElementById("userPage").style.display = "none";
-        document.querySelectorAll(".tab")[0].classList.add("active");
     }
 
     if(tab === "user"){
-        document.getElementById("adminPage").style.display = "none";
         document.getElementById("userPage").style.display = "block";
-        document.querySelectorAll(".tab")[1].classList.add("active");
     }
 
+    if(tab === "manage"){
+        document.getElementById("managePage").style.display = "block";
+        renderManage();
+    }
+
+    event.target.classList.add("active");
 }
 
 /* ===== ADMIN ===== */
@@ -205,18 +234,21 @@ function addProduct(){
 
     if(!name || !price) return;
 
-    products.push({name, price});
+    products.push({
+        id: pid++,
+        name,
+        price,
+        active:true
+    });
 
-    renderProducts();
-    renderSelect();
-
+    renderAll();
 }
 
 function renderProducts(){
 
     let html = "";
 
-    products.forEach((p,i)=>{
+    products.forEach(p=>{
         html += `
         <div class="item">
             <div>${p.name}</div>
@@ -225,37 +257,33 @@ function renderProducts(){
     });
 
     document.getElementById("productList").innerHTML = html;
-
 }
 
 /* ===== USER ===== */
 function renderSelect(){
 
-    let select = document.getElementById("selectProduct");
+    let sel = document.getElementById("selectProduct");
+    sel.innerHTML = "";
 
-    select.innerHTML = "";
-
-    products.forEach((p,i)=>{
-        select.innerHTML += `<option value="${i}">${p.name}</option>`;
+    products.filter(p=>p.active).forEach(p=>{
+        sel.innerHTML += `<option value="${p.id}">${p.name}</option>`;
     });
-
 }
 
 function addOrder(){
 
-    const idx = document.getElementById("selectProduct").value;
+    const id = document.getElementById("selectProduct").value;
     const qty = parseInt(document.getElementById("qty").value);
 
-    const p = products[idx];
+    const p = products.find(x=>x.id == id);
 
     cart.push({
-        name: p.name,
+        name:p.name,
         qty,
-        total: p.price * qty
+        total:p.price * qty
     });
 
     renderCart();
-
 }
 
 function renderCart(){
@@ -263,25 +291,68 @@ function renderCart(){
     let html = "";
 
     cart.forEach(c=>{
-        html += `
-        <div class="item">
-            <div>${c.name} x ${c.qty}</div>
-            <div>$${c.total}</div>
-        </div>`;
+        html += `<div class="item">${c.name} x${c.qty} <b>$${c.total}</b></div>`;
     });
 
     document.getElementById("cartList").innerHTML = html;
-
 }
 
 function checkout(){
 
-    alert("Demo 結帳成功（未寫入系統）");
-
+    alert("模擬結帳成功（未寫入系統）");
     cart = [];
-
     renderCart();
+}
 
+/* ===== MANAGE ===== */
+function renderManage(){
+
+    let html = "";
+
+    products.forEach(p=>{
+
+        html += `
+        <div class="item">
+            <div>
+                ${p.name}
+                <div class="small">狀態：${p.active ? "進行中" : "已結束"}</div>
+            </div>
+
+            <div>
+                <button class="btn" onclick="toggle(${p.id})">
+                    ${p.active ? "結束" : "啟用"}
+                </button>
+
+                <button class="btn-red" onclick="removeProduct(${p.id})">
+                    刪除
+                </button>
+            </div>
+        </div>`;
+    });
+
+    document.getElementById("manageList").innerHTML = html;
+}
+
+function toggle(id){
+
+    const p = products.find(x=>x.id==id);
+    p.active = !p.active;
+
+    renderAll();
+}
+
+function removeProduct(id){
+
+    products = products.filter(x=>x.id!=id);
+
+    renderAll();
+}
+
+/* ===== RENDER ALL ===== */
+function renderAll(){
+    renderProducts();
+    renderSelect();
+    renderManage();
 }
 
 </script>
