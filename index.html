@@ -7,154 +7,192 @@
 <title>烘焙團購管理系統</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
 
 body {
-    margin:0;
-    font-family: "Noto Sans TC", sans-serif;
-    background:#fafafa;
-    color:#333;
+    margin: 0;
+    font-family: "Noto Sans TC", Arial, sans-serif;
+    background: #fafafa;
+    color: #333;
 }
 
-/* header */
-
 .header {
-    height:70px;
-    background:white;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 40px;
-    box-shadow:0 2px 8px #ddd;
+    min-height: 70px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+    box-shadow: 0 2px 10px #ddd;
 }
 
 .logo {
-    font-size:24px;
-    font-weight:bold;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.menu {
+    display: flex;
+    gap: 20px;
 }
 
 .menu a {
-    margin-left:20px;
-    text-decoration:none;
-    color:#555;
+    text-decoration: none;
+    color: #555;
 }
 
-/* hero */
-
 .hero {
-    min-height:500px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
+    min-height: 520px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
     background:
     linear-gradient(
-        rgba(255,255,255,.8),
-        rgba(255,255,255,.8)
+        rgba(255,255,255,.85),
+        rgba(255,255,255,.85)
     ),
-    url("https://www.haolongbin9.site/logo.png");
-    background-size:cover;
+    url("https://images.unsplash.com/photo-1509440159596-0249088772ff");
+    background-size: cover;
+    background-position: center;
 }
 
 .hero h1 {
-    font-size:48px;
-    margin-bottom:20px;
-
+    font-size: 48px;
+    margin-bottom: 20px;
 }
 
 .hero p {
-    font-size:20px;
-    color:#666;
+    font-size: 20px;
+    color: #666;
 }
 
 .btn {
-    margin-top:30px;
-    background:#ff8c42;
-    color:white;
-    padding:14px 35px;
-    border-radius:30px;
-    text-decoration:none;
+    margin-top: 30px;
+    background: #ff8c42;
+    color: white;
+    padding: 15px 45px;
+    border-radius: 30px;
+    text-decoration: none;
 }
 
-/* feature */
-
 .features {
-    padding:60px 40px;
-    display:grid;
-    grid-template-columns:
-    repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
+    padding: 60px 30px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 25px;
 }
 
 .card {
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 3px 15px #ddd;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
 }
-
-.card h3 {
-    margin-top:0;
-}
-
 
 .icon {
-    font-size:40px;
+    font-size: 42px;
 }
 
-/* footer */
-
 .footer {
-    text-align:center;
-    padding:30px;
-    color:#777;
+    padding: 30px;
+    text-align: center;
+    color: #777;
+}
+
+@media(max-width:900px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .features {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px) {
+    .menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        width: 90%;
+    }
 }
 </style>
 </head>
+
 <body>
-    <header class="header">
-        <div class="logo">
-            🍞 Bake Order
-        </div>
-        <div class="menu">
-            <a href="#">首頁</a>
-            <a href="#">功能</a>
-            <a href="#">教學</a>
-            <a href="#">Demo</a>
-        </div>
-    </header>
-    <section class="hero">
-        <h1>讓烘焙團購更簡單</h1>
-        <p>LINE 下單、訂單管理、銷售分析，一套完成</p>
-        <a class="btn" href="#">立即體驗</a>
-    </section>
-    <section class="features">
-        <div class="card">
-            <div class="icon">🛒</div>
-            <h3>LINE 快速下單</h3>
-            <p>透過 LINE Bot 與購物車，讓客戶輕鬆完成訂購。</p>
-        </div>
 
-        <div class="card">
-            <div class="icon">📦</div>
-            <h3>團購管理</h3>
-            <p>集中管理商品、訂單與取貨資訊。</p>
-        </div>
-        <div class="card">
-            <div class="icon">📊</div>
-            <h3>銷售分析</h3>
-            <p>查看熱門商品與歷史訂購紀錄。</p>
-        </div>
-        <div class="card">
-            <div class="icon">⚙️</div>
-            <h3>自動化流程</h3>
-            <p>減少人工整理 Excel 的時間。</p>
+<header class="header">
+    <div class="logo">🍞 Bake Order</div>
 
-        </div>
-    </section>
-    <footer class="footer">© 2026 Bake Order</footer>
+    <nav class="menu">
+        <a href="#">首頁</a>
+        <a href="#">功能</a>
+        <a href="#">教學</a>
+        <a href="#">Demo</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>烘焙團購管理系統</h1>
+
+    <p>
+        LINE 下單<br>
+        自動整理訂單<br>
+        快速掌握銷售狀況
+    </p>
+
+    <a class="btn" href="#">
+        立即體驗
+    </a>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <div class="icon">🛒</div>
+        <h3>LINE 下單</h3>
+        <p>客戶直接透過 LINE 完成訂購。</p>
+    </div>
+
+    <div class="card">
+        <div class="icon">📦</div>
+        <h3>團購管理</h3>
+        <p>商品、訂單集中管理。</p>
+    </div>
+
+    <div class="card">
+        <div class="icon">📊</div>
+        <h3>數據分析</h3>
+        <p>查看熱門商品與銷售趨勢。</p>
+    </div>
+
+    <div class="card">
+        <div class="icon">⚙️</div>
+        <h3>自動化</h3>
+        <p>降低人工整理時間。</p>
+    </div>
+
+</section>
+
+<footer class="footer">
+    © 2026 熊幸福小小烘焙
+</footer>
+
 </body>
 </html>
