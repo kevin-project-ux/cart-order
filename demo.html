@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Demo - 烘焙團購系統</title>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: "Noto Sans TC", sans-serif;
+    background: #f7f7f7;
+    color: #333;
+}
+
+/* header */
+.header {
+    background: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px #ddd;
+}
+
+.badge {
+    background: #ff8c42;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+/* layout */
+.container {
+    padding: 20px;
+}
+
+/* filter bar */
+.filter {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+button {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.btn {
+    background: #eee;
+}
+
+.btn.active {
+    background: #111;
+    color: white;
+}
+
+/* table */
+table {
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background: #fafafa;
+}
+
+/* chart */
+#chart {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #ddd;
+}
+
+/* mobile */
+@media(max-width:600px){
+    th, td {
+        font-size: 13px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+    <div>🍞 烘焙團購 Demo</div>
+    <div class="badge">Demo Mode</div>
+</div>
+
+<div class="container">
+
+    <!-- filter -->
+    <div class="filter">
+        <button class="btn active" onclick="switchView('table')">
+            📄 Table
+        </button>
+
+        <button class="btn" onclick="switchView('chart')">
+            📊 Chart
+        </button>
+    </div>
+
+    <!-- table -->
+    <div id="tableView">
+        <table>
+            <tr>
+                <th>品項</th>
+                <th>數量</th>
+                <th>金額</th>
+            </tr>
+
+            <tr>
+                <td>🍞 奶油餐包</td>
+                <td>12</td>
+                <td>600</td>
+            </tr>
+
+            <tr>
+                <td>🧁 可可蛋糕</td>
+                <td>8</td>
+                <td>640</td>
+            </tr>
+
+            <tr>
+                <td>🥐 可頌</td>
+                <td>5</td>
+                <td>250</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- chart -->
+    <div id="chartView" style="display:none;">
+        <div id="chart"></div>
+    </div>
+
+</div>
+
+<script>
+
+const data = {
+    categories: ["奶油餐包", "可可蛋糕", "可頌"],
+    qty: [12, 8, 5],
+    amount: [600, 640, 250]
+};
+
+// chart
+const chart = new ApexCharts(document.querySelector("#chart"), {
+    chart: {
+        type: "bar"
+    },
+    series: [
+        {
+            name: "數量",
+            data: data.qty
+        },
+        {
+            name: "金額",
+            data: data.amount
+        }
+    ],
+    xaxis: {
+        categories: data.categories
+    }
+});
+
+chart.render();
+
+// switch view
+function switchView(type){
+
+    document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
+
+    if(type === "table"){
+        document.getElementById("tableView").style.display = "block";
+        document.getElementById("chartView").style.display = "none";
+        event.target.classList.add("active");
+    }
+
+    if(type === "chart"){
+        document.getElementById("tableView").style.display = "none";
+        document.getElementById("chartView").style.display = "block";
+        event.target.classList.add("active");
+    }
+}
+
+</script>
+
+</body>
+</html>
