@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聯絡我們</title>
+<style>
+body{font-family:sans-serif;background:#f6f6f6;padding:20px}
+.container{background:white;padding:20px;border-radius:10px}
+input,textarea{width:100%;padding:10px;margin:8px 0}
+button{padding:10px 15px;background:#111;color:white;border:0;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h2>聯絡我們</h2>
+
+<p>如有問題或合作需求，請填寫以下表單：</p>
+
+<input placeholder="姓名">
+<input placeholder="Email">
+<textarea rows="5" placeholder="訊息內容"></textarea>
+
+<button onclick="send()">送出</button>
+
+<p id="msg"></p>
+
+</div>
+
+<script>
+function send(){
+    document.getElementById("msg").innerText="已送出";
+}
+</script>
+
+</body>
+</html>
