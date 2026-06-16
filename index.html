@@ -35,12 +35,47 @@ body {
 
 .menu {
     display: flex;
-    gap: 20px;
+    align-items: center;
+    gap: 10px;
 }
 
-.menu a {
+/* 一般選單 */
+.menu-item {
+    padding: 8px 14px;
+    border-radius: 20px;
     text-decoration: none;
     color: #555;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* hover */
+.menu-item:hover {
+    background: #f3f3f3;
+    transform: translateY(-1px);
+}
+
+/* active */
+.menu-item.active {
+    background: #ff8c42;
+    color: white;
+}
+
+/* CTA 按鈕 */
+.menu-cta {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.menu-cta:hover {
+    background: #333;
+    transform: scale(1.05);
 }
 
 .hero {
@@ -56,7 +91,8 @@ body {
         rgba(255,255,255,.85),
         rgba(255,255,255,.85)
     ),
-    url("https://images.unsplash.com/photo-1509440159596-0249088772ff");
+    /* url("https://images.unsplash.com/photo-1509440159596-0249088772ff"); */
+    url("https://www.haolongbin9.site/logo.png");
     background-size: cover;
     background-position: center;
 }
@@ -131,6 +167,10 @@ body {
     .btn {
         width: 90%;
     }
+
+    .menu-item, .menu-cta {
+        font-size: 13px;
+    }
 }
 </style>
 </head>
@@ -138,13 +178,12 @@ body {
 <body>
 
 <header class="header">
-    <div class="logo">🍞 Bake Order</div>
-
     <nav class="menu">
-        <a href="#">首頁</a>
-        <a href="#">功能</a>
-        <a href="#">教學</a>
-        <a href="#">Demo</a>
+        <a href="#" class="menu-item active">首頁</a>
+        <a href="#" class="menu-item">功能</a>
+        <a href="#" class="menu-item">教學</a>
+        <a href="#" class="menu-item">Demo</a>
+        <a href="#" class="menu-cta">立即體驗</a>
     </nav>
 </header>
 
