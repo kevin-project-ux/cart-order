@@ -143,6 +143,15 @@
         /* display: flex !important; */
         align-items: center;
     }
+    .price-toggle{
+        color:#111;
+        font-weight:500;
+        text-decoration:none;
+        cursor:pointer;
+    }
+    .price-toggle:hover{
+        text-decoration:underline;
+    }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K7ZW7QSTSY"></script>
@@ -2892,6 +2901,27 @@
                 },
                 columns: [
                     { data: '名稱', className: 'truncate' },
+                    { 
+                        data: '售價',
+                        className: 'text-center',
+                        render: function(data, type, row){
+
+                            if( data=='---' ){
+
+                                let text = `多價格`;
+
+                                return `
+                                <a href="javascript:void(0)"
+                                   class="price-toggle"
+                                   data-id="${row.ID}">
+                                    ${text}
+                                </a>
+                                `;
+                            }else{ // 只有一個
+                                return `$${data}`;
+                            }
+                        }
+                    },
                     { data: '訂單金額總計', className: 'text-center', title: '總金額' },
                     { 
                         data: '開啟時間',
@@ -3240,6 +3270,22 @@
             : text;
     }
 
+    function formatPrices(data){
+
+        let html = "<div style='padding:10px'>";
+
+        data.prices.forEach(p=>{
+            html += `
+            <div>
+                🍞 ${p.name} ： $${p.price}
+            </div>`;
+        });
+
+        html += "</div>";
+
+        return html;
+    }
+
     //------------------------------------------------------------------------------------------------------//
 
     $(document).ready(function () {
@@ -3260,6 +3306,18 @@
             var data = e.params.data;
             $('.ordDate').addClass('d-none');
             if( data.count>=3 ){ $('.ordDate').removeClass('d-none'); } //顯示日期範圍(圖表)
+        });
+
+        $('#table').on('click', '.price-toggle', function(){
+
+            let tr = $(this).closest('tr');
+            let row = table.row(tr);
+
+            if(row.child.isShown()){
+                row.child.hide();
+            }else{
+                row.child(formatPrices(row.data())).show();
+            }
         });
     });
 </script>
