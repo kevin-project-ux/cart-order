@@ -2909,13 +2909,11 @@
 
                             if( data=='---' ){
 
-                                let text = `多價格`;
-
                                 return `
                                 <a href="javascript:void(0)"
                                    class="price-toggle"
                                    data-id="${row.ID}">
-                                    ${text}
+                                    <i class="fas fa-search-dollar"></i>
                                 </a>
                                 `;
                             }else{ // 只有一個
@@ -3273,15 +3271,10 @@
 
     function formatPrices(data){
 
-        console.log(data);
-
         let html = "<div style='padding:10px'>";
 
         data.forEach(p=>{
-            html += `
-            <div>
-                🍞 ${p.name} ： $${p.price}
-            </div>`;
+            html += `<div> ${p.name} <i class="fas fa-dollar-sign"></i>${p.price} </div>`;
         });
 
         html += "</div>";
