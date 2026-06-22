@@ -207,6 +207,7 @@
                         <thead>
                             <tr>
                                 <th>名稱</th>
+                                <th>售價</th>
                                 <th>總金額</th>
                                 <th>開團時間</th>
                             </tr>
@@ -2918,7 +2919,7 @@
                                 </a>
                                 `;
                             }else{ // 只有一個
-                                return `$${data}`;
+                                return data;
                             }
                         }
                     },
@@ -3308,7 +3309,7 @@
             if( data.count>=3 ){ $('.ordDate').removeClass('d-none'); } //顯示日期範圍(圖表)
         });
 
-        $('#table').on('click', '.price-toggle', function(){
+        $('#history_order').on('click', '.price-toggle', function(){
 
             let tr = $(this).closest('tr');
             let row = table.row(tr);
