@@ -2913,7 +2913,7 @@
                                 <a href="javascript:void(0)"
                                    class="price-toggle"
                                    data-id="${row.ID}">
-                                    <i class="fas fa-search-dollar"></i>
+                                    <i class="fas fa-search-dollar text-success"></i>
                                 </a>
                                 `;
                             }else{ // 只有一個
@@ -3274,7 +3274,7 @@
         let html = "<div style='padding:10px'>";
 
         data.forEach(p=>{
-            html += `<div> ${p.name} <i class="fas fa-dollar-sign"></i>${p.price} </div>`;
+            html += `<div> ${p.name} <i class="fas fa-dollar-sign text-warning"></i> <span class="text-danger">${p.price}</span> </div>`;
         });
 
         html += "</div>";
