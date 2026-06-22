@@ -3311,8 +3311,8 @@
 
         $('#history_order').on('click', '.price-toggle', function(){
 
-            let tr = $(this).closest('tr');
-            let row = table.row(tr);
+            let tr  = $(this).closest('tr');
+            let row = $('#history_order').DataTable().row(tr);
 
             if(row.child.isShown()){
                 row.child.hide();
