@@ -3273,9 +3273,11 @@
 
     function formatPrices(data){
 
+        console.log(data);
+
         let html = "<div style='padding:10px'>";
 
-        data.prices.forEach(p=>{
+        data.售價.forEach(p=>{
             html += `
             <div>
                 🍞 ${p.name} ： $${p.price}
@@ -3311,13 +3313,21 @@
 
         $('#history_order').on('click', '.price-toggle', function(){
 
+            let id  = $(this).data('id');
             let tr  = $(this).closest('tr');
             let row = $('#history_order').DataTable().row(tr);
+
+            var search_flv = JSON.parse(localStorage.getItem('flv_list'));
+
+            search_flv = search_flv.filter(flv => flv.品項ID===Number(id));
+
+            var prices = [];
+            if( search_flv.length>0 ){ search_flv.forEach(flv => { prices.push({name: flv.口味, price: flv.價格}); }); }
 
             if(row.child.isShown()){
                 row.child.hide();
             }else{
-                row.child(formatPrices(row.data())).show();
+                row.child(formatPrices(prices)).show();
             }
         });
     });
