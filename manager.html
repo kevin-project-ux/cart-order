@@ -2972,8 +2972,10 @@
             $('#order_chart').show();
 
             const categories = search_prd.map(prd => {
-                const date = prd.開啟時間.toISOString().slice(5, 10).replace(/-/g, '/');
-                return date >= prd_startdate && date <= prd_enddate && prd.名稱 === sel_prdname;
+                const date = prd.開啟時間.substring(0, 10).replace(/-/g, '/');
+                if( date >= prd_startdate && date <= prd_enddate && prd.名稱 === sel_prdname ){
+                    return new Date(prd.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/');
+                }
             });
 
             const ids = search_prd.filter(i => i.名稱 === sel_prdname).map(i => i.ID);
