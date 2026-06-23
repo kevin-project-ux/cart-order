@@ -74,7 +74,7 @@
         100% { transform: rotate(360deg); }
     }
 
-    .link-warning {
+    .link-warning, .text-warning {
         color: #cc9900 !important; /* 深一點的黃 */
     }
 
@@ -2765,13 +2765,25 @@
 
         // var prdname_arr = [...new Set(search_prd.map(item => item.名稱))];
         const count = search_prd.reduce((acc, item) => {
-            const name = item.名稱;
-            acc[name] = (acc[name] || 0) + 1;
+
+            const name  = item.名稱;
+            const price = item.售價;
+
+            if (!acc[name]) {
+                acc[name] = {
+                    count: 0,
+                    price: price,
+                    total: 0
+                };
+            }
+
+            acc[name].count++;
+
             return acc;
         }, {});
 
         const prdname_arr = Object.keys(count).map(name => ({ 
-            id: name, text: name, count: count[name] 
+            id: name, text: name, count: count[name].count, price: count[name].price,
         }));
 
         $('#search_prd').empty(); // 清空原有內容（若有）
@@ -2789,6 +2801,7 @@
                 if (!item.id) return item.text;
 
                 const icon = item.count < 3 ? '<i class="fas fa-table text-primary"></i>' : '<i class="fas fa-chart-bar text-success"></i>';
+                const type = item.price === '---' ? '多' : '單';
 
                 return $(`
                     <div style="
@@ -2798,7 +2811,7 @@
                         width:100%;
                     ">
                         <div>
-                            ${icon} ${shorten(item.text)}
+                            ${icon} ${shorten(item.text)}(${type})
                         </div>
                         <div style="
                             min-width:50px;
