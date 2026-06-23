@@ -201,7 +201,8 @@
                 </div>
             </div>
             <div class="card-body">
-                <div id="chart"></div>
+                <div id="order_chart"></div>
+                <div id="price_chart"></div>
                 <div id="prd_table" style="display: none;">
                     <table id="history_order" class="table table-striped table-hover table-bordered w-100">
                         <thead>
@@ -858,7 +859,8 @@
     let prd_name;
     let prd_id;
     let answer_flag = 0;
-    let chart;
+    let order_chart;
+    let price_chart;
 
     // 檢查快取是否存在 & 有效期內
     function isUserAuthenticated(userId) {
@@ -2811,7 +2813,7 @@
                         width:100%;
                     ">
                         <div>
-                            ${icon} ${shorten(item.text)}(${type})
+                            ${icon} ${shorten(item.text, 5)}(${type})
                         </div>
                         <div style="
                             min-width:50px;
@@ -2894,7 +2896,7 @@
 
         if( search_prd.length<3 ){
             $('#prd_table').show();
-            $('#chart').hide();
+            $('#order_chart').hide();
 
             $('#history_order').DataTable({
                 data: search_prd,
@@ -2967,7 +2969,7 @@
             //5.多口味圖表目前只顯示總金額(待討論需不需要售價)
 
             $('#prd_table').hide();
-            $('#chart').show();
+            $('#order_chart').show();
 
             const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
 
@@ -2983,7 +2985,7 @@
             data = { type: 'chart', userId: userId, name: sel_prdname, ids: ids, sheets: sheetNames };
 
             var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該品項存在!!', 'reload': false, 'return': true} );
-            console.log(res);
+            // console.log(res);
 
             if( res[0].status!='success' ){ return false; }
 
@@ -3004,7 +3006,7 @@
 
                 let flvs = {};
 
-                Object.keys(orders).forEach(id => { ////
+                Object.keys(orders).forEach(id => {
                     flvs[id] = {};
                     flvdata[id].forEach(arr => {
                         flvs[id][arr[2]] = {'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0};
@@ -3014,8 +3016,6 @@
                         flvs[id][ord.口味]['nums']  += Number(ord.數量);
                         flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id][ord.口味]['price']);
                     });
-
-
                 });
                 // console.log(flvs);
 
@@ -3027,6 +3027,7 @@
 
                 var idarr = Object.keys(flvs);
 
+                //bar chart use
                 series = Array.from(flavors).map(flavor => {
                     return {
                         name: flavor,
@@ -3035,10 +3036,64 @@
                         })
                     };
                 });
+
+                //line chart use
+                line_series = Array.from(flavors).map(flavor => {
+                    return {
+                        name: flavor,
+                        data: idarr.map(id => {
+                            return flvs[id][flavor]?.price || 0;
+                        })
+                    };
+                });
+
+                var options = {
+                    chart: {
+                        type: "line",
+                        height: 300,
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    series: line_series,
+                    xaxis: {
+                        categories: categories,
+                        title: {
+                            text: "口味"
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: "價格趨勢"
+                        },
+                        labels: {
+                            formatter: function (val) {
+                                return "$" + val;
+                            }
+                        }
+                    },
+                    stroke: {
+                        curve: "smooth",
+                        width: 3
+                    },
+                    markers: {
+                        size: 5
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return "$" + val;
+                            }
+                        }
+                    },
+                    grid: {
+                        borderColor: "#eee"
+                    }
+                };
             }
             // console.log(series);
 
-            const options = {
+            var options = {
                 chart: {
                     type: type,
                     height: 300,
@@ -3099,7 +3154,8 @@
                 }]
             };
 
-            renderChart(options);
+            renderChart(options, 'order');
+
         }
 
         
@@ -3216,12 +3272,23 @@
         $("#searchModal").modal('hide');
     }
 
-    function renderChart(options){
+    function renderChart(options, type='order'){
 
-        if (chart) { chart.destroy(); }
+        if( type=='order' ){
 
-        chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+            if (order_chart) { order_chart.destroy(); }
+
+            order_chart = new ApexCharts(document.querySelector("#order_chart"), options);
+            order_chart.render();
+        }
+
+        if( type=='price' ){
+
+            if (price_chart) { price_chart.destroy(); }
+
+            price_chart = new ApexCharts(document.querySelector("#price_chart"), options);
+            price_chart.render();
+        }
     }
 
     function initDateRangePicker(startSelector, endSelector, maxMonth = 3) {
