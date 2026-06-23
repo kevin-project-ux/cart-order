@@ -3032,7 +3032,7 @@
                     return {
                         name: flavor,
                         data: idarr.map(id => {
-                            return flvs[id][flavor]?.total || 0;
+                            return flvs[id][flavor]?.total || null;
                         })
                     };
                 });
