@@ -2981,7 +2981,6 @@
             const hasMulti = search_prd.some(i => i.售價 === '---');
 
             let series = [];
-            let type   = 'line';
 
             data = { type: 'chart', userId: userId, name: sel_prdname, ids: ids, sheets: sheetNames };
 
@@ -3002,8 +3001,6 @@
                   data: search_prd.map(i => i.售價)
                 }];
             }else{
-
-                type = 'bar';
 
                 let flvs = {};
 
@@ -3065,7 +3062,7 @@
 
             var options = {
                 chart: {
-                    type: type,
+                    type: 'line',
                     height: 300,
                     toolbar: { show: false }
                 },
@@ -3089,19 +3086,12 @@
                         text: '金額 (元)' 
                     }
                 },
-                tooltip: {
-                    // y: {
-                    //     formatter: function (val) {
-                    //         return 'NT$ ' + val.toLocaleString();
-                    //     }
-                    // }
-                },
                 stroke: {
                     width: [1, 1, 4],
                 },
                 markers: { size: 4 },
                 // colors: ['#0d6efd'], // Bootstrap primary
-                dataLabels: { enabled: false },
+                dataLabels: { enabled: true },
                 grid: { borderColor: '#f1f1f1' },
                 plotOptions: {
                     bar: {
