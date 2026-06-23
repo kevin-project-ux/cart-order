@@ -2971,7 +2971,8 @@
             $('#prd_table').hide();
             $('#order_chart').show();
 
-            const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
+            // const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
+            const categories = search_prd.map(i => i.開啟時間.slice(5, 10));
 
             const ids = search_prd.filter(i => i.名稱 === sel_prdname).map(i => i.ID);
 
