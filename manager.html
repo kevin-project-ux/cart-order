@@ -2971,8 +2971,8 @@
             $('#prd_table').hide();
             $('#order_chart').show();
 
-            const categories = search_prd.map(i => {
-                const date = new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/');
+            const categories = search_prd.map(prd => {
+                const date = new Date(prd.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/');
                 return date >= prd_startdate && date <= prd_enddate && prd.名稱 === sel_prdname;
             });
 
