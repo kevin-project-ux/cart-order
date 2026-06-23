@@ -3049,9 +3049,12 @@
                     {
                         name: "售價",
                         type: "line",
-                        data: idarr.map(id => 
-                            flvs[id][flavor]?.price || 0
-                        )
+                        data: idarr.map(id => {
+                            return Array.from(flavors).map(f =>
+                                flvs[id][f]?.price || 0
+                            );
+                            
+                        })
                     }
                 ];
 
