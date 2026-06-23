@@ -3086,12 +3086,21 @@
                         text: '金額 (元)' 
                     }
                 },
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    y: {
+                        formatter: function(value, { seriesIndex }) {
+                            return value;
+                        }
+                    }
+                },
                 stroke: {
                     width: [1, 1, 4],
                 },
                 markers: { size: 4 },
                 // colors: ['#0d6efd'], // Bootstrap primary
-                dataLabels: { enabled: true },
+                dataLabels: { enabled: true, enabledOnSeries:[series.length - 1] },
                 grid: { borderColor: '#f1f1f1' },
                 plotOptions: {
                     bar: {
