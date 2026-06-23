@@ -2971,7 +2971,6 @@
             $('#prd_table').hide();
             $('#order_chart').show();
 
-            // const categories = search_prd.map(i => new Date(i.開啟時間).toISOString().slice(5, 10).replace(/-/g, '/'));
             const categories = search_prd.map(i => i.開啟時間.slice(5, 10));
 
             const ids = search_prd.filter(i => i.名稱 === sel_prdname).map(i => i.ID);
@@ -3038,7 +3037,7 @@
                     };
                 });
 
-                //line chart use ////之後看人員查詢需不需要另一個price chart(保留)
+                //line chart use
                 line_series = Array.from(flavors).map(flavor => {
                     return {
                         name: flavor,
@@ -3058,7 +3057,7 @@
                     },
                     series: line_series,
                     title: {
-                        text: sel_prdname+'-價格趨勢',
+                        text: '價格趨勢',
                         align: 'center'
                     },
                     xaxis: {
@@ -3073,7 +3072,7 @@
                         }
                     },
                     stroke: {
-                        curve: "smooth",
+                        curve: "stepline",
                         width: 3
                     },
                     markers: {
