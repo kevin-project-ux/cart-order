@@ -2981,6 +2981,7 @@
             const hasMulti = search_prd.some(i => i.售價 === '---');
 
             let series = [];
+            let type   = 'line';
 
             data = { type: 'chart', userId: userId, name: sel_prdname, ids: ids, sheets: sheetNames };
 
@@ -3001,6 +3002,8 @@
                   data: search_prd.map(i => i.售價)
                 }];
             }else{
+
+                type = 'bar';
 
                 let flvs = {};
 
@@ -3026,35 +3029,69 @@
                 var idarr = Object.keys(flvs);
 
                 //bar chart use
-                // series = Array.from(flavors).map(flavor => {
-                //     return {
-                //         name: flavor,
-                //         type: 'column',
-                //         data: idarr.map(id => {
-                //             return flvs[id][flavor]?.total || 0;
-                //         })
-                //     };
-                // });
-
-                series = [
-                    ...Array.from(flavors).map(flavor => ({
+                series = Array.from(flavors).map(flavor => {
+                    return {
                         name: flavor,
-                        type: "column",
-                        data: idarr.map(id =>
-                            flvs[id][flavor]?.total || 0
-                        )
-                    })),
-                    {
-                        name: "售價",
-                        type: "line",
                         data: idarr.map(id => {
-                            return Array.from(flavors).map(f =>
-                                flvs[id][f]?.price || 0
-                            );
-                            
+                            return flvs[id][flavor]?.total || 0;
                         })
+                    };
+                });
+
+                //line chart use ////之後看人員查詢需不需要另一個price chart(保留)
+                line_series = Array.from(flavors).map(flavor => {
+                    return {
+                        name: flavor,
+                        data: idarr.map(id => {
+                            return flvs[id][flavor]?.price || 0;
+                        })
+                    };
+                });
+
+                var options = {
+                    chart: {
+                        type: "line",
+                        height: 300,
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    series: line_series,
+                    title: {
+                        text: sel_prdname+'-價格趨勢',
+                        align: 'center'
+                    },
+                    xaxis: {
+                        categories: categories,
+                        title: {
+                            text: "口味"
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: "售價 (元)"
+                        }
+                    },
+                    stroke: {
+                        curve: "smooth",
+                        width: 3
+                    },
+                    markers: {
+                        size: 5
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return 'NT$ ' + val.toLocaleString();
+                            }
+                        }
+                    },
+                    grid: {
+                        borderColor: "#eee"
                     }
-                ];
+                };
+
+                renderChart(options, 'price');
 
                 
             }
@@ -3062,7 +3099,7 @@
 
             var options = {
                 chart: {
-                    type: 'line',
+                    type: type,
                     height: 300,
                     toolbar: { show: false }
                 },
@@ -3090,17 +3127,23 @@
                     shared: true,
                     intersect: false,
                     y: {
-                        formatter: function(value, { seriesIndex }) {
-                            return value;
+                        formatter: function (val) {
+                            return 'NT$ ' + val.toLocaleString();
                         }
-                    }
+                    },
+                    fixed: {
+                      enabled: true,
+                      position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+                      offsetY: 30,
+                      offsetX: 60,
+                    },
                 },
                 stroke: {
                     width: [1, 1, 4],
                 },
                 markers: { size: 4 },
                 // colors: ['#0d6efd'], // Bootstrap primary
-                dataLabels: { enabled: true, enabledOnSeries:[series.length - 1] },
+                dataLabels: { enabled: false },
                 grid: { borderColor: '#f1f1f1' },
                 plotOptions: {
                     bar: {
