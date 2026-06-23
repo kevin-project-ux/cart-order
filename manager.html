@@ -3042,7 +3042,7 @@
                     return {
                         name: flavor,
                         data: idarr.map(id => {
-                            return flvs[id][flavor]?.price || 0;
+                            return flvs[id][flavor]?.price || null;
                         })
                     };
                 });
@@ -3073,6 +3073,7 @@
                     },
                     stroke: {
                         curve: "stepline",
+                        connectNullData: true,
                         width: 3
                     },
                     markers: {
