@@ -3028,15 +3028,15 @@
                 var idarr = Object.keys(flvs);
 
                 //bar chart use
-                series = Array.from(flavors).map(flavor => {
-                    return {
-                        name: flavor,
-                        type: 'column'
-                        data: idarr.map(id => {
-                            return flvs[id][flavor]?.total || 0;
-                        })
-                    };
-                });
+                // series = Array.from(flavors).map(flavor => {
+                //     return {
+                //         name: flavor,
+                //         type: 'column',
+                //         data: idarr.map(id => {
+                //             return flvs[id][flavor]?.total || 0;
+                //         })
+                //     };
+                // });
 
                 series = [
                     ...Array.from(flavors).map(flavor => ({
