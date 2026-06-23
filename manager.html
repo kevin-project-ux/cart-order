@@ -3031,67 +3031,31 @@
                 series = Array.from(flavors).map(flavor => {
                     return {
                         name: flavor,
+                        type: 'column'
                         data: idarr.map(id => {
                             return flvs[id][flavor]?.total || 0;
                         })
                     };
                 });
 
-                //line chart use
-                line_series = Array.from(flavors).map(flavor => {
-                    return {
+                series = [
+                    ...Array.from(flavors).map(flavor => ({
                         name: flavor,
-                        data: idarr.map(id => {
-                            return flvs[id][flavor]?.price || 0;
-                        })
-                    };
-                });
-
-                var options = {
-                    chart: {
+                        type: "column",
+                        data: idarr.map(id =>
+                            flvs[id][flavor]?.total || 0
+                        )
+                    })),
+                    {
+                        name: "售價",
                         type: "line",
-                        height: 300,
-                        toolbar: {
-                            show: false
-                        }
-                    },
-                    series: line_series,
-                    xaxis: {
-                        categories: categories,
-                        title: {
-                            text: "口味"
-                        }
-                    },
-                    yaxis: {
-                        title: {
-                            text: "價格趨勢"
-                        },
-                        labels: {
-                            formatter: function (val) {
-                                return "$" + val;
-                            }
-                        }
-                    },
-                    stroke: {
-                        curve: "smooth",
-                        width: 3
-                    },
-                    markers: {
-                        size: 5
-                    },
-                    tooltip: {
-                        y: {
-                            formatter: function (val) {
-                                return "$" + val;
-                            }
-                        }
-                    },
-                    grid: {
-                        borderColor: "#eee"
+                        data: idarr.map(id => 
+                            flvs[id][flavor]?.price || 0
+                        )
                     }
-                };
+                ];
 
-                renderChart(options, 'price');
+                
             }
             // console.log(series);
 
@@ -3268,6 +3232,61 @@
                 }
             }]
         };
+
+        //line chart use ////之後看人員查詢需不需要另一個price chart(保留)
+        // line_series = Array.from(flavors).map(flavor => {
+        //     return {
+        //         name: flavor,
+        //         data: idarr.map(id => {
+        //             return flvs[id][flavor]?.price || 0;
+        //         })
+        //     };
+        // });
+
+        // var options = {
+        //     chart: {
+        //         type: "line",
+        //         height: 300,
+        //         toolbar: {
+        //             show: false
+        //         }
+        //     },
+        //     series: line_series,
+        //     title: {
+        //         text: sel_prdname+'-價格趨勢',
+        //         align: 'center'
+        //     },
+        //     xaxis: {
+        //         categories: categories,
+        //         title: {
+        //             text: "口味"
+        //         }
+        //     },
+        //     yaxis: {
+        //         title: {
+        //             text: "售價 (元)"
+        //         }
+        //     },
+        //     stroke: {
+        //         curve: "smooth",
+        //         width: 3
+        //     },
+        //     markers: {
+        //         size: 5
+        //     },
+        //     tooltip: {
+        //         y: {
+        //             formatter: function (val) {
+        //                 return 'NT$ ' + val.toLocaleString();
+        //             }
+        //         }
+        //     },
+        //     grid: {
+        //         borderColor: "#eee"
+        //     }
+        // };
+
+        renderChart(options, 'price');
 
         renderChart(options);
 
