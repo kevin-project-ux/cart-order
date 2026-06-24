@@ -2896,7 +2896,7 @@
 
         if( search_prd.length<3 ){
             $('#prd_table').show();
-            $('#order_chart').hide();
+            $('#order_chart, #price_chart').hide();
 
             $('#history_order').DataTable({
                 data: search_prd,
@@ -2969,7 +2969,7 @@
             //5.多口味圖表目前只顯示總金額(待討論需不需要售價)
 
             $('#prd_table').hide();
-            $('#order_chart').show();
+            $('#order_chart, #price_chart').show();
 
             const categories = search_prd.map(i => i.開啟時間.slice(5, 10));
 
@@ -3032,8 +3032,7 @@
                     return {
                         name: flavor,
                         data: idarr.map(id => {
-                            let total = flvs[id]?.[flavor]?.total;
-                            return total === 0 ? null : total;
+                            return flvs[id][flavor]?.total || null;
                         })
                     };
                 });
@@ -3361,7 +3360,7 @@
         //     }
         // };
 
-        renderChart(options, 'price');
+        // renderChart(options, 'price');
 
         renderChart(options);
 
