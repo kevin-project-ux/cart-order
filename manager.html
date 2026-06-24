@@ -3082,7 +3082,7 @@
                     tooltip: {
                         y: {
                             formatter: function (val) {
-                                return 'NT$ ' + val.toLocaleString();
+                                if( val!=null ){ return 'NT$ ' + val.toLocaleString(); }
                             }
                         }
                     },
