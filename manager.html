@@ -3032,7 +3032,8 @@
                     return {
                         name: flavor,
                         data: idarr.map(id => {
-                            return flvs[id][flavor]?.total ?? null;
+                            let total = flvs[id]?.[flavor]?.total;
+                            return total === 0 ? null : total;
                         })
                     };
                 });
