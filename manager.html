@@ -1176,7 +1176,7 @@
         $("#append_order").toggle(false); // 預設隱藏追加訂單
         if( $("#append_order").hasClass('active') ){ // 如果已顯示追加訂單，避免重新開啟停留在該頁籤上，還原回預設頁籤
             $("#append_order").removeClass('active');
-            $('#manager_order #upd-tab').tab('show');
+            new bootstrap.Tab(document.querySelector('#manager_order upd-tab')).show();
         }
 
         if( type=='view' && search=='' ){ //// 加上排除search!=Y
