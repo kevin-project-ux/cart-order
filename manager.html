@@ -532,7 +532,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="upd-tab" data-bs-toggle="tab" data-bs-target="#upd" type="button" role="tab">管理訂單</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation" id="append_order">
                             <button class="nav-link" id="append-tab" data-bs-toggle="tab" data-bs-target="#append" type="button" role="tab">追加訂單</button>
                         </li>
                     </ul>
@@ -945,6 +945,10 @@
                 searching: false,
                 // ordering: false, // 不啟用欄位排序
                 order: [[1,'asc']],
+                columnDefs:[{
+                    targets:[0,1,2],
+                    orderable:false
+                }],
                 language: {
                     paginate: { previous: '‹', next: '›' },
                     zeroRecords: '目前沒有資料',
@@ -1169,11 +1173,15 @@
         const flavor = e.dataset.flavor;
         const search = e.dataset.search;
 
+        $("#append_order").hide(); // 預設隱藏追加訂單
+
         if( type=='view' && search=='' ){ //// 加上排除search!=Y
             resetAgentForm(); 
             $("#append_prd_id").val(id);
             $("#append_prd_name").val(name);
             isFlavorType(Number(id), {"prd_type":$("#append_prd_type"), "select":$("select.appendFlavors")}); 
+
+            $("#append_order").show(); // 已結單狀態才會顯示追加訂單tab
         }
 
         const data = { type: type, userId: userId, id: id, name: name, flavor: flavor, search: search };
