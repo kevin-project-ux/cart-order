@@ -943,7 +943,8 @@
                 pageLength: 5,           // 一頁顯示 5 筆
                 lengthChange: false,     // 不顯示筆數設定下拉選單
                 searching: false,
-                ordering: false, // 不啟用欄位排序
+                // ordering: false, // 不啟用欄位排序
+                order: [[1,'asc']],
                 language: {
                     paginate: { previous: '‹', next: '›' },
                     zeroRecords: '目前沒有資料',
@@ -963,6 +964,10 @@
                             } else if (cellData === '已結單') {
                                 $(td).addClass('text-danger');
                             }
+                        },
+                        render:function(data,type,row){
+                            if(type === 'sort'){ return data === "開啟中" ? 1 : 2; }
+                            return data;
                         }
                     },
                     {
@@ -3196,11 +3201,7 @@
             };
 
             renderChart(options);
-
         }
-
-        
-
         $("#searchModal").modal('hide');
     }
 
