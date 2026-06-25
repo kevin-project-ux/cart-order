@@ -1173,7 +1173,11 @@
         const flavor = e.dataset.flavor;
         const search = e.dataset.search;
 
-        $("#append_order").hide(); // 預設隱藏追加訂單
+        $("#append_order").toggle(false); // 預設隱藏追加訂單
+        if( $("#append_order").hasClass('active') ){ // 如果已顯示追加訂單，避免重新開啟停留在該頁籤上，還原回預設頁籤
+            $("#append_order").removeClass('active show');
+            $('#upd-tab').addClass('active');
+        }
 
         if( type=='view' && search=='' ){ //// 加上排除search!=Y
             resetAgentForm(); 
@@ -1181,7 +1185,7 @@
             $("#append_prd_name").val(name);
             isFlavorType(Number(id), {"prd_type":$("#append_prd_type"), "select":$("select.appendFlavors")}); 
 
-            $("#append_order").show(); // 已結單狀態才會顯示追加訂單tab
+            $("#append_order").toggle(true);  // 已結單狀態才會顯示追加訂單tab
         }
 
         const data = { type: type, userId: userId, id: id, name: name, flavor: flavor, search: search };
