@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>烘焙團購教學文章</title>
+<title>LINE團購教學文章</title>
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -34,48 +34,53 @@
 	    color:#666;
 	}
 
-	/* container */
 	.blog-container{
-	    max-width:1000px;
-	    margin:40px auto;
+	    max-width:900px;
+	    margin:30px auto;
 	    padding:0 20px;
-
-	    display:grid;
-	    grid-template-columns:repeat(2,1fr);
-	    gap:20px;
 	}
 
-	/* card */
 	.blog-card{
-	    display:block;
 	    background:#fff;
-	    padding:25px;
-	    border-radius:15px;
-	    text-decoration:none;
-	    color:#333;
+	    padding:20px;
+	    border-radius:12px;
+	    margin-bottom:15px;
 	    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+	    cursor:pointer;
 	    transition:.2s;
 	}
 
 	.blog-card:hover{
-	    transform:translateY(-5px);
-	    box-shadow:0 10px 25px rgba(0,0,0,0.12);
+	    transform:translateY(-3px);
 	}
 
-	.blog-card h2{
-	    font-size:20px;
-	    margin-bottom:10px;
-	}
-
-	.blog-card p{
+	.summary{
 	    color:#666;
-	    line-height:1.6;
-	    margin-bottom:15px;
 	}
 
-	.blog-card span{
+	/* 摺疊內容 */
+	.full-content{
+	    display:none;
+	    margin-top:15px;
+	    color:#444;
+	    line-height:1.7;
+	}
+
+	.toggle{
+	    display:inline-block;
+	    margin-top:10px;
 	    color:#e28a30;
 	    font-weight:bold;
+	    cursor:pointer;
+	}
+
+	/* 展開狀態 */
+	.blog-card.active .full-content{
+	    display:block;
+	}
+
+	.blog-card.active .toggle{
+	    color:#999;
 	}
 
 	/* footer */
@@ -104,43 +109,68 @@
     <h1>LINE團購教學文章</h1>
     <p>分享 LINE 團購、甜點經營與訂單管理技巧</p>
 </header>
-
 <section class="blog-container">
-
-    <!-- card -->
-    <a class="blog-card" href="#">
+    <div class="blog-card" onclick="toggleBlog(this)">
         <h2>如何用 LINE 做烘焙團購</h2>
-        <p>學會如何用 LINE 建立團購流程，從商品建立到訂單整理一次搞懂。</p>
-        <span>閱讀更多 →</span>
-    </a>
-
-
-    <a class="blog-card" href="#">
+        <p class="summary">
+            學會如何用 LINE 建立團購流程，從商品建立到訂單整理一次搞懂。
+        </p>
+        <div class="full-content">
+            <p>
+                LINE 是目前最適合小型烘焙工作室的接單工具。
+                可以減少聊天混亂與訂單錯誤。
+            </p>
+            <p>流程：</p>
+            <pre>
+				建立商品 → 分享 LINE → 顧客下單 → 系統整理 → 結單統計
+            </pre>
+        </div>
+        <span class="toggle">閱讀更多</span>
+    </div>
+    <div class="blog-card" onclick="toggleBlog(this)">
         <h2>如何管理多口味商品價格</h2>
-        <p>學會如何設定不同口味價格，避免混亂並提升管理效率。</p>
-        <span>閱讀更多 →</span>
-    </a>
-
-
-    <a class="blog-card" href="#">
+        <p class="summary">
+            學會如何設定不同口味價格，避免混亂並提升管理效率。
+        </p>
+        <div class="full-content">
+            <p>烘焙商品常見多口味設定：</p>
+            <pre>
+				原味：$50
+				巧克力：$60
+				抹茶：$70
+            </pre>
+        </div>
+        <span class="toggle">閱讀更多</span>
+    </div>
+    <div class="blog-card" onclick="toggleBlog(this)">
         <h2>如何減少團購訂單錯誤</h2>
-        <p>透過系統化下單流程降低人工錯誤，提高訂單準確率。</p>
-        <span>閱讀更多 →</span>
-    </a>
-
-
-    <a class="blog-card" href="#">
-        <h2>如何提升甜點工作室營收</h2>
-        <p>從回購率、客單價到團購策略，全面提升營收的方法。</p>
-        <span>閱讀更多 →</span>
-    </a>
-
+        <p class="summary">
+            透過系統化下單流程降低人工錯誤。
+        </p>
+        <div class="full-content">
+            <p>使用選單式下單 + 購物車可大幅降低錯誤。</p>
+        </div>
+        <span class="toggle">閱讀更多</span>
+    </div>
 </section>
-
-
 <footer class="blog-footer">
-    © 2026 烘焙團購系統
+    © 2026 LINE團購管理系統
 </footer>
 
 </body>
+<script>
+function toggleBlog(el){
+
+    // 切換 active
+    el.classList.toggle('active');
+
+    let btn = el.querySelector('.toggle');
+
+    if(el.classList.contains('active')){
+        btn.innerText = "收合";
+    }else{
+        btn.innerText = "閱讀更多";
+    }
+}
+</script>
 </html>
