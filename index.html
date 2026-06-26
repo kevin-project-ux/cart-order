@@ -337,13 +337,10 @@ footer{
     position: absolute;
     top: 20px;
     right: 20px;
-
     background: #e8f5ff;
     color: #1683ff;
-
     font-size: 12px;
     font-weight: bold;
-
     padding: 6px 14px;
     border-radius: 20px;
 }
@@ -359,12 +356,9 @@ footer{
 .case-card img {
     width: 100%;
     max-height: 500px;
-
     object-fit: cover;
-
     border-radius: 16px;
     display: block;
-
     border: 1px solid #eee;
 }
 
@@ -380,9 +374,7 @@ footer{
 /* 多張案例時 */
 .case-grid {
     display: grid;
-
     grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
-
     gap: 30px;
 }
 
@@ -482,6 +474,37 @@ footer .divider{
         margin:6px 0;
     }
 }
+
+.back-top {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: #1683ff;
+    color: #fff;
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease;
+    z-index: 999;
+}
+
+.back-top:hover {
+    transform: translateY(-5px);
+    background: #006ee6;
+}
+
+
+/* 顯示狀態 */
+.back-top.show {
+    opacity: 1;
+    visibility: visible;
+}
 </style>
 </head>
 
@@ -546,12 +569,12 @@ footer .divider{
             訂單整理與銷售分析流程。
         </p>
 
-        <ul>
-            <li>📦 LINE 即時下單與互動</li>
-            <li>📊 自動訂單統計與報表</li>
-            <li>🛠️ 後台商品與活動管理</li>
-            <li>⚡ 即時資料同步（Firebase / API）</li>
-        </ul>
+        <p>
+            📦 LINE 即時下單與互動
+            📊 自動訂單統計與報表
+            🛠️ 後台商品與活動管理
+            ⚡ 即時資料同步（Firebase / API）
+        </p>
 
         <div class="flow-box">
             <div>
@@ -688,5 +711,29 @@ footer .divider{
 </div>
 </footer>
 
+<button id="backTop" class="back-top">
+    ↑
+</button>
+
 </body>
+<script>
+    const backTop = document.getElementById("backTop");
+    window.addEventListener("scroll", () => {
+
+        if(window.scrollY > 300){
+            backTop.classList.add("show");
+        }else{
+            backTop.classList.remove("show");
+        }
+
+    });
+
+    backTop.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+</script>
 </html>
