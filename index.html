@@ -227,7 +227,7 @@ footer{
 #intro{
     background:#fffaf5;
 }
-#intro p{
+#intro p, #intro ul{
     max-width:750px;
     margin:0 auto 15px;
     text-align:center;
@@ -300,6 +300,92 @@ footer{
     border-radius:8px;
     color:#555;
 }
+
+.case-section {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.case-section h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: #222;
+}
+
+
+.case-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    transition: all .3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+
+/* hover 商用展示感 */
+.case-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+.case-card::before {
+    content: "CASE";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    background: #e8f5ff;
+    color: #1683ff;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+
+.case-card h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #111;
+}
+
+
+.case-card img {
+    width: 100%;
+    max-height: 500px;
+
+    object-fit: cover;
+
+    border-radius: 16px;
+    display: block;
+
+    border: 1px solid #eee;
+}
+
+
+.case-card p {
+    margin-top: 20px;
+    color: #666;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+
+/* 多張案例時 */
+.case-grid {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+
+    gap: 30px;
+}
+
 /* FAQ */
 
 .faq-list{
@@ -486,20 +572,7 @@ footer .divider{
         </div>
     </div>
 </section>
-<section id="actual" class="case-section">
 
-    <h2>實際應用案例展示</h2>
-
-    <div class="case-card">
-        <h3>LINE 團購下單流程</h3>
-        <img src="actual.png" alt="LINE 團購流程示意圖">
-        <p>
-            使用者可透過 LINE Bot 快速選購商品，系統會自動整理訂單並回傳確認訊息，
-            大幅降低人工整理成本，提升團購效率。
-        </p>
-    </div>
-
-</section>
 <section id="feature" class="section bg-light">
     <div class="container">
         <h2>功能特色</h2>
@@ -545,6 +618,22 @@ footer .divider{
         </div>
     </div>
 </section>
+
+<section id="actual" class="case-section">
+
+    <h2>實際應用案例展示</h2>
+
+    <div class="case-card">
+        <h3>LINE 團購下單流程</h3>
+        <img src="actual.png" alt="LINE 團購流程示意圖">
+        <p>
+            使用者可透過 LINE Bot 快速選購商品，系統會自動整理訂單並回傳確認訊息，
+            大幅降低人工整理成本，提升團購效率。
+        </p>
+    </div>
+
+</section>
+
 <section id="faq" class="section">
     <div class="container">
         <h2>常見問題 FAQ</h2>
