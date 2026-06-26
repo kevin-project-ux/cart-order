@@ -6,6 +6,8 @@
 
 <title>LINE團購管理系統</title>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 * {
     box-sizing: border-box;
@@ -402,10 +404,11 @@ footer .divider{
 <header class="header">
     <nav class="menu">
         <a href="#" class="menu-item active">首頁</a>
-        <a href="#system" class="menu-item">系統介紹</a>
+        <a href="#intro" class="menu-item">系統介紹</a>
         <a href="#feature" class="menu-item">功能特色</a>
         <a href="usage.html" class="menu-item">使用流程</a>
         <a href="tutorial.html" class="menu-item">教學文章</a>
+        <a href="#actual" class="menu-item">實際案例</a>
         <a href="demo.html" class="menu-item">Demo</a>
         <a href="#faq" class="menu-item">FAQ</a>
     </nav>
@@ -457,6 +460,13 @@ footer .divider{
             訂單整理與銷售分析流程。
         </p>
 
+        <ul>
+            <li>📦 LINE 即時下單與互動</li>
+            <li>📊 自動訂單統計與報表</li>
+            <li>🛠️ 後台商品與活動管理</li>
+            <li>⚡ 即時資料同步（Firebase / API）</li>
+        </ul>
+
         <div class="flow-box">
             <div>
                 商品發布
@@ -476,7 +486,21 @@ footer .divider{
         </div>
     </div>
 </section>
-<section id="features" class="section bg-light">
+<section id="actual" class="case-section">
+
+    <h2>實際應用案例展示</h2>
+
+    <div class="case-card">
+        <h3>LINE 團購下單流程</h3>
+        <img src="actual.png" alt="LINE 團購流程示意圖">
+        <p>
+            使用者可透過 LINE Bot 快速選購商品，系統會自動整理訂單並回傳確認訊息，
+            大幅降低人工整理成本，提升團購效率。
+        </p>
+    </div>
+
+</section>
+<section id="feature" class="section bg-light">
     <div class="container">
         <h2>功能特色</h2>
         <div class="feature-grid">
@@ -490,7 +514,6 @@ footer .divider{
             </div>
             <div class="feature-card">
                 <i class="fas fa-cookie-bite"></i>
-
                 <h3>多口味商品管理</h3>
                 <p>
                     支援不同口味、不同價格設定。
@@ -504,7 +527,6 @@ footer .divider{
 
             </div>
             <div class="feature-card">
-
                 <i class="fas fa-chart-line"></i>
                 <h3>訂單與銷售分析</h3>
                 <p>
