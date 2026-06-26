@@ -160,21 +160,167 @@ footer{
         flex-wrap: wrap;
         justify-content: center;
     }
-
     .hero h1 {
         font-size: 30px;
     }
-
     .features {
         grid-template-columns: 1fr;
     }
-
     .btn {
         width: 90%;
     }
-
     .menu-item, .menu-cta {
         font-size: 13px;
+    }
+}
+
+/* section */
+.section{
+    padding:80px 20px;
+}
+
+.container{
+    max-width:1100px;
+    margin:0 auto;
+}
+
+.section h2{
+    text-align:center;
+    font-size:32px;
+    margin-bottom:30px;
+    color:#333;
+}
+
+.section p{
+    color:#666;
+    line-height:1.8;
+    font-size:16px;
+}
+/* intro */
+#intro{
+    background:#fffaf5;
+}
+#intro p{
+    max-width:750px;
+    margin:0 auto 15px;
+    text-align:center;
+}
+.flow-box{
+    margin:40px auto 0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+.flow-box div{
+    background:#fff;
+    padding:18px 25px;
+    border-radius:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    font-weight:bold;
+    color:#555;
+}
+.flow-box span{
+    color:#d28b45;
+    font-size:25px;
+}
+/* feature */
+.bg-light{
+    background:#f8f9fa;
+}
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+.feature-card{
+    background:white;
+    border-radius:20px;
+    padding:30px 25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.25s;
+}
+.feature-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
+}
+.feature-card i{
+    width:55px;
+    height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff0df;
+    color:#e28a30;
+    border-radius:50%;
+    font-size:25px;
+    margin-bottom:20px;
+}
+.feature-card h3{
+    color:#333;
+    margin-bottom:15px;
+}
+.price-demo{
+    margin-top:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+.price-demo span{
+    background:#fafafa;
+    padding:8px 12px;
+    border-radius:8px;
+    color:#555;
+}
+/* FAQ */
+
+.faq-list{
+    max-width:850px;
+    margin:0 auto;
+}
+.faq-item{
+    background:white;
+    padding:25px;
+    margin-bottom:20px;
+    border-radius:15px;
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
+.faq-item h3{
+    font-size:18px;
+    color:#444;
+    margin-bottom:12px;
+}
+.faq-item p{
+    margin:0;
+}
+/* mobile */
+
+@media(max-width:900px){
+    .feature-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+@media(max-width:600px){
+    .section{
+        padding:50px 15px;
+    }
+    .section h2{
+        font-size:26px;
+    }
+    .feature-grid{
+        grid-template-columns:1fr;
+    }
+    .flow-box{
+        flex-direction:column;
+    }
+    .flow-box span{
+        transform:rotate(90deg);
+    }
+    .flow-box div{
+        width:100%;
+        text-align:center;
     }
 }
 
@@ -253,7 +399,7 @@ footer .divider{
 
 <section id="intro" class="section">
     <div class="container">
-        <h2>🍞 烘焙團購管理系統</h2>
+        <h2>LINE團購管理系統</h2>
 
         <p>
             專為烘焙工作室、甜點創作者與小型團購經營者設計的訂單管理工具。
@@ -283,8 +429,6 @@ footer .divider{
         </div>
     </div>
 </section>
-
-
 <section id="features" class="section bg-light">
     <div class="container">
         <h2>功能特色</h2>
