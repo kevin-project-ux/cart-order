@@ -14,6 +14,54 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <style>
+	.tutorial-container {
+	    max-width: 1000px;
+	    margin: 0 auto;
+	    padding: 40px 20px;
+	}
+	.tutorial-title {
+	    text-align: center;
+	    font-size: 36px;
+	    margin-bottom: 50px;
+	    color: #222;
+	}
+	/* 每個步驟卡片 */
+	.step-card {
+	    background: #fff;
+	    border-radius: 20px;
+	    padding: 30px;
+	    margin-bottom: 40px;
+	    box-shadow: 0 15px 40px rgba(0,0,0,.08);
+	    transition: .3s ease;
+	}
+	.step-card:hover {
+	    transform: translateY(-6px);
+	    box-shadow:0 25px 50px rgba(0,0,0,.15);
+	}
+	/* 步驟標題 */
+	.step-title {
+	    display: inline-block;
+	    padding: 8px 22px;
+	    border-radius: 999px;
+	    background: #ffecec;
+	    color: #e63946;
+	    font-size: 22px;
+	    font-weight: bold;
+	    margin-bottom: 25px;
+	}
+
+	/* 圖片 */
+	.tutorial-img {
+	    width: 100%;
+	    display: block;
+	    border-radius: 15px;
+	    border: 1px solid #eee;
+	    transition: .3s;
+	}
+	.tutorial-img:hover {
+	    transform: scale(1.02);
+	}
+
 	.float-back{
 	    position:fixed;
 	    top:15px;
@@ -33,18 +81,20 @@
 </head>
 <body>
 	<a class="float-back" href="index.html"><i class="fa-solid fa-arrow-left"></i></a>
-	<h1 class="text-center">購物車系統教學</h1>
-	<figure class="figure text-center fs-1 fw-bold">
-		<figcaption class="figure-caption text-danger">步驟一：點選購物車</figcaption>
-	  	<img src="tutorial1.jpg" class="figure-img img-thumbnail rounded" alt="...">
-	</figure>
-	<figure class="figure text-center fs-1 fw-bold">
-		<figcaption class="figure-caption text-danger">步驟二：點選許可且允許該權限</figcaption>
-	  	<img src="tutorial2.jpg" class="figure-img img-thumbnail rounded" alt="...">
-	</figure>
-	<figure class="figure text-center fs-1 fw-bold">
-		<figcaption class="figure-caption text-danger">步驟三：點選欲購買數量後確認送出</figcaption>
-	  	<img src="tutorial3.jpg" class="figure-img img-thumbnail rounded" alt="...">
-	</figure>
+	<div class="tutorial-container">
+	    <h1 class="tutorial-title">購物車系統教學</h1>
+	    <div class="step-card">
+	        <div class="step-title">步驟一：點選購物車</div>
+	        <img src="tutorial1.jpg" class="tutorial-img">
+	    </div>
+	    <div class="step-card">
+	        <div class="step-title">步驟二：點選許可且允許該權限</div>
+	        <img src="tutorial2.jpg" class="tutorial-img">
+	    </div>
+	    <div class="step-card">
+	        <div class="step-title">步驟三：點選欲購買數量後確認送出</div>
+	        <img src="tutorial3.jpg" class="tutorial-img">
+	    </div>
+	</div>
 </body>
 </html>
