@@ -2715,10 +2715,10 @@
             data = { type: type, userId: userId, name: prd_name, price: price, deadline: deadline };
         }
 
-        var res = await postGAS( data, {'errorMsg':'撰寫失敗，已達每月使用上限!!', 'reload': false, 'return': true} );
+        var answer = await postGAS( data, {'errorMsg':'撰寫失敗，已達每月使用上限!!', 'reload': false, 'return': true} );
 
         // console.log(res);
-        var answer = res[0].text;
+        // var answer = res[0].text;
 
         quill.setText('');
         answer_flag = 0;
@@ -2726,7 +2726,7 @@
         if( type=='aiwrite' ){ typeWriter(answer); }
         if( type=='ainame' ) { 
 
-            var name_arr = answer.split('-');
+            const name_arr = text.split('\n').map(item => item.replace(/^\d+\.\s*/, '').trim()).filter(item => item);
             var text = '';
             name_arr.forEach((name,i) => {
                 text += '<span class="badge bg-secondary" onclick="chooseName(\''+name.trim()+'\')">'+name.trim()+'</span>';
