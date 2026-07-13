@@ -847,7 +847,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyNtBo6v80XTMUItWHDtn-Gtnh9e2G5bLUlIqpBWBnMqL0UPq_Xbktmh126ta-Od1dsNQ/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxWDDyaa0Z8P4d9-sy8SdIdw-TBJzdSVetvbmNEIbm22detIb-taAOOFZXbx7fmIVUAyg/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -2715,10 +2715,10 @@
             data = { type: type, userId: userId, name: prd_name, price: price, deadline: deadline };
         }
 
-        var answer = await postGAS( data, {'errorMsg':'撰寫失敗，已達每月使用上限!!', 'reload': false, 'return': true} );
+        var res = await postGAS( data, {'errorMsg':'撰寫失敗，已達每月使用上限!!', 'reload': false, 'return': true} );
 
         // console.log(res);
-        // var answer = res[0].text;
+        var answer = res[0].text;
 
         quill.setText('');
         answer_flag = 0;
