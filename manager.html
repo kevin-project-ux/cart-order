@@ -2726,7 +2726,7 @@
         if( type=='aiwrite' ){ typeWriter(answer); }
         if( type=='ainame' ) { 
 
-            const name_arr = text.split('\n').map(item => item.replace(/^\d+\.\s*/, '').trim()).filter(item => item);
+            const name_arr = answer.split('\n').map(item => item.replace(/^\d+\.\s*/, '').trim()).filter(item => item);
             var text = '';
             name_arr.forEach((name,i) => {
                 text += '<span class="badge bg-secondary" onclick="chooseName(\''+name.trim()+'\')">'+name.trim()+'</span>';
