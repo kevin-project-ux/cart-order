@@ -788,6 +788,184 @@ footer .divider{
     opacity: 1;
     visibility: visible;
 }
+
+/* =========================
+   Responsive RWD
+========================= */
+
+@media(max-width:1024px){
+    .header{
+        padding:15px 25px;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .feature-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .analysis-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .screenshot-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+
+@media(max-width:768px){
+
+    body{
+        overflow-x:hidden;
+    }
+
+    .header{
+        flex-direction:column;
+        padding:15px;
+        gap:15px;
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+    .menu{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:6px;
+    }
+
+    .menu-item{
+        padding:7px 12px;
+        font-size:13px;
+    }
+
+    .menu-cta{
+        margin-left:0;
+    }
+
+    .hero{
+        min-height:auto;
+        padding:60px 20px;
+    }
+
+    .hero h1{
+        font-size:30px;
+        line-height:1.4;
+    }
+
+    .hero-desc{
+        font-size:16px;
+    }
+
+    .hero-actions{
+        margin-bottom:25px;
+    }
+
+    .btn{
+        width:100%;
+        max-width:320px;
+    }
+
+    .hero-tags span{
+        font-size:13px;
+        padding:8px 12px;
+    }
+
+    .section{
+        padding:50px 15px;
+    }
+
+    .section h2{
+        font-size:26px;
+    }
+
+    .flow-box{
+        flex-direction:column;
+    }
+
+    .flow-box span{
+        transform:rotate(90deg);
+    }
+
+    .flow-box div{
+        width:100%;
+        text-align:center;
+    }
+
+    .feature-grid{
+        grid-template-columns:1fr;
+    }
+
+    .feature-card{
+        padding:25px 20px;
+    }
+
+    .case-study{
+        padding:0 15px;
+        margin:40px auto;
+    }
+
+    .case-header h2{
+        font-size:26px;
+    }
+
+    .case-section{
+        display:block;
+        margin-bottom:45px;
+    }
+
+    .step-number{
+        margin-bottom:15px;
+    }
+
+    .step-content h3{
+        font-size:21px;
+    }
+
+    .problem-list,.analysis-grid,.screenshot-grid{
+        grid-template-columns:1fr;
+    }
+
+    .result-box{
+        flex-direction:column;
+    }
+
+    .faq-item{
+        padding:20px;
+    }
+
+    .back-top{
+        width:45px;
+        height:45px;
+        right:15px;
+        bottom:20px;
+    }
+}
+
+
+@media(max-width:400px){
+
+    .hero h1{
+        font-size:26px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .menu-item,.menu-cta{
+        font-size:12px;
+    }
+
+    .step-content h3{
+        font-size:18px;
+    }
+}
 </style>
 </head>
 
