@@ -1699,29 +1699,29 @@ footer .divider{
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.js"></script>
 <script>
-window.addEventListener("load", function(){
-    window.cookieconsent.initialise({
-        "palette": {
-            "popup": {
-                "background": "#252e39",
-                "text": "#ffffff"
+
+    window.addEventListener("load", function(){
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#252e39",
+                    "text": "#ffffff"
+                },
+                "button": {
+                    "background": "#1e88e5",
+                    "text": "#ffffff"
+                }
             },
-            "button": {
-                "background": "#1e88e5",
-                "text": "#ffffff"
+            "theme": "classic",
+            "content": {
+                "message": "本網站使用 Cookie 及第三方廣告服務（如 Google AdSense）以提升您的瀏覽體驗與提供個人化內容。",
+                "dismiss": "我知道了",
+                "link": "了解更多（隱私權政策）",
+                "href": "/privacy.html"
             }
-        },
-        "theme": "classic",
-        "content": {
-            "message": "本網站使用 Cookie 及第三方廣告服務（如 Google AdSense）以提升您的瀏覽體驗與提供個人化內容。",
-            "dismiss": "我知道了",
-            "link": "了解更多（隱私權政策）",
-            "href": "/privacy.html"
-        }
+        });
     });
-});
-</script>
-<script>
+
     const backTop = document.getElementById("backTop");
     window.addEventListener("scroll", () => {
 
