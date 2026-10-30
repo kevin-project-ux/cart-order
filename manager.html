@@ -165,6 +165,48 @@
 <body data-page="manager">
 
     <div class="container mt-4">
+
+        <ul class="nav nav-pills nav-fill mb-3 shadow-sm bg-light rounded p-1" id="bakeTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active fw-bold py-2" id="card1-tab" data-bs-toggle="tab" data-bs-target="#card1-pane" type="button" role="tab" aria-controls="card1-pane" aria-selected="true">
+                    品項列表
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold py-2" id="card2-tab" data-bs-toggle="tab" data-bs-target="#card2-pane" type="button" role="tab" aria-controls="card2-pane" aria-selected="false">
+                    歷史訂單
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="bakeTabsContent">
+            <!-- 卡片 A 內容 -->
+            <div class="tab-pane fade show active" id="card1-pane" role="tabpanel" aria-labelledby="card1-tab" tabindex="0">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">品項列表</h5>
+                        <p class="text-muted small">這裡放原本第一個 Card 的內容（如表格、細項清單等）...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片 B 內容 (圖表區) -->
+            <div class="tab-pane fade" id="card2-pane" role="tabpanel" aria-labelledby="card2-tab" tabindex="0">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">歷史訂單</h5>
+                        <!-- 為圖表外層加上水平捲動容器 -->
+                        <div class="table-responsive">
+                            <div style="min-width: 600px; height: 300px;">
+                                <!-- 這裡放置你的柱狀圖 Canvas 或 SVG -->
+                                <p class="text-center text-muted pt-5">[ 柱狀圖：支援橫向捲動或聚合顯示 ]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">品項列表</h5>
