@@ -183,63 +183,55 @@
 
             <div class="tab-pane fade show active" id="card1-pane" role="tabpanel" aria-labelledby="card1-tab" tabindex="0">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-body p-0">
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">品項列表</h5>
-                                <div>
-                                    <a href="#" class="link-primary" onclick="addGroupBuyModal()">
-                                        <i class="fas fa-plus"></i> 新增
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table id="example" class="table table-striped table-hover table-bordered w-100">
-                                    <thead>
-                                        <tr>
-                                            <th>名稱</th>
-                                            <th>狀態</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBody"></tbody>
-                                </table>
-                            </div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">品項列表</h5>
+                        <div>
+                            <a href="#" class="link-primary" onclick="addGroupBuyModal()">
+                                <i class="fas fa-plus"></i> 新增
+                            </a>
                         </div>
+                    </div>
+                    <div class="card-body">
+                        <table id="example" class="table table-striped table-hover table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th>名稱</th>
+                                    <th>狀態</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
             <div class="tab-pane fade" id="card2-pane" role="tabpanel" aria-labelledby="card2-tab" tabindex="0">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-body p-0">
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">歷史訂單</h5>
-                                <div>
-                                    <a href="#" class="link-primary" onclick="searchModal()">
-                                        <i class="fas fa-search"></i> 查詢
-                                        <!-- <span class="badge bg-warning text-dark rounded-pill ms-1">BETA</span> -->
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div id="order_chart"></div>
-                                <div id="price_chart"></div>
-                                <div id="prd_table" style="display: none;">
-                                    <table id="history_order" class="table table-striped table-hover table-bordered w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>名稱</th>
-                                                <th>售價</th>
-                                                <th>總金額</th>
-                                                <th>開團時間</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="history_tableBody"></tbody>
-                                    </table>
-                                </div>
-                            </div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">歷史訂單</h5>
+                        <div>
+                            <a href="#" class="link-primary" onclick="searchModal()">
+                                <i class="fas fa-search"></i> 查詢
+                                <!-- <span class="badge bg-warning text-dark rounded-pill ms-1">BETA</span> -->
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="order_chart"></div>
+                        <div id="price_chart"></div>
+                        <div id="prd_table" style="display: none;">
+                            <table id="history_order" class="table table-striped table-hover table-bordered w-100">
+                                <thead>
+                                    <tr>
+                                        <th>名稱</th>
+                                        <th>售價</th>
+                                        <th>總金額</th>
+                                        <th>開團時間</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history_tableBody"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
