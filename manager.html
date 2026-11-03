@@ -1065,6 +1065,13 @@
                     targets: [0, 1, 2],
                     orderable: false
                 }],
+                layout: {
+                    // topStart: 'pageLength', // 頂部左邊放「每頁幾筆」
+                    // topEnd: 'search',       // 頂部右邊放「搜尋框」
+                    // 如果你某一側沒用到，可以改成 null 避免它生成空的 HTML 結構
+                    topStart: null, 
+                    topEnd: null
+                },
                 language: {
                     paginate: { previous: '‹', next: '›' },
                     zeroRecords: '目前沒有資料',
