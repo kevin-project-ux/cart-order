@@ -18,11 +18,11 @@
 
     <!-- Custom Js -->
     <script src="main.js"></script>
-  
+
     <!-- DataTables + Bootstrap 5 -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-  
+
     <!-- Flatpickr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -48,9 +48,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
     #loadingMask {
         position: fixed;
-        top: 0; left: 0;
+        top: 0;
+        left: 0;
         width: 100vw;
         height: 100vh;
         background: rgba(0, 0, 0, 0.5);
@@ -70,20 +72,29 @@
     }
 
     @keyframes spin {
-        0%   { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }
 
-    .link-warning, .text-warning {
-        color: #cc9900 !important; /* 深一點的黃 */
+    .link-warning,
+    .text-warning {
+        color: #cc9900 !important;
+        /* 深一點的黃 */
     }
 
     .link-purple {
-        color: #9b8cff !important; /* 柔和紫 */
+        color: #9b8cff !important;
+        /* 柔和紫 */
     }
 
     .ql-editor {
-        font-size: 18px; /* 放大整體文字 */
+        font-size: 18px;
+        /* 放大整體文字 */
     }
 
     .select2-container .select2-selection--single {
@@ -93,15 +104,18 @@
         font-size: 1rem;
         line-height: 1.5;
     }
+
     .select2-container .select2-selection__rendered {
         line-height: 1.5;
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
+
     .select2-container .select2-selection__arrow {
         height: calc(1.5em + 0.75rem + 2px);
         top: 0;
     }
+
     .swipe-item {
         position: relative;
         /*width: 100%;*/
@@ -109,6 +123,7 @@
         overflow: hidden;
         /*border-bottom: 1px solid #ddd;*/
     }
+
     .swipe-content {
         position: relative;
         z-index: 2;
@@ -116,6 +131,7 @@
         /*padding: 10px;*/
         transition: transform 0.2s ease;
     }
+
     .swipe-delete {
         position: absolute;
         top: 1px;
@@ -130,50 +146,59 @@
         font-weight: bold;
         z-index: 1;
     }
+
     button[aria-expanded="true"] span {
         display: inline-block;
         transform: rotate(180deg);
     }
+
     .input-group .select2-container {
         flex: 1 1 auto;
         width: 1% !important;
     }
+
     .input-group .select2-selection {
         height: 38px !important;
         /* display: flex !important; */
         align-items: center;
     }
-    .price-toggle{
-        color:#111;
-        font-weight:500;
-        text-decoration:none;
-        cursor:pointer;
+
+    .price-toggle {
+        color: #111;
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
     }
-    .price-toggle:hover{
-        text-decoration:underline;
+
+    .price-toggle:hover {
+        text-decoration: underline;
     }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K7ZW7QSTSY"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-K7ZW7QSTSY');
 </script>
+
 <body data-page="manager">
 
     <div class="container mt-4">
 
         <ul class="nav nav-pills nav-fill mb-3 shadow-sm bg-light rounded p-1" id="bakeTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active fw-bold py-2" id="card1-tab" data-bs-toggle="tab" data-bs-target="#card1-pane" type="button" role="tab" aria-controls="card1-pane" aria-selected="true">
+                <button class="nav-link active fw-bold py-2" id="card1-tab" data-bs-toggle="tab"
+                    data-bs-target="#card1-pane" type="button" role="tab" aria-controls="card1-pane"
+                    aria-selected="true">
                     品項列表
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link fw-bold py-2" id="card2-tab" data-bs-toggle="tab" data-bs-target="#card2-pane" type="button" role="tab" aria-controls="card2-pane" aria-selected="false">
+                <button class="nav-link fw-bold py-2" id="card2-tab" data-bs-toggle="tab" data-bs-target="#card2-pane"
+                    type="button" role="tab" aria-controls="card2-pane" aria-selected="false">
                     歷史訂單
                 </button>
             </li>
@@ -181,7 +206,8 @@
 
         <div class="tab-content" id="bakeTabsContent">
 
-            <div class="tab-pane fade show active" id="card1-pane" role="tabpanel" aria-labelledby="card1-tab" tabindex="0">
+            <div class="tab-pane fade show active" id="card1-pane" role="tabpanel" aria-labelledby="card1-tab"
+                tabindex="0">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">品項列表</h5>
@@ -242,7 +268,9 @@
     <!-- 底部導覽載入位置 -->
     <div id="bottomNav"></div>
 
-    <div id="loadingMask"><div class="spinner"></div></div>
+    <div id="loadingMask">
+        <div class="spinner"></div>
+    </div>
 
     <!-- 新增 Modal 表單 -->
     <div class="modal fade" id="groupBuyModal" tabindex="-1">
@@ -256,27 +284,30 @@
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#add" type="button" role="tab">新增團購品項</button>
+                            <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#add"
+                                type="button" role="tab">新增團購品項</button>
                         </li>
                         <!-- <li class="nav-item" role="presentation">
                           <button class="nav-link" id="multi-tab" data-bs-toggle="tab" data-bs-target="#del" type="button" role="tab">刪除預購</button>
                         </li> -->
                     </ul>
-          
+
                     <!-- Tab Content -->
                     <div class="tab-content" id="flavorTabsContent">
                         <!-- 新增團購/預購 -->
                         <div class="tab-pane fade show active" id="add" role="tabpanel" aria-labelledby="add-tab">
-                  
+
                             <div class="p-4 bg-light rounded shadow-sm">
                                 <div class="mb-3">
                                     <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="itemType" value="new" checked onchange="toggleItem()">
+                                        <input class="form-check-input" type="radio" name="itemType" value="new" checked
+                                            onchange="toggleItem()">
                                         <label class="form-check-label">新品項</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="itemType" value="old" onchange="toggleItem()">
+                                        <input class="form-check-input" type="radio" name="itemType" value="old"
+                                            onchange="toggleItem()">
                                         <label class="form-check-label">舊品項</label>
                                     </div>
                                 </div>
@@ -297,65 +328,76 @@
 
                                 <!-- 舊品項 -->
                                 <div id="oldItem" class="mb-3" style="display: none;">
-                                    <select class="form-select w-100" id="itemNames" onchange="setItemData(this)" required></select>
+                                    <select class="form-select w-100" id="itemNames" onchange="setItemData(this)"
+                                        required></select>
                                 </div>
-                
+
                                 <div class="mb-3">
                                     <label class="form-label">團購期間 </label>
-                                    <input class="form-control datepickr" id="startDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
-                                    <input class="form-control datepickr" id="endDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control datepickr" id="startDate" type="text"
+                                        placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control datepickr" id="endDate" type="text" placeholder="請選擇結束日期"
+                                        style="margin-top: 0.4rem;">
                                 </div>
-                
+
                                 <!-- 單/多口味切換 -->
                                 <div class="mb-3">
                                     <label class="form-label">口味選擇</label><br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="flavorType" value="single" checked onchange="toggleFlavor(this.value)">
+                                        <input class="form-check-input" type="radio" name="flavorType" value="single"
+                                            checked onchange="toggleFlavor(this.value)">
                                         <label class="form-check-label">單口味</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="flavorType" value="multiple" onchange="toggleFlavor(this.value)">
+                                        <input class="form-check-input" type="radio" name="flavorType" value="multiple"
+                                            onchange="toggleFlavor(this.value)">
                                         <label class="form-check-label">多口味</label>
                                     </div>
                                 </div>
-                
+
                                 <!-- 單口味 -->
                                 <div id="singleFlavor" class="mb-3">
                                     <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
                                     <div class="row g-2 mb-2">
                                         <div class="col">
-                                            <input type="number" class="form-control" id="price" min="1" placeholder="價格">
+                                            <input type="number" class="form-control" id="price" min="1"
+                                                placeholder="價格">
                                         </div>
                                         <div class="col">
-                                            <input type="number" class="form-control" id="singleLimit" placeholder="數量" value="0">
+                                            <input type="number" class="form-control" id="singleLimit" placeholder="數量"
+                                                value="0">
                                         </div>
                                     </div>
                                 </div>
-                
+
                                 <!-- 多口味 -->
                                 <div id="multiFlavor" class="mb-3" style="display: none;">
                                     <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
                                     <div id="flavorWrapper">
                                         <div class="row g-2 mb-2 flavor-row">
                                             <div class="col">
-                                                <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
+                                                <input type="number" class="form-control flavor-price" min="1"
+                                                    placeholder="價格">
                                             </div>
                                             <div class="col">
                                                 <input type="text" class="form-control flavor-name" placeholder="口味">
                                             </div>
                                             <div class="col">
-                                                <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
+                                                <input type="number" class="form-control flavor-limit" placeholder="數量"
+                                                    value="0">
                                             </div>
                                         </div>
                                         <div class="row g-2 mb-2 flavor-row">
                                             <div class="col">
-                                                <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
+                                                <input type="number" class="form-control flavor-price" min="1"
+                                                    placeholder="價格">
                                             </div>
                                             <div class="col">
                                                 <input type="text" class="form-control flavor-name" placeholder="口味">
                                             </div>
                                             <div class="col">
-                                                <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
+                                                <input type="number" class="form-control flavor-limit" placeholder="數量"
+                                                    value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -365,24 +407,21 @@
                                 </div>
 
                                 <!-- 你的浮水印圖 (可以是透明PNG) -->
-                                <img id="wmimg" width="50" height="50" src="https://www.haolongbin9.site/logo.png" style="display:none;">
+                                <img id="wmimg" width="50" height="50" src="https://www.haolongbin9.site/logo.png"
+                                    style="display:none;">
 
                                 <!-- 圖片 -->
                                 <div class="mb-3">
                                     <label class="form-label">圖片</label>
-                                    <input type="file" id="fileInput" class="form-control" multiple accept=".jpg, .jpeg, .png" />
+                                    <input type="file" id="fileInput" class="form-control" multiple
+                                        accept=".jpg, .jpeg, .png" />
                                     <div class="mt-3" id="preview"></div>
                                     <div id="fileCount" style="margin-top:5px; color:#555;"></div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <button
-                                      class="btn btn-link p-0 text-decoration-none"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#moreOptions"
-                                      aria-expanded="false"
-                                    >
+                                    <button class="btn btn-link p-0 text-decoration-none" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#moreOptions" aria-expanded="false">
                                         更多選項
                                         <span class="ms-1">▾</span>
                                     </button>
@@ -394,35 +433,41 @@
                                         <div class="mb-3">
                                             <label class="form-label">行程</label><br>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="scheduleType" value="" checked onchange="toggleSchedule(this.value)">
+                                                <input class="form-check-input" type="radio" name="scheduleType"
+                                                    value="" checked onchange="toggleSchedule(this.value)">
                                                 <label class="form-check-label">不設定</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="scheduleType" value="group_time" onchange="toggleSchedule(this.value)">
+                                                <input class="form-check-input" type="radio" name="scheduleType"
+                                                    value="group_time" onchange="toggleSchedule(this.value)">
                                                 <label class="form-check-label">依團購期間</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="scheduleType" value="custom_time" onchange="toggleSchedule(this.value)">
+                                                <input class="form-check-input" type="radio" name="scheduleType"
+                                                    value="custom_time" onchange="toggleSchedule(this.value)">
                                                 <label class="form-check-label">自訂時間</label>
                                             </div>
                                         </div>
                                         <div id="cusTime" class="mb-3" style="display: none;">
                                             <label class="form-label">時間設定</label>
-                                            <input class="form-control datepickr" id="scheduleStartDate" type="text" placeholder="請選擇行程起始日期" style="margin-top: 0.4rem;">
-                                            <input class="form-control datepickr" id="scheduleEndDate" type="text" placeholder="請選擇行程結束日期" style="margin-top: 0.4rem;">
+                                            <input class="form-control datepickr" id="scheduleStartDate" type="text"
+                                                placeholder="請選擇行程起始日期" style="margin-top: 0.4rem;">
+                                            <input class="form-control datepickr" id="scheduleEndDate" type="text"
+                                                placeholder="請選擇行程結束日期" style="margin-top: 0.4rem;">
                                         </div>
                                     </div>
                                 </div>
-              
+
                                 <!-- <div id="singleFlavor" class="mb-3">
                                   <label for="note">備註</label>
                                   <input type="text" class="form-control" id="note" />
                                 </div> -->
-                
-                                <button class="btn btn-success w-100" id="createOrder" onclick="submitForm()">建立團購</button>
+
+                                <button class="btn btn-success w-100" id="createOrder"
+                                    onclick="submitForm()">建立團購</button>
                             </div>
                         </div>
-              
+
                         <!-- 刪除團購/預購 -->
                         <!-- <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab">
                           
@@ -445,15 +490,16 @@
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">編輯訂單</button>
+                            <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit"
+                                type="button" role="tab">編輯訂單</button>
                         </li>
                     </ul>
-          
+
                     <!-- Tab Content -->
                     <div class="tab-content" id="editTabsContent">
                         <!-- 新增團購/預購 -->
                         <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
-                  
+
                             <div class="p-4 bg-light rounded shadow-sm">
                                 <div class="mb-3">
                                     <label class="form-label"><span class="text-danger">*</span> 品項名稱</label>
@@ -465,50 +511,58 @@
                                 <div class="mb-3">
                                     <input type="text" class="form-control" id="prdName" disabled>
                                 </div>
-                
+
                                 <div class="mb-3">
                                     <label class="form-label">團購期間 </label>
-                                    <input class="form-control" id="editStartDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
-                                    <input class="form-control" id="editEndDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control" id="editStartDate" type="text" placeholder="請選擇起始日期"
+                                        style="margin-top: 0.4rem;">
+                                    <input class="form-control" id="editEndDate" type="text" placeholder="請選擇結束日期"
+                                        style="margin-top: 0.4rem;">
                                 </div>
-                
+
                                 <!-- 單口味 -->
                                 <div id="editSingleFlavor" class="mb-3" style="display: none;">
                                     <label class="form-label"><span class="text-danger">*</span> 價格與限量(※ 0為不限量)</label>
                                     <div class="row g-2 mb-2">
                                         <div class="col">
-                                            <input type="number" class="form-control" id="editPrice" min="1" placeholder="價格">
+                                            <input type="number" class="form-control" id="editPrice" min="1"
+                                                placeholder="價格">
                                         </div>
                                         <div class="col">
-                                            <input type="number" class="form-control" id="editNum" placeholder="數量" value="0">
+                                            <input type="number" class="form-control" id="editNum" placeholder="數量"
+                                                value="0">
                                         </div>
                                     </div>
                                 </div>
-                
+
                                 <!-- 多口味 -->
                                 <div id="editMultiFlavor" class="mb-3" style="display: none;">
                                     <label class="form-label"><span class="text-danger">*</span> 口味與限量(※ 0為不限量)</label>
                                     <div id="editWrapper">
                                         <div class="row g-2 mb-2 flavor-row">
                                             <div class="col">
-                                                <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
+                                                <input type="number" class="form-control flavor-price" min="1"
+                                                    placeholder="價格">
                                             </div>
                                             <div class="col">
                                                 <input type="text" class="form-control flavor-name" placeholder="口味">
                                             </div>
                                             <div class="col">
-                                                <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
+                                                <input type="number" class="form-control flavor-limit" placeholder="數量"
+                                                    value="0">
                                             </div>
                                         </div>
                                         <div class="row g-2 mb-2 flavor-row">
                                             <div class="col">
-                                                <input type="number" class="form-control flavor-price" min="1" placeholder="價格">
+                                                <input type="number" class="form-control flavor-price" min="1"
+                                                    placeholder="價格">
                                             </div>
                                             <div class="col">
                                                 <input type="text" class="form-control flavor-name" placeholder="口味">
                                             </div>
                                             <div class="col">
-                                                <input type="number" class="form-control flavor-limit" placeholder="數量" value="0">
+                                                <input type="number" class="form-control flavor-limit" placeholder="數量"
+                                                    value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -520,15 +574,17 @@
                                 <!-- 圖片 -->
                                 <div class="mb-3">
                                     <label class="form-label">圖片</label>
-                                    <input type="file" id="editFile" class="form-control" multiple accept=".jpg, .jpeg, .png" />
+                                    <input type="file" id="editFile" class="form-control" multiple
+                                        accept=".jpg, .jpeg, .png" />
                                     <div class="mt-3" id="editPreview"></div>
                                     <div id="editFileCount" style="margin-top:5px; color:#555;"></div>
                                 </div>
 
-                                <button class="btn btn-success w-100" id="createOrder" onclick="editForm()">編輯團購</button>
+                                <button class="btn btn-success w-100" id="createOrder"
+                                    onclick="editForm()">編輯團購</button>
                             </div>
                         </div>
-              
+
                         <!-- 刪除團購/預購 -->
                         <!-- <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab"></div> -->
                     </div>
@@ -549,37 +605,46 @@
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
                         <li class="nav-item" role="presentation" id="manager_order">
-                            <button class="nav-link active" id="upd-tab" data-bs-toggle="tab" data-bs-target="#upd" type="button" role="tab">管理訂單</button>
+                            <button class="nav-link active" id="upd-tab" data-bs-toggle="tab" data-bs-target="#upd"
+                                type="button" role="tab">管理訂單</button>
                         </li>
                         <li class="nav-item" role="presentation" id="append_order">
-                            <button class="nav-link" id="append-tab" data-bs-toggle="tab" data-bs-target="#append" type="button" role="tab">追加訂單</button>
+                            <button class="nav-link" id="append-tab" data-bs-toggle="tab" data-bs-target="#append"
+                                type="button" role="tab">追加訂單</button>
                         </li>
                     </ul>
-          
+
                     <!-- Tab Content -->
                     <div class="tab-content" id="updTabsContent">
                         <!-- 管理訂單 -->
                         <div class="tab-pane fade show active" id="upd" role="tabpanel" aria-labelledby="upd-tab">
-                  
+
                             <div class="p-4 bg-light rounded shadow-sm">
                                 <h5 class="mb-3">
-                                    <span class="truncate d-inline-block" id="order_title" style="max-width: 130px;"></span>
+                                    <span class="truncate d-inline-block" id="order_title"
+                                        style="max-width: 130px;"></span>
                                     <span id="order_price"></span>
                                 </h5>
                                 <h5 class="mt-1 mb-3 text-center text-success">訂購明細</h5>
                                 <div class="container mt-4" id="sumContainer"></div>
                                 <div class="container mt-4" id="itemContainer"></div>
                                 <div id="orderFun" class="text-center d-none">
-                                    <button class="btn btn-success" id="orderStop" data-id="" data-name="" data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i> 延後訂單</button>
-                                    <button class="btn btn-primary" id="orderShare" data-id="" data-name="" data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i> 分享訂單</button>
+                                    <button class="btn btn-success" id="orderStop" data-id="" data-name=""
+                                        data-type="stop" onclick="orderConfirm(this)"><i class="far fa-clock"></i>
+                                        延後訂單</button>
+                                    <button class="btn btn-primary" id="orderShare" data-id="" data-name=""
+                                        data-type="list" onclick="orderShow(this)"><i class="fas fa-share-square"></i>
+                                        分享訂單</button>
                                     <!-- <button href="#" class="btn btn-secondary" data-id="" data-name="" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</button> -->
                                 </div>
                                 <div id="stopOrderFun" class="text-center d-none">
-                                    <button class="btn btn-danger" id="orderDelApd" data-id="" data-name="" data-type="delapd" onclick="orderConfirm(this)"><i class="fas fa-user-times"></i> 移除追加訂單</button>
+                                    <button class="btn btn-danger" id="orderDelApd" data-id="" data-name=""
+                                        data-type="delapd" onclick="orderConfirm(this)"><i
+                                            class="fas fa-user-times"></i> 移除追加訂單</button>
                                 </div>
                             </div>
                         </div>
-              
+
                         <!-- 刪除團購/預購 -->
                         <!-- <div class="tab-pane fade" id="del" role="tabpanel" aria-labelledby="del-tab"></div> -->
                     </div>
@@ -609,17 +674,22 @@
                                         <div class="row g-2 mb-2 append-row">
                                             <!-- 新名字 -->
                                             <div class="col-12 d-flex gap-2" id="appendName">
-                                                <input type="text" class="form-control appendName" name="appendName[]" placeholder="姓名" required>
-                                                <select class="form-select w-100 appendFlavors d-none" name="appendFlavors[]"></select>
-                                                <input type="number" class="form-control" name="appendNums[]" min="1" placeholder="數量">
+                                                <input type="text" class="form-control appendName" name="appendName[]"
+                                                    placeholder="姓名" required>
+                                                <select class="form-select w-100 appendFlavors d-none"
+                                                    name="appendFlavors[]"></select>
+                                                <input type="number" class="form-control" name="appendNums[]" min="1"
+                                                    placeholder="數量">
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-outline-primary w-100" id="addAppendName" onclick="addAppend()">
+                                    <button class="btn btn-outline-primary w-100" id="addAppendName"
+                                        onclick="addAppend()">
                                         <i class="fas fa-plus"></i> 新增名字
                                     </button>
                                 </div>
-                                <button class="btn btn-success w-100" id="appendOrder" onclick="orderAppend()">確認送出</button>
+                                <button class="btn btn-success w-100" id="appendOrder"
+                                    onclick="orderAppend()">確認送出</button>
                             </div>
                         </div>
                     </div>
@@ -640,21 +710,24 @@
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="cart-tab" data-bs-toggle="tab" data-bs-target="#cart" type="button" role="tab">團購內容</button>
+                            <button class="nav-link active" id="cart-tab" data-bs-toggle="tab" data-bs-target="#cart"
+                                type="button" role="tab">團購內容</button>
                         </li>
                     </ul>
-          
+
                     <!-- Tab Content -->
                     <div class="tab-content" id="cartTabsContent">
                         <!-- 開啟團購/預購 -->
                         <div class="tab-pane fade show active" id="cart" role="tabpanel" aria-labelledby="cart-tab">
                             <div class="p-4 bg-light rounded shadow-sm">
-                                <button class="btn btn-primary w-100" id="aiOpenCartHelper" onclick="aiHelpFunc('aiwrite')">
+                                <button class="btn btn-primary w-100" id="aiOpenCartHelper"
+                                    onclick="aiHelpFunc('aiwrite')">
                                     <i class="fas fa-file-signature"></i>
                                     AI文案助手<span class="badge text-bg-danger">Beta</span>
                                 </button>
                                 <div class="container mt-4 mb-4" id="cartContent"></div>
-                                <button class="btn btn-success w-100" id="createCart" onclick="orderOpen()">開啟團購</button>
+                                <button class="btn btn-success w-100" id="createCart"
+                                    onclick="orderOpen()">開啟團購</button>
                             </div>
                         </div>
                     </div>
@@ -675,10 +748,11 @@
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="agent-tab" data-bs-toggle="tab" data-bs-target="#agent" type="button" role="tab">代購品項</button>
+                            <button class="nav-link active" id="agent-tab" data-bs-toggle="tab" data-bs-target="#agent"
+                                type="button" role="tab">代購品項</button>
                         </li>
                     </ul>
-          
+
                     <!-- Tab Content -->
                     <div class="tab-content" id="agentTabsContent">
                         <!-- 代訂品項 -->
@@ -692,11 +766,13 @@
                                         <input type="hidden" id="prd_type" value="single">
                                         <label class="form-label"><span class="text-danger">*</span> 代訂姓名</label>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="nameType" value="new" checked onchange="toggleAgentName()">
+                                            <input class="form-check-input" type="radio" name="nameType" value="new"
+                                                checked onchange="toggleAgentName()">
                                             <label class="form-check-label">新名字</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="nameType" value="old" onchange="toggleAgentName()">
+                                            <input class="form-check-input" type="radio" name="nameType" value="old"
+                                                onchange="toggleAgentName()">
                                             <label class="form-check-label">舊名字</label>
                                         </div>
                                     </div>
@@ -705,15 +781,20 @@
                                         <div class="row g-2 mb-2 agent-row">
                                             <!-- 新名字 -->
                                             <div class="col-12 d-flex gap-2" id="newName">
-                                                <input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>
-                                                <select class="form-select w-100 agentFlavors d-none" name="newFlavors[]"></select>
-                                                <input type="number" class="form-control" name="newNums[]" min="1" placeholder="數量">
+                                                <input type="text" class="form-control agentName" name="newName[]"
+                                                    placeholder="姓名" required>
+                                                <select class="form-select w-100 agentFlavors d-none"
+                                                    name="newFlavors[]"></select>
+                                                <input type="number" class="form-control" name="newNums[]" min="1"
+                                                    placeholder="數量">
                                             </div>
                                             <!-- 舊名字 -->
                                             <div class="col-12 d-none gap-2" id="oldName">
                                                 <select class="form-select agentNames" name="oldName[]"></select>
-                                                <select class="form-select agentFlavors" name="oldFlavors[]" style="width:45%"></select>
-                                                <input type="number" class="form-control" name="oldNums[]" min="1" placeholder="數量" style="width: 35%;">
+                                                <select class="form-select agentFlavors" name="oldFlavors[]"
+                                                    style="width:45%"></select>
+                                                <input type="number" class="form-control" name="oldNums[]" min="1"
+                                                    placeholder="數量" style="width: 35%;">
                                             </div>
                                         </div>
                                     </div>
@@ -721,7 +802,8 @@
                                         <i class="fas fa-plus"></i> 新增名字
                                     </button>
                                 </div>
-                                <button class="btn btn-success w-100" id="agentOrder" onclick="orderAgent()">確認送出</button>
+                                <button class="btn btn-success w-100" id="agentOrder"
+                                    onclick="orderAgent()">確認送出</button>
                             </div>
                         </div>
                     </div>
@@ -742,13 +824,15 @@
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-3" id="Tabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab">訂單查詢</button>
+                            <button class="nav-link active" id="search-tab" data-bs-toggle="tab"
+                                data-bs-target="#search" type="button" role="tab">訂單查詢</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="emp-tab" data-bs-toggle="tab" data-bs-target="#emp" type="button" role="tab">人員購買紀錄</button>
+                            <button class="nav-link" id="emp-tab" data-bs-toggle="tab" data-bs-target="#emp"
+                                type="button" role="tab">人員購買紀錄</button>
                         </li>
                     </ul>
-          
+
                     <!-- Tab Content -->
                     <div class="tab-content" id="searchTabsContent">
                         <!-- 訂單查詢 -->
@@ -763,12 +847,17 @@
                                             <i class="fas fa-sync-alt"></i>
                                         </button>
                                     </div>
-                                    <label class="form-label ordDate d-none"><span class="text-danger">*</span> 日期範圍</label>
-                                    <input class="form-control search_pickr ordDate d-none" id="ordStartDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
-                                    <input class="form-control search_pickr ordDate d-none" id="ordEndDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
-                                    <div id="dateHint" class="ordDate d-none" style="font-size:14px;color:#999">查詢區間最多 6 個月</div>
+                                    <label class="form-label ordDate d-none"><span class="text-danger">*</span>
+                                        日期範圍</label>
+                                    <input class="form-control search_pickr ordDate d-none" id="ordStartDate"
+                                        type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control search_pickr ordDate d-none" id="ordEndDate" type="text"
+                                        placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
+                                    <div id="dateHint" class="ordDate d-none" style="font-size:14px;color:#999">查詢區間最多 6
+                                        個月</div>
                                 </div>
-                                <button class="btn btn-success w-100" id="searchOrder" onclick="orderSearch()">查詢</button>
+                                <button class="btn btn-success w-100" id="searchOrder"
+                                    onclick="orderSearch()">查詢</button>
                             </div>
                         </div>
                     </div>
@@ -788,11 +877,14 @@
                                         </button>
                                     </div>
                                     <label class="form-label"><span class="text-danger">*</span> 日期範圍</label>
-                                    <input class="form-control search_pickr" id="prdStartDate" type="text" placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
-                                    <input class="form-control search_pickr" id="prdEndDate" type="text" placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control search_pickr" id="prdStartDate" type="text"
+                                        placeholder="請選擇起始日期" style="margin-top: 0.4rem;">
+                                    <input class="form-control search_pickr" id="prdEndDate" type="text"
+                                        placeholder="請選擇結束日期" style="margin-top: 0.4rem;">
                                     <div id="dateHint" style="font-size:14px;color:#999">查詢區間最多 3 個月</div>
                                 </div>
-                                <button class="btn btn-success w-100" id="appendOrder" onclick="orderEmp()">確認送出</button>
+                                <button class="btn btn-success w-100" id="appendOrder"
+                                    onclick="orderEmp()">確認送出</button>
                             </div>
                         </div>
                     </div>
@@ -820,12 +912,12 @@
         document.getElementById("createOrder").disabled = false;
 
         // 檢查 LocalStorage 快取
-        if ( !isUserAuthenticated(userId) ) { 
-            authUser(userId); 
-        }else{ 
-            try{
+        if (!isUserAuthenticated(userId)) {
+            authUser(userId);
+        } else {
+            try {
                 mask.style.display = 'flex';
-                await fetchData(); 
+                await fetchData();
             } finally {
                 mask.style.display = 'none';
             }
@@ -859,7 +951,7 @@
             node.innerText = value;
             return node;
         }
-  
+
         static value(node) { return node.innerText; }
     }
     ReadonlyEmbed.blotName = 'readonly';
@@ -907,8 +999,8 @@
         localStorage.setItem('AUTH_CACHE_KEY', JSON.stringify(data));
     }
 
-    async function authUser(userId){
-    
+    async function authUser(userId) {
+
         var data = { type: 'auth', userId: userId };
 
         try {
@@ -937,12 +1029,12 @@
         }
     }
 
-    async function fetchData(data=''){
+    async function fetchData(data = '') {
         // console.log(data);
         try {
             // mask.style.display = 'flex';
 
-            if( data=='' ){
+            if (data == '') {
                 const res = await fetch(GAS_URL);
                 data = await res.json();
             }
@@ -952,7 +1044,7 @@
             prd_list = prd_list.sort((a, b) => Number(b.ID) - Number(a.ID));
             // console.log(data);
 
-            prd_list = prd_list.filter(prd => prd.訂單金額總計>0 || prd.狀態==='開啟中' || prd.狀態==='延後中' );
+            prd_list = prd_list.filter(prd => prd.訂單金額總計 > 0 || prd.狀態 === '開啟中' || prd.狀態 === '延後中');
 
             $('#example').DataTable({
                 data: prd_list,
@@ -963,10 +1055,10 @@
                 lengthChange: false,     // 不顯示筆數設定下拉選單
                 searching: false,
                 // ordering: false, // 不啟用欄位排序
-                order: [[1,'asc']],
-                columnDefs:[{
-                    targets:[0,1,2],
-                    orderable:false
+                order: [[1, 'asc']],
+                columnDefs: [{
+                    targets: [0, 1, 2],
+                    orderable: false
                 }],
                 language: {
                     paginate: { previous: '‹', next: '›' },
@@ -978,7 +1070,7 @@
                 },
                 columns: [
                     { data: '名稱', className: 'truncate' },
-                    { 
+                    {
                         data: '狀態',
                         className: 'text-center',
                         createdCell: function (td, cellData) {
@@ -988,8 +1080,8 @@
                                 $(td).addClass('text-danger');
                             }
                         },
-                        render:function(data,type,row){
-                            if(type === 'sort'){ return data === "開啟中" ? 1 : 2; }
+                        render: function (data, type, row) {
+                            if (type === 'sort') { return data === "開啟中" ? 1 : 2; }
                             return data;
                         }
                     },
@@ -997,18 +1089,18 @@
                         data: null,
                         className: 'text-center',
                         render: function (data, type, row) {
-              
+
                             const nodel = ['已結單', '延後中'];
-              
+
                             var flavor = (row.售價 === '---' ? 2 : 1);
 
                             var open = `<a href="#" class="dropdown-item link-dark text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-row='${JSON.stringify(row)}' data-type="open" onclick="cartModal(this)"><i class="fas fa-cart-plus"></i> 開啟訂單</a>`;
                             var view = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="view" onclick="updModal(this)"><i class="fas fa-eye"></i></a>`;
                             var edit = `<a href="#" class="dropdown-item link-success text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="edit" onclick="editModal(this)"><i class="fas fa-edit"></i> 編輯訂單</a>`;
                             var upd = `<a href="#" class="dropdown-item link-purple text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-flavor="${flavor}" data-type="upd" onclick="updModal(this)"><i class="fas fa-list-alt"></i> 管理訂單</a>`;
-                            var chk  = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
+                            var chk = `<a href="#" class="dropdown-item link-secondary text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="chkout" onclick="orderConfirm(this)"><i class="fas fa-money-check-alt"></i> 結算訂單</a>`;
                             var agent = `<a href="#" class="dropdown-item link-warning text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="agent" onclick="AgentModal(this)"><i class="fas fa-hand-holding-medical"></i> 代購訂單</a>`;
-                            var del  = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
+                            var del = `<a href="#" class="dropdown-item link-danger text-decoration-none" data-id="${row.ID}" data-name="${row.名稱}" data-type="delete" onclick="orderConfirm(this)"><i class="far fa-trash-alt"></i> 刪除訂單</a>`;
                             // <span class="badge bg-success">Beta</span>
 
                             var menu = `
@@ -1026,10 +1118,10 @@
                                     </ul>
                                 </div>
                             `;
-                    
+
                             var html = row.備註; // 延後中
-                            if( row.狀態==='已結單' ){ html = view; }
-                            if( row.狀態==='開啟中' ){ html = menu; }
+                            if (row.狀態 === '已結單') { html = view; }
+                            if (row.狀態 === '開啟中') { html = menu; }
 
                             return html;
                         }
@@ -1044,8 +1136,8 @@
                 minDate: "today" // ✅ 限制今天以前不能選
             });
 
-            initDateRangePicker('#prdStartDate','#prdEndDate'); //人員購買紀錄(預設日期為近3個月，限制範圍3個月)
-            initDateRangePicker('#ordStartDate','#ordEndDate', 6); //人員購買紀錄(預設日期為近6個月，限制範圍6個月)
+            initDateRangePicker('#prdStartDate', '#prdEndDate'); //人員購買紀錄(預設日期為近3個月，限制範圍3個月)
+            initDateRangePicker('#ordStartDate', '#ordEndDate', 6); //人員購買紀錄(預設日期為近6個月，限制範圍6個月)
 
             // if ($('#startDate').val() || $('#editStartDate').val()) { fp1.clear(); }
             // if ($('#endDate').val() || $('#editEndDate').val()) { fp2.clear(); }
@@ -1056,7 +1148,7 @@
         return data;
     }
 
-    function addGroupBuyModal(){
+    function addGroupBuyModal() {
         $('#itemNames').val('').trigger('change');
         $('input[type="text"]').val('');
         resetForm();
@@ -1068,7 +1160,7 @@
         document.getElementById("newItem").style.display = selected === "new" ? "inline-flex" : "none";
         document.getElementById("oldItem").style.display = selected === "old" ? "inline-flex" : "none";
 
-        if( selected=='old' ){
+        if (selected == 'old') {
             // console.log(data);
             const oldName = prd_list.filter((item, index, self) =>
                 index === self.findIndex(t => t.名稱 === item.名稱)
@@ -1077,12 +1169,12 @@
             $('#itemNames').empty(); // 清空原有內容（若有）
 
             $('#itemNames').append('<option value="" selected disabled hidden>請選擇品項</option>');
-      
+
             // 將 oldName 陣列加入 select 中
             oldName.forEach(item => {
                 $('#itemNames').append(`<option value="${item.ID}">${item.名稱}</option>`);
             });
-    
+
             // 初始化 Select2
             $('#itemNames').select2({
                 dropdownParent: $('#groupBuyModal'),
@@ -1112,40 +1204,40 @@
         el.appendChild(tooltip);
     }
 
-    function setItemData(item){
+    function setItemData(item) {
 
         resetForm();
 
-        var id  = Number(item.value);
+        var id = Number(item.value);
         var did = item.did ?? undefined;
 
         var $div = $('#multiFlavor');
-        if( did ){ $div = $('#editMultiFlavor'); }
+        if (did) { $div = $('#editMultiFlavor'); }
 
-        if( id ){
-            if( prd_list ){ var prd = prd_list.find(item => item.ID === id); }
-            if( flv_list ){ var flv = flv_list.find(item => item.品項ID === id); }
+        if (id) {
+            if (prd_list) { var prd = prd_list.find(item => item.ID === id); }
+            if (flv_list) { var flv = flv_list.find(item => item.品項ID === id); }
             const checked = $('input[name="flavorType"]:checked');
 
-            if( !prd ){ return; }
+            if (!prd) { return; }
 
-            if( prd.售價=='---' ){ // 代表是多口味
-                if( checked.val()=='single' ){ $('input[name="flavorType"][value="multiple"]').prop('checked', true); toggleFlavor("multiple"); }
-        
+            if (prd.售價 == '---') { // 代表是多口味
+                if (checked.val() == 'single') { $('input[name="flavorType"][value="multiple"]').prop('checked', true); toggleFlavor("multiple"); }
+
                 const results = flv_list.filter(item => item.品項ID === id);
 
-                var num = results.length-2;
-                if( num>0 ){ for(i=0; i<num; i++){ addFlavor(did); } }
+                var num = results.length - 2;
+                if (num > 0) { for (i = 0; i < num; i++) { addFlavor(did); } }
 
-                $div.find('.flavor-row').each(function(index, row) {
+                $div.find('.flavor-row').each(function (index, row) {
                     $(row).find('.flavor-name').val(results[index].口味);
                     $(row).find('.flavor-price').val(results[index].價格);
                     $(row).find('.flavor-limit').val(results[index].限量);
                 });
-            }else{ // 單口味
-                if( checked.val()=='multiple' ){ $('input[name="flavorType"][value="single"]').prop('checked', true); toggleFlavor("single"); }
-                if( prd ){ $("#price").val(prd.售價); }
-                if( flv ){ $("#singleLimit").val(flv.限量); }else{ $("#singleLimit").val(0); } // 找到該品項，代表有限量
+            } else { // 單口味
+                if (checked.val() == 'multiple') { $('input[name="flavorType"][value="single"]').prop('checked', true); toggleFlavor("single"); }
+                if (prd) { $("#price").val(prd.售價); }
+                if (flv) { $("#singleLimit").val(flv.限量); } else { $("#singleLimit").val(0); } // 找到該品項，代表有限量
             }
         }
     }
@@ -1155,9 +1247,9 @@
         document.getElementById("singleFlavor").style.display = selected === "single" ? "block" : "none";
         document.getElementById("multiFlavor").style.display = selected === "multiple" ? "block" : "none";
     }
-  
 
-    function addFlavor(id='flavorWrapper') {
+
+    function addFlavor(id = 'flavorWrapper') {
         const div = document.createElement('div');
         div.className = "row g-2 mb-2 flavor-row";
         div.innerHTML = `
@@ -1173,7 +1265,7 @@
         btn.closest('.flavor-row').remove();
     }
 
-    function updModal(e){
+    function updModal(e) {
 
         $('#order_title').text('');
         $('#order_price').text('');
@@ -1181,35 +1273,35 @@
         getUserOrderData(e);
     }
 
-    async function getUserOrderData(e){
+    async function getUserOrderData(e) {
 
         const container = $("#itemContainer, #sumContainer");
         container.empty(); // 清空
 
-        const id   = e.dataset.id;
+        const id = e.dataset.id;
         const name = e.dataset.name;
         const type = e.dataset.type;
         const flavor = e.dataset.flavor;
         const search = e.dataset.search || '';
 
         $("#append_order").toggle(false); // 預設隱藏追加訂單
-        if( $("#append_order").hasClass('active') ){ // 如果已顯示追加訂單，避免重新開啟停留在該頁籤上，還原回預設頁籤
+        if ($("#append_order").hasClass('active')) { // 如果已顯示追加訂單，避免重新開啟停留在該頁籤上，還原回預設頁籤
             $("#append_order").removeClass('active');
             new bootstrap.Tab(document.querySelector('#manager_order upd-tab')).show();
         }
 
-        if( type=='view' && search=='' ){ //// 加上排除search!=Y
+        if (type == 'view' && search == '') { //// 加上排除search!=Y
             console.log(search);
-            resetAgentForm(); 
+            resetAgentForm();
             $("#append_prd_id").val(id);
             $("#append_prd_name").val(name);
-            isFlavorType(Number(id), {"prd_type":$("#append_prd_type"), "select":$("select.appendFlavors")}); 
+            isFlavorType(Number(id), { "prd_type": $("#append_prd_type"), "select": $("select.appendFlavors") });
 
             $("#append_order").toggle(true);  // 已結單狀態才會顯示追加訂單tab
         }
 
         const data = { type: type, userId: userId, id: id, name: name, flavor: flavor, search: search };
-    
+
         try {
             mask.style.display = 'flex';
             const response = await fetch(GAS_URL, {
@@ -1222,8 +1314,8 @@
             // console.log(result);
 
             if (result[0].status == 'success') {
-                var ords   = result[0].orders;
-                var price  = `${ typeof result[0].total!=='undefined' ? `<span style="float:right;">總金額(元)：<span class="text-danger">${result[0].total}</span></span>` : ''}`;
+                var ords = result[0].orders;
+                var price = `${typeof result[0].total !== 'undefined' ? `<span style="float:right;">總金額(元)：<span class="text-danger">${result[0].total}</span></span>` : ''}`;
                 $('#order_title').html(name);
                 $('#order_price').html(price);
                 tippy('.truncate').forEach(t => t.destroy());
@@ -1249,7 +1341,7 @@
     }
 
     function renderItems(items, data) {
-        const container  = document.getElementById("itemContainer");
+        const container = document.getElementById("itemContainer");
         const sumcontent = document.getElementById("sumContainer");
 
         var tasteCountMap = {};
@@ -1259,30 +1351,30 @@
         var name = data.name;
         var flavor = data.flavor;
 
-        if( items.length==0 ){ container.innerHTML = '該品項查無訂單!'; return; }
+        if (items.length == 0) { container.innerHTML = '該品項查無訂單!'; return; }
 
-        if( !$('#orderFun').hasClass('d-none') ){ $('#orderFun').addClass('d-none'); }
-        if( !$('#stopOrderFun').hasClass('d-none') ){ $('#stopOrderFun').addClass('d-none'); }
+        if (!$('#orderFun').hasClass('d-none')) { $('#orderFun').addClass('d-none'); }
+        if (!$('#stopOrderFun').hasClass('d-none')) { $('#stopOrderFun').addClass('d-none'); }
 
-        if( type=='upd' ){
+        if (type == 'upd') {
             $('#orderFun').removeClass('d-none');
-            $('#orderStop').attr({'data-id':id, 'data-name':name});
-            $('#orderShare').attr({'data-id':id, 'data-name':name});
+            $('#orderStop').attr({ 'data-id': id, 'data-name': name });
+            $('#orderShare').attr({ 'data-id': id, 'data-name': name });
         }
-        if( type=='view' ){
-            if( $('#stopOrderFun').hasClass('d-none') ){ $('#stopOrderFun').removeClass('d-none'); }
+        if (type == 'view') {
+            if ($('#stopOrderFun').hasClass('d-none')) { $('#stopOrderFun').removeClass('d-none'); }
         }
 
-        if( flavor>1 ){
+        if (flavor > 1) {
             const grouped = {};
             items.forEach(item => {
-                if( type=='upd' ){
+                if (type == 'upd') {
                     if (!grouped[item.name]) { grouped[item.name] = []; }
                     item.orders.forEach(ord => {
                         grouped[item.name].push({ taste: ord.taste, count: ord.count, total: ord.total });
                     });
                 }
-                if( type=='view' ){
+                if (type == 'view') {
                     if (!grouped[item.姓名]) { grouped[item.姓名] = []; }
                     grouped[item.姓名].push({ taste: item.口味, count: item.數量, total: item.金額 });
                 }
@@ -1318,7 +1410,7 @@
                     </li>`
                 ).join('');
                 // console.log(flavorList);
-      
+
                 card.innerHTML = `
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <strong class="truncate"><i class="fas fa-user"></i> ${user}</strong>
@@ -1359,15 +1451,15 @@
             sum_txt += '</div>';
 
             sumcontent.innerHTML = sum_txt;
-            
-        }else{
+
+        } else {
             items.forEach(item => {
                 const card = document.createElement("div");
                 card.className = "card mb-3";
 
                 if (!tasteCountMap['count']) { tasteCountMap['count'] = 0; }
 
-                if( type=='upd' ){
+                if (type == 'upd') {
                     card.innerHTML = `
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <strong class="truncate"><i class="fas fa-user"></i> ${item.name}</strong>
@@ -1378,7 +1470,7 @@
 
                     tasteCountMap['count'] += item.orders[0].count;
                 }
-                if( type=='view' ){
+                if (type == 'view') {
                     card.innerHTML = `
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <strong class="truncate"><i class="fas fa-user"></i> ${item.姓名}</strong>
@@ -1408,43 +1500,43 @@
         }
     }
 
-    function cartModal(e){
+    function cartModal(e) {
 
         $('#cartModal').modal('show');
-    
+
         const name = e.dataset.name;
-        const row  = JSON.parse(e.dataset.row);
+        const row = JSON.parse(e.dataset.row);
         // console.log(flv_list);
 
         prd_name = name;
-        prd_row  = row;
+        prd_row = row;
 
         var text = `想吃的人客記得下單喔\n`;
-        text += `價格：`; 
+        text += `價格：`;
 
         var flvs = flv_list.filter(val => val.品項ID === Number(row.ID));
         // console.log(flvs);
-        if( flvs.length>0 ){ 
-            flvs.forEach((item,i) => {
-                if( row.售價=='---' ){
-                    if( i==0 ){
-                        text += `${item.價格}元/盒`; 
-                    }else{
-                        text += `、${item.價格}元/盒`; 
+        if (flvs.length > 0) {
+            flvs.forEach((item, i) => {
+                if (row.售價 == '---') {
+                    if (i == 0) {
+                        text += `${item.價格}元/盒`;
+                    } else {
+                        text += `、${item.價格}元/盒`;
                     }
                     text += `(${item.口味}`;
-                    if( item.限量>0 ){ text += `，限量${item.限量}盒` }
+                    if (item.限量 > 0) { text += `，限量${item.限量}盒` }
                     text += `)`;
-                }else{
+                } else {
                     text += `${row.售價}元/個`
-                    if( item.限量>0 ){ text += `(限量${item.限量}個)` }
+                    if (item.限量 > 0) { text += `(限量${item.限量}個)` }
                 }
             });
             text += `\n`;
         }
-    
-        if( row.限時開始!='---' && row.限時結束!='---' && row.限時開始!='' && row.限時結束!='' ){ 
-            text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; 
+
+        if (row.限時開始 != '---' && row.限時結束 != '---' && row.限時開始 != '' && row.限時結束 != '') {
+            text += `限時：${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`;
         }
         text += `下單後才會開始製作請耐心等待❤️`;
 
@@ -1454,15 +1546,15 @@
             { insert: { readonly: `開團【${name}】\n` } },
             { insert: `${text}\n` },
         ];
-    
+
         quill.setContents(delta);
     }
 
-    async function orderOpen(){
+    async function orderOpen() {
 
         const delta = quill.getContents();
         let text = '';
-    
+
         delta.ops.forEach(op => {
             if (typeof op.insert === 'string') {
                 text += op.insert;
@@ -1481,7 +1573,7 @@
         }
     }
 
-    async function orderShow(e){
+    async function orderShow(e) {
 
         const name = e.dataset.name;
 
@@ -1498,9 +1590,9 @@
         }
     }
 
-    function AgentModal(e){
+    function AgentModal(e) {
 
-        const id   = Number(e.dataset.id);
+        const id = Number(e.dataset.id);
         const name = e.dataset.name;
 
         $('#AgentModal').modal('show');
@@ -1513,66 +1605,66 @@
 
         $('input[name="nameType"][value="new"]').prop('checked', true).trigger('change'); // 還原預設new
 
-        var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
+        var prds = prd_list.filter(prd => prd.狀態 === '已結單' && prd.名稱 === name);
         // console.log(prds);
 
         var isDisabled = $('input[name="nameType"][value="old"]').prop('disabled');
 
-        if( isDisabled ){ //true代表已禁用
-            if( prds.length>0 ){ $('input[name="nameType"][value="old"]').prop('disabled', false); }
-        }else{
-            if( prds.length==0 ){ $('input[name="nameType"][value="old"]').prop('disabled', true); }
+        if (isDisabled) { //true代表已禁用
+            if (prds.length > 0) { $('input[name="nameType"][value="old"]').prop('disabled', false); }
+        } else {
+            if (prds.length == 0) { $('input[name="nameType"][value="old"]').prop('disabled', true); }
         }
 
-        if( prd_list ){ 
+        if (prd_list) {
             var prd = prd_list.find(item => item.ID === id);
-            if( prd.售價=='---' ){ //多口味
+            if (prd.售價 == '---') { //多口味
 
                 $(".agentFlavors").removeClass('d-none').addClass('d-flex');
 
                 $('#prd_type').val('multiple');
 
                 setFlavorsOpt(id);
-            }else{ // 單口味
-                $(".agentFlavors").html(''); 
+            } else { // 單口味
+                $(".agentFlavors").html('');
                 $(".agentFlavors").removeClass('d-flex').addClass('d-none');
                 $('#prd_type').val('single');
             }
         }
     }
 
-    function setFlavorsOpt(id, $select=false){
+    function setFlavorsOpt(id, $select = false) {
 
-        var flvs = flv_list.filter(item => item.品項ID === id); 
+        var flvs = flv_list.filter(item => item.品項ID === id);
         flvs_opt = '<option value="" selected disabled>口味</option>';
-        flvs.forEach(flv => { flvs_opt += '<option value="'+flv.口味+'">'+flv.口味+'</option>'; });
+        flvs.forEach(flv => { flvs_opt += '<option value="' + flv.口味 + '">' + flv.口味 + '</option>'; });
 
-        if( !$select ){
-            $(".agentFlavors").html(flvs_opt); 
-        }else{
-            $select.html(flvs_opt); 
+        if (!$select) {
+            $(".agentFlavors").html(flvs_opt);
+        } else {
+            $select.html(flvs_opt);
         }
     }
 
-    async function orderAgent(){
+    async function orderAgent() {
 
-        const sed  = document.querySelector('input[name="nameType"]:checked').value;
+        const sed = document.querySelector('input[name="nameType"]:checked').value;
         const type = $('#prd_type').val();
 
-        if( sed=='new' || sed=='old' ){
+        if (sed == 'new' || sed == 'old') {
 
-            var $name = 'input[name="'+sed+'Name[]"]';
-            if( sed=='old' ){ $name = 'select[name="'+sed+'Name[]"]'; }
+            var $name = 'input[name="' + sed + 'Name[]"]';
+            if (sed == 'old') { $name = 'select[name="' + sed + 'Name[]"]'; }
 
             let names = $($name).map(function () {
                 return $(this).val();
             }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
-            let nums = $('input[name="'+sed+'Nums[]"]').map(function () {
+            let nums = $('input[name="' + sed + 'Nums[]"]').map(function () {
                 return $(this).val();
             }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
-            let flavors = $('select[name="'+sed+'Flavors[]"]').map(function () {
+            let flavors = $('select[name="' + sed + 'Flavors[]"]').map(function () {
                 return $(this).val();
             }).get().filter(function (val) { return val !== ""; });   // 排除空字串
 
@@ -1585,18 +1677,18 @@
 
             const prd = $('#prd_name').val();
 
-            let data = { type:'agent', userId: userId, agOrders: [] };
+            let data = { type: 'agent', userId: userId, agOrders: [] };
 
             names.forEach((name, i) => {
 
-                if( type=='single' )  { var arr = [{ flavor: '', qty: nums[i] }]; } // 新名字(單口味)
-                if( type=='multiple' ){ var arr = [{ flavor: flavors[i], qty: nums[i] }]; } // 新名字(多口味)
+                if (type == 'single') { var arr = [{ flavor: '', qty: nums[i] }]; } // 新名字(單口味)
+                if (type == 'multiple') { var arr = [{ flavor: flavors[i], qty: nums[i] }]; } // 新名字(多口味)
 
                 var order = {};
                 order['orders'] = arr;
-                order['name']   = name;
-                order['id']     = name;
-                order['item']   = prd;
+                order['name'] = name;
+                order['id'] = name;
+                order['item'] = prd;
 
                 data.agOrders.push(order);
             });
@@ -1627,17 +1719,17 @@
         }
     }
 
-    function addAgent(){
+    function addAgent() {
 
         const div = document.createElement('div');
         div.className = "row g-2 mb-2 agent-row dynamic swipe-item";
 
         var prd_type = $('#prd_type').val();
-        var prd_id   = $('#prd_id').val();
-        const sed    = document.querySelector('input[name="nameType"]:checked').value;
+        var prd_id = $('#prd_id').val();
+        const sed = document.querySelector('input[name="nameType"]:checked').value;
 
-        if( prd_type=='single' && sed=='old' ){
-        
+        if (prd_type == 'single' && sed == 'old') {
+
             div.innerHTML = `
                 <div class="col-12 d-flex gap-2">
                     <select class="form-select w-100 agentNames" name="oldName[]" required></select>
@@ -1659,7 +1751,7 @@
                 width: '100%',
             });
         }
-        if( prd_type=='single' && sed=='new' ){
+        if (prd_type == 'single' && sed == 'new') {
 
             div.innerHTML = `
                 <div class="col-12 d-flex gap-2">
@@ -1672,9 +1764,9 @@
 
             document.getElementById("agentWrapper").appendChild(div);
         }
-        
 
-        if( prd_type=='multiple' && sed=='old' ){
+
+        if (prd_type == 'multiple' && sed == 'old') {
 
             div.innerHTML = `
                 <div class="swipe-content col-12 d-flex gap-2">
@@ -1705,7 +1797,7 @@
 
             setFlavorsOpt(Number(prd_id), $select);
         }
-        if( prd_type=='multiple' && sed=='new' ){
+        if (prd_type == 'multiple' && sed == 'new') {
 
             div.innerHTML = `
                 <div class="col-12 d-flex gap-2">
@@ -1753,11 +1845,11 @@
         });
     }
 
-    function removeAgent(btn){
+    function removeAgent(btn) {
         btn.closest('.agent-row').remove();
     }
 
-    async function gasPostData(data){
+    async function gasPostData(data) {
 
         try {
             mask.style.display = 'flex';
@@ -1772,7 +1864,7 @@
             if (result[0].status == 'success') {
                 return result[0].orders;
             } else {
-                Swal.fire({ icon: 'error', title: title+'失敗', text: result[0].alert || '請稍後再試' });
+                Swal.fire({ icon: 'error', title: title + '失敗', text: result[0].alert || '請稍後再試' });
             }
         } catch (err) {
             console.log(err);
@@ -1789,12 +1881,12 @@
 
         resetAgentForm();
 
-        if( prd_type=='multiple' ){
+        if (prd_type == 'multiple') {
             $("#newName").find('.agentFlavors').removeClass("d-none d-flex").addClass(selected === "new" ? "d-flex" : "d-none");
             $("#oldName").find('.agentFlavors').removeClass("d-none d-flex").addClass(selected === "old" ? "d-flex" : "d-none");
         }
 
-        if( prd_type=='single' ){
+        if (prd_type == 'single') {
             $("#newName").find('.agentFlavors').removeClass("d-flex").addClass("d-none");
             $("#oldName").find('.agentFlavors').removeClass("d-flex").addClass("d-none");
         }
@@ -1804,15 +1896,15 @@
 
         // return false;
 
-        if( selected=='old' ){
+        if (selected == 'old') {
 
-            if( $(".agentNames option").length>0 ){ return false; }
+            if ($(".agentNames option").length > 0) { return false; }
 
             var name = $('#prd_name').val();
 
-            var prds = prd_list.filter(prd => prd.狀態==='已結單' && prd.名稱===name);
+            var prds = prd_list.filter(prd => prd.狀態 === '已結單' && prd.名稱 === name);
 
-            if( prds.length==0 ){ return false; }
+            if (prds.length == 0) { return false; }
 
             const data = { type: 'aguser', userId: userId, name: name };
 
@@ -1829,9 +1921,9 @@
             $('.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
             oldAgentName.forEach(val => {
-                $('.agentNames').append('<option value="'+val.id+'">'+val.text+'</option>');
+                $('.agentNames').append('<option value="' + val.id + '">' + val.text + '</option>');
             });
-    
+
             // 初始化 Select2
             $('.agentNames').select2({
                 data: oldAgentName,
@@ -1843,22 +1935,22 @@
         }
     }
 
-    function orderConfirm(e){
+    function orderConfirm(e) {
 
-        var id     = e.dataset.id;
-        var name   = e.dataset.name;
+        var id = e.dataset.id;
+        var name = e.dataset.name;
         const type = e.dataset.type;
 
-        if( id=='' )  { id   = $('#append_prd_id').val();   }
-        if( name=='' ){ name = $('#append_prd_name').val(); }
+        if (id == '') { id = $('#append_prd_id').val(); }
+        if (name == '') { name = $('#append_prd_name').val(); }
 
         const data = { type: type, userId: userId, id: id, name: name };
 
         let text;
-        if( type=='stop' )  { text = '你確定要延後該品項嗎？'; }
-        if( type=='chkout' ){ text = '你確定要結單該品項嗎？'; }
-        if( type=='delete' ){ text = '你確定要刪除該品項嗎？'; }
-        if( type=='delapd' ){ text = '你確定要刪除追加品項嗎？'; }
+        if (type == 'stop') { text = '你確定要延後該品項嗎？'; }
+        if (type == 'chkout') { text = '你確定要結單該品項嗎？'; }
+        if (type == 'delete') { text = '你確定要刪除該品項嗎？'; }
+        if (type == 'delapd') { text = '你確定要刪除追加品項嗎？'; }
 
         Swal.fire({
             title: text,
@@ -1877,14 +1969,14 @@
         });
     }
 
-    async function actOrder(data){
+    async function actOrder(data) {
 
         let title;
         let text;
-        if( data.type=='stop' )  { title = '延後'; text = `品項「${data.name}」`; }
-        if( data.type=='chkout' ){ title = '結單'; text = `品項「${data.name}」`; }
-        if( data.type=='delete' ){ title = '刪除'; text = `品項「${data.name}」`; }
-        if( data.type=='delapd' ){ title = '刪除'; text = `追加訂單「${data.name}」`; }
+        if (data.type == 'stop') { title = '延後'; text = `品項「${data.name}」`; }
+        if (data.type == 'chkout') { title = '結單'; text = `品項「${data.name}」`; }
+        if (data.type == 'delete') { title = '刪除'; text = `品項「${data.name}」`; }
+        if (data.type == 'delapd') { title = '刪除'; text = `追加訂單「${data.name}」`; }
 
         try {
             mask.style.display = 'flex';
@@ -1898,9 +1990,9 @@
 
             if (result[0].status == 'success') {
                 await fetchData();
-                Swal.fire({ icon: 'success', title: title+'成功', text: text+`${result[0].alert}！` });
+                Swal.fire({ icon: 'success', title: title + '成功', text: text + `${result[0].alert}！` });
             } else {
-                Swal.fire({ icon: 'error', title: title+'失敗', text: result[0].alert || '請稍後再試' });
+                Swal.fire({ icon: 'error', title: title + '失敗', text: result[0].alert || '請稍後再試' });
             }
         } catch (err) {
             console.log(err);
@@ -1910,7 +2002,7 @@
         }
     }
 
-    function delUserOrderConfirm(e){
+    function delUserOrderConfirm(e) {
         // console.log(e);
         Swal.fire({
             title: '你確定嗎？',
@@ -1924,7 +2016,7 @@
         });
     }
 
-    async function delUser(e){
+    async function delUser(e) {
 
         const id = e.dataset.id;
         const name = e.dataset.name;
@@ -1960,10 +2052,10 @@
 
         // 1. 還原 radio 預設 (假設預設是 single)
         $('input[name="flavorType"][value="single"]').prop('checked', true).trigger('change'); // 觸發 toggleFlavor()
-  
+
         // 2. 清空所有欄位 (input, select, textarea)
         $('#singleFlavor, #multiFlavor').find('input').val('').prop('checked', false).prop('selected', false);
-  
+
         // 3. 如果 multiFlavor 有動態新增的 .flavor-row，留第一列移除其餘
         $('#flavorWrapper .flavor-row').slice(2).remove();
 
@@ -1977,80 +2069,80 @@
         fileList = [];
     }
 
-    function resetAgentForm(){
+    function resetAgentForm() {
 
         $('.dynamic').remove(); // 清除動態產生div
-  
+
         // 清空所有欄位 (input, select, textarea)
         $('#newName, #oldName').find('input').val('').prop('checked', false).prop('selected', false);
-  
+
     }
-  
+
     async function submitForm() {
 
         if (!userId) { alert("⚠️ 尚未取得 userId"); return; }
 
-        let name    = document.getElementById('itemName').value.trim();
-        const id    = document.getElementById('itemNames').value.trim();
+        let name = document.getElementById('itemName').value.trim();
+        const id = document.getElementById('itemNames').value.trim();
         // const range = document.getElementById('rangePicker').value;
         const range1 = document.getElementById('startDate').value;
         const range2 = document.getElementById('endDate').value;
-        const range  = range1 + ' 至 ' + range2;
+        const range = range1 + ' 至 ' + range2;
 
         // 抓取網址參數
         const params = new URLSearchParams(window.location.search);
-        const debug  = params.get("debug"); // 抓取debug的值
+        const debug = params.get("debug"); // 抓取debug的值
 
         let file = '';
-        if( fileList.length>0 ){ 
-            file = await uploadImg(); 
+        if (fileList.length > 0) {
+            file = await uploadImg();
         }
 
-        if ( !name && !id ) { Swal.fire('請填寫名稱'); return; }
+        if (!name && !id) { Swal.fire('請填寫名稱'); return; }
 
-        if( id ){ 
+        if (id) {
             var prd = prd_list.find(item => item.ID === Number(id));
-            if( prd ){ name = prd.名稱; }
+            if (prd) { name = prd.名稱; }
         }
-    
-        const flavorType   = document.querySelector('input[name="flavorType"]:checked').value;
+
+        const flavorType = document.querySelector('input[name="flavorType"]:checked').value;
         const scheduleType = document.querySelector('input[name="scheduleType"]:checked').value;
 
         // if( debug=='Y' ){ // 帶入行程新功能
-            if( scheduleType=='group_time' ){ // 依團購期間
-                if( range1=='' || range2=='' ){ Swal.fire('請輸入團購期間!!'); return; }
+        if (scheduleType == 'group_time') { // 依團購期間
+            if (range1 == '' || range2 == '') { Swal.fire('請輸入團購期間!!'); return; }
 
-                var beg = DateToFirebase(range1);
-                var end = DateToFirebase(range2);
+            var beg = DateToFirebase(range1);
+            var end = DateToFirebase(range2);
 
-                schedulesToFirebase( name, beg, end );
+            schedulesToFirebase(name, beg, end);
 
-            }
+        }
 
-            if( scheduleType=='custom_time' ){ // 自訂時間
+        if (scheduleType == 'custom_time') { // 自訂時間
 
-                var beg = document.getElementById('scheduleStartDate').value;
-                var end = document.getElementById('scheduleEndDate').value;
+            var beg = document.getElementById('scheduleStartDate').value;
+            var end = document.getElementById('scheduleEndDate').value;
 
-                if( beg=='' || end=='' ){ Swal.fire('請輸入自訂時間!!'); return; }
+            if (beg == '' || end == '') { Swal.fire('請輸入自訂時間!!'); return; }
 
-                beg = DateToFirebase(beg);
-                end = DateToFirebase(end);
+            beg = DateToFirebase(beg);
+            end = DateToFirebase(end);
 
-                schedulesToFirebase( name, beg, end );
-            }
+            schedulesToFirebase(name, beg, end);
+        }
 
-            // return;
+        // return;
         // }
-  
+
         let flavors = [];
-        let price   = [];
-  
+        let price = [];
+
         if (flavorType === 'single') {
             const singleLimit = parseInt(document.getElementById('singleLimit').value);
             p = parseInt(document.getElementById('price').value);
 
-            if ( p<=0 ) { Swal.fire('價格不能為0或小於0'); return; }
+            if (p <= 0) { Swal.fire('價格不能為0或小於0'); return; }
             if (isNaN(singleLimit) || singleLimit < 0) { Swal.fire('請輸入有效的限量'); return; }
 
             price.push(p);
@@ -2110,17 +2202,17 @@
         }
     }
 
-    function editModal(e){
+    function editModal(e) {
 
         $('#editModal').modal('show');
 
-        const id      = e.dataset.id;
-        const name    = e.dataset.name;
-        const type    = e.dataset.type;
+        const id = e.dataset.id;
+        const name = e.dataset.name;
+        const type = e.dataset.type;
         const flavors = e.dataset.flavor;
 
-        var prd = prd_list.filter(prd => prd.ID===Number(id) && prd.名稱===name && prd.狀態==='開啟中' );
-        var flv = flv_list.filter(item => item.品項ID === Number(id)); 
+        var prd = prd_list.filter(prd => prd.ID === Number(id) && prd.名稱 === name && prd.狀態 === '開啟中');
+        var flv = flv_list.filter(item => item.品項ID === Number(id));
 
         $('#prdName').val(prd[0].名稱);
 
@@ -2138,37 +2230,37 @@
             minDate: "today" // ✅ 限制今天以前不能選
         });
 
-        if( prd[0].限時開始!='' && prd[0].限時結束!='' ){
+        if (prd[0].限時開始 != '' && prd[0].限時結束 != '') {
             beg.setDate(prd[0].限時開始);
             end.setDate(prd[0].限時結束);
         }
 
         $('#editSingleFlavor, #editMultiFlavor').css('display', 'none');
 
-        if( flavors>1 ){ // 多口味
-            $('#editMultiFlavor').css('display','block');
-        }else{ // 單口味
-            $('#editSingleFlavor').css('display','block');
+        if (flavors > 1) { // 多口味
+            $('#editMultiFlavor').css('display', 'block');
+        } else { // 單口味
+            $('#editSingleFlavor').css('display', 'block');
         }
-        setItemData({value:id, did: 'editWrapper'});
+        setItemData({ value: id, did: 'editWrapper' });
 
         const data = { type: type, userId: userId, id: id, name: name, flavors: flavors, price: [], range: '' };
 
         $('#editData').val(JSON.stringify(data));
 
-        if( flv ){
+        if (flv) {
             var img_str = flv[0].圖片;
             var img_arr = img_str.split('|');
             var img_url = 'https://res.cloudinary.com/dwavqm0sh/image/upload/';
 
-            if( img_str ){
+            if (img_str) {
 
                 fileList = []; // 清空暫存照片
                 $('#editPreview').empty(); // 清空預覽圖
 
-                if( Array.isArray(img_arr) && img_arr.length>0 ){
+                if (Array.isArray(img_arr) && img_arr.length > 0) {
                     img_arr.forEach(filename => { imgpreview($('#editPreview'), img_url, filename); });
-                }else{
+                } else {
                     imgpreview($('#editPreview'), img_url, img_str);
                 }
 
@@ -2178,7 +2270,7 @@
         // console.log(fileList);
     }
 
-    async function editForm(){
+    async function editForm() {
 
         //editPrice,editNum
         let data = JSON.parse($('#editData').val());
@@ -2189,13 +2281,13 @@
 
         // 抓取網址參數
         const params = new URLSearchParams(window.location.search);
-        const debug  = params.get("debug"); // 抓取debug的值
+        const debug = params.get("debug"); // 抓取debug的值
 
-        if( fileList.length>0 ){ data.file = await uploadImg(); }
+        if (fileList.length > 0) { data.file = await uploadImg(); }
 
         var arr = [];
 
-        if( flvs.length>1 ){
+        if (flvs.length > 1) {
 
             const flavorRows = document.querySelectorAll('#editMultiFlavor .flavor-row');
             for (const row of flavorRows) {
@@ -2206,7 +2298,7 @@
                     Swal.fire('請填寫所有口味與有效數量及價格');
                     return;
                 }
-                
+
                 arr.push({ flavor: name, num: limitValue, price: p });
                 data.price.push(p);
             }
@@ -2214,10 +2306,10 @@
             if (arr.length === 0) { Swal.fire('至少新增一個口味'); return; }
 
             data.flavors = arr;
-        }else{
+        } else {
 
             var newPrice = $('#editPrice').val();
-            var newNum   = $('#editNum').val();
+            var newNum = $('#editNum').val();
 
             arr.push({ flavor: '', num: newNum, price: newPrice });
             data.flavors = arr;
@@ -2226,16 +2318,16 @@
 
         // console.log(data);
 
-        postGAS( data, {'successMsg':'編輯成功', 'errorMsg':'編輯失敗', 'modalHide': $('#editModal')} );
+        postGAS(data, { 'successMsg': '編輯成功', 'errorMsg': '編輯失敗', 'modalHide': $('#editModal') });
     }
 
-    function toggleSchedule(type){
+    function toggleSchedule(type) {
 
         const selected = type;
         document.getElementById("cusTime").style.display = selected === "custom_time" ? "block" : "none";
     }
 
-    function uploadImg(){
+    function uploadImg() {
 
         // console.log(img.value);
 
@@ -2244,7 +2336,7 @@
 
         const promises = []; // 儲存每個 file reader 的 promise
 
-        if( fileList.length>0 ){
+        if (fileList.length > 0) {
 
             for (let i = 0; i < fileList.length; i++) {
                 const file = fileList[i];
@@ -2261,7 +2353,7 @@
 
         // 等待全部讀取完成
         return Promise.all(promises);
-        
+
     }
 
     function previewFiles(inputSelector, previewSelector, options = {}) {
@@ -2274,9 +2366,9 @@
             countSelector: '#fileCount' // 顯示檔案數
         }, options);
 
-        const $input   = $(inputSelector);
+        const $input = $(inputSelector);
         const $preview = $(previewSelector);
-        const $count   = $(settings.countSelector);
+        const $count = $(settings.countSelector);
         fileList = [];
 
         $input.off('change').on('change', async function () {
@@ -2299,7 +2391,7 @@
                     $input.val('');
                     return;
                 }
-                
+
                 await renderPreview(file, $preview, settings, fileList);
             };
 
@@ -2315,7 +2407,7 @@
 
             const img = new Image();
 
-            img.onload = function() {
+            img.onload = function () {
                 // ✅ 呼叫我們的浮水印函式
                 const watermarkedDataUrl = addWatermark(img, {
                     type: 'image',                  // 'text' or 'image'
@@ -2325,7 +2417,7 @@
                     opacity: 0.2
                 });
 
-                fileList.push({name: file.name, type: file.type, data: watermarkedDataUrl});
+                fileList.push({ name: file.name, type: file.type, data: watermarkedDataUrl });
 
                 updateFileCount($(settings.countSelector), fileList.length);
 
@@ -2336,12 +2428,12 @@
                 });
 
                 const $img = $('<img>')
-                .attr('src', watermarkedDataUrl)
-                .css({
-                    width: `${settings.previewWidth}px`,
-                    border: '1px solid #ccc',
-                    borderRadius: '4px'
-                });
+                    .attr('src', watermarkedDataUrl)
+                    .css({
+                        width: `${settings.previewWidth}px`,
+                        border: '1px solid #ccc',
+                        borderRadius: '4px'
+                    });
 
                 const $del = $('<span>✕</span>').css({
                     position: 'absolute',
@@ -2398,7 +2490,7 @@
         ctx.drawImage(img, 0, 0, img.width, img.height);
         ctx.globalAlpha = opacity;
 
-        if( type === 'image' && watermarkImg ){
+        if (type === 'image' && watermarkImg) {
             // ✅ 使用圖片浮水印
             const wmWidth = img.width * 0.8; // 佔原圖 40%
             const wmHeight = watermarkImg.height * (wmWidth / watermarkImg.width);
@@ -2421,7 +2513,7 @@
             }
 
             ctx.drawImage(watermarkImg, x, y, wmWidth, wmHeight);
-        }else{
+        } else {
             // ✅ 使用文字浮水印
             const fontSize = Math.floor(img.width / 25);
             ctx.font = `${fontSize}px ${font}`;
@@ -2440,9 +2532,9 @@
         return canvas.toDataURL('image/jpeg', 0.9);
     }
 
-    function imgpreview($preview, url, filename){
+    function imgpreview($preview, url, filename) {
 
-        fileList.push({name: filename, type: 'uploaded', data: ''});
+        fileList.push({ name: filename, type: 'uploaded', data: '' });
 
         const $wrapper = $('<div>').css({
             position: 'relative',
@@ -2451,12 +2543,12 @@
         });
 
         const $img = $('<img>')
-        .attr('src', url+filename)
-        .css({
-            width: `60px`,
-            border: '1px solid #ccc',
-            borderRadius: '4px'
-        });
+            .attr('src', url + filename)
+            .css({
+                width: `60px`,
+                border: '1px solid #ccc',
+                borderRadius: '4px'
+            });
 
         const $del = $('<span>✕</span>').css({
             position: 'absolute',
@@ -2492,19 +2584,19 @@
         $count.text(`已選擇 ${num} 張圖片`);
     }
 
-    function formatDate(datetime){
+    function formatDate(datetime) {
         const date = new Date(datetime);
-    
+
         // 轉為台灣時間（+8）
         const taiwanOffset = date.getTime() + (8 * 60 * 60 * 1000);
         const taiwanDate = new Date(taiwanOffset);
-    
+
         // 組合格式：m/d h:i
         const m = taiwanDate.getUTCMonth() + 1;
         const d = taiwanDate.getUTCDate();
         const h = taiwanDate.getUTCHours().toString().padStart(2, '0');
         const i = taiwanDate.getUTCMinutes().toString().padStart(2, '0');
-    
+
         const formatted = `${m}/${d} ${h}:${i}`;
 
         return formatted;
@@ -2522,24 +2614,24 @@
         return arr.slice(0, n); // 取前 n 個
     }
 
-    async function schedulesToFirebase( name, start, end ){
+    async function schedulesToFirebase(name, start, end) {
 
         let schedules;
 
-        const def = db.ref("users/"+userId+"/schedules");
+        const def = db.ref("users/" + userId + "/schedules");
         // const def = db.ref("users/test/schedules");
 
         const data = await def.once("value");
-            
+
         if (!data.exists()) {
 
-            def.set({data: []});
+            def.set({ data: [] });
             schedules = JSON.parse('{"data":[]}');
-        }else{
+        } else {
             const raw = data.val();
-            if( raw ){ schedules = JSON.parse(raw); }
+            if (raw) { schedules = JSON.parse(raw); }
         }
-            
+
         // console.log(schedules);
 
         var nextId = schedules.data.reduce((maxId, item) => Math.max(maxId, item.id || 0), 0) + 1;
@@ -2547,7 +2639,7 @@
         var list = {
             id: nextId,
             name: name,
-            content: '做'+name,
+            content: '做' + name,
             start: start,
             end: end,
         };
@@ -2559,80 +2651,80 @@
     function DateToFirebase(str, year = new Date().getFullYear()) {
 
         const [md, hi] = str.split(" ");
-        const ymd = year +'-'+md.replace('/', '-');
+        const ymd = year + '-' + md.replace('/', '-');
 
         return ymd;
     }
 
-    function isFlavorType(id, opts=false){
+    function isFlavorType(id, opts = false) {
 
         var $prd_type = opts['prd_type'];
-        var $select   = opts['select'];
+        var $select = opts['select'];
 
-        if( prd_list ){ 
+        if (prd_list) {
             var prd = prd_list.find(item => item.ID === id);
-            if( prd.售價=='---' ){ //多口味
+            if (prd.售價 == '---') { //多口味
 
                 $select.removeClass('d-none').addClass('d-flex');
 
                 $prd_type.val('multiple');
 
                 setFlavorsOpt(id, $select);
-            }else{ // 單口味
-                $select.html(''); 
+            } else { // 單口味
+                $select.html('');
                 $select.removeClass('d-flex').addClass('d-none');
                 $prd_type.val('single');
             }
         }
     }
 
-    function addAppend(){
+    function addAppend() {
 
         const div = document.createElement('div');
         div.className = "row g-2 mb-2 append-row dynamic swipe-item";
 
         var prd_type = $('#append_prd_type').val();
-        var prd_id   = $('#append_prd_id').val();
-        const sed    = document.querySelector('input[name="nameType"]:checked').value;
+        var prd_id = $('#append_prd_id').val();
+        const sed = document.querySelector('input[name="nameType"]:checked').value;
 
-        dynamicRow('append', {"prd_type":prd_type, "prd_id":prd_id});
+        dynamicRow('append', { "prd_type": prd_type, "prd_id": prd_id });
     }
 
-    function dynamicRow(name, opts=false){
+    function dynamicRow(name, opts = false) {
 
         var prd_type = opts['prd_type'];
-        var prd_id   = opts['prd_id'];
+        var prd_id = opts['prd_id'];
 
         let sed = '';
-        if( name=='agent' ){ sed = document.querySelector('input[name="nameType"]:checked').value; }
+        if (name == 'agent') { sed = document.querySelector('input[name="nameType"]:checked').value; }
 
         const div = document.createElement('div');
-        div.className = "row g-2 mb-2 "+name+"-row dynamic swipe-item";
+        div.className = "row g-2 mb-2 " + name + "-row dynamic swipe-item";
 
         var hide = true; // 單口味
-        if( prd_type=='multiple' ){ hide = false; } // 多口味
+        if (prd_type == 'multiple') { hide = false; } // 多口味
 
         div.innerHTML = `
-            <div class="${ sed=='old' && !hide ? 'swipe-content' : '' } ${ name=='append' && !hide ? 'swipe-content' : '' } col-12 d-flex gap-2">
-                ${ sed=='old' 
-                    ? '<select class="form-select w-100 agentNames" name="oldName[]" required></select>' 
-                    : sed=='new'
-                        ? '<input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>' 
-                        : '<input type="text" class="form-control appendName" name="appendName[]" placeholder="姓名" required>'
-                }
-                <select class="form-select agentFlavors ${hide ? 'd-none' : ''}" ${ sed=='old' ? 'name="oldFlavors[]" style="width:45%;"' : sed=='new' ? 'name="newFlavors[]"' : 'name="appendFlavors[]"' }></select>
-                <input type="number" class="form-control" ${ sed=='old' ? 'name="oldNums[]"' : sed=='new' ? 'name="newNums[]"' : 'name="appendNums[]"' } min="1" placeholder="數量">
-                ${ hide ? '<button class="btn btn-outline-danger" onclick="removeRow(this, `append`)"><i class="fas fa-times"></i></button>' : '' }
+            <div class="${sed == 'old' && !hide ? 'swipe-content' : ''} ${name == 'append' && !hide ? 'swipe-content' : ''} col-12 d-flex gap-2">
+                ${sed == 'old'
+                ? '<select class="form-select w-100 agentNames" name="oldName[]" required></select>'
+                : sed == 'new'
+                    ? '<input type="text" class="form-control agentName" name="newName[]" placeholder="姓名" required>'
+                    : '<input type="text" class="form-control appendName" name="appendName[]" placeholder="姓名" required>'
+            }
+                <select class="form-select agentFlavors ${hide ? 'd-none' : ''}" ${sed == 'old' ? 'name="oldFlavors[]" style="width:45%;"' : sed == 'new' ? 'name="newFlavors[]"' : 'name="appendFlavors[]"'}></select>
+                <input type="number" class="form-control" ${sed == 'old' ? 'name="oldNums[]"' : sed == 'new' ? 'name="newNums[]"' : 'name="appendNums[]"'} min="1" placeholder="數量">
+                ${hide ? '<button class="btn btn-outline-danger" onclick="removeRow(this, `append`)"><i class="fas fa-times"></i></button>' : ''}
                 
             </div>
-            ${ !hide ? '<div class="swipe-delete d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>' : '' }
+            ${!hide ? '<div class="swipe-delete d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></div>' : ''}
         `;
 
-        document.getElementById(name+"Wrapper").appendChild(div);
+        document.getElementById(name + "Wrapper").appendChild(div);
 
-        if( !hide ){ initSwipeDelete(div); }
-        
-        if( sed=='old' ){
+        if (!hide) { initSwipeDelete(div); }
+
+        if (sed == 'old') {
 
             $(div).find('select.agentNames').append('<option value="" selected disabled hidden>請選擇姓名</option>');
 
@@ -2644,97 +2736,97 @@
                 width: '100%',
             });
         }
-        if( !hide ){ setFlavorsOpt(Number(prd_id), $(div).find("select")); }
+        if (!hide) { setFlavorsOpt(Number(prd_id), $(div).find("select")); }
 
     }
 
-    function removeRow(btn, name){
-        btn.closest('.'+name+'-row').remove();
+    function removeRow(btn, name) {
+        btn.closest('.' + name + '-row').remove();
     }
 
-    async function orderAppend(){
+    async function orderAppend() {
 
-        const id   = $('#append_prd_id').val();
+        const id = $('#append_prd_id').val();
         const type = $('#append_prd_type').val();
-        const prd  = $('#append_prd_name').val();
+        const prd = $('#append_prd_name').val();
 
         var $name = $('input[name="appendName[]"]');
         var $nums = $('input[name="appendNums[]"]');
         var $flvs = $('select[name="appendFlavors[]"]');
 
         let names = $name.map(function () { return $(this).val(); }).get().filter(function (val) { return val !== ""; });
-        let nums  = $nums.map(function () { return $(this).val(); }).get().filter(function (val) { return val !== ""; });
-        let flvs  = $flvs.map(function () { return $(this).val(); }).get().filter(function (val) { return val !== ""; });
+        let nums = $nums.map(function () { return $(this).val(); }).get().filter(function (val) { return val !== ""; });
+        let flvs = $flvs.map(function () { return $(this).val(); }).get().filter(function (val) { return val !== ""; });
 
         const sort = [];
         names.forEach(item => { if (!sort.includes(item)) sort.push(item); });
 
         names = sort.flatMap(o => names.filter(a => a === o));
 
-        let data = { type:'append', userId: userId, id: id, name:prd, apOrders: [] };
+        let data = { type: 'append', userId: userId, id: id, name: prd, apOrders: [] };
 
         names.forEach((name, i) => {
 
-            if( type=='single' )  { var arr = [{ flavor: '', qty: nums[i] }]; }      // 新名字(單口味)
-            if( type=='multiple' ){ var arr = [{ flavor: flvs[i], qty: nums[i] }]; } // 新名字(多口味)
+            if (type == 'single') { var arr = [{ flavor: '', qty: nums[i] }]; }      // 新名字(單口味)
+            if (type == 'multiple') { var arr = [{ flavor: flvs[i], qty: nums[i] }]; } // 新名字(多口味)
 
             var order = {};
             order['orders'] = arr;
-            order['name']   = '(追加)'+name;
-            order['id']     = '(追加)'+name;
-            order['item']   = prd;
+            order['name'] = '(追加)' + name;
+            order['id'] = '(追加)' + name;
+            order['item'] = prd;
 
             data.apOrders.push(order);
         });
 
-        postGAS( data, {'successMsg':'追加成功', 'errorMsg':'追加失敗', 'modalHide': $('#updModal')} );
+        postGAS(data, { 'successMsg': '追加成功', 'errorMsg': '追加失敗', 'modalHide': $('#updModal') });
     }
 
-    async function aiHelpFunc(type){
+    async function aiHelpFunc(type) {
 
-        let price    = '';
+        let price = '';
         let deadline = '';
-        let data     = {};
+        let data = {};
 
-        if( type=='aiwrite' ) {
+        if (type == 'aiwrite') {
 
             var row = prd_row;
 
             var flvs = flv_list.filter(val => val.品項ID === Number(row.ID));
             // console.log(flvs);
-            if( flvs.length>0 ){ 
-                flvs.forEach((item,i) => {
-                    if( row.售價=='---' ){
+            if (flvs.length > 0) {
+                flvs.forEach((item, i) => {
+                    if (row.售價 == '---') {
 
-                        if( i==0 ){ price += `${item.價格}元/盒`; }else{ price += `、${item.價格}元/盒`; }
+                        if (i == 0) { price += `${item.價格}元/盒`; } else { price += `、${item.價格}元/盒`; }
 
                         price += `(${item.口味}`;
 
-                        if( item.限量>0 ){ price += `，限量${item.限量}盒`; }
+                        if (item.限量 > 0) { price += `，限量${item.限量}盒`; }
 
                         price += `)`;
-                    }else{
+                    } else {
                         price += `${row.售價}元/個`;
-                        if( item.限量>0 ){ price += `(限量${item.限量}個)`; }
+                        if (item.限量 > 0) { price += `(限量${item.限量}個)`; }
                     }
                 });
             }
-        
-            if( row.限時開始!='---' && row.限時結束!='---' && row.限時開始!='' && row.限時結束!='' ){ 
-                deadline += `${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`; 
+
+            if (row.限時開始 != '---' && row.限時結束 != '---' && row.限時開始 != '' && row.限時結束 != '') {
+                deadline += `${formatDate(row.限時開始)} ~ ${formatDate(row.限時結束)}\n`;
             }
 
             data = { type: type, userId: userId, id: row.ID, name: prd_name, price: price, deadline: deadline };
         }
 
-        if( type=='ainame' ) { 
-            if( $("#itemName").val()=='' ){ Swal.fire({ icon: 'error', title: '命名失敗', text: '請輸入品項名稱!' }); return; }
-            prd_name = $("#itemName").val(); 
+        if (type == 'ainame') {
+            if ($("#itemName").val() == '') { Swal.fire({ icon: 'error', title: '命名失敗', text: '請輸入品項名稱!' }); return; }
+            prd_name = $("#itemName").val();
 
             data = { type: type, userId: userId, name: prd_name, price: price, deadline: deadline };
         }
 
-        var res = await postGAS( data, {'errorMsg':'撰寫失敗，已達每月使用上限!!', 'reload': false, 'return': true} );
+        var res = await postGAS(data, { 'errorMsg': '撰寫失敗，已達每月使用上限!!', 'reload': false, 'return': true });
 
         // console.log(res);
         var answer = res[0].text;
@@ -2742,15 +2834,15 @@
         quill.setText('');
         answer_flag = 0;
 
-        if( type=='aiwrite' ){ typeWriter(answer); }
-        if( type=='ainame' ) { 
+        if (type == 'aiwrite') { typeWriter(answer); }
+        if (type == 'ainame') {
 
             const name_arr = JSON.parse(answer);
             var text = '';
-            name_arr.forEach((name,i) => {
-                text += '<span class="badge bg-secondary" onclick="chooseName(\''+name.trim()+'\')">'+name.trim()+'</span>';
+            name_arr.forEach((name, i) => {
+                text += '<span class="badge bg-secondary" onclick="chooseName(\'' + name.trim() + '\')">' + name.trim() + '</span>';
             });
-            $("#aiNameOption").html(text); 
+            $("#aiNameOption").html(text);
         }
     }
 
@@ -2766,15 +2858,15 @@
         setTimeout(() => typeWriter(answer, speed), speed);
     }
 
-    function chooseName(name){
-        $("#itemName").val(name); 
+    function chooseName(name) {
+        $("#itemName").val(name);
     }
 
-    function aiDescripton(){
+    function aiDescripton() {
         Swal.fire({ icon: 'info', title: 'AI命名助手', text: '助手將會一次產生三組名稱，產生後點擊該名稱即可套用至品項名稱上!' });
     }
 
-    async function searchModal(){
+    async function searchModal() {
 
         $("#searchModal").modal('show');
 
@@ -2784,11 +2876,11 @@
         var search_flv = JSON.parse(localStorage.getItem('flv_list') || '[]'); //口味列表
         var search_emp = JSON.parse(localStorage.getItem('emp_list') || '[]'); //人員列表
 
-        if( search_prd.length === 0 && search_flv.length === 0 && search_emp.length === 0 ){ //抓品項及人員
+        if (search_prd.length === 0 && search_flv.length === 0 && search_emp.length === 0) { //抓品項及人員
 
-            var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有品項存在!!', 'reload': false, 'return': true} );
+            var res = await postGAS(data, { 'errorMsg': '載入失敗，尚未有品項存在!!', 'reload': false, 'return': true });
 
-            if( res[0].status=='success' ){
+            if (res[0].status == 'success') {
 
                 var prd_data = res[0].data;
 
@@ -2805,7 +2897,7 @@
         // var prdname_arr = [...new Set(search_prd.map(item => item.名稱))];
         const count = search_prd.reduce((acc, item) => {
 
-            const name  = item.名稱;
+            const name = item.名稱;
             const price = item.售價;
 
             if (!acc[name]) {
@@ -2821,7 +2913,7 @@
             return acc;
         }, {});
 
-        const prdname_arr = Object.keys(count).map(name => ({ 
+        const prdname_arr = Object.keys(count).map(name => ({
             id: name, text: name, count: count[name].count, price: count[name].price,
         }));
 
@@ -2835,7 +2927,7 @@
             placeholder: '請選擇品項',
             allowClear: true,
             width: 'resolve',
-            templateResult: function(item) {
+            templateResult: function (item) {
 
                 if (!item.id) return item.text;
 
@@ -2882,7 +2974,7 @@
             placeholder: '請選擇人員',
             allowClear: true,
             width: 'resolve',
-            templateResult: function(item) {
+            templateResult: function (item) {
 
                 if (!item.id) return item.text;
 
@@ -2904,34 +2996,34 @@
         });
     }
 
-    function reloadSearch(){
+    function reloadSearch() {
 
         window.localStorage.removeItem('prd_list');
         window.localStorage.removeItem('flv_list');
         window.localStorage.removeItem('emp_list');
-        
+
         searchModal();
     }
 
-    async function orderSearch(){
+    async function orderSearch() {
 
         var search_prd = JSON.parse(localStorage.getItem('prd_list'));
         var search_flv = JSON.parse(localStorage.getItem('flv_list'));
 
-        var sel_prdname   = $('#search_prd').val();
+        var sel_prdname = $('#search_prd').val();
         var prd_startdate = $('#ordStartDate').val();
-        var prd_enddate   = $('#ordEndDate').val();
+        var prd_enddate = $('#ordEndDate').val();
 
         search_prd = search_prd.filter(prd => {
             const date = prd.開啟時間.substring(0, 10).replace(/-/g, '/');
             return date >= prd_startdate && date <= prd_enddate && prd.名稱 === sel_prdname;
         });
 
-        const sheetNames = search_prd.map(prd => `${prd.ID}-${prd.名稱}` );
+        const sheetNames = search_prd.map(prd => `${prd.ID}-${prd.名稱}`);
 
         // search_prd = search_prd.filter(prd => prd.名稱===sel_prdname );
 
-        if( search_prd.length<3 ){
+        if (search_prd.length < 3) {
             $('#prd_table').show();
             $('#order_chart, #price_chart').hide();
 
@@ -2954,12 +3046,12 @@
                 },
                 columns: [
                     { data: '名稱', className: 'truncate' },
-                    { 
+                    {
                         data: '售價',
                         className: 'text-center',
-                        render: function(data, type, row){
+                        render: function (data, type, row) {
 
-                            if( data=='---' ){
+                            if (data == '---') {
 
                                 return `
                                 <a href="javascript:void(0)"
@@ -2968,13 +3060,13 @@
                                     <i class="fas fa-search-dollar text-success"></i>
                                 </a>
                                 `;
-                            }else{ // 只有一個
+                            } else { // 只有一個
                                 return data;
                             }
                         }
                     },
                     { data: '訂單金額總計', className: 'text-center', title: '總金額' },
-                    { 
+                    {
                         data: '開啟時間',
                         className: 'text-center',
                         title: '開團時間',
@@ -2996,7 +3088,7 @@
                     }
                 ]
             });
-        }else{
+        } else {
 
             //繪製圖表規則
             //1.歷史品項少於3筆內(包含3筆)不顯示圖表，只顯示表格
@@ -3012,32 +3104,32 @@
 
             const ids = search_prd.filter(i => i.名稱 === sel_prdname).map(i => i.ID);
 
-            if( ids.length==0 ){ return false; }
+            if (ids.length == 0) { return false; }
 
             const hasMulti = search_prd.some(i => i.售價 === '---');
 
             let series = [];
-            let type   = 'line';
+            let type = 'line';
 
             data = { type: 'chart', userId: userId, name: sel_prdname, ids: ids, sheets: sheetNames };
 
-            var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該品項存在!!', 'reload': false, 'return': true} );
+            var res = await postGAS(data, { 'errorMsg': '載入失敗，尚未有該品項存在!!', 'reload': false, 'return': true });
             // console.log(res);
 
-            if( res[0].status!='success' ){ return false; }
+            if (res[0].status != 'success') { return false; }
 
-            var orders  = res[0].data[sel_prdname];
+            var orders = res[0].data[sel_prdname];
             var flvdata = res[0].data.flv;
 
-            if( !hasMulti ){
+            if (!hasMulti) {
                 series = [{
-                  name: '金額',
-                  data: search_prd.map(i => i.訂單金額總計)
-                },{
-                  name: '售價',
-                  data: search_prd.map(i => i.售價)
+                    name: '金額',
+                    data: search_prd.map(i => i.訂單金額總計)
+                }, {
+                    name: '售價',
+                    data: search_prd.map(i => i.售價)
                 }];
-            }else{
+            } else {
 
                 type = 'bar';
 
@@ -3046,11 +3138,11 @@
                 Object.keys(orders).forEach(id => {
                     flvs[id] = {};
                     flvdata[id].forEach(arr => {
-                        flvs[id][arr[2]] = {'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0};
+                        flvs[id][arr[2]] = { 'name': arr[2], 'nums': 0, 'price': arr[4], 'total': 0 };
                     });
-                    
+
                     orders[id].forEach(ord => {
-                        flvs[id][ord.口味]['nums']  += Number(ord.數量);
+                        flvs[id][ord.口味]['nums'] += Number(ord.數量);
                         flvs[id][ord.口味]['total'] += Number(ord.數量) * Number(flvs[id][ord.口味]['price']);
                     });
                 });
@@ -3137,7 +3229,7 @@
                     tooltip: {
                         y: {
                             formatter: function (val) {
-                                if( val!=null ){ return 'NT$ ' + val.toLocaleString(); }
+                                if (val != null) { return 'NT$ ' + val.toLocaleString(); }
                             }
                         }
                     },
@@ -3148,7 +3240,7 @@
 
                 renderChart(options, 'price');
 
-                
+
             }
             // console.log(series);
 
@@ -3187,7 +3279,7 @@
                     intersect: false,
                     y: {
                         formatter: function (val) {
-                            if( val!=null ){ return 'NT$ ' + val.toLocaleString(); }
+                            if (val != null) { return 'NT$ ' + val.toLocaleString(); }
                         }
                     },
                 },
@@ -3237,35 +3329,35 @@
         $("#searchModal").modal('hide');
     }
 
-    async function orderEmp(){
+    async function orderEmp() {
 
         var search_prd = JSON.parse(localStorage.getItem('prd_list'));
         var search_flv = JSON.parse(localStorage.getItem('flv_list'));
         var search_emp = JSON.parse(localStorage.getItem('emp_list'));
 
-        var sel_empname   = $('#search_emp').val();
+        var sel_empname = $('#search_emp').val();
         var prd_startdate = $('#prdStartDate').val();
-        var prd_enddate   = $('#prdEndDate').val();
+        var prd_enddate = $('#prdEndDate').val();
 
         var range_prd = search_prd.filter(prd => {
             const date = prd.開啟時間.substring(0, 10).replace(/-/g, '/');
             return date >= prd_startdate && date <= prd_enddate;
         });
 
-        const sheetNames = range_prd.map(prd => `${prd.ID}-${prd.名稱}` );
+        const sheetNames = range_prd.map(prd => `${prd.ID}-${prd.名稱}`);
 
         data = { type: 'chart', userId: userId, emp: sel_empname, sheets: sheetNames };
 
-        var res = await postGAS( data, {'errorMsg':'載入失敗，尚未有該人員存在!!', 'reload': false, 'return': true} );
+        var res = await postGAS(data, { 'errorMsg': '載入失敗，尚未有該人員存在!!', 'reload': false, 'return': true });
 
-        if( res[0].status!='success' ){ return false; }
+        if (res[0].status != 'success') { return false; }
 
         var result = res[0].data;
 
         const categories = result.map(r => r.item);
 
         const series = [
-            { name: '數量', data: result.map(r => r.nums)  },
+            { name: '數量', data: result.map(r => r.nums) },
             { name: '金額', data: result.map(r => r.price) }
         ];
 
@@ -3401,9 +3493,9 @@
         $("#searchModal").modal('hide');
     }
 
-    function renderChart(options, type='order'){
+    function renderChart(options, type = 'order') {
 
-        if( type=='order' ){
+        if (type == 'order') {
 
             if (order_chart) { order_chart.destroy(); }
 
@@ -3411,7 +3503,7 @@
             order_chart.render();
         }
 
-        if( type=='price' ){
+        if (type == 'price') {
 
             if (price_chart) { price_chart.destroy(); }
 
@@ -3422,7 +3514,7 @@
 
     function initDateRangePicker(startSelector, endSelector, maxMonth = 3) {
         let startDate = null;
-        let endDate   = null;
+        let endDate = null;
 
         const startPicker = flatpickr(startSelector, {
             enableTime: false,
@@ -3430,11 +3522,11 @@
             defaultDate: new Date(new Date().setMonth(new Date().getMonth() - maxMonth)),
             locale: "zh",
             maxDate: "today", // ✅ 限制今天以後不能選
-            onChange: function(selectedDates) {
+            onChange: function (selectedDates) {
                 startDate = selectedDates[0];
-                endDate   = endPicker.selectedDates[0];
+                endDate = endPicker.selectedDates[0];
 
-                if ( !endDate || !startDate ) return;
+                if (!endDate || !startDate) return;
 
                 let maxEnd = new Date(startDate);
                 maxEnd.setMonth(maxEnd.getMonth() + maxMonth);
@@ -3469,7 +3561,7 @@
             maxDate: today // ✅ 限制今天以後不能選
         });
 
-      return { startPicker, endPicker };
+        return { startPicker, endPicker };
     }
 
     function shorten(text, len = 6) {
@@ -3478,11 +3570,11 @@
             : text;
     }
 
-    function formatPrices(data){
+    function formatPrices(data) {
 
         let html = "<div style='padding:10px'>";
 
-        data.forEach(p=>{
+        data.forEach(p => {
             html += `<div> ${p.name} <i class="fas fa-dollar-sign text-warning"></i> <span class="text-danger">${p.price}</span> </div>`;
         });
 
@@ -3510,28 +3602,29 @@
             // console.log(e.params.data);
             var data = e.params.data;
             $('.ordDate').addClass('d-none');
-            if( data.count>=3 ){ $('.ordDate').removeClass('d-none'); } //顯示日期範圍(圖表)
+            if (data.count >= 3) { $('.ordDate').removeClass('d-none'); } //顯示日期範圍(圖表)
         });
 
-        $('#history_order').on('click', '.price-toggle', function(){
+        $('#history_order').on('click', '.price-toggle', function () {
 
-            let id  = $(this).data('id');
-            let tr  = $(this).closest('tr');
+            let id = $(this).data('id');
+            let tr = $(this).closest('tr');
             let row = $('#history_order').DataTable().row(tr);
 
             var search_flv = JSON.parse(localStorage.getItem('flv_list'));
 
-            search_flv = search_flv.filter(flv => flv.品項ID===Number(id));
+            search_flv = search_flv.filter(flv => flv.品項ID === Number(id));
 
             var prices = [];
-            if( search_flv.length>0 ){ search_flv.forEach(flv => { prices.push({name: flv.口味, price: flv.價格}); }); }
+            if (search_flv.length > 0) { search_flv.forEach(flv => { prices.push({ name: flv.口味, price: flv.價格 }); }); }
 
-            if(row.child.isShown()){
+            if (row.child.isShown()) {
                 row.child.hide();
-            }else{
+            } else {
                 row.child(formatPrices(prices)).show();
             }
         });
     });
 </script>
+
 </html>
