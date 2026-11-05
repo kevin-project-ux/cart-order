@@ -661,20 +661,37 @@
         // 1. 載入導覽列 HTML
         document.getElementById('navbar-container').innerHTML = data;
 
-        // 2. 取得當前頁面的檔名
+        // 2. 取得當前頁面的檔名與目前的 Hash 錨點
         let currentPath = window.location.pathname;
         let filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
-
         if (filename === "" || filename === "/") {
             filename = "index.html";
         }
+        let currentHash = window.location.hash; // 例如 "#intro"
 
-        // 3. 自動切換 active 樣式
+        // 3. 處理 active 切換邏輯
         const menuItems = document.querySelectorAll('#navbar-container .menu-item');
+        
         menuItems.forEach(item => {
-            let pageAttr = item.getAttribute('data-page');
-            if (pageAttr === filename) {
-                item.classList.add('active');
+            let href = item.getAttribute('href');
+
+            // 情況 A：如果是在獨立分頁（如 about.html, usage.html）
+            if (filename !== "index.html") {
+                let pageAttr = item.getAttribute('data-page');
+                if (pageAttr === filename) {
+                    item.classList.add('active');
+                }
+            } 
+            // 情況 B：如果目前人在首頁 (index.html)
+            else {
+                // 如果該選單剛好就是首頁本身且沒有帶錨點
+                if (filename === "index.html" && href === "index.html" && !currentHash) {
+                    item.classList.add('active');
+                }
+                // 或者如果網址剛好帶有對應的錨點（例如點了系統介紹，網址變成 index.html#intro）
+                else if (currentHash && href === "index.html" + currentHash) {
+                    item.classList.add('active');
+                }
             }
         });
     });
