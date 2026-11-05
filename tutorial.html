@@ -7,7 +7,7 @@
 <title>教學文章</title>
 
 <link rel="canonical" href="https://www.haolongbin9.site"/>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="custom.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -145,12 +145,14 @@
 
 <body>
 
-<a class="float-back" href="index.html"><i class="fa-solid fa-arrow-left"></i></a>
+<!-- <a class="float-back" href="index.html"><i class="fa-solid fa-arrow-left"></i></a> -->
+<header id="navbar-container"></header>
 
-<header class="blog-header">
+<section class="blog-header">
     <h1>LINE團購教學文章</h1>
     <p>分享 LINE 團購、甜點經營與訂單管理技巧</p>
-</header>
+</section>
+
 <section class="blog-container">
 
 	<!-- LINE 團購新手入門 -->
@@ -2968,6 +2970,14 @@
 <footer class="blog-footer">
     © 2026 LINE團購管理系統
 </footer>
+
+<script>
+    fetch('nav.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('navbar-container').innerHTML = data;
+    });
+</script>
 
 </body>
 <script>
