@@ -79,6 +79,13 @@
 	    text-decoration:none;
 	    z-index:999;
 	}
+
+	.usage-img {
+	    max-width: 100%;   /* 限制圖片最大寬度不超過父容器，手機螢幕縮小時會自動變小 */
+	    height: auto;      /* 高度自動等比例縮放，絕不變形失真 */
+	    display: block;    /* 避免圖片下方產生行內元素的多餘空白間距 */
+	    margin: 0 auto;    /* 如果想讓圖片在手機畫面置中，可加上這行 */
+	}
 </style>
 </head>
 <body>
