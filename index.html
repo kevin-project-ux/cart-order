@@ -658,7 +658,25 @@
     fetch('nav.html')
     .then(response => response.text())
     .then(data => {
+        // 1. 載入導覽列 HTML
         document.getElementById('navbar-container').innerHTML = data;
+
+        // 2. 取得當前頁面的檔名
+        let currentPath = window.location.pathname;
+        let filename = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
+        if (filename === "" || filename === "/") {
+            filename = "index.html";
+        }
+
+        // 3. 自動切換 active 樣式
+        const menuItems = document.querySelectorAll('#navbar-container .menu-item');
+        menuItems.forEach(item => {
+            let pageAttr = item.getAttribute('data-page');
+            if (pageAttr === filename) {
+                item.classList.add('active');
+            }
+        });
     });
 </script>
 
