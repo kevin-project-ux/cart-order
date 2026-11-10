@@ -975,7 +975,7 @@
     ReadonlyEmbed.tagName = 'span';
     Quill.register(ReadonlyEmbed);
 
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwUyIc9_12cwjMYYzmI9f2ihLZ49MtVoAmd_xJ8NxQMyifR4EjRPsEy-j7i4lUnGZrugw/exec'; // 改為你的 Apps Script 網址
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxTZd8YHd4stpcBcMdjNcs8SlJyViZ2e2Y4xMfYCzNTtOG2oNnQ_q9OLZ9Y0iP6zuAy/exec'; // 改為你的 Apps Script 網址
 
     let data;
     let prd_list;
@@ -1038,6 +1038,7 @@
                 saveAuthCache(userId);
             } else {
                 Swal.fire({ icon: 'error', title: '驗證失敗', text: '您無權限使用此頁面' });
+                window.location.href = "/";
             }
         } catch (err) {
             Swal.fire({ icon: 'error', title: '系統異常' });
